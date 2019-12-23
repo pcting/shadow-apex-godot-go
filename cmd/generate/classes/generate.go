@@ -320,12 +320,7 @@ func (v View) HasParentMethod(base, method string) bool {
 
 func Generate() {
 
-	// Get the GOPATH so we can locate our templates.
-	goPath := os.Getenv("GOPATH")
-	if goPath == "" {
-		panic("$GOPATH is not defined. Run 'export GOPATH=/path/to/go/path' before executing this.")
-	}
-	packagePath := goPath + "/src/github.com/shadowapex/godot-go"
+	packagePath := "."
 
 	// Get the docs path so we can parse the documentation.
 	docsPath := packagePath + "/doc/doc/classes"

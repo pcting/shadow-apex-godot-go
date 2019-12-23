@@ -277,12 +277,7 @@ type Method struct {
 // Generate will generate Go wrappers for all Godot base types
 func Generate() {
 
-	// Get the GOPATH so we can locate our templates.
-	goPath := os.Getenv("GOPATH")
-	if goPath == "" {
-		panic("$GOPATH is not defined. Run 'export GOPATH=/path/to/go/path' before executing this.")
-	}
-	packagePath := goPath + "/src/github.com/shadowapex/godot-go"
+	packagePath := "."
 
 	// Set up headers/structs to ignore. Definitions in the given headers
 	// with the given name will not be added to the returned list of type definitions.

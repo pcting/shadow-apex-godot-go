@@ -48,12 +48,7 @@ func (v View) HasArgs(args [][]string) bool {
 }
 
 func Generate() {
-	// Get the GOPATH so we can locate the godot api JSON.
-	goPath := os.Getenv("GOPATH")
-	if goPath == "" {
-		panic("$GOPATH is not defined. Run 'export GOPATH=/path/to/go/path' before executing this.")
-	}
-	packagePath := goPath + "/src/github.com/shadowapex/godot-go"
+	packagePath := "."
 
 	// Create a structure for our template view. This will contain all of
 	// the data we need to construct our binding methods.
