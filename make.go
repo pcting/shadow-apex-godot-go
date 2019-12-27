@@ -1,4 +1,4 @@
 package main
 
 // Generate the classes.
-//go:generate ./cmd/generate.sh
+//go:generate go run cmd/generate/main.go

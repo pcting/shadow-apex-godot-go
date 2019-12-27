@@ -323,7 +323,7 @@ func Generate() {
 	packagePath := "."
 
 	// Get the docs path so we can parse the documentation.
-	docsPath := packagePath + "/doc/doc/classes"
+	docsPath := packagePath + "/godot_engine/doc/classes"
 	templatePath := packagePath + "/cmd/generate/templates"
 	classPath := packagePath + "/godot"
 

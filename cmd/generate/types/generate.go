@@ -283,7 +283,7 @@ func Generate() {
 	// with the given name will not be added to the returned list of type definitions.
 	// We'll need to manually create these structures.
 	ignoreHeaders := []string{
-		"pluginscript/godot_pluginscript.h",
+		"godot_headers/pluginscript/godot_pluginscript.h",
 	}
 	ignoreStructs := []string{
 		"godot_char_type",
@@ -342,7 +342,7 @@ func Generate() {
 			defMap[typeDef.HeaderName] = []TypeDef{typeDef}
 		}
 	}
-	pretty.Println(defMap)
+	// pretty.Println(defMap)
 
 	// Loop through each header name and generate the Go code in a file based
 	// on the header name.

@@ -17,12 +17,7 @@ import (
 // We'll need to manually create these structures.
 func Parse(excludeHeaders, excludeStructs []string) []TypeDef {
 
-	// Get the GOPATH so we can locate the godot headers.
-	goPath := os.Getenv("GOPATH")
-	if goPath == "" {
-		panic("$GOPATH is not defined. Run 'export GOPATH=/path/to/go/path' before executing this.")
-	}
-	packagePath := goPath + "/src/github.com/shadowapex/godot-go"
+	packagePath := "."
 
 	// Walk through all of the godot header files
 	searchDir := packagePath + "/godot_headers"
@@ -128,10 +123,28 @@ func parseTypeDef(typeLines []string, headerName string) TypeDef {
 	typeDef.Base = words[1]
 
 	// Extract the properties from the type
-	properties := typeLines[1 : len(typeLines)-1]
+	var properties []string
+	if strings.HasSuffix(strings.TrimSpace(firstLine), "{") {
+		properties = typeLines[1 : len(typeLines)-1]
+	} else {
+		properties = typeLines[2 : len(typeLines)-1]
+	}
+
+	var accumLines string
 
 	// Loop through each property line
 	for _, line := range properties {
+		if strings.HasPrefix(strings.TrimSpace(line), "//") || len(strings.TrimSpace(line)) == 0 {
+			continue
+		}
+
+		if !strings.Contains(line, ";") && typeDef.Base != "enum" {
+			accumLines += line
+		} else {
+			line = accumLines + line
+			accumLines = ""
+		}
+
 		// Skip function definitions
 		if strings.Contains(line, "(*") {
 			continue
@@ -154,7 +167,7 @@ func parseTypeDef(typeLines []string, headerName string) TypeDef {
 		words = strings.Split(line, " ")
 
 		// Check to see if the line is just a comment
-		if words[0] == "//" {
+		if words[0] == "//" || (strings.Index(line, "/*") == 0 && strings.Index(line, "*/") == (len(line)-2)) {
 			continue
 		}
 
@@ -184,6 +197,10 @@ func parseTypeDef(typeLines []string, headerName string) TypeDef {
 		// Skip empty property names
 		if property.GoName == "" {
 			continue
+		}
+
+		if strings.Contains(property.GoName, "}") {
+			panic(fmt.Errorf("malformed GoName: %v+", property))
 		}
 
 		// Append the property to the type definition
