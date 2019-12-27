@@ -23,7 +23,7 @@ func newColorRectFromPointer(ptr gdnative.Pointer) ColorRect {
 }
 
 /*
-An object that is represented on the canvas as a rect with color. [Color] is used to set or get color info for the rect.
+Displays a colored rectangle.
 */
 type ColorRect struct {
 	Control

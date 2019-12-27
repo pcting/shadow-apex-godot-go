@@ -17,12 +17,13 @@ import (
 type EnvironmentBGMode int
 
 const (
+	EnvironmentBgCameraFeed EnvironmentBGMode = 6
 	EnvironmentBgCanvas     EnvironmentBGMode = 4
 	EnvironmentBgClearColor EnvironmentBGMode = 0
 	EnvironmentBgColor      EnvironmentBGMode = 1
 	EnvironmentBgColorSky   EnvironmentBGMode = 3
 	EnvironmentBgKeep       EnvironmentBGMode = 5
-	EnvironmentBgMax        EnvironmentBGMode = 6
+	EnvironmentBgMax        EnvironmentBGMode = 7
 	EnvironmentBgSky        EnvironmentBGMode = 2
 )
 
@@ -343,6 +344,29 @@ func (o *Environment) GetBgEnergy() gdnative.Real {
         Undocumented
 	Args: [], Returns: int
 */
+func (o *Environment) GetCameraFeedId() gdnative.Int {
+	//log.Println("Calling Environment.GetCameraFeedId()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "get_camera_feed_id")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
 func (o *Environment) GetCanvasMaxLayer() gdnative.Int {
 	//log.Println("Calling Environment.GetCanvasMaxLayer()")
 
@@ -619,6 +643,29 @@ func (o *Environment) GetFogDepthCurve() gdnative.Real {
         Undocumented
 	Args: [], Returns: float
 */
+func (o *Environment) GetFogDepthEnd() gdnative.Real {
+	//log.Println("Calling Environment.GetFogDepthEnd()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "get_fog_depth_end")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
 func (o *Environment) GetFogHeightCurve() gdnative.Real {
 	//log.Println("Calling Environment.GetFogHeightCurve()")
 
@@ -849,6 +896,29 @@ func (o *Environment) GetGlowHdrBleedThreshold() gdnative.Real {
         Undocumented
 	Args: [], Returns: float
 */
+func (o *Environment) GetGlowHdrLuminanceCap() gdnative.Real {
+	//log.Println("Calling Environment.GetGlowHdrLuminanceCap()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "get_glow_hdr_luminance_cap")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
 func (o *Environment) GetGlowIntensity() gdnative.Real {
 	//log.Println("Calling Environment.GetGlowIntensity()")
 
@@ -940,6 +1010,98 @@ func (o *Environment) GetSkyCustomFov() gdnative.Real {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Environment", "get_sky_custom_fov")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Basis
+*/
+func (o *Environment) GetSkyOrientation() gdnative.Basis {
+	//log.Println("Calling Environment.GetSkyOrientation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "get_sky_orientation")
+
+	// Call the parent method.
+	// Basis
+	retPtr := gdnative.NewEmptyBasis()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBasisFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Vector3
+*/
+func (o *Environment) GetSkyRotation() gdnative.Vector3 {
+	//log.Println("Calling Environment.GetSkyRotation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "get_sky_rotation")
+
+	// Call the parent method.
+	// Vector3
+	retPtr := gdnative.NewEmptyVector3()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector3FromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Vector3
+*/
+func (o *Environment) GetSkyRotationDegrees() gdnative.Vector3 {
+	//log.Println("Calling Environment.GetSkyRotationDegrees()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "get_sky_rotation_degrees")
+
+	// Call the parent method.
+	// Vector3
+	retPtr := gdnative.NewEmptyVector3()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector3FromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *Environment) GetSsaoAoChannelAffect() gdnative.Real {
+	//log.Println("Calling Environment.GetSsaoAoChannelAffect()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "get_ssao_ao_channel_affect")
 
 	// Call the parent method.
 	// float
@@ -1990,6 +2152,27 @@ func (o *Environment) SetBgEnergy(energy gdnative.Real) {
 
 /*
         Undocumented
+	Args: [{ false camera_feed_id int}], Returns: void
+*/
+func (o *Environment) SetCameraFeedId(cameraFeedId gdnative.Int) {
+	//log.Println("Calling Environment.SetCameraFeedId()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(cameraFeedId)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "set_camera_feed_id")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false layer int}], Returns: void
 */
 func (o *Environment) SetCanvasMaxLayer(layer gdnative.Int) {
@@ -2295,6 +2478,27 @@ func (o *Environment) SetFogDepthEnabled(enabled gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Environment", "set_fog_depth_enabled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false distance float}], Returns: void
+*/
+func (o *Environment) SetFogDepthEnd(distance gdnative.Real) {
+	//log.Println("Calling Environment.SetFogDepthEnd()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(distance)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "set_fog_depth_end")
 
 	// Call the parent method.
 	// void
@@ -2620,6 +2824,27 @@ func (o *Environment) SetGlowHdrBleedThreshold(threshold gdnative.Real) {
 
 /*
         Undocumented
+	Args: [{ false amount float}], Returns: void
+*/
+func (o *Environment) SetGlowHdrLuminanceCap(amount gdnative.Real) {
+	//log.Println("Calling Environment.SetGlowHdrLuminanceCap()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(amount)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "set_glow_hdr_luminance_cap")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false intensity float}], Returns: void
 */
 func (o *Environment) SetGlowIntensity(intensity gdnative.Real) {
@@ -2716,6 +2941,90 @@ func (o *Environment) SetSkyCustomFov(scale gdnative.Real) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Environment", "set_sky_custom_fov")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false orientation Basis}], Returns: void
+*/
+func (o *Environment) SetSkyOrientation(orientation gdnative.Basis) {
+	//log.Println("Calling Environment.SetSkyOrientation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBasis(orientation)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "set_sky_orientation")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false euler_radians Vector3}], Returns: void
+*/
+func (o *Environment) SetSkyRotation(eulerRadians gdnative.Vector3) {
+	//log.Println("Calling Environment.SetSkyRotation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(eulerRadians)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "set_sky_rotation")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false euler_degrees Vector3}], Returns: void
+*/
+func (o *Environment) SetSkyRotationDegrees(eulerDegrees gdnative.Vector3) {
+	//log.Println("Calling Environment.SetSkyRotationDegrees()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(eulerDegrees)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "set_sky_rotation_degrees")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false amount float}], Returns: void
+*/
+func (o *Environment) SetSsaoAoChannelAffect(amount gdnative.Real) {
+	//log.Println("Calling Environment.SetSsaoAoChannelAffect()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(amount)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Environment", "set_ssao_ao_channel_affect")
 
 	// Call the parent method.
 	// void
@@ -3262,6 +3571,7 @@ type EnvironmentImplementer interface {
 	GetAmbientLightSkyContribution() gdnative.Real
 	GetBgColor() gdnative.Color
 	GetBgEnergy() gdnative.Real
+	GetCameraFeedId() gdnative.Int
 	GetCanvasMaxLayer() gdnative.Int
 	GetDofBlurFarAmount() gdnative.Real
 	GetDofBlurFarDistance() gdnative.Real
@@ -3272,6 +3582,7 @@ type EnvironmentImplementer interface {
 	GetFogColor() gdnative.Color
 	GetFogDepthBegin() gdnative.Real
 	GetFogDepthCurve() gdnative.Real
+	GetFogDepthEnd() gdnative.Real
 	GetFogHeightCurve() gdnative.Real
 	GetFogHeightMax() gdnative.Real
 	GetFogHeightMin() gdnative.Real
@@ -3281,10 +3592,15 @@ type EnvironmentImplementer interface {
 	GetGlowBloom() gdnative.Real
 	GetGlowHdrBleedScale() gdnative.Real
 	GetGlowHdrBleedThreshold() gdnative.Real
+	GetGlowHdrLuminanceCap() gdnative.Real
 	GetGlowIntensity() gdnative.Real
 	GetGlowStrength() gdnative.Real
 	GetSky() SkyImplementer
 	GetSkyCustomFov() gdnative.Real
+	GetSkyOrientation() gdnative.Basis
+	GetSkyRotation() gdnative.Vector3
+	GetSkyRotationDegrees() gdnative.Vector3
+	GetSsaoAoChannelAffect() gdnative.Real
 	GetSsaoBias() gdnative.Real
 	GetSsaoColor() gdnative.Color
 	GetSsaoDirectLightAffect() gdnative.Real
@@ -3328,6 +3644,7 @@ type EnvironmentImplementer interface {
 	SetBackground(mode gdnative.Int)
 	SetBgColor(color gdnative.Color)
 	SetBgEnergy(energy gdnative.Real)
+	SetCameraFeedId(cameraFeedId gdnative.Int)
 	SetCanvasMaxLayer(layer gdnative.Int)
 	SetDofBlurFarAmount(intensity gdnative.Real)
 	SetDofBlurFarDistance(intensity gdnative.Real)
@@ -3343,6 +3660,7 @@ type EnvironmentImplementer interface {
 	SetFogDepthBegin(distance gdnative.Real)
 	SetFogDepthCurve(curve gdnative.Real)
 	SetFogDepthEnabled(enabled gdnative.Bool)
+	SetFogDepthEnd(distance gdnative.Real)
 	SetFogEnabled(enabled gdnative.Bool)
 	SetFogHeightCurve(curve gdnative.Real)
 	SetFogHeightEnabled(enabled gdnative.Bool)
@@ -3358,11 +3676,16 @@ type EnvironmentImplementer interface {
 	SetGlowEnabled(enabled gdnative.Bool)
 	SetGlowHdrBleedScale(scale gdnative.Real)
 	SetGlowHdrBleedThreshold(threshold gdnative.Real)
+	SetGlowHdrLuminanceCap(amount gdnative.Real)
 	SetGlowIntensity(intensity gdnative.Real)
 	SetGlowLevel(idx gdnative.Int, enabled gdnative.Bool)
 	SetGlowStrength(strength gdnative.Real)
 	SetSky(sky SkyImplementer)
 	SetSkyCustomFov(scale gdnative.Real)
+	SetSkyOrientation(orientation gdnative.Basis)
+	SetSkyRotation(eulerRadians gdnative.Vector3)
+	SetSkyRotationDegrees(eulerDegrees gdnative.Vector3)
+	SetSsaoAoChannelAffect(amount gdnative.Real)
 	SetSsaoBias(bias gdnative.Real)
 	SetSsaoBlur(mode gdnative.Int)
 	SetSsaoColor(color gdnative.Color)

@@ -26,6 +26,9 @@ const (
 type AnimationTrackType int
 
 const (
+	AnimationTypeAnimation AnimationTrackType = 5
+	AnimationTypeAudio     AnimationTrackType = 4
+	AnimationTypeBezier    AnimationTrackType = 3
 	AnimationTypeMethod    AnimationTrackType = 2
 	AnimationTypeTransform AnimationTrackType = 1
 	AnimationTypeValue     AnimationTrackType = 0
@@ -35,6 +38,7 @@ const (
 type AnimationUpdateMode int
 
 const (
+	AnimationUpdateCapture    AnimationUpdateMode = 3
 	AnimationUpdateContinuous AnimationUpdateMode = 0
 	AnimationUpdateDiscrete   AnimationUpdateMode = 1
 	AnimationUpdateTrigger    AnimationUpdateMode = 2
@@ -50,7 +54,7 @@ func newAnimationFromPointer(ptr gdnative.Pointer) Animation {
 }
 
 /*
-An Animation resource contains data used to animate everything in the engine. Animations are divided into tracks, and each track must be linked to a node. The state of that node can be changed through time, by adding timed keys (events) to the track. Animations are just data containers, and must be added to odes such as an [AnimationPlayer] or [AnimationTreePlayer] to be played back.
+An Animation resource contains data used to animate everything in the engine. Animations are divided into tracks, and each track must be linked to a node. The state of that node can be changed through time, by adding timed keys (events) to the track. [codeblock] # This creates an animation that makes the node "Enemy" move to the right by # 100 pixels in 1 second. var animation = Animation.new() var track_index = animation.add_track(Animation.TYPE_VALUE) animation.track_set_path(track_index, "Enemy:position.x") animation.track_insert_key(track_index, 0.0, 0) animation.track_insert_key(track_index, 0.5, 100) [/codeblock] Animations are just data containers, and must be added to nodes such as an [AnimationPlayer] or [AnimationTreePlayer] to be played back.
 */
 type Animation struct {
 	Resource
@@ -87,6 +91,463 @@ func (o *Animation) AddTrack(aType gdnative.Int, atPosition gdnative.Int) gdnati
 }
 
 /*
+
+	Args: [{ false track_idx int} { false key_idx int}], Returns: String
+*/
+func (o *Animation) AnimationTrackGetKeyAnimation(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.String {
+	//log.Println("Calling Animation.AnimationTrackGetKeyAnimation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "animation_track_get_key_animation")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false time float} { false animation String}], Returns: int
+*/
+func (o *Animation) AnimationTrackInsertKey(trackIdx gdnative.Int, time gdnative.Real, animation gdnative.String) gdnative.Int {
+	//log.Println("Calling Animation.AnimationTrackInsertKey()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromReal(time)
+	ptrArguments[2] = gdnative.NewPointerFromString(animation)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "animation_track_insert_key")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int} { false animation String}], Returns: void
+*/
+func (o *Animation) AnimationTrackSetKeyAnimation(trackIdx gdnative.Int, keyIdx gdnative.Int, animation gdnative.String) {
+	//log.Println("Calling Animation.AnimationTrackSetKeyAnimation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+	ptrArguments[2] = gdnative.NewPointerFromString(animation)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "animation_track_set_key_animation")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int}], Returns: float
+*/
+func (o *Animation) AudioTrackGetKeyEndOffset(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real {
+	//log.Println("Calling Animation.AudioTrackGetKeyEndOffset()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "audio_track_get_key_end_offset")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int}], Returns: float
+*/
+func (o *Animation) AudioTrackGetKeyStartOffset(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real {
+	//log.Println("Calling Animation.AudioTrackGetKeyStartOffset()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "audio_track_get_key_start_offset")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int}], Returns: Resource
+*/
+func (o *Animation) AudioTrackGetKeyStream(trackIdx gdnative.Int, keyIdx gdnative.Int) ResourceImplementer {
+	//log.Println("Calling Animation.AudioTrackGetKeyStream()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "audio_track_get_key_stream")
+
+	// Call the parent method.
+	// Resource
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newResourceFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(ResourceImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Resource" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(ResourceImplementer)
+	}
+
+	return &ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false time float} { false stream Resource} {0 true start_offset float} {0 true end_offset float}], Returns: int
+*/
+func (o *Animation) AudioTrackInsertKey(trackIdx gdnative.Int, time gdnative.Real, stream ResourceImplementer, startOffset gdnative.Real, endOffset gdnative.Real) gdnative.Int {
+	//log.Println("Calling Animation.AudioTrackInsertKey()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 5, 5)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromReal(time)
+	ptrArguments[2] = gdnative.NewPointerFromObject(stream.GetBaseObject())
+	ptrArguments[3] = gdnative.NewPointerFromReal(startOffset)
+	ptrArguments[4] = gdnative.NewPointerFromReal(endOffset)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "audio_track_insert_key")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int} { false offset float}], Returns: void
+*/
+func (o *Animation) AudioTrackSetKeyEndOffset(trackIdx gdnative.Int, keyIdx gdnative.Int, offset gdnative.Real) {
+	//log.Println("Calling Animation.AudioTrackSetKeyEndOffset()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+	ptrArguments[2] = gdnative.NewPointerFromReal(offset)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "audio_track_set_key_end_offset")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int} { false offset float}], Returns: void
+*/
+func (o *Animation) AudioTrackSetKeyStartOffset(trackIdx gdnative.Int, keyIdx gdnative.Int, offset gdnative.Real) {
+	//log.Println("Calling Animation.AudioTrackSetKeyStartOffset()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+	ptrArguments[2] = gdnative.NewPointerFromReal(offset)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "audio_track_set_key_start_offset")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int} { false stream Resource}], Returns: void
+*/
+func (o *Animation) AudioTrackSetKeyStream(trackIdx gdnative.Int, keyIdx gdnative.Int, stream ResourceImplementer) {
+	//log.Println("Calling Animation.AudioTrackSetKeyStream()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+	ptrArguments[2] = gdnative.NewPointerFromObject(stream.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "audio_track_set_key_stream")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int}], Returns: Vector2
+*/
+func (o *Animation) BezierTrackGetKeyInHandle(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Vector2 {
+	//log.Println("Calling Animation.BezierTrackGetKeyInHandle()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "bezier_track_get_key_in_handle")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int}], Returns: Vector2
+*/
+func (o *Animation) BezierTrackGetKeyOutHandle(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Vector2 {
+	//log.Println("Calling Animation.BezierTrackGetKeyOutHandle()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "bezier_track_get_key_out_handle")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int}], Returns: float
+*/
+func (o *Animation) BezierTrackGetKeyValue(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real {
+	//log.Println("Calling Animation.BezierTrackGetKeyValue()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "bezier_track_get_key_value")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false time float} { false value float} {(0, 0) true in_handle Vector2} {(0, 0) true out_handle Vector2}], Returns: int
+*/
+func (o *Animation) BezierTrackInsertKey(trackIdx gdnative.Int, time gdnative.Real, value gdnative.Real, inHandle gdnative.Vector2, outHandle gdnative.Vector2) gdnative.Int {
+	//log.Println("Calling Animation.BezierTrackInsertKey()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 5, 5)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromReal(time)
+	ptrArguments[2] = gdnative.NewPointerFromReal(value)
+	ptrArguments[3] = gdnative.NewPointerFromVector2(inHandle)
+	ptrArguments[4] = gdnative.NewPointerFromVector2(outHandle)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "bezier_track_insert_key")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false time float}], Returns: float
+*/
+func (o *Animation) BezierTrackInterpolate(trackIdx gdnative.Int, time gdnative.Real) gdnative.Real {
+	//log.Println("Calling Animation.BezierTrackInterpolate()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromReal(time)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "bezier_track_interpolate")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int} { false in_handle Vector2}], Returns: void
+*/
+func (o *Animation) BezierTrackSetKeyInHandle(trackIdx gdnative.Int, keyIdx gdnative.Int, inHandle gdnative.Vector2) {
+	//log.Println("Calling Animation.BezierTrackSetKeyInHandle()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+	ptrArguments[2] = gdnative.NewPointerFromVector2(inHandle)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "bezier_track_set_key_in_handle")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int} { false out_handle Vector2}], Returns: void
+*/
+func (o *Animation) BezierTrackSetKeyOutHandle(trackIdx gdnative.Int, keyIdx gdnative.Int, outHandle gdnative.Vector2) {
+	//log.Println("Calling Animation.BezierTrackSetKeyOutHandle()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+	ptrArguments[2] = gdnative.NewPointerFromVector2(outHandle)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "bezier_track_set_key_out_handle")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false track_idx int} { false key_idx int} { false value float}], Returns: void
+*/
+func (o *Animation) BezierTrackSetKeyValue(trackIdx gdnative.Int, keyIdx gdnative.Int, value gdnative.Real) {
+	//log.Println("Calling Animation.BezierTrackSetKeyValue()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+	ptrArguments[2] = gdnative.NewPointerFromReal(value)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "bezier_track_set_key_value")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Clear the animation (clear all tracks and reset all).
 	Args: [], Returns: void
 */
@@ -108,14 +569,14 @@ func (o *Animation) Clear() {
 
 /*
         Adds a new track that is a copy of the given track from [code]to_animation[/code].
-	Args: [{ false track int} { false to_animation Animation}], Returns: void
+	Args: [{ false track_idx int} { false to_animation Animation}], Returns: void
 */
-func (o *Animation) CopyTrack(track gdnative.Int, toAnimation AnimationImplementer) {
+func (o *Animation) CopyTrack(trackIdx gdnative.Int, toAnimation AnimationImplementer) {
 	//log.Println("Calling Animation.CopyTrack()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(track)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromObject(toAnimation.GetBaseObject())
 
 	// Get the method bind
@@ -129,7 +590,7 @@ func (o *Animation) CopyTrack(track gdnative.Int, toAnimation AnimationImplement
 }
 
 /*
-        Return the index of the specified track. If the track is not found, return -1.
+        Returns the index of the specified track. If the track is not found, return -1.
 	Args: [{ false path NodePath}], Returns: int
 */
 func (o *Animation) FindTrack(path gdnative.NodePath) gdnative.Int {
@@ -199,7 +660,7 @@ func (o *Animation) GetStep() gdnative.Real {
 }
 
 /*
-        Return the amount of tracks in the animation.
+        Returns the amount of tracks in the animation.
 	Args: [], Returns: int
 */
 func (o *Animation) GetTrackCount() gdnative.Int {
@@ -245,15 +706,15 @@ func (o *Animation) HasLoop() gdnative.Bool {
 }
 
 /*
-        Return all the key indices of a method track, given a position and delta time.
-	Args: [{ false idx int} { false time_sec float} { false delta float}], Returns: PoolIntArray
+        Returns all the key indices of a method track, given a position and delta time.
+	Args: [{ false track_idx int} { false time_sec float} { false delta float}], Returns: PoolIntArray
 */
-func (o *Animation) MethodTrackGetKeyIndices(idx gdnative.Int, timeSec gdnative.Real, delta gdnative.Real) gdnative.PoolIntArray {
+func (o *Animation) MethodTrackGetKeyIndices(trackIdx gdnative.Int, timeSec gdnative.Real, delta gdnative.Real) gdnative.PoolIntArray {
 	//log.Println("Calling Animation.MethodTrackGetKeyIndices()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 3, 3)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromReal(timeSec)
 	ptrArguments[2] = gdnative.NewPointerFromReal(delta)
 
@@ -271,15 +732,15 @@ func (o *Animation) MethodTrackGetKeyIndices(idx gdnative.Int, timeSec gdnative.
 }
 
 /*
-        Return the method name of a method track.
-	Args: [{ false idx int} { false key_idx int}], Returns: String
+        Returns the method name of a method track.
+	Args: [{ false track_idx int} { false key_idx int}], Returns: String
 */
-func (o *Animation) MethodTrackGetName(idx gdnative.Int, keyIdx gdnative.Int) gdnative.String {
+func (o *Animation) MethodTrackGetName(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.String {
 	//log.Println("Calling Animation.MethodTrackGetName()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
 
 	// Get the method bind
@@ -296,15 +757,15 @@ func (o *Animation) MethodTrackGetName(idx gdnative.Int, keyIdx gdnative.Int) gd
 }
 
 /*
-        Return the arguments values to be called on a method track for a given key in a given track.
-	Args: [{ false idx int} { false key_idx int}], Returns: Array
+        Returns the arguments values to be called on a method track for a given key in a given track.
+	Args: [{ false track_idx int} { false key_idx int}], Returns: Array
 */
-func (o *Animation) MethodTrackGetParams(idx gdnative.Int, keyIdx gdnative.Int) gdnative.Array {
+func (o *Animation) MethodTrackGetParams(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Array {
 	//log.Println("Calling Animation.MethodTrackGetParams()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
 
 	// Get the method bind
@@ -322,14 +783,14 @@ func (o *Animation) MethodTrackGetParams(idx gdnative.Int, keyIdx gdnative.Int) 
 
 /*
         Remove a track by specifying the track index.
-	Args: [{ false idx int}], Returns: void
+	Args: [{ false track_idx int}], Returns: void
 */
-func (o *Animation) RemoveTrack(idx gdnative.Int) {
+func (o *Animation) RemoveTrack(trackIdx gdnative.Int) {
 	//log.Println("Calling Animation.RemoveTrack()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "remove_track")
@@ -406,14 +867,14 @@ func (o *Animation) SetStep(sizeSec gdnative.Real) {
 
 /*
         Find the key index by time in a given track. Optionally, only find it if the exact time is given.
-	Args: [{ false idx int} { false time float} {False true exact bool}], Returns: int
+	Args: [{ false track_idx int} { false time float} {False true exact bool}], Returns: int
 */
-func (o *Animation) TrackFindKey(idx gdnative.Int, time gdnative.Real, exact gdnative.Bool) gdnative.Int {
+func (o *Animation) TrackFindKey(trackIdx gdnative.Int, time gdnative.Real, exact gdnative.Bool) gdnative.Int {
 	//log.Println("Calling Animation.TrackFindKey()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 3, 3)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromReal(time)
 	ptrArguments[2] = gdnative.NewPointerFromBool(exact)
 
@@ -432,14 +893,14 @@ func (o *Animation) TrackFindKey(idx gdnative.Int, time gdnative.Real, exact gdn
 
 /*
         Returns [code]true[/code] if the track at [code]idx[/code] wraps the interpolation loop. Default value: [code]true[/code].
-	Args: [{ false idx int}], Returns: bool
+	Args: [{ false track_idx int}], Returns: bool
 */
-func (o *Animation) TrackGetInterpolationLoopWrap(idx gdnative.Int) gdnative.Bool {
+func (o *Animation) TrackGetInterpolationLoopWrap(trackIdx gdnative.Int) gdnative.Bool {
 	//log.Println("Calling Animation.TrackGetInterpolationLoopWrap()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "track_get_interpolation_loop_wrap")
@@ -455,15 +916,15 @@ func (o *Animation) TrackGetInterpolationLoopWrap(idx gdnative.Int) gdnative.Boo
 }
 
 /*
-        Return the interpolation type of a given track, from the INTERPOLATION_* enum.
-	Args: [{ false idx int}], Returns: enum.Animation::InterpolationType
+        Returns the interpolation type of a given track, from the INTERPOLATION_* enum.
+	Args: [{ false track_idx int}], Returns: enum.Animation::InterpolationType
 */
-func (o *Animation) TrackGetInterpolationType(idx gdnative.Int) AnimationInterpolationType {
+func (o *Animation) TrackGetInterpolationType(trackIdx gdnative.Int) AnimationInterpolationType {
 	//log.Println("Calling Animation.TrackGetInterpolationType()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "track_get_interpolation_type")
@@ -479,15 +940,15 @@ func (o *Animation) TrackGetInterpolationType(idx gdnative.Int) AnimationInterpo
 }
 
 /*
-        Return the amount of keys in a given track.
-	Args: [{ false idx int}], Returns: int
+        Returns the amount of keys in a given track.
+	Args: [{ false track_idx int}], Returns: int
 */
-func (o *Animation) TrackGetKeyCount(idx gdnative.Int) gdnative.Int {
+func (o *Animation) TrackGetKeyCount(trackIdx gdnative.Int) gdnative.Int {
 	//log.Println("Calling Animation.TrackGetKeyCount()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "track_get_key_count")
@@ -503,15 +964,15 @@ func (o *Animation) TrackGetKeyCount(idx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Return the time at which the key is located.
-	Args: [{ false idx int} { false key_idx int}], Returns: float
+        Returns the time at which the key is located.
+	Args: [{ false track_idx int} { false key_idx int}], Returns: float
 */
-func (o *Animation) TrackGetKeyTime(idx gdnative.Int, keyIdx gdnative.Int) gdnative.Real {
+func (o *Animation) TrackGetKeyTime(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real {
 	//log.Println("Calling Animation.TrackGetKeyTime()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
 
 	// Get the method bind
@@ -528,15 +989,15 @@ func (o *Animation) TrackGetKeyTime(idx gdnative.Int, keyIdx gdnative.Int) gdnat
 }
 
 /*
-        Return the transition curve (easing) for a specific key (see built-in math function "ease").
-	Args: [{ false idx int} { false key_idx int}], Returns: float
+        Returns the transition curve (easing) for a specific key (see built-in math function "ease").
+	Args: [{ false track_idx int} { false key_idx int}], Returns: float
 */
-func (o *Animation) TrackGetKeyTransition(idx gdnative.Int, keyIdx gdnative.Int) gdnative.Real {
+func (o *Animation) TrackGetKeyTransition(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real {
 	//log.Println("Calling Animation.TrackGetKeyTransition()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
 
 	// Get the method bind
@@ -553,15 +1014,15 @@ func (o *Animation) TrackGetKeyTransition(idx gdnative.Int, keyIdx gdnative.Int)
 }
 
 /*
-        Return the value of a given key in a given track.
-	Args: [{ false idx int} { false key_idx int}], Returns: Variant
+        Returns the value of a given key in a given track.
+	Args: [{ false track_idx int} { false key_idx int}], Returns: Variant
 */
-func (o *Animation) TrackGetKeyValue(idx gdnative.Int, keyIdx gdnative.Int) gdnative.Variant {
+func (o *Animation) TrackGetKeyValue(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Variant {
 	//log.Println("Calling Animation.TrackGetKeyValue()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
 
 	// Get the method bind
@@ -579,14 +1040,14 @@ func (o *Animation) TrackGetKeyValue(idx gdnative.Int, keyIdx gdnative.Int) gdna
 
 /*
         Get the path of a track. for more information on the path format, see [method track_set_path]
-	Args: [{ false idx int}], Returns: NodePath
+	Args: [{ false track_idx int}], Returns: NodePath
 */
-func (o *Animation) TrackGetPath(idx gdnative.Int) gdnative.NodePath {
+func (o *Animation) TrackGetPath(trackIdx gdnative.Int) gdnative.NodePath {
 	//log.Println("Calling Animation.TrackGetPath()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "track_get_path")
@@ -603,14 +1064,14 @@ func (o *Animation) TrackGetPath(idx gdnative.Int) gdnative.NodePath {
 
 /*
         Get the type of a track.
-	Args: [{ false idx int}], Returns: enum.Animation::TrackType
+	Args: [{ false track_idx int}], Returns: enum.Animation::TrackType
 */
-func (o *Animation) TrackGetType(idx gdnative.Int) AnimationTrackType {
+func (o *Animation) TrackGetType(trackIdx gdnative.Int) AnimationTrackType {
 	//log.Println("Calling Animation.TrackGetType()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "track_get_type")
@@ -627,14 +1088,14 @@ func (o *Animation) TrackGetType(idx gdnative.Int) AnimationTrackType {
 
 /*
         Insert a generic key in a given track.
-	Args: [{ false idx int} { false time float} { false key Variant} {1 true transition float}], Returns: void
+	Args: [{ false track_idx int} { false time float} { false key Variant} {1 true transition float}], Returns: void
 */
-func (o *Animation) TrackInsertKey(idx gdnative.Int, time gdnative.Real, key gdnative.Variant, transition gdnative.Real) {
+func (o *Animation) TrackInsertKey(trackIdx gdnative.Int, time gdnative.Real, key gdnative.Variant, transition gdnative.Real) {
 	//log.Println("Calling Animation.TrackInsertKey()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 4, 4)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromReal(time)
 	ptrArguments[2] = gdnative.NewPointerFromVariant(key)
 	ptrArguments[3] = gdnative.NewPointerFromReal(transition)
@@ -651,14 +1112,14 @@ func (o *Animation) TrackInsertKey(idx gdnative.Int, time gdnative.Real, key gdn
 
 /*
         Returns [code]true[/code] if the track at index [code]idx[/code] is enabled.
-	Args: [{ false idx int}], Returns: bool
+	Args: [{ false track_idx int}], Returns: bool
 */
-func (o *Animation) TrackIsEnabled(idx gdnative.Int) gdnative.Bool {
+func (o *Animation) TrackIsEnabled(trackIdx gdnative.Int) gdnative.Bool {
 	//log.Println("Calling Animation.TrackIsEnabled()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "track_is_enabled")
@@ -674,15 +1135,15 @@ func (o *Animation) TrackIsEnabled(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Return true if the given track is imported. Else, return false.
-	Args: [{ false idx int}], Returns: bool
+        Returns [code]true[/code] if the given track is imported. Else, return [code]false[/code].
+	Args: [{ false track_idx int}], Returns: bool
 */
-func (o *Animation) TrackIsImported(idx gdnative.Int) gdnative.Bool {
+func (o *Animation) TrackIsImported(trackIdx gdnative.Int) gdnative.Bool {
 	//log.Println("Calling Animation.TrackIsImported()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "track_is_imported")
@@ -699,14 +1160,14 @@ func (o *Animation) TrackIsImported(idx gdnative.Int) gdnative.Bool {
 
 /*
         Move a track down.
-	Args: [{ false idx int}], Returns: void
+	Args: [{ false track_idx int}], Returns: void
 */
-func (o *Animation) TrackMoveDown(idx gdnative.Int) {
+func (o *Animation) TrackMoveDown(trackIdx gdnative.Int) {
 	//log.Println("Calling Animation.TrackMoveDown()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "track_move_down")
@@ -719,15 +1180,37 @@ func (o *Animation) TrackMoveDown(idx gdnative.Int) {
 }
 
 /*
-        Move a track up.
-	Args: [{ false idx int}], Returns: void
+        Undocumented
+	Args: [{ false track_idx int} { false to_idx int}], Returns: void
 */
-func (o *Animation) TrackMoveUp(idx gdnative.Int) {
+func (o *Animation) TrackMoveTo(trackIdx gdnative.Int, toIdx gdnative.Int) {
+	//log.Println("Calling Animation.TrackMoveTo()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(toIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "track_move_to")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Move a track up.
+	Args: [{ false track_idx int}], Returns: void
+*/
+func (o *Animation) TrackMoveUp(trackIdx gdnative.Int) {
 	//log.Println("Calling Animation.TrackMoveUp()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "track_move_up")
@@ -741,14 +1224,14 @@ func (o *Animation) TrackMoveUp(idx gdnative.Int) {
 
 /*
         Remove a key by index in a given track.
-	Args: [{ false idx int} { false key_idx int}], Returns: void
+	Args: [{ false track_idx int} { false key_idx int}], Returns: void
 */
-func (o *Animation) TrackRemoveKey(idx gdnative.Int, keyIdx gdnative.Int) {
+func (o *Animation) TrackRemoveKey(trackIdx gdnative.Int, keyIdx gdnative.Int) {
 	//log.Println("Calling Animation.TrackRemoveKey()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
 
 	// Get the method bind
@@ -763,14 +1246,14 @@ func (o *Animation) TrackRemoveKey(idx gdnative.Int, keyIdx gdnative.Int) {
 
 /*
         Remove a key by position (seconds) in a given track.
-	Args: [{ false idx int} { false position float}], Returns: void
+	Args: [{ false track_idx int} { false position float}], Returns: void
 */
-func (o *Animation) TrackRemoveKeyAtPosition(idx gdnative.Int, position gdnative.Real) {
+func (o *Animation) TrackRemoveKeyAtPosition(trackIdx gdnative.Int, position gdnative.Real) {
 	//log.Println("Calling Animation.TrackRemoveKeyAtPosition()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromReal(position)
 
 	// Get the method bind
@@ -785,14 +1268,14 @@ func (o *Animation) TrackRemoveKeyAtPosition(idx gdnative.Int, position gdnative
 
 /*
         Enables/disables the given track. Tracks are enabled by default.
-	Args: [{ false idx int} { false enabled bool}], Returns: void
+	Args: [{ false track_idx int} { false enabled bool}], Returns: void
 */
-func (o *Animation) TrackSetEnabled(idx gdnative.Int, enabled gdnative.Bool) {
+func (o *Animation) TrackSetEnabled(trackIdx gdnative.Int, enabled gdnative.Bool) {
 	//log.Println("Calling Animation.TrackSetEnabled()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromBool(enabled)
 
 	// Get the method bind
@@ -807,14 +1290,14 @@ func (o *Animation) TrackSetEnabled(idx gdnative.Int, enabled gdnative.Bool) {
 
 /*
         Set the given track as imported or not.
-	Args: [{ false idx int} { false imported bool}], Returns: void
+	Args: [{ false track_idx int} { false imported bool}], Returns: void
 */
-func (o *Animation) TrackSetImported(idx gdnative.Int, imported gdnative.Bool) {
+func (o *Animation) TrackSetImported(trackIdx gdnative.Int, imported gdnative.Bool) {
 	//log.Println("Calling Animation.TrackSetImported()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromBool(imported)
 
 	// Get the method bind
@@ -828,15 +1311,15 @@ func (o *Animation) TrackSetImported(idx gdnative.Int, imported gdnative.Bool) {
 }
 
 /*
-        If [code]true[/code] the track at [code]idx[/code] wraps the interpolation loop.
-	Args: [{ false idx int} { false interpolation bool}], Returns: void
+        If [code]true[/code], the track at [code]idx[/code] wraps the interpolation loop.
+	Args: [{ false track_idx int} { false interpolation bool}], Returns: void
 */
-func (o *Animation) TrackSetInterpolationLoopWrap(idx gdnative.Int, interpolation gdnative.Bool) {
+func (o *Animation) TrackSetInterpolationLoopWrap(trackIdx gdnative.Int, interpolation gdnative.Bool) {
 	//log.Println("Calling Animation.TrackSetInterpolationLoopWrap()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromBool(interpolation)
 
 	// Get the method bind
@@ -851,14 +1334,14 @@ func (o *Animation) TrackSetInterpolationLoopWrap(idx gdnative.Int, interpolatio
 
 /*
         Set the interpolation type of a given track, from the INTERPOLATION_* enum.
-	Args: [{ false idx int} { false interpolation int}], Returns: void
+	Args: [{ false track_idx int} { false interpolation int}], Returns: void
 */
-func (o *Animation) TrackSetInterpolationType(idx gdnative.Int, interpolation gdnative.Int) {
+func (o *Animation) TrackSetInterpolationType(trackIdx gdnative.Int, interpolation gdnative.Int) {
 	//log.Println("Calling Animation.TrackSetInterpolationType()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromInt(interpolation)
 
 	// Get the method bind
@@ -872,15 +1355,38 @@ func (o *Animation) TrackSetInterpolationType(idx gdnative.Int, interpolation gd
 }
 
 /*
-        Set the transition curve (easing) for a specific key (see built-in math function "ease").
-	Args: [{ false idx int} { false key_idx int} { false transition float}], Returns: void
+        Undocumented
+	Args: [{ false track_idx int} { false key_idx int} { false time float}], Returns: void
 */
-func (o *Animation) TrackSetKeyTransition(idx gdnative.Int, keyIdx gdnative.Int, transition gdnative.Real) {
+func (o *Animation) TrackSetKeyTime(trackIdx gdnative.Int, keyIdx gdnative.Int, time gdnative.Real) {
+	//log.Println("Calling Animation.TrackSetKeyTime()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
+	ptrArguments[2] = gdnative.NewPointerFromReal(time)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "track_set_key_time")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Set the transition curve (easing) for a specific key (see built-in math function "ease").
+	Args: [{ false track_idx int} { false key_idx int} { false transition float}], Returns: void
+*/
+func (o *Animation) TrackSetKeyTransition(trackIdx gdnative.Int, keyIdx gdnative.Int, transition gdnative.Real) {
 	//log.Println("Calling Animation.TrackSetKeyTransition()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 3, 3)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromInt(keyIdx)
 	ptrArguments[2] = gdnative.NewPointerFromReal(transition)
 
@@ -896,14 +1402,14 @@ func (o *Animation) TrackSetKeyTransition(idx gdnative.Int, keyIdx gdnative.Int,
 
 /*
         Set the value of an existing key.
-	Args: [{ false idx int} { false key int} { false value Variant}], Returns: void
+	Args: [{ false track_idx int} { false key int} { false value Variant}], Returns: void
 */
-func (o *Animation) TrackSetKeyValue(idx gdnative.Int, key gdnative.Int, value gdnative.Variant) {
+func (o *Animation) TrackSetKeyValue(trackIdx gdnative.Int, key gdnative.Int, value gdnative.Variant) {
 	//log.Println("Calling Animation.TrackSetKeyValue()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 3, 3)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromInt(key)
 	ptrArguments[2] = gdnative.NewPointerFromVariant(value)
 
@@ -918,15 +1424,15 @@ func (o *Animation) TrackSetKeyValue(idx gdnative.Int, key gdnative.Int, value g
 }
 
 /*
-        Set the path of a track. Paths must be valid scene-tree paths to a node, and must be specified starting from the parent node of the node that will reproduce the animation. Tracks that control properties or bones must append their name after the path, separated by ":". Example: "character/skeleton:ankle" or "character/mesh:transform/local"
-	Args: [{ false idx int} { false path NodePath}], Returns: void
+        Set the path of a track. Paths must be valid scene-tree paths to a node, and must be specified starting from the parent node of the node that will reproduce the animation. Tracks that control properties or bones must append their name after the path, separated by ":". [b]Example:[/b] "character/skeleton:ankle" or "character/mesh:transform/local".
+	Args: [{ false track_idx int} { false path NodePath}], Returns: void
 */
-func (o *Animation) TrackSetPath(idx gdnative.Int, path gdnative.NodePath) {
+func (o *Animation) TrackSetPath(trackIdx gdnative.Int, path gdnative.NodePath) {
 	//log.Println("Calling Animation.TrackSetPath()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromNodePath(path)
 
 	// Get the method bind
@@ -940,15 +1446,37 @@ func (o *Animation) TrackSetPath(idx gdnative.Int, path gdnative.NodePath) {
 }
 
 /*
-        Insert a transform key for a transform track.
-	Args: [{ false idx int} { false time float} { false location Vector3} { false rotation Quat} { false scale Vector3}], Returns: int
+
+	Args: [{ false track_idx int} { false with_idx int}], Returns: void
 */
-func (o *Animation) TransformTrackInsertKey(idx gdnative.Int, time gdnative.Real, location gdnative.Vector3, rotation gdnative.Quat, scale gdnative.Vector3) gdnative.Int {
+func (o *Animation) TrackSwap(trackIdx gdnative.Int, withIdx gdnative.Int) {
+	//log.Println("Calling Animation.TrackSwap()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(withIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Animation", "track_swap")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Insert a transform key for a transform track.
+	Args: [{ false track_idx int} { false time float} { false location Vector3} { false rotation Quat} { false scale Vector3}], Returns: int
+*/
+func (o *Animation) TransformTrackInsertKey(trackIdx gdnative.Int, time gdnative.Real, location gdnative.Vector3, rotation gdnative.Quat, scale gdnative.Vector3) gdnative.Int {
 	//log.Println("Calling Animation.TransformTrackInsertKey()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 5, 5)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromReal(time)
 	ptrArguments[2] = gdnative.NewPointerFromVector3(location)
 	ptrArguments[3] = gdnative.NewPointerFromQuat(rotation)
@@ -968,15 +1496,15 @@ func (o *Animation) TransformTrackInsertKey(idx gdnative.Int, time gdnative.Real
 }
 
 /*
-        Return the interpolated value of a transform track at a given time (in seconds). An array consisting of 3 elements: position ([Vector3]), rotation ([Quat]) and scale ([Vector3]).
-	Args: [{ false idx int} { false time_sec float}], Returns: Array
+        Returns the interpolated value of a transform track at a given time (in seconds). An array consisting of 3 elements: position ([Vector3]), rotation ([Quat]) and scale ([Vector3]).
+	Args: [{ false track_idx int} { false time_sec float}], Returns: Array
 */
-func (o *Animation) TransformTrackInterpolate(idx gdnative.Int, timeSec gdnative.Real) gdnative.Array {
+func (o *Animation) TransformTrackInterpolate(trackIdx gdnative.Int, timeSec gdnative.Real) gdnative.Array {
 	//log.Println("Calling Animation.TransformTrackInterpolate()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromReal(timeSec)
 
 	// Get the method bind
@@ -993,15 +1521,15 @@ func (o *Animation) TransformTrackInterpolate(idx gdnative.Int, timeSec gdnative
 }
 
 /*
-        Return all the key indices of a value track, given a position and delta time.
-	Args: [{ false idx int} { false time_sec float} { false delta float}], Returns: PoolIntArray
+        Returns all the key indices of a value track, given a position and delta time.
+	Args: [{ false track_idx int} { false time_sec float} { false delta float}], Returns: PoolIntArray
 */
-func (o *Animation) ValueTrackGetKeyIndices(idx gdnative.Int, timeSec gdnative.Real, delta gdnative.Real) gdnative.PoolIntArray {
+func (o *Animation) ValueTrackGetKeyIndices(trackIdx gdnative.Int, timeSec gdnative.Real, delta gdnative.Real) gdnative.PoolIntArray {
 	//log.Println("Calling Animation.ValueTrackGetKeyIndices()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 3, 3)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromReal(timeSec)
 	ptrArguments[2] = gdnative.NewPointerFromReal(delta)
 
@@ -1019,15 +1547,15 @@ func (o *Animation) ValueTrackGetKeyIndices(idx gdnative.Int, timeSec gdnative.R
 }
 
 /*
-        Return the update mode of a value track.
-	Args: [{ false idx int}], Returns: enum.Animation::UpdateMode
+        Returns the update mode of a value track.
+	Args: [{ false track_idx int}], Returns: enum.Animation::UpdateMode
 */
-func (o *Animation) ValueTrackGetUpdateMode(idx gdnative.Int) AnimationUpdateMode {
+func (o *Animation) ValueTrackGetUpdateMode(trackIdx gdnative.Int) AnimationUpdateMode {
 	//log.Println("Calling Animation.ValueTrackGetUpdateMode()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Animation", "value_track_get_update_mode")
@@ -1044,14 +1572,14 @@ func (o *Animation) ValueTrackGetUpdateMode(idx gdnative.Int) AnimationUpdateMod
 
 /*
         Set the update mode (UPDATE_*) of a value track.
-	Args: [{ false idx int} { false mode int}], Returns: void
+	Args: [{ false track_idx int} { false mode int}], Returns: void
 */
-func (o *Animation) ValueTrackSetUpdateMode(idx gdnative.Int, mode gdnative.Int) {
+func (o *Animation) ValueTrackSetUpdateMode(trackIdx gdnative.Int, mode gdnative.Int) {
 	//log.Println("Calling Animation.ValueTrackSetUpdateMode()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[0] = gdnative.NewPointerFromInt(trackIdx)
 	ptrArguments[1] = gdnative.NewPointerFromInt(mode)
 
 	// Get the method bind
@@ -1069,43 +1597,64 @@ func (o *Animation) ValueTrackSetUpdateMode(idx gdnative.Int, mode gdnative.Int)
 type AnimationImplementer interface {
 	ResourceImplementer
 	AddTrack(aType gdnative.Int, atPosition gdnative.Int) gdnative.Int
+	AnimationTrackGetKeyAnimation(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.String
+	AnimationTrackInsertKey(trackIdx gdnative.Int, time gdnative.Real, animation gdnative.String) gdnative.Int
+	AnimationTrackSetKeyAnimation(trackIdx gdnative.Int, keyIdx gdnative.Int, animation gdnative.String)
+	AudioTrackGetKeyEndOffset(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real
+	AudioTrackGetKeyStartOffset(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real
+	AudioTrackGetKeyStream(trackIdx gdnative.Int, keyIdx gdnative.Int) ResourceImplementer
+	AudioTrackInsertKey(trackIdx gdnative.Int, time gdnative.Real, stream ResourceImplementer, startOffset gdnative.Real, endOffset gdnative.Real) gdnative.Int
+	AudioTrackSetKeyEndOffset(trackIdx gdnative.Int, keyIdx gdnative.Int, offset gdnative.Real)
+	AudioTrackSetKeyStartOffset(trackIdx gdnative.Int, keyIdx gdnative.Int, offset gdnative.Real)
+	AudioTrackSetKeyStream(trackIdx gdnative.Int, keyIdx gdnative.Int, stream ResourceImplementer)
+	BezierTrackGetKeyInHandle(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Vector2
+	BezierTrackGetKeyOutHandle(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Vector2
+	BezierTrackGetKeyValue(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real
+	BezierTrackInsertKey(trackIdx gdnative.Int, time gdnative.Real, value gdnative.Real, inHandle gdnative.Vector2, outHandle gdnative.Vector2) gdnative.Int
+	BezierTrackInterpolate(trackIdx gdnative.Int, time gdnative.Real) gdnative.Real
+	BezierTrackSetKeyInHandle(trackIdx gdnative.Int, keyIdx gdnative.Int, inHandle gdnative.Vector2)
+	BezierTrackSetKeyOutHandle(trackIdx gdnative.Int, keyIdx gdnative.Int, outHandle gdnative.Vector2)
+	BezierTrackSetKeyValue(trackIdx gdnative.Int, keyIdx gdnative.Int, value gdnative.Real)
 	Clear()
-	CopyTrack(track gdnative.Int, toAnimation AnimationImplementer)
+	CopyTrack(trackIdx gdnative.Int, toAnimation AnimationImplementer)
 	FindTrack(path gdnative.NodePath) gdnative.Int
 	GetLength() gdnative.Real
 	GetStep() gdnative.Real
 	GetTrackCount() gdnative.Int
 	HasLoop() gdnative.Bool
-	MethodTrackGetKeyIndices(idx gdnative.Int, timeSec gdnative.Real, delta gdnative.Real) gdnative.PoolIntArray
-	MethodTrackGetName(idx gdnative.Int, keyIdx gdnative.Int) gdnative.String
-	MethodTrackGetParams(idx gdnative.Int, keyIdx gdnative.Int) gdnative.Array
-	RemoveTrack(idx gdnative.Int)
+	MethodTrackGetKeyIndices(trackIdx gdnative.Int, timeSec gdnative.Real, delta gdnative.Real) gdnative.PoolIntArray
+	MethodTrackGetName(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.String
+	MethodTrackGetParams(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Array
+	RemoveTrack(trackIdx gdnative.Int)
 	SetLength(timeSec gdnative.Real)
 	SetLoop(enabled gdnative.Bool)
 	SetStep(sizeSec gdnative.Real)
-	TrackFindKey(idx gdnative.Int, time gdnative.Real, exact gdnative.Bool) gdnative.Int
-	TrackGetInterpolationLoopWrap(idx gdnative.Int) gdnative.Bool
-	TrackGetKeyCount(idx gdnative.Int) gdnative.Int
-	TrackGetKeyTime(idx gdnative.Int, keyIdx gdnative.Int) gdnative.Real
-	TrackGetKeyTransition(idx gdnative.Int, keyIdx gdnative.Int) gdnative.Real
-	TrackGetKeyValue(idx gdnative.Int, keyIdx gdnative.Int) gdnative.Variant
-	TrackGetPath(idx gdnative.Int) gdnative.NodePath
-	TrackInsertKey(idx gdnative.Int, time gdnative.Real, key gdnative.Variant, transition gdnative.Real)
-	TrackIsEnabled(idx gdnative.Int) gdnative.Bool
-	TrackIsImported(idx gdnative.Int) gdnative.Bool
-	TrackMoveDown(idx gdnative.Int)
-	TrackMoveUp(idx gdnative.Int)
-	TrackRemoveKey(idx gdnative.Int, keyIdx gdnative.Int)
-	TrackRemoveKeyAtPosition(idx gdnative.Int, position gdnative.Real)
-	TrackSetEnabled(idx gdnative.Int, enabled gdnative.Bool)
-	TrackSetImported(idx gdnative.Int, imported gdnative.Bool)
-	TrackSetInterpolationLoopWrap(idx gdnative.Int, interpolation gdnative.Bool)
-	TrackSetInterpolationType(idx gdnative.Int, interpolation gdnative.Int)
-	TrackSetKeyTransition(idx gdnative.Int, keyIdx gdnative.Int, transition gdnative.Real)
-	TrackSetKeyValue(idx gdnative.Int, key gdnative.Int, value gdnative.Variant)
-	TrackSetPath(idx gdnative.Int, path gdnative.NodePath)
-	TransformTrackInsertKey(idx gdnative.Int, time gdnative.Real, location gdnative.Vector3, rotation gdnative.Quat, scale gdnative.Vector3) gdnative.Int
-	TransformTrackInterpolate(idx gdnative.Int, timeSec gdnative.Real) gdnative.Array
-	ValueTrackGetKeyIndices(idx gdnative.Int, timeSec gdnative.Real, delta gdnative.Real) gdnative.PoolIntArray
-	ValueTrackSetUpdateMode(idx gdnative.Int, mode gdnative.Int)
+	TrackFindKey(trackIdx gdnative.Int, time gdnative.Real, exact gdnative.Bool) gdnative.Int
+	TrackGetInterpolationLoopWrap(trackIdx gdnative.Int) gdnative.Bool
+	TrackGetKeyCount(trackIdx gdnative.Int) gdnative.Int
+	TrackGetKeyTime(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real
+	TrackGetKeyTransition(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real
+	TrackGetKeyValue(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Variant
+	TrackGetPath(trackIdx gdnative.Int) gdnative.NodePath
+	TrackInsertKey(trackIdx gdnative.Int, time gdnative.Real, key gdnative.Variant, transition gdnative.Real)
+	TrackIsEnabled(trackIdx gdnative.Int) gdnative.Bool
+	TrackIsImported(trackIdx gdnative.Int) gdnative.Bool
+	TrackMoveDown(trackIdx gdnative.Int)
+	TrackMoveTo(trackIdx gdnative.Int, toIdx gdnative.Int)
+	TrackMoveUp(trackIdx gdnative.Int)
+	TrackRemoveKey(trackIdx gdnative.Int, keyIdx gdnative.Int)
+	TrackRemoveKeyAtPosition(trackIdx gdnative.Int, position gdnative.Real)
+	TrackSetEnabled(trackIdx gdnative.Int, enabled gdnative.Bool)
+	TrackSetImported(trackIdx gdnative.Int, imported gdnative.Bool)
+	TrackSetInterpolationLoopWrap(trackIdx gdnative.Int, interpolation gdnative.Bool)
+	TrackSetInterpolationType(trackIdx gdnative.Int, interpolation gdnative.Int)
+	TrackSetKeyTime(trackIdx gdnative.Int, keyIdx gdnative.Int, time gdnative.Real)
+	TrackSetKeyTransition(trackIdx gdnative.Int, keyIdx gdnative.Int, transition gdnative.Real)
+	TrackSetKeyValue(trackIdx gdnative.Int, key gdnative.Int, value gdnative.Variant)
+	TrackSetPath(trackIdx gdnative.Int, path gdnative.NodePath)
+	TrackSwap(trackIdx gdnative.Int, withIdx gdnative.Int)
+	TransformTrackInsertKey(trackIdx gdnative.Int, time gdnative.Real, location gdnative.Vector3, rotation gdnative.Quat, scale gdnative.Vector3) gdnative.Int
+	TransformTrackInterpolate(trackIdx gdnative.Int, timeSec gdnative.Real) gdnative.Array
+	ValueTrackGetKeyIndices(trackIdx gdnative.Int, timeSec gdnative.Real, delta gdnative.Real) gdnative.PoolIntArray
+	ValueTrackSetUpdateMode(trackIdx gdnative.Int, mode gdnative.Int)
 }

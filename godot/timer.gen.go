@@ -309,14 +309,15 @@ func (o *Timer) SetWaitTime(timeSec gdnative.Real) {
 }
 
 /*
-        Starts the timer. This also resets the remaining time to [code]wait_time[/code]. Note: this method will not resume a paused timer. See [method set_paused].
-	Args: [], Returns: void
+        Starts the timer. Sets [code]wait_time[/code] to [code]time_sec[/code] if [code]time_sec > 0[/code]. This also resets the remaining time to [code]wait_time[/code]. Note: this method will not resume a paused timer. See [member paused].
+	Args: [{-1 true time_sec float}], Returns: void
 */
-func (o *Timer) Start() {
+func (o *Timer) Start(timeSec gdnative.Real) {
 	//log.Println("Calling Timer.Start()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(timeSec)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Timer", "start")
@@ -329,7 +330,7 @@ func (o *Timer) Start() {
 }
 
 /*
-        Stop (cancel) the Timer.
+        Stops the timer.
 	Args: [], Returns: void
 */
 func (o *Timer) Stop() {
@@ -363,6 +364,6 @@ type TimerImplementer interface {
 	SetPaused(paused gdnative.Bool)
 	SetTimerProcessMode(mode gdnative.Int)
 	SetWaitTime(timeSec gdnative.Real)
-	Start()
+	Start(timeSec gdnative.Real)
 	Stop()
 }

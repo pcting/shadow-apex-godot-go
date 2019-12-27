@@ -55,7 +55,7 @@ func (o *PacketPeerUDP) Close() {
 }
 
 /*
-        Return the IP of the remote peer that sent the last packet(that was received with [method get_packet] or [method get_var]).
+        Returns the IP of the remote peer that sent the last packet(that was received with [method PacketPeer.get_packet] or [method PacketPeer.get_var]).
 	Args: [], Returns: String
 */
 func (o *PacketPeerUDP) GetPacketIp() gdnative.String {
@@ -78,7 +78,7 @@ func (o *PacketPeerUDP) GetPacketIp() gdnative.String {
 }
 
 /*
-        Return the port of the remote peer that sent the last packet(that was received with [method get_packet] or [method get_var]).
+        Returns the port of the remote peer that sent the last packet(that was received with [method PacketPeer.get_packet] or [method PacketPeer.get_var]).
 	Args: [], Returns: int
 */
 func (o *PacketPeerUDP) GetPacketPort() gdnative.Int {
@@ -101,7 +101,7 @@ func (o *PacketPeerUDP) GetPacketPort() gdnative.Int {
 }
 
 /*
-        Return whether this [code]PacketPeerUDP[/code] is listening.
+        Returns whether this [code]PacketPeerUDP[/code] is listening.
 	Args: [], Returns: bool
 */
 func (o *PacketPeerUDP) IsListening() gdnative.Bool {
@@ -121,6 +121,56 @@ func (o *PacketPeerUDP) IsListening() gdnative.Bool {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewBoolFromPointer(retPtr)
 	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false multicast_address String} { false interface_name String}], Returns: enum.Error
+*/
+func (o *PacketPeerUDP) JoinMulticastGroup(multicastAddress gdnative.String, interfaceName gdnative.String) gdnative.Error {
+	//log.Println("Calling PacketPeerUDP.JoinMulticastGroup()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromString(multicastAddress)
+	ptrArguments[1] = gdnative.NewPointerFromString(interfaceName)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PacketPeerUDP", "join_multicast_group")
+
+	// Call the parent method.
+	// enum.Error
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return gdnative.Error(ret)
+}
+
+/*
+        Undocumented
+	Args: [{ false multicast_address String} { false interface_name String}], Returns: enum.Error
+*/
+func (o *PacketPeerUDP) LeaveMulticastGroup(multicastAddress gdnative.String, interfaceName gdnative.String) gdnative.Error {
+	//log.Println("Calling PacketPeerUDP.LeaveMulticastGroup()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromString(multicastAddress)
+	ptrArguments[1] = gdnative.NewPointerFromString(interfaceName)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PacketPeerUDP", "leave_multicast_group")
+
+	// Call the parent method.
+	// enum.Error
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return gdnative.Error(ret)
 }
 
 /*

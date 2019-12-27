@@ -127,7 +127,7 @@ func (o *StreamPeer) Get8() gdnative.Int {
 }
 
 /*
-        Return the amount of bytes this [code]StreamPeer[/code] has available.
+        Returns the amount of bytes this [code]StreamPeer[/code] has available.
 	Args: [], Returns: int
 */
 func (o *StreamPeer) GetAvailableBytes() gdnative.Int {
@@ -150,7 +150,7 @@ func (o *StreamPeer) GetAvailableBytes() gdnative.Int {
 }
 
 /*
-        Return a chunk data with the received bytes. The amount of bytes to be received can be requested in the "bytes" argument. If not enough bytes are available, the function will block until the desired amount is received. This function returns two values, an Error code and a data array.
+        Returns a chunk data with the received bytes. The amount of bytes to be received can be requested in the "bytes" argument. If not enough bytes are available, the function will block until the desired amount is received. This function returns two values, an Error code and a data array.
 	Args: [{ false bytes int}], Returns: Array
 */
 func (o *StreamPeer) GetData(bytes gdnative.Int) gdnative.Array {
@@ -220,7 +220,7 @@ func (o *StreamPeer) GetFloat() gdnative.Real {
 }
 
 /*
-        Return a chunk data with the received bytes. The amount of bytes to be received can be requested in the "bytes" argument. If not enough bytes are available, the function will return how many were actually received. This function returns two values, an Error code, and a data array.
+        Returns a chunk data with the received bytes. The amount of bytes to be received can be requested in the "bytes" argument. If not enough bytes are available, the function will return how many were actually received. This function returns two values, an Error code, and a data array.
 	Args: [{ false bytes int}], Returns: Array
 */
 func (o *StreamPeer) GetPartialData(bytes gdnative.Int) gdnative.Array {
@@ -244,8 +244,8 @@ func (o *StreamPeer) GetPartialData(bytes gdnative.Int) gdnative.Array {
 }
 
 /*
-        Get a string with byte-length "bytes" from the stream.
-	Args: [{ false bytes int}], Returns: String
+        Get a string with byte-length [code]bytes[/code] from the stream. If [code]bytes[/code] is negative (default) the length will be read from the stream using the reverse process of [method put_string].
+	Args: [{-1 true bytes int}], Returns: String
 */
 func (o *StreamPeer) GetString(bytes gdnative.Int) gdnative.String {
 	//log.Println("Calling StreamPeer.GetString()")
@@ -360,8 +360,8 @@ func (o *StreamPeer) GetU8() gdnative.Int {
 }
 
 /*
-        Get a utf8 string with byte-length "bytes" from the stream (this decodes the string sent as utf8).
-	Args: [{ false bytes int}], Returns: String
+        Get a utf8 string with byte-length [code]bytes[/code] from the stream (this decodes the string sent as utf8). If [code]bytes[/code] is negative (default) the length will be read from the stream using the reverse process of [method put_utf8_string].
+	Args: [{-1 true bytes int}], Returns: String
 */
 func (o *StreamPeer) GetUtf8String(bytes gdnative.Int) gdnative.String {
 	//log.Println("Calling StreamPeer.GetUtf8String()")
@@ -384,14 +384,15 @@ func (o *StreamPeer) GetUtf8String(bytes gdnative.Int) gdnative.String {
 }
 
 /*
-        Get a Variant from the stream.
-	Args: [], Returns: Variant
+        Get a Variant from the stream. When [code]allow_objects[/code] is [code]true[/code] decoding objects is allowed. [b]WARNING:[/b] Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
+	Args: [{False true allow_objects bool}], Returns: Variant
 */
-func (o *StreamPeer) GetVar() gdnative.Variant {
+func (o *StreamPeer) GetVar(allowObjects gdnative.Bool) gdnative.Variant {
 	//log.Println("Calling StreamPeer.GetVar()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(allowObjects)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("StreamPeer", "get_var")
@@ -604,6 +605,27 @@ func (o *StreamPeer) PutPartialData(data gdnative.PoolByteArray) gdnative.Array 
 }
 
 /*
+        Put a zero-terminated ascii string into the stream prepended by a 32 bits unsigned integer representing its size.
+	Args: [{ false value String}], Returns: void
+*/
+func (o *StreamPeer) PutString(value gdnative.String) {
+	//log.Println("Calling StreamPeer.PutString()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(value)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("StreamPeer", "put_string")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Put an unsigned 16 bit value into the stream.
 	Args: [{ false value int}], Returns: void
 */
@@ -688,7 +710,7 @@ func (o *StreamPeer) PutU8(value gdnative.Int) {
 }
 
 /*
-        Put a zero-terminated utf8 string into the stream.
+        Put a zero-terminated utf8 string into the stream prepended by a 32 bits unsigned integer representing its size.
 	Args: [{ false value String}], Returns: void
 */
 func (o *StreamPeer) PutUtf8String(value gdnative.String) {
@@ -709,15 +731,16 @@ func (o *StreamPeer) PutUtf8String(value gdnative.String) {
 }
 
 /*
-        Put a Variant into the stream.
-	Args: [{ false value Variant}], Returns: void
+        Put a Variant into the stream. When [code]full_objects[/code] is [code]true[/code] encoding objects is allowed (and can potentially include code).
+	Args: [{ false value Variant} {False true full_objects bool}], Returns: void
 */
-func (o *StreamPeer) PutVar(value gdnative.Variant) {
+func (o *StreamPeer) PutVar(value gdnative.Variant, fullObjects gdnative.Bool) {
 	//log.Println("Calling StreamPeer.PutVar()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromVariant(value)
+	ptrArguments[1] = gdnative.NewPointerFromBool(fullObjects)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("StreamPeer", "put_var")
@@ -769,7 +792,7 @@ type StreamPeerImplementer interface {
 	GetU64() gdnative.Int
 	GetU8() gdnative.Int
 	GetUtf8String(bytes gdnative.Int) gdnative.String
-	GetVar() gdnative.Variant
+	GetVar(allowObjects gdnative.Bool) gdnative.Variant
 	IsBigEndianEnabled() gdnative.Bool
 	Put16(value gdnative.Int)
 	Put32(value gdnative.Int)
@@ -778,11 +801,12 @@ type StreamPeerImplementer interface {
 	PutDouble(value gdnative.Real)
 	PutFloat(value gdnative.Real)
 	PutPartialData(data gdnative.PoolByteArray) gdnative.Array
+	PutString(value gdnative.String)
 	PutU16(value gdnative.Int)
 	PutU32(value gdnative.Int)
 	PutU64(value gdnative.Int)
 	PutU8(value gdnative.Int)
 	PutUtf8String(value gdnative.String)
-	PutVar(value gdnative.Variant)
+	PutVar(value gdnative.Variant, fullObjects gdnative.Bool)
 	SetBigEndian(enable gdnative.Bool)
 }

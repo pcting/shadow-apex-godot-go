@@ -169,6 +169,29 @@ func (o *AnimatedSprite) GetOffset() gdnative.Vector2 {
 
 /*
         Undocumented
+	Args: [], Returns: float
+*/
+func (o *AnimatedSprite) GetSpeedScale() gdnative.Real {
+	//log.Println("Calling AnimatedSprite.GetSpeedScale()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AnimatedSprite", "get_speed_scale")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: SpriteFrames
 */
 func (o *AnimatedSprite) GetSpriteFrames() SpriteFramesImplementer {
@@ -274,7 +297,7 @@ func (o *AnimatedSprite) IsFlippedV() gdnative.Bool {
 }
 
 /*
-        Return true if an animation if currently being played.
+        Returns [code]true[/code] if an animation if currently being played.
 	Args: [], Returns: bool
 */
 func (o *AnimatedSprite) IsPlaying() gdnative.Bool {
@@ -297,15 +320,16 @@ func (o *AnimatedSprite) IsPlaying() gdnative.Bool {
 }
 
 /*
-        Play the animation set in parameter. If no parameter is provided, the current animation is played.
-	Args: [{ true anim String}], Returns: void
+        Play the animation set in parameter. If no parameter is provided, the current animation is played. Property [code]backwards[/code] plays the animation in reverse if set to [code]true[/code].
+	Args: [{ true anim String} {False true backwards bool}], Returns: void
 */
-func (o *AnimatedSprite) Play(anim gdnative.String) {
+func (o *AnimatedSprite) Play(anim gdnative.String, backwards gdnative.Bool) {
 	//log.Println("Calling AnimatedSprite.Play()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromString(anim)
+	ptrArguments[1] = gdnative.NewPointerFromBool(backwards)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("AnimatedSprite", "play")
@@ -445,6 +469,27 @@ func (o *AnimatedSprite) SetOffset(offset gdnative.Vector2) {
 
 /*
         Undocumented
+	Args: [{ false speed_scale float}], Returns: void
+*/
+func (o *AnimatedSprite) SetSpeedScale(speedScale gdnative.Real) {
+	//log.Println("Calling AnimatedSprite.SetSpeedScale()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(speedScale)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AnimatedSprite", "set_speed_scale")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false sprite_frames SpriteFrames}], Returns: void
 */
 func (o *AnimatedSprite) SetSpriteFrames(spriteFrames SpriteFramesImplementer) {
@@ -494,18 +539,20 @@ type AnimatedSpriteImplementer interface {
 	GetAnimation() gdnative.String
 	GetFrame() gdnative.Int
 	GetOffset() gdnative.Vector2
+	GetSpeedScale() gdnative.Real
 	GetSpriteFrames() SpriteFramesImplementer
 	IsCentered() gdnative.Bool
 	IsFlippedH() gdnative.Bool
 	IsFlippedV() gdnative.Bool
 	IsPlaying() gdnative.Bool
-	Play(anim gdnative.String)
+	Play(anim gdnative.String, backwards gdnative.Bool)
 	SetAnimation(animation gdnative.String)
 	SetCentered(centered gdnative.Bool)
 	SetFlipH(flipH gdnative.Bool)
 	SetFlipV(flipV gdnative.Bool)
 	SetFrame(frame gdnative.Int)
 	SetOffset(offset gdnative.Vector2)
+	SetSpeedScale(speedScale gdnative.Real)
 	SetSpriteFrames(spriteFrames SpriteFramesImplementer)
 	Stop()
 }

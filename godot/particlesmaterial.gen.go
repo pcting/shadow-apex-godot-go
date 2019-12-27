@@ -29,7 +29,8 @@ type ParticlesMaterialFlags int
 
 const (
 	ParticlesMaterialFlagAlignYToVelocity ParticlesMaterialFlags = 0
-	ParticlesMaterialFlagMax              ParticlesMaterialFlags = 4
+	ParticlesMaterialFlagDisableZ         ParticlesMaterialFlags = 2
+	ParticlesMaterialFlagMax              ParticlesMaterialFlags = 3
 	ParticlesMaterialFlagRotateY          ParticlesMaterialFlags = 1
 )
 
@@ -62,7 +63,7 @@ func newParticlesMaterialFromPointer(ptr gdnative.Pointer) ParticlesMaterial {
 }
 
 /*
-ParticlesMaterial defines particle properties and behavior. It is used in the [code]process_material[/code] of [Particles] and [Particles2D] emitter nodes. Some of this material's properties are applied to each particle when emitted, while others can have a [CurveTexture] applied to vary values over the lifetime of the particle.
+ParticlesMaterial defines particle properties and behavior. It is used in the [code]process_material[/code] of [Particles] and [Particles2D] emitter nodes. Some of this material's properties are applied to each particle when emitted, while others can have a [CurveTexture] applied to vary values over the lifetime of the particle. When a randomness ratio is applied to a property it is used to scale that property by a random amount. The random ratio is used to interpolate between [code]1.0[/code] and a random number less than one, the result is multiplied by the property to obtain the randomized property. For example a random ratio of [code]0.4[/code] would scale the original property between [code]0.4-1.0[/code] of its original value.
 */
 type ParticlesMaterial struct {
 	Material
@@ -131,6 +132,29 @@ func (o *ParticlesMaterial) GetColorRamp() TextureImplementer {
 	}
 
 	return &ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Vector3
+*/
+func (o *ParticlesMaterial) GetDirection() gdnative.Vector3 {
+	//log.Println("Calling ParticlesMaterial.GetDirection()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ParticlesMaterial", "get_direction")
+
+	// Call the parent method.
+	// Vector3
+	retPtr := gdnative.NewEmptyVector3()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector3FromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -408,6 +432,29 @@ func (o *ParticlesMaterial) GetGravity() gdnative.Vector3 {
 
 /*
         Undocumented
+	Args: [], Returns: float
+*/
+func (o *ParticlesMaterial) GetLifetimeRandomness() gdnative.Real {
+	//log.Println("Calling ParticlesMaterial.GetLifetimeRandomness()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ParticlesMaterial", "get_lifetime_randomness")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [{ false param int}], Returns: float
 */
 func (o *ParticlesMaterial) GetParam(param gdnative.Int) gdnative.Real {
@@ -656,6 +703,27 @@ func (o *ParticlesMaterial) SetColorRamp(ramp TextureImplementer) {
 
 /*
         Undocumented
+	Args: [{ false degrees Vector3}], Returns: void
+*/
+func (o *ParticlesMaterial) SetDirection(degrees gdnative.Vector3) {
+	//log.Println("Calling ParticlesMaterial.SetDirection()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(degrees)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ParticlesMaterial", "set_direction")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false extents Vector3}], Returns: void
 */
 func (o *ParticlesMaterial) SetEmissionBoxExtents(extents gdnative.Vector3) {
@@ -867,6 +935,27 @@ func (o *ParticlesMaterial) SetGravity(accelVec gdnative.Vector3) {
 
 /*
         Undocumented
+	Args: [{ false randomness float}], Returns: void
+*/
+func (o *ParticlesMaterial) SetLifetimeRandomness(randomness gdnative.Real) {
+	//log.Println("Calling ParticlesMaterial.SetLifetimeRandomness()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(randomness)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ParticlesMaterial", "set_lifetime_randomness")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false param int} { false value float}], Returns: void
 */
 func (o *ParticlesMaterial) SetParam(param gdnative.Int, value gdnative.Real) {
@@ -1021,6 +1110,7 @@ type ParticlesMaterialImplementer interface {
 	MaterialImplementer
 	GetColor() gdnative.Color
 	GetColorRamp() TextureImplementer
+	GetDirection() gdnative.Vector3
 	GetEmissionBoxExtents() gdnative.Vector3
 	GetEmissionColorTexture() TextureImplementer
 	GetEmissionNormalTexture() TextureImplementer
@@ -1030,6 +1120,7 @@ type ParticlesMaterialImplementer interface {
 	GetFlag(flag gdnative.Int) gdnative.Bool
 	GetFlatness() gdnative.Real
 	GetGravity() gdnative.Vector3
+	GetLifetimeRandomness() gdnative.Real
 	GetParam(param gdnative.Int) gdnative.Real
 	GetParamRandomness(param gdnative.Int) gdnative.Real
 	GetParamTexture(param gdnative.Int) TextureImplementer
@@ -1039,6 +1130,7 @@ type ParticlesMaterialImplementer interface {
 	GetTrailSizeModifier() CurveTextureImplementer
 	SetColor(color gdnative.Color)
 	SetColorRamp(ramp TextureImplementer)
+	SetDirection(degrees gdnative.Vector3)
 	SetEmissionBoxExtents(extents gdnative.Vector3)
 	SetEmissionColorTexture(texture TextureImplementer)
 	SetEmissionNormalTexture(texture TextureImplementer)
@@ -1049,6 +1141,7 @@ type ParticlesMaterialImplementer interface {
 	SetFlag(flag gdnative.Int, enable gdnative.Bool)
 	SetFlatness(amount gdnative.Real)
 	SetGravity(accelVec gdnative.Vector3)
+	SetLifetimeRandomness(randomness gdnative.Real)
 	SetParam(param gdnative.Int, value gdnative.Real)
 	SetParamRandomness(param gdnative.Int, randomness gdnative.Real)
 	SetParamTexture(param gdnative.Int, texture TextureImplementer)

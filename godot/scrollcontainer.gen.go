@@ -23,7 +23,7 @@ func newScrollContainerFromPointer(ptr gdnative.Pointer) ScrollContainer {
 }
 
 /*
-A ScrollContainer node with a [Control] child and scrollbar child ([HScrollbar], [VScrollBar], or both) will only draw the Control within the ScrollContainer area. Scrollbars will automatically be drawn at the right (for vertical) or bottom (for horizontal) and will enable dragging to move the viewable Control (and its children) within the ScrollContainer. Scrollbars will also automatically resize the grabber based on the minimum_size of the Control relative to the ScrollContainer. Works great with a [Panel] control. You can set EXPAND on children size flags, so they will upscale to ScrollContainer size if ScrollContainer size is bigger (scroll is invisible for chosen dimension).
+A ScrollContainer node meant to contain a [Control] child. ScrollContainers will automatically create a scrollbar child ([HScrollBar], [VScrollBar], or both) when needed and will only draw the Control within the ScrollContainer area. Scrollbars will automatically be drawn at the right (for vertical) or bottom (for horizontal) and will enable dragging to move the viewable Control (and its children) within the ScrollContainer. Scrollbars will also automatically resize the grabber based on the minimum_size of the Control relative to the ScrollContainer. Works great with a [Panel] control. You can set EXPAND on children size flags, so they will upscale to ScrollContainer size if ScrollContainer size is bigger (scroll is invisible for chosen dimension).
 */
 type ScrollContainer struct {
 	Container
@@ -100,6 +100,29 @@ func (o *ScrollContainer) X_UpdateScrollbarPosition() {
         Undocumented
 	Args: [], Returns: int
 */
+func (o *ScrollContainer) GetDeadzone() gdnative.Int {
+	//log.Println("Calling ScrollContainer.GetDeadzone()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScrollContainer", "get_deadzone")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
 func (o *ScrollContainer) GetHScroll() gdnative.Int {
 	//log.Println("Calling ScrollContainer.GetHScroll()")
 
@@ -117,6 +140,43 @@ func (o *ScrollContainer) GetHScroll() gdnative.Int {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
+}
+
+/*
+
+	Args: [], Returns: HScrollBar
+*/
+func (o *ScrollContainer) GetHScrollbar() HScrollBarImplementer {
+	//log.Println("Calling ScrollContainer.GetHScrollbar()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScrollContainer", "get_h_scrollbar")
+
+	// Call the parent method.
+	// HScrollBar
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newHScrollBarFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(HScrollBarImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "HScrollBar" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(HScrollBarImplementer)
+	}
+
+	return &ret
 }
 
 /*
@@ -140,6 +200,43 @@ func (o *ScrollContainer) GetVScroll() gdnative.Int {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
+}
+
+/*
+
+	Args: [], Returns: VScrollBar
+*/
+func (o *ScrollContainer) GetVScrollbar() VScrollBarImplementer {
+	//log.Println("Calling ScrollContainer.GetVScrollbar()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScrollContainer", "get_v_scrollbar")
+
+	// Call the parent method.
+	// VScrollBar
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newVScrollBarFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(VScrollBarImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "VScrollBar" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(VScrollBarImplementer)
+	}
+
+	return &ret
 }
 
 /*
@@ -186,6 +283,27 @@ func (o *ScrollContainer) IsVScrollEnabled() gdnative.Bool {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewBoolFromPointer(retPtr)
 	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false deadzone int}], Returns: void
+*/
+func (o *ScrollContainer) SetDeadzone(deadzone gdnative.Int) {
+	//log.Println("Calling ScrollContainer.SetDeadzone()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(deadzone)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScrollContainer", "set_deadzone")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
 }
 
 /*
@@ -278,10 +396,14 @@ type ScrollContainerImplementer interface {
 	ContainerImplementer
 	X_ScrollMoved(arg0 gdnative.Real)
 	X_UpdateScrollbarPosition()
+	GetDeadzone() gdnative.Int
 	GetHScroll() gdnative.Int
+	GetHScrollbar() HScrollBarImplementer
 	GetVScroll() gdnative.Int
+	GetVScrollbar() VScrollBarImplementer
 	IsHScrollEnabled() gdnative.Bool
 	IsVScrollEnabled() gdnative.Bool
+	SetDeadzone(deadzone gdnative.Int)
 	SetEnableHScroll(enable gdnative.Bool)
 	SetEnableVScroll(enable gdnative.Bool)
 	SetHScroll(value gdnative.Int)

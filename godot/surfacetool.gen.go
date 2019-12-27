@@ -23,7 +23,7 @@ func newSurfaceToolFromPointer(ptr gdnative.Pointer) SurfaceTool {
 }
 
 /*
-The [code]SurfaceTool[/code] is used to construct a [Mesh] by specifying vertex attributes individually. It can be used to construct a [Mesh] from script. All properties except index need to be added before a call to [method add_vertex]. For example adding vertex colors and UVs looks like [codeblock] var st = SurfaceTool.new() st.begin(Mesh.PRIMITIVE_TRIANGLES) st.add_color(Color(1, 0, 0)) st.add_uv(Vector2(0, 0)) st.add_vertex(Vector3(0, 0, 0)) [/codeblock] The [code]SurfaceTool[/code] now contains one vertex of a triangle which has a UV coordinate and a specified [Color]. If another vertex were added without calls to [method add_uv] or [method add_color] then the last values would be used. It is very important that vertex attributes are passed [b]before[/b] the call to [method add_vertex], failure to do this will result in an error when committing the vertex information to a mesh.
+The [code]SurfaceTool[/code] is used to construct a [Mesh] by specifying vertex attributes individually. It can be used to construct a [Mesh] from script. All properties except index need to be added before a call to [method add_vertex]. For example adding vertex colors and UVs looks like [codeblock] var st = SurfaceTool.new() st.begin(Mesh.PRIMITIVE_TRIANGLES) st.add_color(Color(1, 0, 0)) st.add_uv(Vector2(0, 0)) st.add_vertex(Vector3(0, 0, 0)) [/codeblock] The [code]SurfaceTool[/code] now contains one vertex of a triangle which has a UV coordinate and a specified [Color]. If another vertex were added without calls to [method add_uv] or [method add_color] then the last values would be used. It is very important that vertex attributes are passed [b]before[/b] the call to [method add_vertex], failure to do this will result in an error when committing the vertex information to a mesh. Additionally, the attributes used before the first vertex is added determine the format of the mesh. For example if you only add UVs to the first vertex, you cannot add color to any of the subsequent vertices.
 */
 type SurfaceTool struct {
 	Reference
@@ -35,7 +35,7 @@ func (o *SurfaceTool) BaseClass() string {
 }
 
 /*
-        Add an array of bones for the next Vertex to use.
+        Add an array of bones for the next Vertex to use. Array must contain 4 integers.
 	Args: [{ false bones PoolIntArray}], Returns: void
 */
 func (o *SurfaceTool) AddBones(bones gdnative.PoolIntArray) {
@@ -161,36 +161,15 @@ func (o *SurfaceTool) AddTangent(tangent gdnative.Plane) {
 }
 
 /*
-
-	Args: [{ false flags int}], Returns: void
+        Insert a triangle fan made of array data into [Mesh] being constructed. Requires primitive type be set to [constant Mesh.PRIMITIVE_TRIANGLES].
+	Args: [{ false vertices PoolVector3Array} {[] true uvs PoolVector2Array} {[PoolColorArray] true colors PoolColorArray} {[] true uv2s PoolVector2Array} {[] true normals PoolVector3Array} {[] true tangents Array}], Returns: void
 */
-func (o *SurfaceTool) AddToFormat(flags gdnative.Int) {
-	//log.Println("Calling SurfaceTool.AddToFormat()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(flags)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("SurfaceTool", "add_to_format")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-        Insert a triangle fan made of array data into [Mesh] being constructed.
-	Args: [{ false vertexes PoolVector3Array} {[] true uvs PoolVector2Array} {[PoolColorArray] true colors PoolColorArray} {[] true uv2s PoolVector2Array} {[] true normals PoolVector3Array} {[] true tangents Array}], Returns: void
-*/
-func (o *SurfaceTool) AddTriangleFan(vertexes gdnative.PoolVector3Array, uvs gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uv2S gdnative.PoolVector2Array, normals gdnative.PoolVector3Array, tangents gdnative.Array) {
+func (o *SurfaceTool) AddTriangleFan(vertices gdnative.PoolVector3Array, uvs gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uv2S gdnative.PoolVector2Array, normals gdnative.PoolVector3Array, tangents gdnative.Array) {
 	//log.Println("Calling SurfaceTool.AddTriangleFan()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 6, 6)
-	ptrArguments[0] = gdnative.NewPointerFromPoolVector3Array(vertexes)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector3Array(vertices)
 	ptrArguments[1] = gdnative.NewPointerFromPoolVector2Array(uvs)
 	ptrArguments[2] = gdnative.NewPointerFromPoolColorArray(colors)
 	ptrArguments[3] = gdnative.NewPointerFromPoolVector2Array(uv2S)
@@ -271,7 +250,7 @@ func (o *SurfaceTool) AddVertex(vertex gdnative.Vector3) {
 }
 
 /*
-        Specify weight value for next Vertex to use.
+        Specify weight values for next Vertex to use. Array must contain 4 values.
 	Args: [{ false weights PoolRealArray}], Returns: void
 */
 func (o *SurfaceTool) AddWeights(weights gdnative.PoolRealArray) {
@@ -292,7 +271,7 @@ func (o *SurfaceTool) AddWeights(weights gdnative.PoolRealArray) {
 }
 
 /*
-
+        Append vertices from a given [Mesh] surface onto the current vertex array with specified [Transform].
 	Args: [{ false existing Mesh} { false surface int} { false transform Transform}], Returns: void
 */
 func (o *SurfaceTool) AppendFrom(existing MeshImplementer, surface gdnative.Int, transform gdnative.Transform) {
@@ -315,7 +294,7 @@ func (o *SurfaceTool) AppendFrom(existing MeshImplementer, surface gdnative.Int,
 }
 
 /*
-        Called before adding any Vertices. Takes the primitive type as an argument (e.g. Mesh.PRIMITIVE_TRIANGLES).
+        Called before adding any Vertices. Takes the primitive type as an argument (e.g. [constant Mesh.PRIMITIVE_TRIANGLES]).
 	Args: [{ false primitive int}], Returns: void
 */
 func (o *SurfaceTool) Begin(primitive gdnative.Int) {
@@ -357,7 +336,7 @@ func (o *SurfaceTool) Clear() {
 
 /*
         Returns a constructed [ArrayMesh] from current information passed in. If an existing [ArrayMesh] is passed in as an argument, will add an extra surface to the existing [ArrayMesh].
-	Args: [{Null true existing ArrayMesh} {97792 true flags int}], Returns: ArrayMesh
+	Args: [{Null true existing ArrayMesh} {97280 true flags int}], Returns: ArrayMesh
 */
 func (o *SurfaceTool) Commit(existing ArrayMeshImplementer, flags gdnative.Int) ArrayMeshImplementer {
 	//log.Println("Calling SurfaceTool.Commit()")
@@ -395,7 +374,30 @@ func (o *SurfaceTool) Commit(existing ArrayMeshImplementer, flags gdnative.Int) 
 }
 
 /*
+        Undocumented
+	Args: [], Returns: Array
+*/
+func (o *SurfaceTool) CommitToArrays() gdnative.Array {
+	//log.Println("Calling SurfaceTool.CommitToArrays()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SurfaceTool", "commit_to_arrays")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Creates a vertex array from an existing [Mesh].
 	Args: [{ false existing Mesh} { false surface int}], Returns: void
 */
 func (o *SurfaceTool) CreateFrom(existing MeshImplementer, surface gdnative.Int) {
@@ -408,6 +410,29 @@ func (o *SurfaceTool) CreateFrom(existing MeshImplementer, surface gdnative.Int)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("SurfaceTool", "create_from")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false existing Mesh} { false surface int} { false blend_shape String}], Returns: void
+*/
+func (o *SurfaceTool) CreateFromBlendShape(existing MeshImplementer, surface gdnative.Int, blendShape gdnative.String) {
+	//log.Println("Calling SurfaceTool.CreateFromBlendShape()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromObject(existing.GetBaseObject())
+	ptrArguments[1] = gdnative.NewPointerFromInt(surface)
+	ptrArguments[2] = gdnative.NewPointerFromString(blendShape)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SurfaceTool", "create_from_blend_shape")
 
 	// Call the parent method.
 	// void
@@ -437,14 +462,15 @@ func (o *SurfaceTool) Deindex() {
 }
 
 /*
-        Generates normals from Vertices so you do not have to do it manually.
-	Args: [], Returns: void
+        Generates normals from Vertices so you do not have to do it manually. Setting [code]flip[/code] to [code]true[/code] inverts the resulting normals. Requires primitive type to be set to [constant Mesh.PRIMITIVE_TRIANGLES].
+	Args: [{False true flip bool}], Returns: void
 */
-func (o *SurfaceTool) GenerateNormals() {
+func (o *SurfaceTool) GenerateNormals(flip gdnative.Bool) {
 	//log.Println("Calling SurfaceTool.GenerateNormals()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(flip)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("SurfaceTool", "generate_normals")
@@ -457,7 +483,7 @@ func (o *SurfaceTool) GenerateNormals() {
 }
 
 /*
-
+        Generates a tangent vector for each vertex. Requires that each vertex have UVs and normals set already.
 	Args: [], Returns: void
 */
 func (o *SurfaceTool) GenerateTangents() {
@@ -527,8 +553,7 @@ type SurfaceToolImplementer interface {
 	AddNormal(normal gdnative.Vector3)
 	AddSmoothGroup(smooth gdnative.Bool)
 	AddTangent(tangent gdnative.Plane)
-	AddToFormat(flags gdnative.Int)
-	AddTriangleFan(vertexes gdnative.PoolVector3Array, uvs gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uv2S gdnative.PoolVector2Array, normals gdnative.PoolVector3Array, tangents gdnative.Array)
+	AddTriangleFan(vertices gdnative.PoolVector3Array, uvs gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uv2S gdnative.PoolVector2Array, normals gdnative.PoolVector3Array, tangents gdnative.Array)
 	AddUv(uv gdnative.Vector2)
 	AddUv2(uv2 gdnative.Vector2)
 	AddVertex(vertex gdnative.Vector3)
@@ -537,9 +562,11 @@ type SurfaceToolImplementer interface {
 	Begin(primitive gdnative.Int)
 	Clear()
 	Commit(existing ArrayMeshImplementer, flags gdnative.Int) ArrayMeshImplementer
+	CommitToArrays() gdnative.Array
 	CreateFrom(existing MeshImplementer, surface gdnative.Int)
+	CreateFromBlendShape(existing MeshImplementer, surface gdnative.Int, blendShape gdnative.String)
 	Deindex()
-	GenerateNormals()
+	GenerateNormals(flip gdnative.Bool)
 	GenerateTangents()
 	Index()
 	SetMaterial(material MaterialImplementer)

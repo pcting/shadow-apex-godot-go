@@ -32,7 +32,7 @@ func newSceneStateFromPointer(ptr gdnative.Pointer) SceneState {
 }
 
 /*
-Maintains a list of resources, nodes, exported and overridden properties, and built-in scripts associated with a scene.
+Maintains a list of resources, nodes, exported, and overridden properties, and built-in scripts associated with a scene. This class cannot be instantiated directly, it is retrieved for a given scene as the result of [method PackedScene.get_state].
 */
 type SceneState struct {
 	Reference
@@ -68,7 +68,7 @@ func (o *SceneState) GetConnectionBinds(idx gdnative.Int) gdnative.Array {
 }
 
 /*
-        Returns the number of signal connections in the scene.
+        Returns the number of signal connections in the scene. The [code]idx[/code] argument used to query connection metadata in other [code]get_connection_*[/code] methods in the interval [code][0, get_connection_count() - 1][/code].
 	Args: [], Returns: int
 */
 func (o *SceneState) GetConnectionCount() gdnative.Int {
@@ -91,7 +91,7 @@ func (o *SceneState) GetConnectionCount() gdnative.Int {
 }
 
 /*
-        Returns the flags for the signal at [code]idx[/code]. See [Object]'s [code]CONNECT_*[/code] flags.
+        Returns the connection flags for the signal at [code]idx[/code]. See [enum Object.ConnectFlags] constants.
 	Args: [{ false idx int}], Returns: int
 */
 func (o *SceneState) GetConnectionFlags(idx gdnative.Int) gdnative.Int {
@@ -211,7 +211,7 @@ func (o *SceneState) GetConnectionTarget(idx gdnative.Int) gdnative.NodePath {
 }
 
 /*
-        Returns the number of nodes in the scene.
+        Returns the number of nodes in the scene. The [code]idx[/code] argument used to query node data in other [code]get_node_*[/code] methods in the interval [code][0, get_node_count() - 1][/code].
 	Args: [], Returns: int
 */
 func (o *SceneState) GetNodeCount() gdnative.Int {
@@ -258,7 +258,7 @@ func (o *SceneState) GetNodeGroups(idx gdnative.Int) gdnative.PoolStringArray {
 }
 
 /*
-
+        Returns the node's index, which is its position relative to its siblings. This is only relevant and saved in scenes for cases where new nodes are added to an instanced or inherited scene among siblings from the base scene. Despite the name, this index is not related to the [code]idx[/code] argument used here and in other methods.
 	Args: [{ false idx int}], Returns: int
 */
 func (o *SceneState) GetNodeIndex(idx gdnative.Int) gdnative.Int {
@@ -282,7 +282,7 @@ func (o *SceneState) GetNodeIndex(idx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Returns the scene for the node at [code]idx[/code] or [code]null[/code] if the node is not an instance.
+        Returns a [PackedScene] for the node at [code]idx[/code] (i.e. the whole branch starting at this node, with its child nodes and resources), or [code]null[/code] if the node is not an instance.
 	Args: [{ false idx int}], Returns: PackedScene
 */
 func (o *SceneState) GetNodeInstance(idx gdnative.Int) PackedSceneImplementer {
@@ -392,7 +392,7 @@ func (o *SceneState) GetNodeOwnerPath(idx gdnative.Int) gdnative.NodePath {
 }
 
 /*
-        Returns the path to the node at [code]idx[/code].
+        Returns the path to the node at [code]idx[/code]. If [code]for_parent[/code] is [code]true[/code], returns the path of the [code]idx[/code] node's parent instead.
 	Args: [{ false idx int} {False true for_parent bool}], Returns: NodePath
 */
 func (o *SceneState) GetNodePath(idx gdnative.Int, forParent gdnative.Bool) gdnative.NodePath {
@@ -417,7 +417,7 @@ func (o *SceneState) GetNodePath(idx gdnative.Int, forParent gdnative.Bool) gdna
 }
 
 /*
-        Returns the number of exported or overridden properties for the node at [code]idx[/code].
+        Returns the number of exported or overridden properties for the node at [code]idx[/code]. The [code]prop_idx[/code] argument used to query node property data in other [code]get_node_property_*[/code] methods in the interval [code][0, get_node_property_count() - 1][/code].
 	Args: [{ false idx int}], Returns: int
 */
 func (o *SceneState) GetNodePropertyCount(idx gdnative.Int) gdnative.Int {

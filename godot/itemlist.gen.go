@@ -159,7 +159,7 @@ func (o *ItemList) AddIconItem(icon TextureImplementer, selectable gdnative.Bool
 }
 
 /*
-        Adds an item to the item list with specified text. Specify an icon of null for a list item with no icon. If selectable is true the list item will be selectable.
+        Adds an item to the item list with specified text. Specify an icon of null for a list item with no icon. If selectable is [code]true[/code] the list item will be selectable.
 	Args: [{ false text String} {Null true icon Texture} {True true selectable bool}], Returns: void
 */
 func (o *ItemList) AddItem(text gdnative.String, icon TextureImplementer, selectable gdnative.Bool) {
@@ -202,7 +202,7 @@ func (o *ItemList) Clear() {
 }
 
 /*
-        Ensure selection is visible, adjusting the scroll position as necessary.
+        Ensure current selection is visible, adjusting the scroll position as necessary.
 	Args: [], Returns: void
 */
 func (o *ItemList) EnsureCurrentIsVisible() {
@@ -385,7 +385,7 @@ func (o *ItemList) GetItemAtPosition(position gdnative.Vector2, exact gdnative.B
 }
 
 /*
-        Return count of items currently in the item list.
+        Returns the number of items currently in the list.
 	Args: [], Returns: int
 */
 func (o *ItemList) GetItemCount() gdnative.Int {
@@ -408,7 +408,7 @@ func (o *ItemList) GetItemCount() gdnative.Int {
 }
 
 /*
-
+        Returns the [Color] set by [method set_item_custom_bg_color]. Default value is [code]Color(0, 0, 0, 0)[/code].
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *ItemList) GetItemCustomBgColor(idx gdnative.Int) gdnative.Color {
@@ -432,7 +432,31 @@ func (o *ItemList) GetItemCustomBgColor(idx gdnative.Int) gdnative.Color {
 }
 
 /*
+        Returns the [Color] set by [method set_item_custom_fg_color]. Default value is [code]Color(0, 0, 0, 0)[/code].
+	Args: [{ false idx int}], Returns: Color
+*/
+func (o *ItemList) GetItemCustomFgColor(idx gdnative.Int) gdnative.Color {
+	//log.Println("Calling ItemList.GetItemCustomFgColor()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ItemList", "get_item_custom_fg_color")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the icon associated with the specified index. Default value is [code]null[/code].
 	Args: [{ false idx int}], Returns: Texture
 */
 func (o *ItemList) GetItemIcon(idx gdnative.Int) TextureImplementer {
@@ -470,6 +494,30 @@ func (o *ItemList) GetItemIcon(idx gdnative.Int) TextureImplementer {
 }
 
 /*
+        Returns a [Color] modulating item's icon at the specified index.
+	Args: [{ false idx int}], Returns: Color
+*/
+func (o *ItemList) GetItemIconModulate(idx gdnative.Int) gdnative.Color {
+	//log.Println("Calling ItemList.GetItemIconModulate()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ItemList", "get_item_icon_modulate")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
 
 	Args: [{ false idx int}], Returns: Rect2
 */
@@ -494,7 +542,7 @@ func (o *ItemList) GetItemIconRegion(idx gdnative.Int) gdnative.Rect2 {
 }
 
 /*
-
+        Returns the metadata value of the specified index set by [method set_item_metadata].
 	Args: [{ false idx int}], Returns: Variant
 */
 func (o *ItemList) GetItemMetadata(idx gdnative.Int) gdnative.Variant {
@@ -518,7 +566,7 @@ func (o *ItemList) GetItemMetadata(idx gdnative.Int) gdnative.Variant {
 }
 
 /*
-        Return the text for specified item index.
+        Returns the text associated with the specified index.
 	Args: [{ false idx int}], Returns: String
 */
 func (o *ItemList) GetItemText(idx gdnative.Int) gdnative.String {
@@ -542,7 +590,7 @@ func (o *ItemList) GetItemText(idx gdnative.Int) gdnative.String {
 }
 
 /*
-        Return tooltip hint for specified item index.
+        Returns the tooltip hint associated with the specified index.
 	Args: [{ false idx int}], Returns: String
 */
 func (o *ItemList) GetItemTooltip(idx gdnative.Int) gdnative.String {
@@ -635,7 +683,7 @@ func (o *ItemList) GetSelectMode() ItemListSelectMode {
 }
 
 /*
-        Returns the list of selected indexes.
+        Returns an array with the indexes of the selected items.
 	Args: [], Returns: PoolIntArray
 */
 func (o *ItemList) GetSelectedItems() gdnative.PoolIntArray {
@@ -658,7 +706,7 @@ func (o *ItemList) GetSelectedItems() gdnative.PoolIntArray {
 }
 
 /*
-        Returns the current vertical scroll bar for the List.
+        Returns the [Object] ID associated with the list.
 	Args: [], Returns: VScrollBar
 */
 func (o *ItemList) GetVScroll() VScrollBarImplementer {
@@ -718,7 +766,30 @@ func (o *ItemList) HasAutoHeight() gdnative.Bool {
 }
 
 /*
-        Returns whether or not the item at the specified index is disabled
+        Returns [code]true[/code] if one or more items are selected.
+	Args: [], Returns: bool
+*/
+func (o *ItemList) IsAnythingSelected() gdnative.Bool {
+	//log.Println("Calling ItemList.IsAnythingSelected()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ItemList", "is_anything_selected")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns whether or not the item at the specified index is disabled.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *ItemList) IsItemDisabled(idx gdnative.Int) gdnative.Bool {
@@ -730,6 +801,30 @@ func (o *ItemList) IsItemDisabled(idx gdnative.Int) gdnative.Bool {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ItemList", "is_item_disabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false idx int}], Returns: bool
+*/
+func (o *ItemList) IsItemIconTransposed(idx gdnative.Int) gdnative.Bool {
+	//log.Println("Calling ItemList.IsItemIconTransposed()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ItemList", "is_item_icon_transposed")
 
 	// Call the parent method.
 	// bool
@@ -837,7 +932,29 @@ func (o *ItemList) IsSelected(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Remove item at specified index from the list.
+        Moves item from index [code]from_idx[/code] to [code]to_idx[/code].
+	Args: [{ false from_idx int} { false to_idx int}], Returns: void
+*/
+func (o *ItemList) MoveItem(fromIdx gdnative.Int, toIdx gdnative.Int) {
+	//log.Println("Calling ItemList.MoveItem()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(fromIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(toIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ItemList", "move_item")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Removes the item specified by [code]idx[/code] index from the list.
 	Args: [{ false idx int}], Returns: void
 */
 func (o *ItemList) RemoveItem(idx gdnative.Int) {
@@ -1027,7 +1144,7 @@ func (o *ItemList) SetIconScale(scale gdnative.Real) {
 }
 
 /*
-
+        Sets the background color of the item specified by [code]idx[/code] index to the specified [Color]. [codeblock] var some_string = "Some text" some_string.set_item_custom_bg_color(0,Color(1, 0, 0, 1) # This will set the background color of the first item of the control to red. [/codeblock]
 	Args: [{ false idx int} { false custom_bg_color Color}], Returns: void
 */
 func (o *ItemList) SetItemCustomBgColor(idx gdnative.Int, customBgColor gdnative.Color) {
@@ -1049,7 +1166,29 @@ func (o *ItemList) SetItemCustomBgColor(idx gdnative.Int, customBgColor gdnative
 }
 
 /*
-        Disable (or enable) item at specified index. Disabled items are not be selectable and do not fire activation (Enter or double-click) signals.
+        Sets the foreground color of the item specified by [code]idx[/code] index to the specified [Color]. [codeblock] var some_string = "Some text" some_string.set_item_custom_fg_color(0,Color(1, 0, 0, 1) # This will set the foreground color of the first item of the control to red. [/codeblock]
+	Args: [{ false idx int} { false custom_fg_color Color}], Returns: void
+*/
+func (o *ItemList) SetItemCustomFgColor(idx gdnative.Int, customFgColor gdnative.Color) {
+	//log.Println("Calling ItemList.SetItemCustomFgColor()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[1] = gdnative.NewPointerFromColor(customFgColor)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ItemList", "set_item_custom_fg_color")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Disable (or enable) item at the specified index. Disabled items are not be selectable and do not trigger activation (Enter or double-click) signals.
 	Args: [{ false idx int} { false disabled bool}], Returns: void
 */
 func (o *ItemList) SetItemDisabled(idx gdnative.Int, disabled gdnative.Bool) {
@@ -1071,7 +1210,7 @@ func (o *ItemList) SetItemDisabled(idx gdnative.Int, disabled gdnative.Bool) {
 }
 
 /*
-        Set (or replace) icon of the item at the specified index.
+        Set (or replace) the icon's [Texture] associated with the specified index.
 	Args: [{ false idx int} { false icon Texture}], Returns: void
 */
 func (o *ItemList) SetItemIcon(idx gdnative.Int, icon TextureImplementer) {
@@ -1084,6 +1223,28 @@ func (o *ItemList) SetItemIcon(idx gdnative.Int, icon TextureImplementer) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ItemList", "set_item_icon")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets a modulating [Color] of the item associated with the specified index.
+	Args: [{ false idx int} { false modulate Color}], Returns: void
+*/
+func (o *ItemList) SetItemIconModulate(idx gdnative.Int, modulate gdnative.Color) {
+	//log.Println("Calling ItemList.SetItemIconModulate()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[1] = gdnative.NewPointerFromColor(modulate)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ItemList", "set_item_icon_modulate")
 
 	// Call the parent method.
 	// void
@@ -1115,7 +1276,29 @@ func (o *ItemList) SetItemIconRegion(idx gdnative.Int, rect gdnative.Rect2) {
 }
 
 /*
-        Sets a value (of any type) to be stored with the item at the specified index.
+
+	Args: [{ false idx int} { false rect bool}], Returns: void
+*/
+func (o *ItemList) SetItemIconTransposed(idx gdnative.Int, rect gdnative.Bool) {
+	//log.Println("Calling ItemList.SetItemIconTransposed()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+	ptrArguments[1] = gdnative.NewPointerFromBool(rect)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ItemList", "set_item_icon_transposed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets a value (of any type) to be stored with the item associated with the specified index.
 	Args: [{ false idx int} { false metadata Variant}], Returns: void
 */
 func (o *ItemList) SetItemMetadata(idx gdnative.Int, metadata gdnative.Variant) {
@@ -1137,7 +1320,7 @@ func (o *ItemList) SetItemMetadata(idx gdnative.Int, metadata gdnative.Variant) 
 }
 
 /*
-        Allow or disallow selection of the item at the specified index.
+        Allow or disallow selection of the item associated with the specified index.
 	Args: [{ false idx int} { false selectable bool}], Returns: void
 */
 func (o *ItemList) SetItemSelectable(idx gdnative.Int, selectable gdnative.Bool) {
@@ -1159,7 +1342,7 @@ func (o *ItemList) SetItemSelectable(idx gdnative.Int, selectable gdnative.Bool)
 }
 
 /*
-        Sets text of item at specified index.
+        Sets text of the item associated with the specified index.
 	Args: [{ false idx int} { false text String}], Returns: void
 */
 func (o *ItemList) SetItemText(idx gdnative.Int, text gdnative.String) {
@@ -1181,7 +1364,7 @@ func (o *ItemList) SetItemText(idx gdnative.Int, text gdnative.String) {
 }
 
 /*
-        Sets tooltip hint for item at specified index.
+        Sets tooltip hint for the item associated with the specified index.
 	Args: [{ false idx int} { false tooltip String}], Returns: void
 */
 func (o *ItemList) SetItemTooltip(idx gdnative.Int, tooltip gdnative.String) {
@@ -1203,7 +1386,7 @@ func (o *ItemList) SetItemTooltip(idx gdnative.Int, tooltip gdnative.String) {
 }
 
 /*
-        Sets whether the tooltip is enabled for specified item index.
+        Sets whether the tooltip hint is enabled for specified item index.
 	Args: [{ false idx int} { false enable bool}], Returns: void
 */
 func (o *ItemList) SetItemTooltipEnabled(idx gdnative.Int, enable gdnative.Bool) {
@@ -1329,7 +1512,7 @@ func (o *ItemList) SortItemsByText() {
 }
 
 /*
-        Ensure item at specified index is not selected.
+        Ensure the item associated with the specified index is not selected.
 	Args: [{ false idx int}], Returns: void
 */
 func (o *ItemList) Unselect(idx gdnative.Int) {
@@ -1341,6 +1524,26 @@ func (o *ItemList) Unselect(idx gdnative.Int) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ItemList", "unselect")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Ensure there are no items selected.
+	Args: [], Returns: void
+*/
+func (o *ItemList) UnselectAll() {
+	//log.Println("Calling ItemList.UnselectAll()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ItemList", "unselect_all")
 
 	// Call the parent method.
 	// void
@@ -1368,7 +1571,9 @@ type ItemListImplementer interface {
 	GetItemAtPosition(position gdnative.Vector2, exact gdnative.Bool) gdnative.Int
 	GetItemCount() gdnative.Int
 	GetItemCustomBgColor(idx gdnative.Int) gdnative.Color
+	GetItemCustomFgColor(idx gdnative.Int) gdnative.Color
 	GetItemIcon(idx gdnative.Int) TextureImplementer
+	GetItemIconModulate(idx gdnative.Int) gdnative.Color
 	GetItemIconRegion(idx gdnative.Int) gdnative.Rect2
 	GetItemMetadata(idx gdnative.Int) gdnative.Variant
 	GetItemText(idx gdnative.Int) gdnative.String
@@ -1378,11 +1583,14 @@ type ItemListImplementer interface {
 	GetSelectedItems() gdnative.PoolIntArray
 	GetVScroll() VScrollBarImplementer
 	HasAutoHeight() gdnative.Bool
+	IsAnythingSelected() gdnative.Bool
 	IsItemDisabled(idx gdnative.Int) gdnative.Bool
+	IsItemIconTransposed(idx gdnative.Int) gdnative.Bool
 	IsItemSelectable(idx gdnative.Int) gdnative.Bool
 	IsItemTooltipEnabled(idx gdnative.Int) gdnative.Bool
 	IsSameColumnWidth() gdnative.Bool
 	IsSelected(idx gdnative.Int) gdnative.Bool
+	MoveItem(fromIdx gdnative.Int, toIdx gdnative.Int)
 	RemoveItem(idx gdnative.Int)
 	Select(idx gdnative.Int, single gdnative.Bool)
 	SetAllowReselect(allow gdnative.Bool)
@@ -1393,9 +1601,12 @@ type ItemListImplementer interface {
 	SetIconMode(mode gdnative.Int)
 	SetIconScale(scale gdnative.Real)
 	SetItemCustomBgColor(idx gdnative.Int, customBgColor gdnative.Color)
+	SetItemCustomFgColor(idx gdnative.Int, customFgColor gdnative.Color)
 	SetItemDisabled(idx gdnative.Int, disabled gdnative.Bool)
 	SetItemIcon(idx gdnative.Int, icon TextureImplementer)
+	SetItemIconModulate(idx gdnative.Int, modulate gdnative.Color)
 	SetItemIconRegion(idx gdnative.Int, rect gdnative.Rect2)
+	SetItemIconTransposed(idx gdnative.Int, rect gdnative.Bool)
 	SetItemMetadata(idx gdnative.Int, metadata gdnative.Variant)
 	SetItemSelectable(idx gdnative.Int, selectable gdnative.Bool)
 	SetItemText(idx gdnative.Int, text gdnative.String)
@@ -1407,4 +1618,5 @@ type ItemListImplementer interface {
 	SetSelectMode(mode gdnative.Int)
 	SortItemsByText()
 	Unselect(idx gdnative.Int)
+	UnselectAll()
 }

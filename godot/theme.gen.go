@@ -55,6 +55,26 @@ func (o *Theme) X_EmitThemeChanged() {
 }
 
 /*
+
+	Args: [], Returns: void
+*/
+func (o *Theme) Clear() {
+	//log.Println("Calling Theme.Clear()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Theme", "clear")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Clears theme [Color] at [code]name[/code] if Theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: void
 */
@@ -176,6 +196,27 @@ func (o *Theme) CopyDefaultTheme() {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Theme", "copy_default_theme")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false other Theme}], Returns: void
+*/
+func (o *Theme) CopyTheme(other ThemeImplementer) {
+	//log.Println("Calling Theme.CopyTheme()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(other.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Theme", "copy_theme")
 
 	// Call the parent method.
 	// void
@@ -821,12 +862,14 @@ func (o *Theme) SetStylebox(name gdnative.String, aType gdnative.String, texture
 type ThemeImplementer interface {
 	ResourceImplementer
 	X_EmitThemeChanged()
+	Clear()
 	ClearColor(name gdnative.String, aType gdnative.String)
 	ClearConstant(name gdnative.String, aType gdnative.String)
 	ClearFont(name gdnative.String, aType gdnative.String)
 	ClearIcon(name gdnative.String, aType gdnative.String)
 	ClearStylebox(name gdnative.String, aType gdnative.String)
 	CopyDefaultTheme()
+	CopyTheme(other ThemeImplementer)
 	GetColor(name gdnative.String, aType gdnative.String) gdnative.Color
 	GetColorList(aType gdnative.String) gdnative.PoolStringArray
 	GetConstant(name gdnative.String, aType gdnative.String) gdnative.Int

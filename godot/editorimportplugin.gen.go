@@ -23,10 +23,10 @@ func newEditorImportPluginFromPointer(ptr gdnative.Pointer) EditorImportPlugin {
 }
 
 /*
-EditorImportPlugins provide a way to extend the editor's resource import functionality. Use them to import resources from custom files or to provide alternatives to the editor's existing importers. Register your [EditorPlugin] with [method EditorPlugin.add_import_plugin]. EditorImportPlugins work by associating with specific file extensions and a resource type. See [method get_recognized_extension] and [method get_resource_type]). They may optionally specify some import presets that affect the import process. EditorImportPlugins are responsible for creating the resources and saving them in the [code].import[/code] directory. Below is an example EditorImportPlugin that imports a [Mesh] from a file with the extension ".special" or ".spec": [codeblock] tool extends EditorImportPlugin func get_importer_name(): return "my.special.plugin" func get_visible_name(): return "Special Mesh Importer" func get_recognized_extensions(): return ["special", "spec"] func get_save_extension(): return "mesh" func get_resource_type(): return "Mesh" func get_preset_count(): return 1 func get_preset_name(i): return "Default" func get_import_options(i): return [{"name": "my_option", "default_value": false}] func load(src, dst, opts, r_platform_variants, r_gen_files): var file = File.new() if file.open(src, File.READ) != OK: return FAILED var mesh = Mesh.new() var save = dst + "." + get_save_extension() ResourceSaver.save(file, mesh) return OK [/codeblock]
+EditorImportPlugins provide a way to extend the editor's resource import functionality. Use them to import resources from custom files or to provide alternatives to the editor's existing importers. Register your [EditorPlugin] with [method EditorPlugin.add_import_plugin]. EditorImportPlugins work by associating with specific file extensions and a resource type. See [method get_recognized_extensions] and [method get_resource_type]). They may optionally specify some import presets that affect the import process. EditorImportPlugins are responsible for creating the resources and saving them in the [code].import[/code] directory. Below is an example EditorImportPlugin that imports a [Mesh] from a file with the extension ".special" or ".spec": [codeblock] tool extends EditorImportPlugin func get_importer_name(): return "my.special.plugin" func get_visible_name(): return "Special Mesh Importer" func get_recognized_extensions(): return ["special", "spec"] func get_save_extension(): return "mesh" func get_resource_type(): return "Mesh" func get_preset_count(): return 1 func get_preset_name(i): return "Default" func get_import_options(i): return [{"name": "my_option", "default_value": false}] func import(source_file, save_path, options, platform_variants, gen_files): var file = File.new() if file.open(source_file, File.READ) != OK: return FAILED var mesh = Mesh.new() # Fill the Mesh with data read in 'file', left as exercise to the reader var filename = save_path + "." + get_save_extension() ResourceSaver.save(filename, mesh) return OK [/codeblock]
 */
 type EditorImportPlugin struct {
-	Reference
+	ResourceImporter
 	owner gdnative.Object
 }
 
@@ -35,7 +35,7 @@ func (o *EditorImportPlugin) BaseClass() string {
 }
 
 /*
-        Get the options and default values for the preset at this index. Returns an Array of Dictionaries with the following keys: "name", "default_value", "property_hint" (optional), "hint_string" (optional), "usage" (optional).
+        Get the options and default values for the preset at this index. Returns an Array of Dictionaries with the following keys: [code]name[/code], [code]default_value[/code], [code]property_hint[/code] (optional), [code]hint_string[/code] (optional), [code]usage[/code] (optional).
 	Args: [{ false preset int}], Returns: Array
 */
 func (o *EditorImportPlugin) GetImportOptions(preset gdnative.Int) gdnative.Array {
@@ -200,7 +200,7 @@ func (o *EditorImportPlugin) GetPriority() gdnative.Real {
 }
 
 /*
-        Get the list of file extensions to associate with this loader (case insensitive). e.g. ["obj"].
+        Get the list of file extensions to associate with this loader (case insensitive). e.g. [code]["obj"][/code].
 	Args: [], Returns: Array
 */
 func (o *EditorImportPlugin) GetRecognizedExtensions() gdnative.Array {
@@ -223,7 +223,7 @@ func (o *EditorImportPlugin) GetRecognizedExtensions() gdnative.Array {
 }
 
 /*
-        Get the godot resource type associated with this loader. e.g. "Mesh" or "Animation".
+        Get the Godot resource type associated with this loader. e.g. [code]"Mesh"[/code] or [code]"Animation"[/code].
 	Args: [], Returns: String
 */
 func (o *EditorImportPlugin) GetResourceType() gdnative.String {
@@ -293,9 +293,9 @@ func (o *EditorImportPlugin) GetVisibleName() gdnative.String {
 
 /*
 
-	Args: [{ false source_file String} { false save_path String} { false options Dictionary} { false r_platform_variants Array} { false r_gen_files Array}], Returns: int
+	Args: [{ false source_file String} { false save_path String} { false options Dictionary} { false platform_variants Array} { false gen_files Array}], Returns: int
 */
-func (o *EditorImportPlugin) Import(sourceFile gdnative.String, savePath gdnative.String, options gdnative.Dictionary, rPlatformVariants gdnative.Array, rGenFiles gdnative.Array) gdnative.Int {
+func (o *EditorImportPlugin) Import(sourceFile gdnative.String, savePath gdnative.String, options gdnative.Dictionary, platformVariants gdnative.Array, genFiles gdnative.Array) gdnative.Int {
 	//log.Println("Calling EditorImportPlugin.Import()")
 
 	// Build out the method's arguments
@@ -303,8 +303,8 @@ func (o *EditorImportPlugin) Import(sourceFile gdnative.String, savePath gdnativ
 	ptrArguments[0] = gdnative.NewPointerFromString(sourceFile)
 	ptrArguments[1] = gdnative.NewPointerFromString(savePath)
 	ptrArguments[2] = gdnative.NewPointerFromDictionary(options)
-	ptrArguments[3] = gdnative.NewPointerFromArray(rPlatformVariants)
-	ptrArguments[4] = gdnative.NewPointerFromArray(rGenFiles)
+	ptrArguments[3] = gdnative.NewPointerFromArray(platformVariants)
+	ptrArguments[4] = gdnative.NewPointerFromArray(genFiles)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorImportPlugin", "import")
@@ -322,7 +322,7 @@ func (o *EditorImportPlugin) Import(sourceFile gdnative.String, savePath gdnativ
 // EditorImportPluginImplementer is an interface that implements the methods
 // of the EditorImportPlugin class.
 type EditorImportPluginImplementer interface {
-	ReferenceImplementer
+	ResourceImporterImplementer
 	GetImportOptions(preset gdnative.Int) gdnative.Array
 	GetImportOrder() gdnative.Int
 	GetImporterName() gdnative.String
@@ -334,5 +334,5 @@ type EditorImportPluginImplementer interface {
 	GetResourceType() gdnative.String
 	GetSaveExtension() gdnative.String
 	GetVisibleName() gdnative.String
-	Import(sourceFile gdnative.String, savePath gdnative.String, options gdnative.Dictionary, rPlatformVariants gdnative.Array, rGenFiles gdnative.Array) gdnative.Int
+	Import(sourceFile gdnative.String, savePath gdnative.String, options gdnative.Dictionary, platformVariants gdnative.Array, genFiles gdnative.Array) gdnative.Int
 }

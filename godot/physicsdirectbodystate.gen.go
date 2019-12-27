@@ -23,8 +23,8 @@ func newPhysicsDirectBodyStateFromPointer(ptr gdnative.Pointer) PhysicsDirectBod
 }
 
 /*
-
- */
+Provides direct access to a physics body in the [PhysicsServer], allowing safe changes to physics properties. This object is passed via the direct state callback of rigid/character bodies, and is intended for changing the direct state of that body. See [method RigidBody._integrate_forces].
+*/
 type PhysicsDirectBodyState struct {
 	Object
 	owner gdnative.Object
@@ -35,7 +35,28 @@ func (o *PhysicsDirectBodyState) BaseClass() string {
 }
 
 /*
+        Adds a constant directional force without affecting rotation. This is equivalent to [code]add_force(force, Vector3(0,0,0))[/code].
+	Args: [{ false force Vector3}], Returns: void
+*/
+func (o *PhysicsDirectBodyState) AddCentralForce(force gdnative.Vector3) {
+	//log.Println("Calling PhysicsDirectBodyState.AddCentralForce()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(force)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicsDirectBodyState", "add_central_force")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Adds a positioned force to the body. Both the force and the offset from the body origin are in global coordinates.
 	Args: [{ false force Vector3} { false position Vector3}], Returns: void
 */
 func (o *PhysicsDirectBodyState) AddForce(force gdnative.Vector3, position gdnative.Vector3) {
@@ -57,7 +78,49 @@ func (o *PhysicsDirectBodyState) AddForce(force gdnative.Vector3, position gdnat
 }
 
 /*
+        Adds a constant rotational force without affecting position.
+	Args: [{ false torque Vector3}], Returns: void
+*/
+func (o *PhysicsDirectBodyState) AddTorque(torque gdnative.Vector3) {
+	//log.Println("Calling PhysicsDirectBodyState.AddTorque()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(torque)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicsDirectBodyState", "add_torque")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Applies a single directional impulse without affecting rotation. This is equivalent to [code]apply_impulse(Vector3(0, 0, 0), impulse)[/code].
+	Args: [{ false j Vector3}], Returns: void
+*/
+func (o *PhysicsDirectBodyState) ApplyCentralImpulse(j gdnative.Vector3) {
+	//log.Println("Calling PhysicsDirectBodyState.ApplyCentralImpulse()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(j)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicsDirectBodyState", "apply_central_impulse")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
 	Args: [{ false position Vector3} { false j Vector3}], Returns: void
 */
 func (o *PhysicsDirectBodyState) ApplyImpulse(position gdnative.Vector3, j gdnative.Vector3) {
@@ -79,18 +142,18 @@ func (o *PhysicsDirectBodyState) ApplyImpulse(position gdnative.Vector3, j gdnat
 }
 
 /*
-        Undocumented
+        Apply a torque impulse (which will be affected by the body mass and shape). This will rotate the body around the passed in vector.
 	Args: [{ false j Vector3}], Returns: void
 */
-func (o *PhysicsDirectBodyState) ApplyTorqeImpulse(j gdnative.Vector3) {
-	//log.Println("Calling PhysicsDirectBodyState.ApplyTorqeImpulse()")
+func (o *PhysicsDirectBodyState) ApplyTorqueImpulse(j gdnative.Vector3) {
+	//log.Println("Calling PhysicsDirectBodyState.ApplyTorqueImpulse()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
 	ptrArguments[0] = gdnative.NewPointerFromVector3(j)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("PhysicsDirectBodyState", "apply_torqe_impulse")
+	methodBind := gdnative.NewMethodBind("PhysicsDirectBodyState", "apply_torque_impulse")
 
 	// Call the parent method.
 	// void
@@ -146,7 +209,7 @@ func (o *PhysicsDirectBodyState) GetCenterOfMass() gdnative.Vector3 {
 }
 
 /*
-
+        Returns the collider's [RID].
 	Args: [{ false contact_idx int}], Returns: RID
 */
 func (o *PhysicsDirectBodyState) GetContactCollider(contactIdx gdnative.Int) gdnative.Rid {
@@ -170,7 +233,7 @@ func (o *PhysicsDirectBodyState) GetContactCollider(contactIdx gdnative.Int) gdn
 }
 
 /*
-
+        Returns the collider's object id.
 	Args: [{ false contact_idx int}], Returns: int
 */
 func (o *PhysicsDirectBodyState) GetContactColliderId(contactIdx gdnative.Int) gdnative.Int {
@@ -194,7 +257,7 @@ func (o *PhysicsDirectBodyState) GetContactColliderId(contactIdx gdnative.Int) g
 }
 
 /*
-
+        Returns the collider object.
 	Args: [{ false contact_idx int}], Returns: Object
 */
 func (o *PhysicsDirectBodyState) GetContactColliderObject(contactIdx gdnative.Int) ObjectImplementer {
@@ -232,7 +295,7 @@ func (o *PhysicsDirectBodyState) GetContactColliderObject(contactIdx gdnative.In
 }
 
 /*
-
+        Returns the contact position in the collider.
 	Args: [{ false contact_idx int}], Returns: Vector3
 */
 func (o *PhysicsDirectBodyState) GetContactColliderPosition(contactIdx gdnative.Int) gdnative.Vector3 {
@@ -256,7 +319,7 @@ func (o *PhysicsDirectBodyState) GetContactColliderPosition(contactIdx gdnative.
 }
 
 /*
-
+        Returns the collider's shape index.
 	Args: [{ false contact_idx int}], Returns: int
 */
 func (o *PhysicsDirectBodyState) GetContactColliderShape(contactIdx gdnative.Int) gdnative.Int {
@@ -280,7 +343,7 @@ func (o *PhysicsDirectBodyState) GetContactColliderShape(contactIdx gdnative.Int
 }
 
 /*
-
+        Returns the linear velocity vector at the collider's contact point.
 	Args: [{ false contact_idx int}], Returns: Vector3
 */
 func (o *PhysicsDirectBodyState) GetContactColliderVelocityAtPosition(contactIdx gdnative.Int) gdnative.Vector3 {
@@ -304,7 +367,7 @@ func (o *PhysicsDirectBodyState) GetContactColliderVelocityAtPosition(contactIdx
 }
 
 /*
-
+        Returns the number of contacts this body has with other bodies. Note that by default this returns 0 unless bodies are configured to log contacts. See [member RigidBody.contact_monitor].
 	Args: [], Returns: int
 */
 func (o *PhysicsDirectBodyState) GetContactCount() gdnative.Int {
@@ -327,7 +390,31 @@ func (o *PhysicsDirectBodyState) GetContactCount() gdnative.Int {
 }
 
 /*
+        Impulse created by the contact. Only implemented for Bullet physics.
+	Args: [{ false contact_idx int}], Returns: float
+*/
+func (o *PhysicsDirectBodyState) GetContactImpulse(contactIdx gdnative.Int) gdnative.Real {
+	//log.Println("Calling PhysicsDirectBodyState.GetContactImpulse()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(contactIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicsDirectBodyState", "get_contact_impulse")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the local normal at the contact point.
 	Args: [{ false contact_idx int}], Returns: Vector3
 */
 func (o *PhysicsDirectBodyState) GetContactLocalNormal(contactIdx gdnative.Int) gdnative.Vector3 {
@@ -351,7 +438,7 @@ func (o *PhysicsDirectBodyState) GetContactLocalNormal(contactIdx gdnative.Int) 
 }
 
 /*
-
+        Returns the local position of the contact point.
 	Args: [{ false contact_idx int}], Returns: Vector3
 */
 func (o *PhysicsDirectBodyState) GetContactLocalPosition(contactIdx gdnative.Int) gdnative.Vector3 {
@@ -375,7 +462,7 @@ func (o *PhysicsDirectBodyState) GetContactLocalPosition(contactIdx gdnative.Int
 }
 
 /*
-
+        Returns the local shape index of the collision.
 	Args: [{ false contact_idx int}], Returns: int
 */
 func (o *PhysicsDirectBodyState) GetContactLocalShape(contactIdx gdnative.Int) gdnative.Int {
@@ -491,7 +578,7 @@ func (o *PhysicsDirectBodyState) GetPrincipalInertiaAxes() gdnative.Basis {
 }
 
 /*
-
+        Returns the current state of the space, useful for queries.
 	Args: [], Returns: PhysicsDirectSpaceState
 */
 func (o *PhysicsDirectBodyState) GetSpaceState() PhysicsDirectSpaceStateImplementer {
@@ -643,7 +730,7 @@ func (o *PhysicsDirectBodyState) GetTransform() gdnative.Transform {
 }
 
 /*
-
+        Calls the built-in force integration code.
 	Args: [], Returns: void
 */
 func (o *PhysicsDirectBodyState) IntegrateForces() {
@@ -773,9 +860,12 @@ func (o *PhysicsDirectBodyState) SetTransform(transform gdnative.Transform) {
 // of the PhysicsDirectBodyState class.
 type PhysicsDirectBodyStateImplementer interface {
 	ObjectImplementer
+	AddCentralForce(force gdnative.Vector3)
 	AddForce(force gdnative.Vector3, position gdnative.Vector3)
+	AddTorque(torque gdnative.Vector3)
+	ApplyCentralImpulse(j gdnative.Vector3)
 	ApplyImpulse(position gdnative.Vector3, j gdnative.Vector3)
-	ApplyTorqeImpulse(j gdnative.Vector3)
+	ApplyTorqueImpulse(j gdnative.Vector3)
 	GetAngularVelocity() gdnative.Vector3
 	GetCenterOfMass() gdnative.Vector3
 	GetContactCollider(contactIdx gdnative.Int) gdnative.Rid
@@ -785,6 +875,7 @@ type PhysicsDirectBodyStateImplementer interface {
 	GetContactColliderShape(contactIdx gdnative.Int) gdnative.Int
 	GetContactColliderVelocityAtPosition(contactIdx gdnative.Int) gdnative.Vector3
 	GetContactCount() gdnative.Int
+	GetContactImpulse(contactIdx gdnative.Int) gdnative.Real
 	GetContactLocalNormal(contactIdx gdnative.Int) gdnative.Vector3
 	GetContactLocalPosition(contactIdx gdnative.Int) gdnative.Vector3
 	GetContactLocalShape(contactIdx gdnative.Int) gdnative.Int

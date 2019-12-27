@@ -32,7 +32,7 @@ func newPackedSceneFromPointer(ptr gdnative.Pointer) PackedScene {
 }
 
 /*
-A simplified interface to a scene file. Provides access to operations and checks that can be performed on the scene resource itself. TODO: explain ownership, and that node does not need to own itself
+A simplified interface to a scene file. Provides access to operations and checks that can be performed on the scene resource itself. Can be used to save a node to a file. When saving, the node as well as all the node it owns get saved (see [code]owner[/code] property on [Node]). Note that the node doesn't need to own itself. Example of saving a node with different owners: The following example creates 3 objects: [code]Node2D[/code] ([code]node[/code]), [code]RigidBody2D[/code] ([code]rigid[/code]) and [code]CollisionObject2D[/code] ([code]collision[/code]). [code]collision[/code] is a child of [code]rigid[/code] which is a child of [code]node[/code]. Only [code]rigid[/code] is owned by [code]node[/code] and [code]pack[/code] will therefore only save those two nodes, but not [code]collision[/code]. [codeblock] # create the objects var node = Node2D.new() var rigid = RigidBody2D.new() var collision = CollisionShape2D.new() # create the object hierarchy rigid.add_child(collision) node.add_child(rigid) # change owner of rigid, but not of collision rigid.owner = node var scene = PackedScene.new() # only node and rigid are now packed var result = scene.pack(node) if result == OK: ResourceSaver.save("res://path/name.scn", scene) # or user://... [/codeblock]
 */
 type PackedScene struct {
 	Resource
@@ -148,7 +148,7 @@ func (o *PackedScene) GetState() SceneStateImplementer {
 }
 
 /*
-        Instantiates the scene's node hierarchy. Triggers child scene instantiation(s). Triggers the [enum Object.NOTIFICATION_INSTANCED] notification on the root node.
+        Instantiates the scene's node hierarchy. Triggers child scene instantiation(s). Triggers a [constant Node.NOTIFICATION_INSTANCED] notification on the root node.
 	Args: [{0 true edit_state int}], Returns: Node
 */
 func (o *PackedScene) Instance(editState gdnative.Int) NodeImplementer {
@@ -186,10 +186,10 @@ func (o *PackedScene) Instance(editState gdnative.Int) NodeImplementer {
 }
 
 /*
-        Pack will ignore any sub-nodes not owned by given node. See [method Node.set_owner].
-	Args: [{ false path Object}], Returns: enum.Error
+        Pack will ignore any sub-nodes not owned by given node. See [member Node.owner].
+	Args: [{ false path Node}], Returns: enum.Error
 */
-func (o *PackedScene) Pack(path ObjectImplementer) gdnative.Error {
+func (o *PackedScene) Pack(path NodeImplementer) gdnative.Error {
 	//log.Println("Calling PackedScene.Pack()")
 
 	// Build out the method's arguments

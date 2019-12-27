@@ -100,7 +100,7 @@ func newViewportFromPointer(ptr gdnative.Pointer) Viewport {
 }
 
 /*
-A Viewport creates a different view into the screen, or a sub-view inside another viewport. Children 2D Nodes will display on it, and children Camera 3D nodes will render on it too. Optionally, a viewport can have its own 2D or 3D world, so they don't share what they draw with other viewports. If a viewport is a child of a [Control], it will automatically take up its same rect and position, otherwise they must be set manually. Viewports can also choose to be audio listeners, so they generate positional audio depending on a 2D or 3D camera child of it. Also, viewports can be assigned to different screens in case the devices have multiple screens. Finally, viewports can also behave as render targets, in which case they will not be visible unless the associated texture is used to draw.
+A Viewport creates a different view into the screen, or a sub-view inside another viewport. Children 2D Nodes will display on it, and children Camera 3D nodes will render on it too. Optionally, a viewport can have its own 2D or 3D world, so they don't share what they draw with other viewports. If a viewport is a child of a [ViewportContainer], it will automatically take up its size, otherwise it must be set manually. Viewports can also choose to be audio listeners, so they generate positional audio depending on a 2D or 3D camera child of it. Also, viewports can be assigned to different screens in case the devices have multiple screens. Finally, viewports can also behave as render targets, in which case they will not be visible unless the associated texture is used to draw.
 */
 type Viewport struct {
 	Node
@@ -143,6 +143,46 @@ func (o *Viewport) X_GuiShowTooltip() {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Viewport", "_gui_show_tooltip")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *Viewport) X_PostGuiGrabClickFocus() {
+	//log.Println("Calling Viewport.X_PostGuiGrabClickFocus()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "_post_gui_grab_click_focus")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *Viewport) X_SubwindowVisibilityChanged() {
+	//log.Println("Calling Viewport.X_SubwindowVisibilityChanged()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "_subwindow_visibility_changed")
 
 	// Call the parent method.
 	// void
@@ -215,7 +255,7 @@ func (o *Viewport) X_VpUnhandledInput(arg0 InputEventImplementer) {
 }
 
 /*
-        Return the 3D world of the viewport, or if no such present, the one of the parent viewport.
+        Returns the 3D world of the viewport, or if none the world of the parent viewport.
 	Args: [], Returns: World
 */
 func (o *Viewport) FindWorld() WorldImplementer {
@@ -252,7 +292,7 @@ func (o *Viewport) FindWorld() WorldImplementer {
 }
 
 /*
-        Return the 2D world of the viewport.
+        Returns the 2D world of the viewport.
 	Args: [], Returns: World2D
 */
 func (o *Viewport) FindWorld2D() World2DImplementer {
@@ -289,7 +329,7 @@ func (o *Viewport) FindWorld2D() World2DImplementer {
 }
 
 /*
-        Return the active 3D camera.
+        Returns the active 3D camera.
 	Args: [], Returns: Camera
 */
 func (o *Viewport) GetCamera() CameraImplementer {
@@ -395,7 +435,7 @@ func (o *Viewport) GetDebugDraw() ViewportDebugDraw {
 }
 
 /*
-        Get the total transform of the viewport.
+        Returns the total transform of the viewport.
 	Args: [], Returns: Transform2D
 */
 func (o *Viewport) GetFinalTransform() gdnative.Transform2D {
@@ -464,7 +504,67 @@ func (o *Viewport) GetHdr() gdnative.Bool {
 }
 
 /*
-        Get the mouse position, relative to the viewport.
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *Viewport) GetKeep3DLinear() gdnative.Bool {
+	//log.Println("Calling Viewport.GetKeep3DLinear()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "get_keep_3d_linear")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the topmost modal in the stack.
+	Args: [], Returns: Control
+*/
+func (o *Viewport) GetModalStackTop() ControlImplementer {
+	//log.Println("Calling Viewport.GetModalStackTop()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "get_modal_stack_top")
+
+	// Call the parent method.
+	// Control
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newControlFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(ControlImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Control" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(ControlImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Returns the mouse position relative to the viewport.
 	Args: [], Returns: Vector2
 */
 func (o *Viewport) GetMousePosition() gdnative.Vector2 {
@@ -533,7 +633,7 @@ func (o *Viewport) GetPhysicsObjectPicking() gdnative.Bool {
 }
 
 /*
-        Get the specific information about the viewport from rendering pipeline.
+        Returns information about the viewport from the rendering pipeline.
 	Args: [{ false info int}], Returns: int
 */
 func (o *Viewport) GetRenderInfo(info gdnative.Int) gdnative.Int {
@@ -627,7 +727,7 @@ func (o *Viewport) GetSize() gdnative.Vector2 {
 }
 
 /*
-        Get the size override set with [method set_size_override].
+        Returns the size override set with [method set_size_override].
 	Args: [], Returns: Vector2
 */
 func (o *Viewport) GetSizeOverride() gdnative.Vector2 {
@@ -650,7 +750,7 @@ func (o *Viewport) GetSizeOverride() gdnative.Vector2 {
 }
 
 /*
-        Get the viewport's texture, for use with various objects that you want to texture with the viewport.
+        Returns the viewport's texture. Note that due to the way OpenGL works, the resulting [ViewportTexture] is flipped vertically. You can use [method Image.flip_y] on the result of [method Texture.get_data] to flip it back, for example: [codeblock] var img = get_viewport().get_texture().get_data() img.flip_y() [/codeblock]
 	Args: [], Returns: ViewportTexture
 */
 func (o *Viewport) GetTexture() ViewportTextureImplementer {
@@ -756,7 +856,7 @@ func (o *Viewport) GetVflip() gdnative.Bool {
 }
 
 /*
-        Get the viewport RID from the [VisualServer].
+        Returns the viewport's RID from the [VisualServer].
 	Args: [], Returns: RID
 */
 func (o *Viewport) GetViewportRid() gdnative.Rid {
@@ -779,7 +879,7 @@ func (o *Viewport) GetViewportRid() gdnative.Rid {
 }
 
 /*
-        Return the final, visible rect in global screen coordinates.
+        Returns the visible rectangle in global screen coordinates.
 	Args: [], Returns: Rect2
 */
 func (o *Viewport) GetVisibleRect() gdnative.Rect2 {
@@ -899,7 +999,7 @@ func (o *Viewport) GuiGetDragData() gdnative.Variant {
 }
 
 /*
-        Returns whether there are shown modals on-screen.
+        Returns [code]true[/code] if there are visible modals on-screen.
 	Args: [], Returns: bool
 */
 func (o *Viewport) GuiHasModalStack() gdnative.Bool {
@@ -910,6 +1010,29 @@ func (o *Viewport) GuiHasModalStack() gdnative.Bool {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Viewport", "gui_has_modal_stack")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [], Returns: bool
+*/
+func (o *Viewport) GuiIsDragging() gdnative.Bool {
+	//log.Println("Calling Viewport.GuiIsDragging()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "gui_is_dragging")
 
 	// Call the parent method.
 	// bool
@@ -1038,6 +1161,29 @@ func (o *Viewport) IsAudioListener2D() gdnative.Bool {
         Undocumented
 	Args: [], Returns: bool
 */
+func (o *Viewport) IsHandlingInputLocally() gdnative.Bool {
+	//log.Println("Calling Viewport.IsHandlingInputLocally()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "is_handling_input_locally")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
 func (o *Viewport) IsInputDisabled() gdnative.Bool {
 	//log.Println("Calling Viewport.IsInputDisabled()")
 
@@ -1058,7 +1204,30 @@ func (o *Viewport) IsInputDisabled() gdnative.Bool {
 }
 
 /*
-        Get the enabled status of the size override set with [method set_size_override].
+
+	Args: [], Returns: bool
+*/
+func (o *Viewport) IsInputHandled() gdnative.Bool {
+	//log.Println("Calling Viewport.IsInputHandled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "is_input_handled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns [code]true[/code] if the size override is enabled. See [method set_size_override].
 	Args: [], Returns: bool
 */
 func (o *Viewport) IsSizeOverrideEnabled() gdnative.Bool {
@@ -1081,7 +1250,7 @@ func (o *Viewport) IsSizeOverrideEnabled() gdnative.Bool {
 }
 
 /*
-        Get the enabled status of the size stretch override set with [method set_size_override_stretch].
+
 	Args: [], Returns: bool
 */
 func (o *Viewport) IsSizeOverrideStretchEnabled() gdnative.Bool {
@@ -1138,6 +1307,29 @@ func (o *Viewport) IsUsingOwnWorld() gdnative.Bool {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Viewport", "is_using_own_world")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *Viewport) IsUsingRenderDirectToScreen() gdnative.Bool {
+	//log.Println("Calling Viewport.IsUsingRenderDirectToScreen()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "is_using_render_direct_to_screen")
 
 	// Call the parent method.
 	// bool
@@ -1342,6 +1534,27 @@ func (o *Viewport) SetGlobalCanvasTransform(xform gdnative.Transform2D) {
         Undocumented
 	Args: [{ false enable bool}], Returns: void
 */
+func (o *Viewport) SetHandleInputLocally(enable gdnative.Bool) {
+	//log.Println("Calling Viewport.SetHandleInputLocally()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "set_handle_input_locally")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
 func (o *Viewport) SetHdr(enable gdnative.Bool) {
 	//log.Println("Calling Viewport.SetHdr()")
 
@@ -1351,6 +1564,47 @@ func (o *Viewport) SetHdr(enable gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Viewport", "set_hdr")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [], Returns: void
+*/
+func (o *Viewport) SetInputAsHandled() {
+	//log.Println("Calling Viewport.SetInputAsHandled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "set_input_as_handled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false keep_3d_linear bool}], Returns: void
+*/
+func (o *Viewport) SetKeep3DLinear(keep3DLinear gdnative.Bool) {
+	//log.Println("Calling Viewport.SetKeep3DLinear()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(keep3DLinear)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "set_keep_3d_linear")
 
 	// Call the parent method.
 	// void
@@ -1466,7 +1720,7 @@ func (o *Viewport) SetSize(size gdnative.Vector2) {
 }
 
 /*
-        Set the size override of the viewport. If the enable parameter is true, it would use the override, otherwise it would use the default size. If the size parameter is equal to [code](-1, -1)[/code], it won't update the size.
+        Sets the size override of the viewport. If the [code]enable[/code] parameter is [code]true[/code] the override is used, otherwise it uses the default size. If the size parameter is [code](-1, -1)[/code], it won't update the size.
 	Args: [{ false enable bool} {(-1, -1) true size Vector2} {(0, 0) true margin Vector2}], Returns: void
 */
 func (o *Viewport) SetSizeOverride(enable gdnative.Bool, size gdnative.Vector2, margin gdnative.Vector2) {
@@ -1489,7 +1743,7 @@ func (o *Viewport) SetSizeOverride(enable gdnative.Bool, size gdnative.Vector2, 
 }
 
 /*
-        Set whether the size override affects stretch as well.
+
 	Args: [{ false enabled bool}], Returns: void
 */
 func (o *Viewport) SetSizeOverrideStretch(enabled gdnative.Bool) {
@@ -1639,6 +1893,27 @@ func (o *Viewport) SetUseOwnWorld(enable gdnative.Bool) {
         Undocumented
 	Args: [{ false enable bool}], Returns: void
 */
+func (o *Viewport) SetUseRenderDirectToScreen(enable gdnative.Bool) {
+	//log.Println("Calling Viewport.SetUseRenderDirectToScreen()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "set_use_render_direct_to_screen")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
 func (o *Viewport) SetVflip(enable gdnative.Bool) {
 	//log.Println("Calling Viewport.SetVflip()")
 
@@ -1720,7 +1995,7 @@ func (o *Viewport) UnhandledInput(localEvent InputEventImplementer) {
 }
 
 /*
-        Force update of the 2D and 3D worlds.
+        Forces update of the 2D and 3D worlds.
 	Args: [], Returns: void
 */
 func (o *Viewport) UpdateWorlds() {
@@ -1763,7 +2038,7 @@ func (o *Viewport) UseArvr() gdnative.Bool {
 }
 
 /*
-        Warp the mouse to a position, relative to the viewport.
+        Warps the mouse to a position relative to the viewport.
 	Args: [{ false to_position Vector2}], Returns: void
 */
 func (o *Viewport) WarpMouse(toPosition gdnative.Vector2) {
@@ -1789,6 +2064,8 @@ type ViewportImplementer interface {
 	NodeImplementer
 	X_GuiRemoveFocus()
 	X_GuiShowTooltip()
+	X_PostGuiGrabClickFocus()
+	X_SubwindowVisibilityChanged()
 	X_VpInput(arg0 InputEventImplementer)
 	X_VpInputText(text gdnative.String)
 	X_VpUnhandledInput(arg0 InputEventImplementer)
@@ -1799,6 +2076,8 @@ type ViewportImplementer interface {
 	GetFinalTransform() gdnative.Transform2D
 	GetGlobalCanvasTransform() gdnative.Transform2D
 	GetHdr() gdnative.Bool
+	GetKeep3DLinear() gdnative.Bool
+	GetModalStackTop() ControlImplementer
 	GetMousePosition() gdnative.Vector2
 	GetPhysicsObjectPicking() gdnative.Bool
 	GetRenderInfo(info gdnative.Int) gdnative.Int
@@ -1813,16 +2092,20 @@ type ViewportImplementer interface {
 	GetWorld2D() World2DImplementer
 	GuiGetDragData() gdnative.Variant
 	GuiHasModalStack() gdnative.Bool
+	GuiIsDragging() gdnative.Bool
 	HasTransparentBackground() gdnative.Bool
 	InputMethod(localEvent InputEventImplementer)
 	Is3DDisabled() gdnative.Bool
 	IsAudioListener() gdnative.Bool
 	IsAudioListener2D() gdnative.Bool
+	IsHandlingInputLocally() gdnative.Bool
 	IsInputDisabled() gdnative.Bool
+	IsInputHandled() gdnative.Bool
 	IsSizeOverrideEnabled() gdnative.Bool
 	IsSizeOverrideStretchEnabled() gdnative.Bool
 	IsSnapControlsToPixelsEnabled() gdnative.Bool
 	IsUsingOwnWorld() gdnative.Bool
+	IsUsingRenderDirectToScreen() gdnative.Bool
 	SetAsAudioListener(enable gdnative.Bool)
 	SetAsAudioListener2D(enable gdnative.Bool)
 	SetAttachToScreenRect(rect gdnative.Rect2)
@@ -1832,7 +2115,10 @@ type ViewportImplementer interface {
 	SetDisable3D(disable gdnative.Bool)
 	SetDisableInput(disable gdnative.Bool)
 	SetGlobalCanvasTransform(xform gdnative.Transform2D)
+	SetHandleInputLocally(enable gdnative.Bool)
 	SetHdr(enable gdnative.Bool)
+	SetInputAsHandled()
+	SetKeep3DLinear(keep3DLinear gdnative.Bool)
 	SetMsaa(msaa gdnative.Int)
 	SetPhysicsObjectPicking(enable gdnative.Bool)
 	SetShadowAtlasQuadrantSubdiv(quadrant gdnative.Int, subdiv gdnative.Int)
@@ -1846,6 +2132,7 @@ type ViewportImplementer interface {
 	SetUsage(usage gdnative.Int)
 	SetUseArvr(use gdnative.Bool)
 	SetUseOwnWorld(enable gdnative.Bool)
+	SetUseRenderDirectToScreen(enable gdnative.Bool)
 	SetVflip(enable gdnative.Bool)
 	SetWorld(world WorldImplementer)
 	SetWorld2D(world2D World2DImplementer)

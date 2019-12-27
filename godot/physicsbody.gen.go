@@ -80,9 +80,9 @@ func (o *PhysicsBody) X_SetLayers(mask gdnative.Int) {
 
 /*
         Adds a body to the list of bodies that this body can't collide with.
-	Args: [{ false body Object}], Returns: void
+	Args: [{ false body Node}], Returns: void
 */
-func (o *PhysicsBody) AddCollisionExceptionWith(body ObjectImplementer) {
+func (o *PhysicsBody) AddCollisionExceptionWith(body NodeImplementer) {
 	//log.Println("Calling PhysicsBody.AddCollisionExceptionWith()")
 
 	// Build out the method's arguments
@@ -97,6 +97,29 @@ func (o *PhysicsBody) AddCollisionExceptionWith(body ObjectImplementer) {
 	retPtr := gdnative.NewEmptyVoid()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+}
+
+/*
+        Returns an array of nodes that were added as collision exceptions for this body.
+	Args: [], Returns: Array
+*/
+func (o *PhysicsBody) GetCollisionExceptions() gdnative.Array {
+	//log.Println("Calling PhysicsBody.GetCollisionExceptions()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicsBody", "get_collision_exceptions")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -123,7 +146,7 @@ func (o *PhysicsBody) GetCollisionLayer() gdnative.Int {
 }
 
 /*
-
+        Returns an individual bit on the [member collision_layer].
 	Args: [{ false bit int}], Returns: bool
 */
 func (o *PhysicsBody) GetCollisionLayerBit(bit gdnative.Int) gdnative.Bool {
@@ -170,7 +193,7 @@ func (o *PhysicsBody) GetCollisionMask() gdnative.Int {
 }
 
 /*
-
+        Returns an individual bit on the [member collision_mask].
 	Args: [{ false bit int}], Returns: bool
 */
 func (o *PhysicsBody) GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool {
@@ -195,9 +218,9 @@ func (o *PhysicsBody) GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool {
 
 /*
         Removes a body from the list of bodies that this body can't collide with.
-	Args: [{ false body Object}], Returns: void
+	Args: [{ false body Node}], Returns: void
 */
-func (o *PhysicsBody) RemoveCollisionExceptionWith(body ObjectImplementer) {
+func (o *PhysicsBody) RemoveCollisionExceptionWith(body NodeImplementer) {
 	//log.Println("Calling PhysicsBody.RemoveCollisionExceptionWith()")
 
 	// Build out the method's arguments
@@ -236,7 +259,7 @@ func (o *PhysicsBody) SetCollisionLayer(layer gdnative.Int) {
 }
 
 /*
-
+        Sets individual bits on the [member collision_layer] bitmask. Use this if you only need to change one layer's value.
 	Args: [{ false bit int} { false value bool}], Returns: void
 */
 func (o *PhysicsBody) SetCollisionLayerBit(bit gdnative.Int, value gdnative.Bool) {
@@ -279,7 +302,7 @@ func (o *PhysicsBody) SetCollisionMask(mask gdnative.Int) {
 }
 
 /*
-
+        Sets individual bits on the [member collision_mask] bitmask. Use this if you only need to change one layer's value.
 	Args: [{ false bit int} { false value bool}], Returns: void
 */
 func (o *PhysicsBody) SetCollisionMaskBit(bit gdnative.Int, value gdnative.Bool) {
@@ -306,12 +329,13 @@ type PhysicsBodyImplementer interface {
 	CollisionObjectImplementer
 	X_GetLayers() gdnative.Int
 	X_SetLayers(mask gdnative.Int)
-	AddCollisionExceptionWith(body ObjectImplementer)
+	AddCollisionExceptionWith(body NodeImplementer)
+	GetCollisionExceptions() gdnative.Array
 	GetCollisionLayer() gdnative.Int
 	GetCollisionLayerBit(bit gdnative.Int) gdnative.Bool
 	GetCollisionMask() gdnative.Int
 	GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool
-	RemoveCollisionExceptionWith(body ObjectImplementer)
+	RemoveCollisionExceptionWith(body NodeImplementer)
 	SetCollisionLayer(layer gdnative.Int)
 	SetCollisionLayerBit(bit gdnative.Int, value gdnative.Bool)
 	SetCollisionMask(mask gdnative.Int)

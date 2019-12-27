@@ -81,7 +81,7 @@ func (o *AnimationTreePlayer) AddNode(aType gdnative.Int, id gdnative.String) {
 }
 
 /*
-        Shifts position in the animation timeline. Delta is the time in seconds to shift.
+        Shifts position in the animation timeline. Delta is the time in seconds to shift. Events between the current frame and [code]delta[/code] are handled.
 	Args: [{ false delta float}], Returns: void
 */
 func (o *AnimationTreePlayer) Advance(delta gdnative.Real) {
@@ -160,6 +160,30 @@ func (o *AnimationTreePlayer) AnimationNodeGetMasterAnimation(id gdnative.String
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false id String}], Returns: float
+*/
+func (o *AnimationTreePlayer) AnimationNodeGetPosition(id gdnative.String) gdnative.Real {
+	//log.Println("Calling AnimationTreePlayer.AnimationNodeGetPosition()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AnimationTreePlayer", "animation_node_get_position")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
 	return ret
 }
 
@@ -651,7 +675,7 @@ func (o *AnimationTreePlayer) NodeExists(node gdnative.String) gdnative.Bool {
 }
 
 /*
-        Return the input count for a given node. Different types of nodes have different amount of inputs.
+        Returns the input count for a given node. Different types of nodes have different amount of inputs.
 	Args: [{ false id String}], Returns: int
 */
 func (o *AnimationTreePlayer) NodeGetInputCount(id gdnative.String) gdnative.Int {
@@ -675,7 +699,7 @@ func (o *AnimationTreePlayer) NodeGetInputCount(id gdnative.String) gdnative.Int
 }
 
 /*
-        Return the input source for a given node input.
+        Returns the input source for a given node input.
 	Args: [{ false id String} { false idx int}], Returns: String
 */
 func (o *AnimationTreePlayer) NodeGetInputSource(id gdnative.String, idx gdnative.Int) gdnative.String {
@@ -1542,6 +1566,7 @@ type AnimationTreePlayerImplementer interface {
 	Advance(delta gdnative.Real)
 	AnimationNodeGetAnimation(id gdnative.String) AnimationImplementer
 	AnimationNodeGetMasterAnimation(id gdnative.String) gdnative.String
+	AnimationNodeGetPosition(id gdnative.String) gdnative.Real
 	AnimationNodeSetAnimation(id gdnative.String, animation AnimationImplementer)
 	AnimationNodeSetFilterPath(id gdnative.String, path gdnative.NodePath, enable gdnative.Bool)
 	AnimationNodeSetMasterAnimation(id gdnative.String, source gdnative.String)

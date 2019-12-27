@@ -52,7 +52,7 @@ func newSliderJointFromPointer(ptr gdnative.Pointer) SliderJoint {
 }
 
 /*
-Slides across the x-axis of the [Pivot] object.
+Slides across the x-axis of the pivot object.
 */
 type SliderJoint struct {
 	Joint

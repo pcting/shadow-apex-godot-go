@@ -65,7 +65,7 @@ func (o *ImageTexture) X_ReloadHook(rid gdnative.Rid) {
 }
 
 /*
-        Create a new [code]ImageTexture[/code] with "width" and "height". "format" one of [Image].FORMAT_*. "flags" one or more of [Texture].FLAG_*.
+        Create a new [code]ImageTexture[/code] with [code]width[/code] and [code]height[/code]. [code]format[/code] is a value from [enum Image.Format], [code]flags[/code] is any combination of [enum Texture.Flags].
 	Args: [{ false width int} { false height int} { false format int} {7 true flags int}], Returns: void
 */
 func (o *ImageTexture) Create(width gdnative.Int, height gdnative.Int, format gdnative.Int, flags gdnative.Int) {
@@ -89,7 +89,7 @@ func (o *ImageTexture) Create(width gdnative.Int, height gdnative.Int, format gd
 }
 
 /*
-        Create a new [code]ImageTexture[/code] from an [Image] with "flags" from [Texture].FLAG_*.
+        Create a new [code]ImageTexture[/code] from an [Image] with [code]flags[/code] from [enum Texture.Flags]. An sRGB to linear color space conversion can take place, according to [enum Image.Format].
 	Args: [{ false image Image} {7 true flags int}], Returns: void
 */
 func (o *ImageTexture) CreateFromImage(image ImageImplementer, flags gdnative.Int) {
@@ -111,7 +111,7 @@ func (o *ImageTexture) CreateFromImage(image ImageImplementer, flags gdnative.In
 }
 
 /*
-        Return the format of the [code]ImageTexture[/code], one of [Image].FORMAT_*.
+        Returns the format of the [code]ImageTexture[/code], one of [enum Image.Format].
 	Args: [], Returns: enum.Image::Format
 */
 func (o *ImageTexture) GetFormat() ImageFormat {
@@ -180,10 +180,10 @@ func (o *ImageTexture) GetStorage() ImageTextureStorage {
 }
 
 /*
-        Load an [code]ImageTexture[/code].
-	Args: [{ false path String}], Returns: void
+        Load an [code]ImageTexture[/code] from a file path.
+	Args: [{ false path String}], Returns: enum.Error
 */
-func (o *ImageTexture) Load(path gdnative.String) {
+func (o *ImageTexture) Load(path gdnative.String) gdnative.Error {
 	//log.Println("Calling ImageTexture.Load()")
 
 	// Build out the method's arguments
@@ -194,10 +194,13 @@ func (o *ImageTexture) Load(path gdnative.String) {
 	methodBind := gdnative.NewMethodBind("ImageTexture", "load")
 
 	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
+	// enum.Error
+	retPtr := gdnative.NewEmptyInt()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return gdnative.Error(ret)
 }
 
 /*
@@ -292,7 +295,6 @@ type ImageTextureImplementer interface {
 	Create(width gdnative.Int, height gdnative.Int, format gdnative.Int, flags gdnative.Int)
 	CreateFromImage(image ImageImplementer, flags gdnative.Int)
 	GetLossyStorageQuality() gdnative.Real
-	Load(path gdnative.String)
 	SetData(image ImageImplementer)
 	SetLossyStorageQuality(quality gdnative.Real)
 	SetSizeOverride(size gdnative.Vector2)

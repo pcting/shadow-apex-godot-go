@@ -231,7 +231,7 @@ func (o *LargeTexture) SetPieceOffset(idx gdnative.Int, ofs gdnative.Vector2) {
 }
 
 /*
-        Sets the [Texture] of the piece with index "idx" to "ofs".
+        Sets the [Texture] of the piece with index "idx" to "texture".
 	Args: [{ false idx int} { false texture Texture}], Returns: void
 */
 func (o *LargeTexture) SetPieceTexture(idx gdnative.Int, texture TextureImplementer) {

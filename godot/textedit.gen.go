@@ -20,8 +20,9 @@ const (
 	TextEditMenuClear     TextEditMenuItems = 3
 	TextEditMenuCopy      TextEditMenuItems = 1
 	TextEditMenuCut       TextEditMenuItems = 0
-	TextEditMenuMax       TextEditMenuItems = 6
+	TextEditMenuMax       TextEditMenuItems = 7
 	TextEditMenuPaste     TextEditMenuItems = 2
+	TextEditMenuRedo      TextEditMenuItems = 6
 	TextEditMenuSelectAll TextEditMenuItems = 4
 	TextEditMenuUndo      TextEditMenuItems = 5
 )
@@ -33,6 +34,14 @@ const (
 	TextEditSearchBackwards  TextEditSearchFlags = 4
 	TextEditSearchMatchCase  TextEditSearchFlags = 1
 	TextEditSearchWholeWords TextEditSearchFlags = 2
+)
+
+// TextEditSearchResult is an enum for SearchResult values.
+type TextEditSearchResult int
+
+const (
+	TextEditSearchResultColumn TextEditSearchResult = 0
+	TextEditSearchResultLine   TextEditSearchResult = 1
 )
 
 //func NewTextEditFromPointer(ptr gdnative.Pointer) TextEdit {
@@ -202,6 +211,26 @@ func (o *TextEdit) X_ToggleDrawCaret() {
         Undocumented
 	Args: [], Returns: void
 */
+func (o *TextEdit) X_UpdateWrapAt() {
+	//log.Println("Calling TextEdit.X_UpdateWrapAt()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "_update_wrap_at")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
 func (o *TextEdit) X_VScrollInput() {
 	//log.Println("Calling TextEdit.X_VScrollInput()")
 
@@ -243,7 +272,7 @@ func (o *TextEdit) AddColorRegion(beginKey gdnative.String, endKey gdnative.Stri
 }
 
 /*
-        Add a keyword and its color.
+        Add a [code]keyword[/code] and its [Color].
 	Args: [{ false keyword String} { false color Color}], Returns: void
 */
 func (o *TextEdit) AddKeywordColor(keyword gdnative.String, color gdnative.Color) {
@@ -289,7 +318,27 @@ func (o *TextEdit) CanFold(line gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Clear all the syntax coloring information.
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *TextEdit) CenterViewportToCursor() {
+	//log.Println("Calling TextEdit.CenterViewportToCursor()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "center_viewport_to_cursor")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Clears all the syntax coloring information.
 	Args: [], Returns: void
 */
 func (o *TextEdit) ClearColors() {
@@ -309,7 +358,7 @@ func (o *TextEdit) ClearColors() {
 }
 
 /*
-        Clear the undo history.
+        Clears the undo history.
 	Args: [], Returns: void
 */
 func (o *TextEdit) ClearUndoHistory() {
@@ -329,7 +378,7 @@ func (o *TextEdit) ClearUndoHistory() {
 }
 
 /*
-        Copy the current selection.
+        Copy's the current text selection.
 	Args: [], Returns: void
 */
 func (o *TextEdit) Copy() {
@@ -395,7 +444,7 @@ func (o *TextEdit) CursorGetBlinkSpeed() gdnative.Real {
 }
 
 /*
-        Return the column the editing cursor is at.
+        Returns the column the editing cursor is at.
 	Args: [], Returns: int
 */
 func (o *TextEdit) CursorGetColumn() gdnative.Int {
@@ -418,7 +467,7 @@ func (o *TextEdit) CursorGetColumn() gdnative.Int {
 }
 
 /*
-        Return the line the editing cursor is at.
+        Returns the line the editing cursor is at.
 	Args: [], Returns: int
 */
 func (o *TextEdit) CursorGetLine() gdnative.Int {
@@ -527,7 +576,7 @@ func (o *TextEdit) CursorSetBlockMode(enable gdnative.Bool) {
 }
 
 /*
-
+        Moves the cursor at the specified [code]column[/code] index. If [code]adjust_viewport[/code] is set to true, the viewport will center at the cursor position after the move occurs. Default value is [code]true[/code].
 	Args: [{ false column int} {True true adjust_viewport bool}], Returns: void
 */
 func (o *TextEdit) CursorSetColumn(column gdnative.Int, adjustViewport gdnative.Bool) {
@@ -549,17 +598,18 @@ func (o *TextEdit) CursorSetColumn(column gdnative.Int, adjustViewport gdnative.
 }
 
 /*
-
-	Args: [{ false line int} {True true adjust_viewport bool} {True true can_be_hidden bool}], Returns: void
+        Moves the cursor at the specified [code]line[/code] index. If [code]adjust_viewport[/code] is set to true, the viewport will center at the cursor position after the move occurs. Default value is [code]true[/code]. If [code]can_be_hidden[/code] is set to true, the specified [code]line[/code] can be hidden using [method set_line_as_hidden]. Default value is [code]true[/code].
+	Args: [{ false line int} {True true adjust_viewport bool} {True true can_be_hidden bool} {0 true wrap_index int}], Returns: void
 */
-func (o *TextEdit) CursorSetLine(line gdnative.Int, adjustViewport gdnative.Bool, canBeHidden gdnative.Bool) {
+func (o *TextEdit) CursorSetLine(line gdnative.Int, adjustViewport gdnative.Bool, canBeHidden gdnative.Bool, wrapIndex gdnative.Int) {
 	//log.Println("Calling TextEdit.CursorSetLine()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromInt(line)
 	ptrArguments[1] = gdnative.NewPointerFromBool(adjustViewport)
 	ptrArguments[2] = gdnative.NewPointerFromBool(canBeHidden)
+	ptrArguments[3] = gdnative.NewPointerFromInt(wrapIndex)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TextEdit", "cursor_set_line")
@@ -572,7 +622,7 @@ func (o *TextEdit) CursorSetLine(line gdnative.Int, adjustViewport gdnative.Bool
 }
 
 /*
-        Cut the current selection.
+        Cut's the current selection.
 	Args: [], Returns: void
 */
 func (o *TextEdit) Cut() {
@@ -592,7 +642,7 @@ func (o *TextEdit) Cut() {
 }
 
 /*
-        Clears the current selection.
+        Deselects the current selection.
 	Args: [], Returns: void
 */
 func (o *TextEdit) Deselect() {
@@ -603,6 +653,27 @@ func (o *TextEdit) Deselect() {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TextEdit", "deselect")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false draw bool}], Returns: void
+*/
+func (o *TextEdit) DrawMinimap(draw gdnative.Bool) {
+	//log.Println("Calling TextEdit.DrawMinimap()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(draw)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "draw_minimap")
 
 	// Call the parent method.
 	// void
@@ -653,7 +724,54 @@ func (o *TextEdit) FoldLine(line gdnative.Int) {
 }
 
 /*
-        Return the text of a specific line.
+        Returns an array containing the line number of each breakpoint.
+	Args: [], Returns: Array
+*/
+func (o *TextEdit) GetBreakpoints() gdnative.Array {
+	//log.Println("Calling TextEdit.GetBreakpoints()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "get_breakpoints")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the [Color] of the specified [code]keyword[/code].
+	Args: [{ false keyword String}], Returns: Color
+*/
+func (o *TextEdit) GetKeywordColor(keyword gdnative.String) gdnative.Color {
+	//log.Println("Calling TextEdit.GetKeywordColor()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(keyword)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "get_keyword_color")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the text of a specific line.
 	Args: [{ false line int}], Returns: String
 */
 func (o *TextEdit) GetLine(line gdnative.Int) gdnative.String {
@@ -677,7 +795,7 @@ func (o *TextEdit) GetLine(line gdnative.Int) gdnative.String {
 }
 
 /*
-        Return the amount of total lines in the text.
+        Returns the amount of total lines in the text.
 	Args: [], Returns: int
 */
 func (o *TextEdit) GetLineCount() gdnative.Int {
@@ -737,7 +855,30 @@ func (o *TextEdit) GetMenu() PopupMenuImplementer {
 }
 
 /*
-        Return the selection begin column.
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *TextEdit) GetMinimapWidth() gdnative.Int {
+	//log.Println("Calling TextEdit.GetMinimapWidth()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "get_minimap_width")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the selection begin column.
 	Args: [], Returns: int
 */
 func (o *TextEdit) GetSelectionFromColumn() gdnative.Int {
@@ -760,7 +901,7 @@ func (o *TextEdit) GetSelectionFromColumn() gdnative.Int {
 }
 
 /*
-        Return the selection begin line.
+        Returns the selection begin line.
 	Args: [], Returns: int
 */
 func (o *TextEdit) GetSelectionFromLine() gdnative.Int {
@@ -783,7 +924,7 @@ func (o *TextEdit) GetSelectionFromLine() gdnative.Int {
 }
 
 /*
-        Return the text inside the selection.
+        Returns the text inside the selection.
 	Args: [], Returns: String
 */
 func (o *TextEdit) GetSelectionText() gdnative.String {
@@ -806,7 +947,7 @@ func (o *TextEdit) GetSelectionText() gdnative.String {
 }
 
 /*
-        Return the selection end column.
+        Returns the selection end column.
 	Args: [], Returns: int
 */
 func (o *TextEdit) GetSelectionToColumn() gdnative.Int {
@@ -829,7 +970,7 @@ func (o *TextEdit) GetSelectionToColumn() gdnative.Int {
 }
 
 /*
-        Return the selection end line.
+        Returns the selection end line.
 	Args: [], Returns: int
 */
 func (o *TextEdit) GetSelectionToLine() gdnative.Int {
@@ -898,7 +1039,7 @@ func (o *TextEdit) GetVScrollSpeed() gdnative.Real {
 }
 
 /*
-
+        Returns a [String] text with the word under the mouse cursor location.
 	Args: [], Returns: String
 */
 func (o *TextEdit) GetWordUnderCursor() gdnative.String {
@@ -921,7 +1062,31 @@ func (o *TextEdit) GetWordUnderCursor() gdnative.String {
 }
 
 /*
-        Insert a given text at the cursor position.
+        Returns whether the specified [code]keyword[/code] has a color set to it or not.
+	Args: [{ false keyword String}], Returns: bool
+*/
+func (o *TextEdit) HasKeywordColor(keyword gdnative.String) gdnative.Bool {
+	//log.Println("Calling TextEdit.HasKeywordColor()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(keyword)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "has_keyword_color")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Insert the specified text at the cursor position.
 	Args: [{ false text String}], Returns: void
 */
 func (o *TextEdit) InsertTextAtCursor(text gdnative.String) {
@@ -939,6 +1104,29 @@ func (o *TextEdit) InsertTextAtCursor(text gdnative.String) {
 	retPtr := gdnative.NewEmptyVoid()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TextEdit) IsBreakpointGutterEnabled() gdnative.Bool {
+	//log.Println("Calling TextEdit.IsBreakpointGutterEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "is_breakpoint_gutter_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -965,7 +1153,99 @@ func (o *TextEdit) IsContextMenuEnabled() gdnative.Bool {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TextEdit) IsDrawingFoldGutter() gdnative.Bool {
+	//log.Println("Calling TextEdit.IsDrawingFoldGutter()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "is_drawing_fold_gutter")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TextEdit) IsDrawingMinimap() gdnative.Bool {
+	//log.Println("Calling TextEdit.IsDrawingMinimap()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "is_drawing_minimap")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TextEdit) IsDrawingSpaces() gdnative.Bool {
+	//log.Println("Calling TextEdit.IsDrawingSpaces()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "is_drawing_spaces")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TextEdit) IsDrawingTabs() gdnative.Bool {
+	//log.Println("Calling TextEdit.IsDrawingTabs()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "is_drawing_tabs")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns whether the line at the specified index is folded or not.
 	Args: [{ false line int}], Returns: bool
 */
 func (o *TextEdit) IsFolded(line gdnative.Int) gdnative.Bool {
@@ -990,9 +1270,9 @@ func (o *TextEdit) IsFolded(line gdnative.Int) gdnative.Bool {
 
 /*
         Undocumented
-	Args: [], Returns: int
+	Args: [], Returns: bool
 */
-func (o *TextEdit) IsHidingEnabled() gdnative.Int {
+func (o *TextEdit) IsHidingEnabled() gdnative.Bool {
 	//log.Println("Calling TextEdit.IsHidingEnabled()")
 
 	// Build out the method's arguments
@@ -1002,12 +1282,12 @@ func (o *TextEdit) IsHidingEnabled() gdnative.Int {
 	methodBind := gdnative.NewMethodBind("TextEdit", "is_hiding_enabled")
 
 	// Call the parent method.
-	// int
-	retPtr := gdnative.NewEmptyInt()
+	// bool
+	retPtr := gdnative.NewEmptyBool()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
 	// If we have a return type, convert it from a pointer into its actual object.
-	ret := gdnative.NewIntFromPointer(retPtr)
+	ret := gdnative.NewBoolFromPointer(retPtr)
 	return ret
 }
 
@@ -1058,7 +1338,7 @@ func (o *TextEdit) IsHighlightCurrentLineEnabled() gdnative.Bool {
 }
 
 /*
-
+        Returns whether the line at the specified index is hidden or not.
 	Args: [{ false line int}], Returns: bool
 */
 func (o *TextEdit) IsLineHidden(line gdnative.Int) gdnative.Bool {
@@ -1151,7 +1431,30 @@ func (o *TextEdit) IsRightClickMovingCaret() gdnative.Bool {
 }
 
 /*
-        Return true if the selection is active.
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TextEdit) IsSelectingEnabled() gdnative.Bool {
+	//log.Println("Calling TextEdit.IsSelectingEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "is_selecting_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns [code]true[/code] if the selection is active.
 	Args: [], Returns: bool
 */
 func (o *TextEdit) IsSelectionActive() gdnative.Bool {
@@ -1162,6 +1465,29 @@ func (o *TextEdit) IsSelectionActive() gdnative.Bool {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TextEdit", "is_selection_active")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TextEdit) IsShortcutKeysEnabled() gdnative.Bool {
+	//log.Println("Calling TextEdit.IsShortcutKeysEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "is_shortcut_keys_enabled")
 
 	// Call the parent method.
 	// bool
@@ -1246,14 +1572,14 @@ func (o *TextEdit) IsSyntaxColoringEnabled() gdnative.Bool {
         Undocumented
 	Args: [], Returns: bool
 */
-func (o *TextEdit) IsWrapping() gdnative.Bool {
-	//log.Println("Calling TextEdit.IsWrapping()")
+func (o *TextEdit) IsWrapEnabled() gdnative.Bool {
+	//log.Println("Calling TextEdit.IsWrapEnabled()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 0, 0)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("TextEdit", "is_wrapping")
+	methodBind := gdnative.NewMethodBind("TextEdit", "is_wrap_enabled")
 
 	// Call the parent method.
 	// bool
@@ -1266,7 +1592,7 @@ func (o *TextEdit) IsWrapping() gdnative.Bool {
 }
 
 /*
-
+        Triggers a right click menu action by the specified index. See [enum MenuItems] for a list of available indexes.
 	Args: [{ false option int}], Returns: void
 */
 func (o *TextEdit) MenuOption(option gdnative.Int) {
@@ -1318,6 +1644,26 @@ func (o *TextEdit) Redo() {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TextEdit", "redo")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Removes all the breakpoints (without firing "breakpoint_toggled" signal).
+	Args: [], Returns: void
+*/
+func (o *TextEdit) RemoveBreakpoints() {
+	//log.Println("Calling TextEdit.RemoveBreakpoints()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "remove_breakpoints")
 
 	// Call the parent method.
 	// void
@@ -1401,6 +1747,27 @@ func (o *TextEdit) SelectAll() {
         Undocumented
 	Args: [{ false enable bool}], Returns: void
 */
+func (o *TextEdit) SetBreakpointGutterEnabled(enable gdnative.Bool) {
+	//log.Println("Calling TextEdit.SetBreakpointGutterEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "set_breakpoint_gutter_enabled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
 func (o *TextEdit) SetContextMenuEnabled(enable gdnative.Bool) {
 	//log.Println("Calling TextEdit.SetContextMenuEnabled()")
 
@@ -1420,14 +1787,77 @@ func (o *TextEdit) SetContextMenuEnabled(enable gdnative.Bool) {
 
 /*
         Undocumented
-	Args: [{ false enable int}], Returns: void
+	Args: [{ false arg0 bool}], Returns: void
 */
-func (o *TextEdit) SetHidingEnabled(enable gdnative.Int) {
+func (o *TextEdit) SetDrawFoldGutter(arg0 gdnative.Bool) {
+	//log.Println("Calling TextEdit.SetDrawFoldGutter()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "set_draw_fold_gutter")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 bool}], Returns: void
+*/
+func (o *TextEdit) SetDrawSpaces(arg0 gdnative.Bool) {
+	//log.Println("Calling TextEdit.SetDrawSpaces()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "set_draw_spaces")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 bool}], Returns: void
+*/
+func (o *TextEdit) SetDrawTabs(arg0 gdnative.Bool) {
+	//log.Println("Calling TextEdit.SetDrawTabs()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "set_draw_tabs")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *TextEdit) SetHidingEnabled(enable gdnative.Bool) {
 	//log.Println("Calling TextEdit.SetHidingEnabled()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(enable)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TextEdit", "set_hiding_enabled")
@@ -1482,7 +1912,7 @@ func (o *TextEdit) SetHighlightCurrentLine(enabled gdnative.Bool) {
 }
 
 /*
-
+        If [code]true[/code], hides the line of the specified index.
 	Args: [{ false line int} { false enable bool}], Returns: void
 */
 func (o *TextEdit) SetLineAsHidden(line gdnative.Int, enable gdnative.Bool) {
@@ -1495,6 +1925,27 @@ func (o *TextEdit) SetLineAsHidden(line gdnative.Int, enable gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TextEdit", "set_line_as_hidden")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false width int}], Returns: void
+*/
+func (o *TextEdit) SetMinimapWidth(width gdnative.Int) {
+	//log.Println("Calling TextEdit.SetMinimapWidth()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(width)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "set_minimap_width")
 
 	// Call the parent method.
 	// void
@@ -1558,6 +2009,48 @@ func (o *TextEdit) SetRightClickMovesCaret(enable gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TextEdit", "set_right_click_moves_caret")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *TextEdit) SetSelectingEnabled(enable gdnative.Bool) {
+	//log.Println("Calling TextEdit.SetSelectingEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "set_selecting_enabled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *TextEdit) SetShortcutKeysEnabled(enable gdnative.Bool) {
+	//log.Println("Calling TextEdit.SetShortcutKeysEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "set_shortcut_keys_enabled")
 
 	// Call the parent method.
 	// void
@@ -1675,15 +2168,15 @@ func (o *TextEdit) SetVScrollSpeed(speed gdnative.Real) {
         Undocumented
 	Args: [{ false enable bool}], Returns: void
 */
-func (o *TextEdit) SetWrap(enable gdnative.Bool) {
-	//log.Println("Calling TextEdit.SetWrap()")
+func (o *TextEdit) SetWrapEnabled(enable gdnative.Bool) {
+	//log.Println("Calling TextEdit.SetWrapEnabled()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
 	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("TextEdit", "set_wrap")
+	methodBind := gdnative.NewMethodBind("TextEdit", "set_wrap_enabled")
 
 	// Call the parent method.
 	// void
@@ -1755,7 +2248,7 @@ func (o *TextEdit) UnfoldLine(line gdnative.Int) {
 }
 
 /*
-
+        Unhide all lines that were previously set to hidden by [method set_line_as_hidden].
 	Args: [], Returns: void
 */
 func (o *TextEdit) UnhideAllLines() {
@@ -1784,10 +2277,12 @@ type TextEditImplementer interface {
 	X_ScrollMoved(arg0 gdnative.Real)
 	X_TextChangedEmit()
 	X_ToggleDrawCaret()
+	X_UpdateWrapAt()
 	X_VScrollInput()
 	AddColorRegion(beginKey gdnative.String, endKey gdnative.String, color gdnative.Color, lineOnly gdnative.Bool)
 	AddKeywordColor(keyword gdnative.String, color gdnative.Color)
 	CanFold(line gdnative.Int) gdnative.Bool
+	CenterViewportToCursor()
 	ClearColors()
 	ClearUndoHistory()
 	Copy()
@@ -1800,14 +2295,18 @@ type TextEditImplementer interface {
 	CursorSetBlinkSpeed(blinkSpeed gdnative.Real)
 	CursorSetBlockMode(enable gdnative.Bool)
 	CursorSetColumn(column gdnative.Int, adjustViewport gdnative.Bool)
-	CursorSetLine(line gdnative.Int, adjustViewport gdnative.Bool, canBeHidden gdnative.Bool)
+	CursorSetLine(line gdnative.Int, adjustViewport gdnative.Bool, canBeHidden gdnative.Bool, wrapIndex gdnative.Int)
 	Cut()
 	Deselect()
+	DrawMinimap(draw gdnative.Bool)
 	FoldAllLines()
 	FoldLine(line gdnative.Int)
+	GetBreakpoints() gdnative.Array
+	GetKeywordColor(keyword gdnative.String) gdnative.Color
 	GetLine(line gdnative.Int) gdnative.String
 	GetLineCount() gdnative.Int
 	GetMenu() PopupMenuImplementer
+	GetMinimapWidth() gdnative.Int
 	GetSelectionFromColumn() gdnative.Int
 	GetSelectionFromLine() gdnative.Int
 	GetSelectionText() gdnative.String
@@ -1816,41 +2315,57 @@ type TextEditImplementer interface {
 	GetText() gdnative.String
 	GetVScrollSpeed() gdnative.Real
 	GetWordUnderCursor() gdnative.String
+	HasKeywordColor(keyword gdnative.String) gdnative.Bool
 	InsertTextAtCursor(text gdnative.String)
+	IsBreakpointGutterEnabled() gdnative.Bool
 	IsContextMenuEnabled() gdnative.Bool
+	IsDrawingFoldGutter() gdnative.Bool
+	IsDrawingMinimap() gdnative.Bool
+	IsDrawingSpaces() gdnative.Bool
+	IsDrawingTabs() gdnative.Bool
 	IsFolded(line gdnative.Int) gdnative.Bool
-	IsHidingEnabled() gdnative.Int
+	IsHidingEnabled() gdnative.Bool
 	IsHighlightAllOccurrencesEnabled() gdnative.Bool
 	IsHighlightCurrentLineEnabled() gdnative.Bool
 	IsLineHidden(line gdnative.Int) gdnative.Bool
 	IsOverridingSelectedFontColor() gdnative.Bool
 	IsReadonly() gdnative.Bool
 	IsRightClickMovingCaret() gdnative.Bool
+	IsSelectingEnabled() gdnative.Bool
 	IsSelectionActive() gdnative.Bool
+	IsShortcutKeysEnabled() gdnative.Bool
 	IsShowLineNumbersEnabled() gdnative.Bool
 	IsSmoothScrollEnabled() gdnative.Bool
 	IsSyntaxColoringEnabled() gdnative.Bool
-	IsWrapping() gdnative.Bool
+	IsWrapEnabled() gdnative.Bool
 	MenuOption(option gdnative.Int)
 	Paste()
 	Redo()
+	RemoveBreakpoints()
 	Search(key gdnative.String, flags gdnative.Int, fromLine gdnative.Int, fromColumn gdnative.Int) gdnative.PoolIntArray
 	Select(fromLine gdnative.Int, fromColumn gdnative.Int, toLine gdnative.Int, toColumn gdnative.Int)
 	SelectAll()
+	SetBreakpointGutterEnabled(enable gdnative.Bool)
 	SetContextMenuEnabled(enable gdnative.Bool)
-	SetHidingEnabled(enable gdnative.Int)
+	SetDrawFoldGutter(arg0 gdnative.Bool)
+	SetDrawSpaces(arg0 gdnative.Bool)
+	SetDrawTabs(arg0 gdnative.Bool)
+	SetHidingEnabled(enable gdnative.Bool)
 	SetHighlightAllOccurrences(enable gdnative.Bool)
 	SetHighlightCurrentLine(enabled gdnative.Bool)
 	SetLineAsHidden(line gdnative.Int, enable gdnative.Bool)
+	SetMinimapWidth(width gdnative.Int)
 	SetOverrideSelectedFontColor(override gdnative.Bool)
 	SetReadonly(enable gdnative.Bool)
 	SetRightClickMovesCaret(enable gdnative.Bool)
+	SetSelectingEnabled(enable gdnative.Bool)
+	SetShortcutKeysEnabled(enable gdnative.Bool)
 	SetShowLineNumbers(enable gdnative.Bool)
 	SetSmoothScrollEnable(enable gdnative.Bool)
 	SetSyntaxColoring(enable gdnative.Bool)
 	SetText(text gdnative.String)
 	SetVScrollSpeed(speed gdnative.Real)
-	SetWrap(enable gdnative.Bool)
+	SetWrapEnabled(enable gdnative.Bool)
 	ToggleFoldLine(line gdnative.Int)
 	Undo()
 	UnfoldLine(line gdnative.Int)

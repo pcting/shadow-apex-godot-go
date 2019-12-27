@@ -2070,8 +2070,8 @@ void go_godot_variant_new_nil(godot_gdnative_core_api_struct * p_api, godot_vari
 	p_api->godot_variant_new_nil(r_dest);
 }
 
-void go_godot_variant_new_bool(godot_gdnative_core_api_struct * p_api, godot_variant * p_v, const godot_bool p_b) {
-	p_api->godot_variant_new_bool(p_v, p_b);
+void go_godot_variant_new_bool(godot_gdnative_core_api_struct * p_api, godot_variant * r_dest, const godot_bool p_b) {
+	p_api->godot_variant_new_bool(r_dest, p_b);
 }
 
 void go_godot_variant_new_uint(godot_gdnative_core_api_struct * p_api, godot_variant * r_dest, const uint64_t p_i) {
@@ -2338,7 +2338,7 @@ void go_godot_string_new_with_wide_string(godot_gdnative_core_api_struct * p_api
 	p_api->godot_string_new_with_wide_string(r_dest, p_contents, p_size);
 }
 
-wchar_t * go_godot_string_operator_index(godot_gdnative_core_api_struct * p_api, godot_string * p_self, const godot_int p_idx) {
+const wchar_t * go_godot_string_operator_index(godot_gdnative_core_api_struct * p_api, godot_string * p_self, const godot_int p_idx) {
 	return p_api->godot_string_operator_index(p_self, p_idx);
 }
 

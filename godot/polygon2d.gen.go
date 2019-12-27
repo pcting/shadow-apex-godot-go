@@ -36,6 +36,133 @@ func (o *Polygon2D) BaseClass() string {
 
 /*
         Undocumented
+	Args: [], Returns: Array
+*/
+func (o *Polygon2D) X_GetBones() gdnative.Array {
+	//log.Println("Calling Polygon2D.X_GetBones()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "_get_bones")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false bones Array}], Returns: void
+*/
+func (o *Polygon2D) X_SetBones(bones gdnative.Array) {
+	//log.Println("Calling Polygon2D.X_SetBones()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromArray(bones)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "_set_bones")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *Polygon2D) X_SkeletonBoneSetupChanged() {
+	//log.Println("Calling Polygon2D.X_SkeletonBoneSetupChanged()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "_skeleton_bone_setup_changed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false path NodePath} { false weights PoolRealArray}], Returns: void
+*/
+func (o *Polygon2D) AddBone(path gdnative.NodePath, weights gdnative.PoolRealArray) {
+	//log.Println("Calling Polygon2D.AddBone()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromNodePath(path)
+	ptrArguments[1] = gdnative.NewPointerFromPoolRealArray(weights)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "add_bone")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [], Returns: void
+*/
+func (o *Polygon2D) ClearBones() {
+	//log.Println("Calling Polygon2D.ClearBones()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "clear_bones")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false index int}], Returns: void
+*/
+func (o *Polygon2D) EraseBone(index gdnative.Int) {
+	//log.Println("Calling Polygon2D.EraseBone()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(index)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "erase_bone")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [], Returns: bool
 */
 func (o *Polygon2D) GetAntialiased() gdnative.Bool {
@@ -54,6 +181,77 @@ func (o *Polygon2D) GetAntialiased() gdnative.Bool {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [], Returns: int
+*/
+func (o *Polygon2D) GetBoneCount() gdnative.Int {
+	//log.Println("Calling Polygon2D.GetBoneCount()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "get_bone_count")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false index int}], Returns: NodePath
+*/
+func (o *Polygon2D) GetBonePath(index gdnative.Int) gdnative.NodePath {
+	//log.Println("Calling Polygon2D.GetBonePath()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(index)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "get_bone_path")
+
+	// Call the parent method.
+	// NodePath
+	retPtr := gdnative.NewEmptyNodePath()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewNodePathFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false index int}], Returns: PoolRealArray
+*/
+func (o *Polygon2D) GetBoneWeights(index gdnative.Int) gdnative.PoolRealArray {
+	//log.Println("Calling Polygon2D.GetBoneWeights()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(index)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "get_bone_weights")
+
+	// Call the parent method.
+	// PoolRealArray
+	retPtr := gdnative.NewEmptyPoolRealArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewPoolRealArrayFromPointer(retPtr)
 	return ret
 }
 
@@ -77,6 +275,29 @@ func (o *Polygon2D) GetColor() gdnative.Color {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *Polygon2D) GetInternalVertexCount() gdnative.Int {
+	//log.Println("Calling Polygon2D.GetInternalVertexCount()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "get_internal_vertex_count")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
 }
 
@@ -169,6 +390,52 @@ func (o *Polygon2D) GetPolygon() gdnative.PoolVector2Array {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewPoolVector2ArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Array
+*/
+func (o *Polygon2D) GetPolygons() gdnative.Array {
+	//log.Println("Calling Polygon2D.GetPolygons()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "get_polygons")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: NodePath
+*/
+func (o *Polygon2D) GetSkeleton() gdnative.NodePath {
+	//log.Println("Calling Polygon2D.GetSkeleton()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "get_skeleton")
+
+	// Call the parent method.
+	// NodePath
+	retPtr := gdnative.NewEmptyNodePath()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewNodePathFromPointer(retPtr)
 	return ret
 }
 
@@ -369,6 +636,50 @@ func (o *Polygon2D) SetAntialiased(antialiased gdnative.Bool) {
 }
 
 /*
+
+	Args: [{ false index int} { false path NodePath}], Returns: void
+*/
+func (o *Polygon2D) SetBonePath(index gdnative.Int, path gdnative.NodePath) {
+	//log.Println("Calling Polygon2D.SetBonePath()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(index)
+	ptrArguments[1] = gdnative.NewPointerFromNodePath(path)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "set_bone_path")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false index int} { false weights PoolRealArray}], Returns: void
+*/
+func (o *Polygon2D) SetBoneWeights(index gdnative.Int, weights gdnative.PoolRealArray) {
+	//log.Println("Calling Polygon2D.SetBoneWeights()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(index)
+	ptrArguments[1] = gdnative.NewPointerFromPoolRealArray(weights)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "set_bone_weights")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Undocumented
 	Args: [{ false color Color}], Returns: void
 */
@@ -381,6 +692,27 @@ func (o *Polygon2D) SetColor(color gdnative.Color) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Polygon2D", "set_color")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false internal_vertex_count int}], Returns: void
+*/
+func (o *Polygon2D) SetInternalVertexCount(internalVertexCount gdnative.Int) {
+	//log.Println("Calling Polygon2D.SetInternalVertexCount()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(internalVertexCount)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "set_internal_vertex_count")
 
 	// Call the parent method.
 	// void
@@ -465,6 +797,48 @@ func (o *Polygon2D) SetPolygon(polygon gdnative.PoolVector2Array) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Polygon2D", "set_polygon")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false polygons Array}], Returns: void
+*/
+func (o *Polygon2D) SetPolygons(polygons gdnative.Array) {
+	//log.Println("Calling Polygon2D.SetPolygons()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromArray(polygons)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "set_polygons")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false skeleton NodePath}], Returns: void
+*/
+func (o *Polygon2D) SetSkeleton(skeleton gdnative.NodePath) {
+	//log.Println("Calling Polygon2D.SetSkeleton()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromNodePath(skeleton)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Polygon2D", "set_skeleton")
 
 	// Call the parent method.
 	// void
@@ -624,12 +998,24 @@ func (o *Polygon2D) SetVertexColors(vertexColors gdnative.PoolColorArray) {
 // of the Polygon2D class.
 type Polygon2DImplementer interface {
 	Node2DImplementer
+	X_GetBones() gdnative.Array
+	X_SetBones(bones gdnative.Array)
+	X_SkeletonBoneSetupChanged()
+	AddBone(path gdnative.NodePath, weights gdnative.PoolRealArray)
+	ClearBones()
+	EraseBone(index gdnative.Int)
 	GetAntialiased() gdnative.Bool
+	GetBoneCount() gdnative.Int
+	GetBonePath(index gdnative.Int) gdnative.NodePath
+	GetBoneWeights(index gdnative.Int) gdnative.PoolRealArray
 	GetColor() gdnative.Color
+	GetInternalVertexCount() gdnative.Int
 	GetInvert() gdnative.Bool
 	GetInvertBorder() gdnative.Real
 	GetOffset() gdnative.Vector2
 	GetPolygon() gdnative.PoolVector2Array
+	GetPolygons() gdnative.Array
+	GetSkeleton() gdnative.NodePath
 	GetTexture() TextureImplementer
 	GetTextureOffset() gdnative.Vector2
 	GetTextureRotation() gdnative.Real
@@ -638,11 +1024,16 @@ type Polygon2DImplementer interface {
 	GetUv() gdnative.PoolVector2Array
 	GetVertexColors() gdnative.PoolColorArray
 	SetAntialiased(antialiased gdnative.Bool)
+	SetBonePath(index gdnative.Int, path gdnative.NodePath)
+	SetBoneWeights(index gdnative.Int, weights gdnative.PoolRealArray)
 	SetColor(color gdnative.Color)
+	SetInternalVertexCount(internalVertexCount gdnative.Int)
 	SetInvert(invert gdnative.Bool)
 	SetInvertBorder(invertBorder gdnative.Real)
 	SetOffset(offset gdnative.Vector2)
 	SetPolygon(polygon gdnative.PoolVector2Array)
+	SetPolygons(polygons gdnative.Array)
+	SetSkeleton(skeleton gdnative.NodePath)
 	SetTexture(texture TextureImplementer)
 	SetTextureOffset(textureOffset gdnative.Vector2)
 	SetTextureRotation(textureRotation gdnative.Real)

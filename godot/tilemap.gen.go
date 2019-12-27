@@ -17,9 +17,11 @@ import (
 type TileMapHalfOffset int
 
 const (
-	TileMapHalfOffsetDisabled TileMapHalfOffset = 2
-	TileMapHalfOffsetX        TileMapHalfOffset = 0
-	TileMapHalfOffsetY        TileMapHalfOffset = 1
+	TileMapHalfOffsetDisabled  TileMapHalfOffset = 2
+	TileMapHalfOffsetNegativeX TileMapHalfOffset = 3
+	TileMapHalfOffsetNegativeY TileMapHalfOffset = 4
+	TileMapHalfOffsetX         TileMapHalfOffset = 0
+	TileMapHalfOffsetY         TileMapHalfOffset = 1
 )
 
 // TileMapMode is an enum for Mode values.
@@ -149,6 +151,28 @@ func (o *TileMap) X_RecreateQuadrants() {
 
 /*
         Undocumented
+	Args: [{ false position Vector2} { false data Dictionary}], Returns: void
+*/
+func (o *TileMap) X_SetCelld(position gdnative.Vector2, data gdnative.Dictionary) {
+	//log.Println("Calling TileMap.X_SetCelld()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(position)
+	ptrArguments[1] = gdnative.NewPointerFromDictionary(data)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileMap", "_set_celld")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false size int}], Returns: void
 */
 func (o *TileMap) X_SetOldCellSize(size gdnative.Int) {
@@ -190,27 +214,7 @@ func (o *TileMap) X_SetTileData(arg0 gdnative.PoolIntArray) {
 }
 
 /*
-        Undocumented
-	Args: [], Returns: void
-*/
-func (o *TileMap) X_UpdateDirtyQuadrants() {
-	//log.Println("Calling TileMap.X_UpdateDirtyQuadrants()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("TileMap", "_update_dirty_quadrants")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-        Clear all cells.
+        Clears all cells.
 	Args: [], Returns: void
 */
 func (o *TileMap) Clear() {
@@ -230,7 +234,27 @@ func (o *TileMap) Clear() {
 }
 
 /*
-        Return the tile index of the referenced cell.
+        Clears cells that do not exist in the tileset.
+	Args: [], Returns: void
+*/
+func (o *TileMap) FixInvalidTiles() {
+	//log.Println("Calling TileMap.FixInvalidTiles()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileMap", "fix_invalid_tiles")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Returns the tile index of the given cell. If no tile exists in the cell, returns [constant INVALID_CELL].
 	Args: [{ false x int} { false y int}], Returns: int
 */
 func (o *TileMap) GetCell(x gdnative.Int, y gdnative.Int) gdnative.Int {
@@ -251,6 +275,31 @@ func (o *TileMap) GetCell(x gdnative.Int, y gdnative.Int) gdnative.Int {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false x int} { false y int}], Returns: Vector2
+*/
+func (o *TileMap) GetCellAutotileCoord(x gdnative.Int, y gdnative.Int) gdnative.Vector2 {
+	//log.Println("Calling TileMap.GetCellAutotileCoord()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(x)
+	ptrArguments[1] = gdnative.NewPointerFromInt(y)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileMap", "get_cell_autotile_coord")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
 	return ret
 }
 
@@ -278,7 +327,7 @@ func (o *TileMap) GetCellSize() gdnative.Vector2 {
 }
 
 /*
-        Return the tile index of the cell referenced by a Vector2.
+        Returns the tile index of the cell given by a Vector2. If no tile exists in the cell, returns [constant INVALID_CELL].
 	Args: [{ false position Vector2}], Returns: int
 */
 func (o *TileMap) GetCellv(position gdnative.Vector2) gdnative.Int {
@@ -394,7 +443,7 @@ func (o *TileMap) GetCollisionLayer() gdnative.Int {
 }
 
 /*
-
+        Returns [code]true[/code] if the given collision layer bit is set.
 	Args: [{ false bit int}], Returns: bool
 */
 func (o *TileMap) GetCollisionLayerBit(bit gdnative.Int) gdnative.Bool {
@@ -441,7 +490,7 @@ func (o *TileMap) GetCollisionMask() gdnative.Int {
 }
 
 /*
-
+        Returns [code]true[/code] if the given collision mask bit is set.
 	Args: [{ false bit int}], Returns: bool
 */
 func (o *TileMap) GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool {
@@ -476,6 +525,29 @@ func (o *TileMap) GetCollisionUseKinematic() gdnative.Bool {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TileMap", "get_collision_use_kinematic")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TileMap) GetCollisionUseParent() gdnative.Bool {
+	//log.Println("Calling TileMap.GetCollisionUseParent()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileMap", "get_collision_use_parent")
 
 	// Call the parent method.
 	// bool
@@ -663,7 +735,7 @@ func (o *TileMap) GetTileset() TileSetImplementer {
 }
 
 /*
-        Return an array of all cells containing a tile from the tileset (i.e. a tile index different from -1).
+        Returns a [Vector2] array with the positions of all cells containing a tile from the tileset (i.e. a tile index different from [code]-1[/code]).
 	Args: [], Returns: Array
 */
 func (o *TileMap) GetUsedCells() gdnative.Array {
@@ -686,7 +758,7 @@ func (o *TileMap) GetUsedCells() gdnative.Array {
 }
 
 /*
-
+        Returns an array of all cells with the given tile id.
 	Args: [{ false id int}], Returns: Array
 */
 func (o *TileMap) GetUsedCellsById(id gdnative.Int) gdnative.Array {
@@ -710,7 +782,7 @@ func (o *TileMap) GetUsedCellsById(id gdnative.Int) gdnative.Array {
 }
 
 /*
-
+        Returns a rectangle enclosing the used (non-empty) tiles of the map.
 	Args: [], Returns: Rect2
 */
 func (o *TileMap) GetUsedRect() gdnative.Rect2 {
@@ -733,7 +805,7 @@ func (o *TileMap) GetUsedRect() gdnative.Rect2 {
 }
 
 /*
-        Return whether the referenced cell is transposed, i.e. the X and Y axes are swapped (mirroring with regard to the (1,1) vector).
+        Returns [code]true[/code] if the given cell is transposed, i.e. the x and y axes are swapped.
 	Args: [{ false x int} { false y int}], Returns: bool
 */
 func (o *TileMap) IsCellTransposed(x gdnative.Int, y gdnative.Int) gdnative.Bool {
@@ -758,7 +830,7 @@ func (o *TileMap) IsCellTransposed(x gdnative.Int, y gdnative.Int) gdnative.Bool
 }
 
 /*
-        Return whether the referenced cell is flipped over the X axis.
+        Returns [code]true[/code] if the given cell is flipped in the x axis.
 	Args: [{ false x int} { false y int}], Returns: bool
 */
 func (o *TileMap) IsCellXFlipped(x gdnative.Int, y gdnative.Int) gdnative.Bool {
@@ -783,7 +855,7 @@ func (o *TileMap) IsCellXFlipped(x gdnative.Int, y gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Return whether the referenced cell is flipped over the Y axis.
+        Returns [code]true[/code] if the given cell is flipped in the y axis.
 	Args: [{ false x int} { false y int}], Returns: bool
 */
 func (o *TileMap) IsCellYFlipped(x gdnative.Int, y gdnative.Int) gdnative.Bool {
@@ -796,6 +868,52 @@ func (o *TileMap) IsCellYFlipped(x gdnative.Int, y gdnative.Int) gdnative.Bool {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TileMap", "is_cell_y_flipped")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TileMap) IsCenteredTexturesEnabled() gdnative.Bool {
+	//log.Println("Calling TileMap.IsCenteredTexturesEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileMap", "is_centered_textures_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TileMap) IsCompatibilityModeEnabled() gdnative.Bool {
+	//log.Println("Calling TileMap.IsCompatibilityModeEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileMap", "is_compatibility_mode_enabled")
 
 	// Call the parent method.
 	// bool
@@ -831,7 +949,7 @@ func (o *TileMap) IsYSortModeEnabled() gdnative.Bool {
 }
 
 /*
-        Return the absolute world position corresponding to the tilemap (grid-based) coordinates given as an argument. Optionally, the tilemap's potential half offset can be ignored.
+        Returns the global position corresponding to the given tilemap (grid-based) coordinates. Optionally, the tilemap's half offset can be ignored.
 	Args: [{ false map_position Vector2} {False true ignore_half_ofs bool}], Returns: Vector2
 */
 func (o *TileMap) MapToWorld(mapPosition gdnative.Vector2, ignoreHalfOfs gdnative.Bool) gdnative.Vector2 {
@@ -856,7 +974,7 @@ func (o *TileMap) MapToWorld(mapPosition gdnative.Vector2, ignoreHalfOfs gdnativ
 }
 
 /*
-        Set the tile index for the cell referenced by its grid-based X and Y coordinates. A tile index of -1 clears the cell. Optionally, the tile can also be flipped over the X and Y coordinates, transposed, or be given autotile coordinates.
+        Sets the tile index for the cell given by a Vector2. An index of [code]-1[/code] clears the cell. Optionally, the tile can also be flipped, transposed, or given autotile coordinates. Note that data such as navigation polygons and collision shapes are not immediately updated for performance reasons. If you need these to be immediately updated, you can call [method update_dirty_quadrants].
 	Args: [{ false x int} { false y int} { false tile int} {False true flip_x bool} {False true flip_y bool} {False true transpose bool} {(0, 0) true autotile_coord Vector2}], Returns: void
 */
 func (o *TileMap) SetCell(x gdnative.Int, y gdnative.Int, tile gdnative.Int, flipX gdnative.Bool, flipY gdnative.Bool, transpose gdnative.Bool, autotileCoord gdnative.Vector2) {
@@ -904,7 +1022,7 @@ func (o *TileMap) SetCellSize(size gdnative.Vector2) {
 }
 
 /*
-        Set the tile index for the cell referenced by a Vector2 of grid-based coordinates. A tile index of -1 clears the cell. Optionally, the tile can also be flipped over the X and Y axes or transposed.
+        Sets the tile index for the given cell. An index of [code]-1[/code] clears the cell. Optionally, the tile can also be flipped or transposed. Note that data such as navigation polygons and collision shapes are not immediately updated for performance reasons. If you need these to be immediately updated, you can call [method update_dirty_quadrants].
 	Args: [{ false position Vector2} { false tile int} {False true flip_x bool} {False true flip_y bool} {False true transpose bool}], Returns: void
 */
 func (o *TileMap) SetCellv(position gdnative.Vector2, tile gdnative.Int, flipX gdnative.Bool, flipY gdnative.Bool, transpose gdnative.Bool) {
@@ -920,6 +1038,27 @@ func (o *TileMap) SetCellv(position gdnative.Vector2, tile gdnative.Int, flipX g
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TileMap", "set_cellv")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *TileMap) SetCenteredTextures(enable gdnative.Bool) {
+	//log.Println("Calling TileMap.SetCenteredTextures()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileMap", "set_centered_textures")
 
 	// Call the parent method.
 	// void
@@ -1013,7 +1152,7 @@ func (o *TileMap) SetCollisionLayer(layer gdnative.Int) {
 }
 
 /*
-
+        Sets the given collision layer bit.
 	Args: [{ false bit int} { false value bool}], Returns: void
 */
 func (o *TileMap) SetCollisionLayerBit(bit gdnative.Int, value gdnative.Bool) {
@@ -1056,7 +1195,7 @@ func (o *TileMap) SetCollisionMask(mask gdnative.Int) {
 }
 
 /*
-
+        Sets the given collision mask bit.
 	Args: [{ false bit int} { false value bool}], Returns: void
 */
 func (o *TileMap) SetCollisionMaskBit(bit gdnative.Int, value gdnative.Bool) {
@@ -1090,6 +1229,48 @@ func (o *TileMap) SetCollisionUseKinematic(useKinematic gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TileMap", "set_collision_use_kinematic")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false use_parent bool}], Returns: void
+*/
+func (o *TileMap) SetCollisionUseParent(useParent gdnative.Bool) {
+	//log.Println("Calling TileMap.SetCollisionUseParent()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(useParent)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileMap", "set_collision_use_parent")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *TileMap) SetCompatibilityMode(enable gdnative.Bool) {
+	//log.Println("Calling TileMap.SetCompatibilityMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileMap", "set_compatibility_mode")
 
 	// Call the parent method.
 	// void
@@ -1267,7 +1448,7 @@ func (o *TileMap) SetYSortMode(enable gdnative.Bool) {
 }
 
 /*
-        Applies autotiling rules to the cell (and its adjacent cells) referenced by its grid-based X and Y coordinates.
+        Applies autotiling rules to the cell (and its adjacent cells) referenced by its grid-based x and y coordinates.
 	Args: [{ false position Vector2}], Returns: void
 */
 func (o *TileMap) UpdateBitmaskArea(position gdnative.Vector2) {
@@ -1288,7 +1469,7 @@ func (o *TileMap) UpdateBitmaskArea(position gdnative.Vector2) {
 }
 
 /*
-        Applies autotiling rules to the cells in the given region (specified by grid-based X and Y coordinates). Calling with invalid (or missing) parameters applies autotiling rules for the entire TileMap.
+        Applies autotiling rules to the cells in the given region (specified by grid-based x and y coordinates). Calling with invalid (or missing) parameters applies autotiling rules for the entire tilemap.
 	Args: [{(0, 0) true start Vector2} {(0, 0) true end Vector2}], Returns: void
 */
 func (o *TileMap) UpdateBitmaskRegion(start gdnative.Vector2, end gdnative.Vector2) {
@@ -1310,7 +1491,27 @@ func (o *TileMap) UpdateBitmaskRegion(start gdnative.Vector2, end gdnative.Vecto
 }
 
 /*
-        Return the tilemap (grid-based) coordinates corresponding to the absolute world position given as an argument.
+        Updates the tile map's quadrants, allowing things such as navigation and collision shapes to be immediately used if modified.
+	Args: [], Returns: void
+*/
+func (o *TileMap) UpdateDirtyQuadrants() {
+	//log.Println("Calling TileMap.UpdateDirtyQuadrants()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileMap", "update_dirty_quadrants")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Returns the tilemap (grid-based) coordinates corresponding to the given local position.
 	Args: [{ false world_position Vector2}], Returns: Vector2
 */
 func (o *TileMap) WorldToMap(worldPosition gdnative.Vector2) gdnative.Vector2 {
@@ -1341,11 +1542,13 @@ type TileMapImplementer interface {
 	X_GetOldCellSize() gdnative.Int
 	X_GetTileData() gdnative.PoolIntArray
 	X_RecreateQuadrants()
+	X_SetCelld(position gdnative.Vector2, data gdnative.Dictionary)
 	X_SetOldCellSize(size gdnative.Int)
 	X_SetTileData(arg0 gdnative.PoolIntArray)
-	X_UpdateDirtyQuadrants()
 	Clear()
+	FixInvalidTiles()
 	GetCell(x gdnative.Int, y gdnative.Int) gdnative.Int
+	GetCellAutotileCoord(x gdnative.Int, y gdnative.Int) gdnative.Vector2
 	GetCellSize() gdnative.Vector2
 	GetCellv(position gdnative.Vector2) gdnative.Int
 	GetClipUv() gdnative.Bool
@@ -1356,6 +1559,7 @@ type TileMapImplementer interface {
 	GetCollisionMask() gdnative.Int
 	GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool
 	GetCollisionUseKinematic() gdnative.Bool
+	GetCollisionUseParent() gdnative.Bool
 	GetCustomTransform() gdnative.Transform2D
 	GetOccluderLightMask() gdnative.Int
 	GetQuadrantSize() gdnative.Int
@@ -1366,11 +1570,14 @@ type TileMapImplementer interface {
 	IsCellTransposed(x gdnative.Int, y gdnative.Int) gdnative.Bool
 	IsCellXFlipped(x gdnative.Int, y gdnative.Int) gdnative.Bool
 	IsCellYFlipped(x gdnative.Int, y gdnative.Int) gdnative.Bool
+	IsCenteredTexturesEnabled() gdnative.Bool
+	IsCompatibilityModeEnabled() gdnative.Bool
 	IsYSortModeEnabled() gdnative.Bool
 	MapToWorld(mapPosition gdnative.Vector2, ignoreHalfOfs gdnative.Bool) gdnative.Vector2
 	SetCell(x gdnative.Int, y gdnative.Int, tile gdnative.Int, flipX gdnative.Bool, flipY gdnative.Bool, transpose gdnative.Bool, autotileCoord gdnative.Vector2)
 	SetCellSize(size gdnative.Vector2)
 	SetCellv(position gdnative.Vector2, tile gdnative.Int, flipX gdnative.Bool, flipY gdnative.Bool, transpose gdnative.Bool)
+	SetCenteredTextures(enable gdnative.Bool)
 	SetClipUv(enable gdnative.Bool)
 	SetCollisionBounce(value gdnative.Real)
 	SetCollisionFriction(value gdnative.Real)
@@ -1379,6 +1586,8 @@ type TileMapImplementer interface {
 	SetCollisionMask(mask gdnative.Int)
 	SetCollisionMaskBit(bit gdnative.Int, value gdnative.Bool)
 	SetCollisionUseKinematic(useKinematic gdnative.Bool)
+	SetCollisionUseParent(useParent gdnative.Bool)
+	SetCompatibilityMode(enable gdnative.Bool)
 	SetCustomTransform(customTransform gdnative.Transform2D)
 	SetHalfOffset(halfOffset gdnative.Int)
 	SetMode(mode gdnative.Int)
@@ -1389,5 +1598,6 @@ type TileMapImplementer interface {
 	SetYSortMode(enable gdnative.Bool)
 	UpdateBitmaskArea(position gdnative.Vector2)
 	UpdateBitmaskRegion(start gdnative.Vector2, end gdnative.Vector2)
+	UpdateDirtyQuadrants()
 	WorldToMap(worldPosition gdnative.Vector2) gdnative.Vector2
 }

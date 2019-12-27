@@ -35,7 +35,7 @@ func (o *ConcavePolygonShape) BaseClass() string {
 }
 
 /*
-        Return the faces (an array of triangles).
+        Returns the faces (an array of triangles).
 	Args: [], Returns: PoolVector3Array
 */
 func (o *ConcavePolygonShape) GetFaces() gdnative.PoolVector3Array {

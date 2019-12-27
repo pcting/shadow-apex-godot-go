@@ -26,6 +26,7 @@ const (
 type AudioStreamSampleLoopMode int
 
 const (
+	AudioStreamSampleLoopBackward AudioStreamSampleLoopMode = 3
 	AudioStreamSampleLoopDisabled AudioStreamSampleLoopMode = 0
 	AudioStreamSampleLoopForward  AudioStreamSampleLoopMode = 1
 	AudioStreamSampleLoopPingPong AudioStreamSampleLoopMode = 2
@@ -41,7 +42,7 @@ func newAudioStreamSampleFromPointer(ptr gdnative.Pointer) AudioStreamSample {
 }
 
 /*
-Plays audio, can loop.
+AudioStreamSample stores sound samples loaded from [code].wav[/code] files. To play the stored sound use an [AudioStreamPlayer] (for background music) or [AudioStreamPlayer2D]/[AudioStreamPlayer3D] (for positional audio). The sound can be looped. This class can also be used to store dynamically generated PCM audio data.
 */
 type AudioStreamSample struct {
 	AudioStream
@@ -56,14 +57,14 @@ func (o *AudioStreamSample) BaseClass() string {
         Undocumented
 	Args: [], Returns: PoolByteArray
 */
-func (o *AudioStreamSample) X_GetData() gdnative.PoolByteArray {
-	//log.Println("Calling AudioStreamSample.X_GetData()")
+func (o *AudioStreamSample) GetData() gdnative.PoolByteArray {
+	//log.Println("Calling AudioStreamSample.GetData()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 0, 0)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("AudioStreamSample", "_get_data")
+	methodBind := gdnative.NewMethodBind("AudioStreamSample", "get_data")
 
 	// Call the parent method.
 	// PoolByteArray
@@ -73,27 +74,6 @@ func (o *AudioStreamSample) X_GetData() gdnative.PoolByteArray {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewPoolByteArrayFromPointer(retPtr)
 	return ret
-}
-
-/*
-        Undocumented
-	Args: [{ false data PoolByteArray}], Returns: void
-*/
-func (o *AudioStreamSample) X_SetData(data gdnative.PoolByteArray) {
-	//log.Println("Calling AudioStreamSample.X_SetData()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromPoolByteArray(data)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("AudioStreamSample", "_set_data")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
 }
 
 /*
@@ -235,6 +215,51 @@ func (o *AudioStreamSample) IsStereo() gdnative.Bool {
 }
 
 /*
+        Saves the AudioStreamSample as a WAV file to [code]path[/code]. Samples with IMA ADPCM format can't be saved. Note that a [code].wav[/code] extension is automatically appended to [code]path[/code] if it is missing.
+	Args: [{ false path String}], Returns: enum.Error
+*/
+func (o *AudioStreamSample) SaveToWav(path gdnative.String) gdnative.Error {
+	//log.Println("Calling AudioStreamSample.SaveToWav()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(path)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioStreamSample", "save_to_wav")
+
+	// Call the parent method.
+	// enum.Error
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return gdnative.Error(ret)
+}
+
+/*
+        Undocumented
+	Args: [{ false data PoolByteArray}], Returns: void
+*/
+func (o *AudioStreamSample) SetData(data gdnative.PoolByteArray) {
+	//log.Println("Calling AudioStreamSample.SetData()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromPoolByteArray(data)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioStreamSample", "set_data")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Undocumented
 	Args: [{ false format int}], Returns: void
 */
@@ -364,12 +389,12 @@ func (o *AudioStreamSample) SetStereo(stereo gdnative.Bool) {
 // of the AudioStreamSample class.
 type AudioStreamSampleImplementer interface {
 	AudioStreamImplementer
-	X_GetData() gdnative.PoolByteArray
-	X_SetData(data gdnative.PoolByteArray)
+	GetData() gdnative.PoolByteArray
 	GetLoopBegin() gdnative.Int
 	GetLoopEnd() gdnative.Int
 	GetMixRate() gdnative.Int
 	IsStereo() gdnative.Bool
+	SetData(data gdnative.PoolByteArray)
 	SetFormat(format gdnative.Int)
 	SetLoopBegin(loopBegin gdnative.Int)
 	SetLoopEnd(loopEnd gdnative.Int)

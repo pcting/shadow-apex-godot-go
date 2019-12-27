@@ -35,6 +35,29 @@ func (o *CanvasLayer) BaseClass() string {
 }
 
 /*
+        Returns the RID of the canvas used by this layer.
+	Args: [], Returns: RID
+*/
+func (o *CanvasLayer) GetCanvas() gdnative.Rid {
+	//log.Println("Calling CanvasLayer.GetCanvas()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasLayer", "get_canvas")
+
+	// Call the parent method.
+	// RID
+	retPtr := gdnative.NewEmptyRid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRidFromPointer(retPtr)
+	return ret
+}
+
+/*
         Undocumented
 	Args: [], Returns: Node
 */
@@ -69,6 +92,29 @@ func (o *CanvasLayer) GetCustomViewport() NodeImplementer {
 	}
 
 	return &ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *CanvasLayer) GetFollowViewportScale() gdnative.Real {
+	//log.Println("Calling CanvasLayer.GetFollowViewportScale()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasLayer", "get_follow_viewport_scale")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -210,47 +256,33 @@ func (o *CanvasLayer) GetTransform() gdnative.Transform2D {
 }
 
 /*
-        Return the [World2D] used by this layer.
-	Args: [], Returns: World2D
+        Undocumented
+	Args: [], Returns: bool
 */
-func (o *CanvasLayer) GetWorld2D() World2DImplementer {
-	//log.Println("Calling CanvasLayer.GetWorld2D()")
+func (o *CanvasLayer) IsFollowingViewport() gdnative.Bool {
+	//log.Println("Calling CanvasLayer.IsFollowingViewport()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 0, 0)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("CanvasLayer", "get_world_2d")
+	methodBind := gdnative.NewMethodBind("CanvasLayer", "is_following_viewport")
 
 	// Call the parent method.
-	// World2D
-	retPtr := gdnative.NewEmptyObject()
+	// bool
+	retPtr := gdnative.NewEmptyBool()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
 	// If we have a return type, convert it from a pointer into its actual object.
-	ret := newWorld2DFromPointer(retPtr)
-
-	// Check to see if we already have an instance of this object in our Go instance registry.
-	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
-		return instance.(World2DImplementer)
-	}
-
-	// Check to see what kind of class this is and create it. This is generally used with
-	// GetNode().
-	className := ret.GetClass()
-	if className != "World2D" {
-		actualRet := getActualClass(className, ret.GetBaseObject())
-		return actualRet.(World2DImplementer)
-	}
-
-	return &ret
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
 }
 
 /*
         Undocumented
-	Args: [{ false viewport Object}], Returns: void
+	Args: [{ false viewport Node}], Returns: void
 */
-func (o *CanvasLayer) SetCustomViewport(viewport ObjectImplementer) {
+func (o *CanvasLayer) SetCustomViewport(viewport NodeImplementer) {
 	//log.Println("Calling CanvasLayer.SetCustomViewport()")
 
 	// Build out the method's arguments
@@ -259,6 +291,48 @@ func (o *CanvasLayer) SetCustomViewport(viewport ObjectImplementer) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("CanvasLayer", "set_custom_viewport")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *CanvasLayer) SetFollowViewport(enable gdnative.Bool) {
+	//log.Println("Calling CanvasLayer.SetFollowViewport()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasLayer", "set_follow_viewport")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false scale float}], Returns: void
+*/
+func (o *CanvasLayer) SetFollowViewportScale(scale gdnative.Real) {
+	//log.Println("Calling CanvasLayer.SetFollowViewportScale()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(scale)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasLayer", "set_follow_viewport_scale")
 
 	// Call the parent method.
 	// void
@@ -397,15 +471,19 @@ func (o *CanvasLayer) SetTransform(transform gdnative.Transform2D) {
 // of the CanvasLayer class.
 type CanvasLayerImplementer interface {
 	NodeImplementer
+	GetCanvas() gdnative.Rid
 	GetCustomViewport() NodeImplementer
+	GetFollowViewportScale() gdnative.Real
 	GetLayer() gdnative.Int
 	GetOffset() gdnative.Vector2
 	GetRotation() gdnative.Real
 	GetRotationDegrees() gdnative.Real
 	GetScale() gdnative.Vector2
 	GetTransform() gdnative.Transform2D
-	GetWorld2D() World2DImplementer
-	SetCustomViewport(viewport ObjectImplementer)
+	IsFollowingViewport() gdnative.Bool
+	SetCustomViewport(viewport NodeImplementer)
+	SetFollowViewport(enable gdnative.Bool)
+	SetFollowViewportScale(scale gdnative.Real)
 	SetLayer(layer gdnative.Int)
 	SetOffset(offset gdnative.Vector2)
 	SetRotation(radians gdnative.Real)

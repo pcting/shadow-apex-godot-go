@@ -47,13 +47,14 @@ func (o *NetworkedMultiplayerENet) BaseClass() string {
 
 /*
         Undocumented
-	Args: [], Returns: void
+	Args: [{100 true wait_usec int}], Returns: void
 */
-func (o *NetworkedMultiplayerENet) CloseConnection() {
+func (o *NetworkedMultiplayerENet) CloseConnection(waitUsec gdnative.Int) {
 	//log.Println("Calling NetworkedMultiplayerENet.CloseConnection()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(waitUsec)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "close_connection")
@@ -67,17 +68,18 @@ func (o *NetworkedMultiplayerENet) CloseConnection() {
 
 /*
         Undocumented
-	Args: [{ false ip String} { false port int} {0 true in_bandwidth int} {0 true out_bandwidth int}], Returns: enum.Error
+	Args: [{ false address String} { false port int} {0 true in_bandwidth int} {0 true out_bandwidth int} {0 true client_port int}], Returns: enum.Error
 */
-func (o *NetworkedMultiplayerENet) CreateClient(ip gdnative.String, port gdnative.Int, inBandwidth gdnative.Int, outBandwidth gdnative.Int) gdnative.Error {
+func (o *NetworkedMultiplayerENet) CreateClient(address gdnative.String, port gdnative.Int, inBandwidth gdnative.Int, outBandwidth gdnative.Int, clientPort gdnative.Int) gdnative.Error {
 	//log.Println("Calling NetworkedMultiplayerENet.CreateClient()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 4, 4)
-	ptrArguments[0] = gdnative.NewPointerFromString(ip)
+	ptrArguments := make([]gdnative.Pointer, 5, 5)
+	ptrArguments[0] = gdnative.NewPointerFromString(address)
 	ptrArguments[1] = gdnative.NewPointerFromInt(port)
 	ptrArguments[2] = gdnative.NewPointerFromInt(inBandwidth)
 	ptrArguments[3] = gdnative.NewPointerFromInt(outBandwidth)
+	ptrArguments[4] = gdnative.NewPointerFromInt(clientPort)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "create_client")
@@ -121,6 +123,51 @@ func (o *NetworkedMultiplayerENet) CreateServer(port gdnative.Int, maxClients gd
 
 /*
         Undocumented
+	Args: [{ false id int} {False true now bool}], Returns: void
+*/
+func (o *NetworkedMultiplayerENet) DisconnectPeer(id gdnative.Int, now gdnative.Bool) {
+	//log.Println("Calling NetworkedMultiplayerENet.DisconnectPeer()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromBool(now)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "disconnect_peer")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *NetworkedMultiplayerENet) GetChannelCount() gdnative.Int {
+	//log.Println("Calling NetworkedMultiplayerENet.GetChannelCount()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "get_channel_count")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: enum.NetworkedMultiplayerENet::CompressionMode
 */
 func (o *NetworkedMultiplayerENet) GetCompressionMode() NetworkedMultiplayerENetCompressionMode {
@@ -144,6 +191,190 @@ func (o *NetworkedMultiplayerENet) GetCompressionMode() NetworkedMultiplayerENet
 
 /*
         Undocumented
+	Args: [], Returns: int
+*/
+func (o *NetworkedMultiplayerENet) GetLastPacketChannel() gdnative.Int {
+	//log.Println("Calling NetworkedMultiplayerENet.GetLastPacketChannel()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "get_last_packet_channel")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *NetworkedMultiplayerENet) GetPacketChannel() gdnative.Int {
+	//log.Println("Calling NetworkedMultiplayerENet.GetPacketChannel()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "get_packet_channel")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false id int}], Returns: String
+*/
+func (o *NetworkedMultiplayerENet) GetPeerAddress(id gdnative.Int) gdnative.String {
+	//log.Println("Calling NetworkedMultiplayerENet.GetPeerAddress()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "get_peer_address")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false id int}], Returns: int
+*/
+func (o *NetworkedMultiplayerENet) GetPeerPort(id gdnative.Int) gdnative.Int {
+	//log.Println("Calling NetworkedMultiplayerENet.GetPeerPort()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "get_peer_port")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *NetworkedMultiplayerENet) GetTransferChannel() gdnative.Int {
+	//log.Println("Calling NetworkedMultiplayerENet.GetTransferChannel()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "get_transfer_channel")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *NetworkedMultiplayerENet) IsAlwaysOrdered() gdnative.Bool {
+	//log.Println("Calling NetworkedMultiplayerENet.IsAlwaysOrdered()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "is_always_ordered")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *NetworkedMultiplayerENet) IsServerRelayEnabled() gdnative.Bool {
+	//log.Println("Calling NetworkedMultiplayerENet.IsServerRelayEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "is_server_relay_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false ordered bool}], Returns: void
+*/
+func (o *NetworkedMultiplayerENet) SetAlwaysOrdered(ordered gdnative.Bool) {
+	//log.Println("Calling NetworkedMultiplayerENet.SetAlwaysOrdered()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(ordered)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "set_always_ordered")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false ip String}], Returns: void
 */
 func (o *NetworkedMultiplayerENet) SetBindIp(ip gdnative.String) {
@@ -155,6 +386,27 @@ func (o *NetworkedMultiplayerENet) SetBindIp(ip gdnative.String) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "set_bind_ip")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false channels int}], Returns: void
+*/
+func (o *NetworkedMultiplayerENet) SetChannelCount(channels gdnative.Int) {
+	//log.Println("Calling NetworkedMultiplayerENet.SetChannelCount()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(channels)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "set_channel_count")
 
 	// Call the parent method.
 	// void
@@ -184,11 +436,66 @@ func (o *NetworkedMultiplayerENet) SetCompressionMode(mode gdnative.Int) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false enabled bool}], Returns: void
+*/
+func (o *NetworkedMultiplayerENet) SetServerRelayEnabled(enabled gdnative.Bool) {
+	//log.Println("Calling NetworkedMultiplayerENet.SetServerRelayEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "set_server_relay_enabled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false channel int}], Returns: void
+*/
+func (o *NetworkedMultiplayerENet) SetTransferChannel(channel gdnative.Int) {
+	//log.Println("Calling NetworkedMultiplayerENet.SetTransferChannel()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(channel)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NetworkedMultiplayerENet", "set_transfer_channel")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // NetworkedMultiplayerENetImplementer is an interface that implements the methods
 // of the NetworkedMultiplayerENet class.
 type NetworkedMultiplayerENetImplementer interface {
 	NetworkedMultiplayerPeerImplementer
-	CloseConnection()
+	CloseConnection(waitUsec gdnative.Int)
+	DisconnectPeer(id gdnative.Int, now gdnative.Bool)
+	GetChannelCount() gdnative.Int
+	GetLastPacketChannel() gdnative.Int
+	GetPacketChannel() gdnative.Int
+	GetPeerAddress(id gdnative.Int) gdnative.String
+	GetPeerPort(id gdnative.Int) gdnative.Int
+	GetTransferChannel() gdnative.Int
+	IsAlwaysOrdered() gdnative.Bool
+	IsServerRelayEnabled() gdnative.Bool
+	SetAlwaysOrdered(ordered gdnative.Bool)
 	SetBindIp(ip gdnative.String)
+	SetChannelCount(channels gdnative.Int)
 	SetCompressionMode(mode gdnative.Int)
+	SetServerRelayEnabled(enabled gdnative.Bool)
+	SetTransferChannel(channel gdnative.Int)
 }

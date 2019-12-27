@@ -23,7 +23,7 @@ func newCollisionShape2DFromPointer(ptr gdnative.Pointer) CollisionShape2D {
 }
 
 /*
-Editor facility for creating and editing collision shapes in 2D space. You can use this node to represent all sorts of collision shapes, for example, add this to an [Area2D] to give it a detection shape, or add it to a [PhysicsBody2D] to give create solid object. [b]IMPORTANT[/b]: this is an Editor-only helper to create shapes, use [method get_shape] to get the actual shape.
+Editor facility for creating and editing collision shapes in 2D space. You can use this node to represent all sorts of collision shapes, for example, add this to an [Area2D] to give it a detection shape, or add it to a [PhysicsBody2D] to create a solid object. [b]IMPORTANT[/b]: this is an Editor-only helper to create shapes, use [method CollisionObject2D.shape_owner_get_shape] to get the actual shape.
 */
 type CollisionShape2D struct {
 	Node2D
@@ -52,6 +52,29 @@ func (o *CollisionShape2D) X_ShapeChanged() {
 	retPtr := gdnative.NewEmptyVoid()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *CollisionShape2D) GetOneWayCollisionMargin() gdnative.Real {
+	//log.Println("Calling CollisionShape2D.GetOneWayCollisionMargin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CollisionShape2D", "get_one_way_collision_margin")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -181,6 +204,27 @@ func (o *CollisionShape2D) SetOneWayCollision(enabled gdnative.Bool) {
 
 /*
         Undocumented
+	Args: [{ false margin float}], Returns: void
+*/
+func (o *CollisionShape2D) SetOneWayCollisionMargin(margin gdnative.Real) {
+	//log.Println("Calling CollisionShape2D.SetOneWayCollisionMargin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(margin)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CollisionShape2D", "set_one_way_collision_margin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false shape Shape2D}], Returns: void
 */
 func (o *CollisionShape2D) SetShape(shape Shape2DImplementer) {
@@ -205,10 +249,12 @@ func (o *CollisionShape2D) SetShape(shape Shape2DImplementer) {
 type CollisionShape2DImplementer interface {
 	Node2DImplementer
 	X_ShapeChanged()
+	GetOneWayCollisionMargin() gdnative.Real
 	GetShape() Shape2DImplementer
 	IsDisabled() gdnative.Bool
 	IsOneWayCollisionEnabled() gdnative.Bool
 	SetDisabled(disabled gdnative.Bool)
 	SetOneWayCollision(enabled gdnative.Bool)
+	SetOneWayCollisionMargin(margin gdnative.Real)
 	SetShape(shape Shape2DImplementer)
 }

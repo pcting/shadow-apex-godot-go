@@ -29,6 +29,7 @@ const (
 	HTTPRequestResultRequestFailed           HTTPRequestResult = 8
 	HTTPRequestResultSslHandshakeError       HTTPRequestResult = 5
 	HTTPRequestResultSuccess                 HTTPRequestResult = 0
+	HTTPRequestResultTimeout                 HTTPRequestResult = 12
 )
 
 //func NewHTTPRequestFromPointer(ptr gdnative.Pointer) HTTPRequest {
@@ -98,6 +99,26 @@ func (o *HTTPRequest) X_RequestDone(arg0 gdnative.Int, arg1 gdnative.Int, arg2 g
 }
 
 /*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *HTTPRequest) X_Timeout() {
+	//log.Println("Calling HTTPRequest.X_Timeout()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("HTTPRequest", "_timeout")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Cancels the current request.
 	Args: [], Returns: void
 */
@@ -152,6 +173,29 @@ func (o *HTTPRequest) GetBodySizeLimit() gdnative.Int {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("HTTPRequest", "get_body_size_limit")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *HTTPRequest) GetDownloadChunkSize() gdnative.Int {
+	//log.Println("Calling HTTPRequest.GetDownloadChunkSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("HTTPRequest", "get_download_chunk_size")
 
 	// Call the parent method.
 	// int
@@ -257,6 +301,29 @@ func (o *HTTPRequest) GetMaxRedirects() gdnative.Int {
 
 /*
         Undocumented
+	Args: [], Returns: int
+*/
+func (o *HTTPRequest) GetTimeout() gdnative.Int {
+	//log.Println("Calling HTTPRequest.GetTimeout()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("HTTPRequest", "get_timeout")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: bool
 */
 func (o *HTTPRequest) IsUsingThreads() gdnative.Bool {
@@ -279,7 +346,7 @@ func (o *HTTPRequest) IsUsingThreads() gdnative.Bool {
 }
 
 /*
-
+        Creates request on the underlying [HTTPClient]. If there is no configuration errors, it tries to connect using [method HTTPClient.connect_to_host] and passes parameters onto [method HTTPClient.request]. Returns [constant @GlobalScope.OK] if request is successfully created. (Does not imply that the server has responded), [constant @GlobalScope.ERR_UNCONFIGURED] if not in the tree, [constant @GlobalScope.ERR_BUSY] if still processing previous request, [constant @GlobalScope.ERR_INVALID_PARAMETER] if given string is not a valid URL format, or [constant @GlobalScope.ERR_CANT_CONNECT] if not using thread and the [HTTPClient] cannot connect to host.
 	Args: [{ false url String} {[] true custom_headers PoolStringArray} {True true ssl_validate_domain bool} {0 true method int} { true request_data String}], Returns: enum.Error
 */
 func (o *HTTPRequest) Request(url gdnative.String, customHeaders gdnative.PoolStringArray, sslValidateDomain gdnative.Bool, method gdnative.Int, requestData gdnative.String) gdnative.Error {
@@ -319,6 +386,27 @@ func (o *HTTPRequest) SetBodySizeLimit(bytes gdnative.Int) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("HTTPRequest", "set_body_size_limit")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 int}], Returns: void
+*/
+func (o *HTTPRequest) SetDownloadChunkSize(arg0 gdnative.Int) {
+	//log.Println("Calling HTTPRequest.SetDownloadChunkSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("HTTPRequest", "set_download_chunk_size")
 
 	// Call the parent method.
 	// void
@@ -371,6 +459,27 @@ func (o *HTTPRequest) SetMaxRedirects(amount gdnative.Int) {
 
 /*
         Undocumented
+	Args: [{ false timeout int}], Returns: void
+*/
+func (o *HTTPRequest) SetTimeout(timeout gdnative.Int) {
+	//log.Println("Calling HTTPRequest.SetTimeout()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(timeout)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("HTTPRequest", "set_timeout")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false enable bool}], Returns: void
 */
 func (o *HTTPRequest) SetUseThreads(enable gdnative.Bool) {
@@ -396,15 +505,20 @@ type HTTPRequestImplementer interface {
 	NodeImplementer
 	X_RedirectRequest(arg0 gdnative.String)
 	X_RequestDone(arg0 gdnative.Int, arg1 gdnative.Int, arg2 gdnative.PoolStringArray, arg3 gdnative.PoolByteArray)
+	X_Timeout()
 	CancelRequest()
 	GetBodySize() gdnative.Int
 	GetBodySizeLimit() gdnative.Int
+	GetDownloadChunkSize() gdnative.Int
 	GetDownloadFile() gdnative.String
 	GetDownloadedBytes() gdnative.Int
 	GetMaxRedirects() gdnative.Int
+	GetTimeout() gdnative.Int
 	IsUsingThreads() gdnative.Bool
 	SetBodySizeLimit(bytes gdnative.Int)
+	SetDownloadChunkSize(arg0 gdnative.Int)
 	SetDownloadFile(path gdnative.String)
 	SetMaxRedirects(amount gdnative.Int)
+	SetTimeout(timeout gdnative.Int)
 	SetUseThreads(enable gdnative.Bool)
 }

@@ -178,6 +178,54 @@ func (o *EditorFileSystemDirectory) GetFilePath(idx gdnative.Int) gdnative.Strin
 }
 
 /*
+
+	Args: [{ false idx int}], Returns: String
+*/
+func (o *EditorFileSystemDirectory) GetFileScriptClassExtends(idx gdnative.Int) gdnative.String {
+	//log.Println("Calling EditorFileSystemDirectory.GetFileScriptClassExtends()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorFileSystemDirectory", "get_file_script_class_extends")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false idx int}], Returns: String
+*/
+func (o *EditorFileSystemDirectory) GetFileScriptClassName(idx gdnative.Int) gdnative.String {
+	//log.Println("Calling EditorFileSystemDirectory.GetFileScriptClassName()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorFileSystemDirectory", "get_file_script_class_name")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns the file extension of the file at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: String
 */
@@ -355,6 +403,8 @@ type EditorFileSystemDirectoryImplementer interface {
 	GetFileCount() gdnative.Int
 	GetFileImportIsValid(idx gdnative.Int) gdnative.Bool
 	GetFilePath(idx gdnative.Int) gdnative.String
+	GetFileScriptClassExtends(idx gdnative.Int) gdnative.String
+	GetFileScriptClassName(idx gdnative.Int) gdnative.String
 	GetFileType(idx gdnative.Int) gdnative.String
 	GetName() gdnative.String
 	GetParent() EditorFileSystemDirectoryImplementer

@@ -94,6 +94,43 @@ func (o *SpriteBase3D) X_QueueUpdate() {
 }
 
 /*
+
+	Args: [], Returns: TriangleMesh
+*/
+func (o *SpriteBase3D) GenerateTriangleMesh() TriangleMeshImplementer {
+	//log.Println("Calling SpriteBase3D.GenerateTriangleMesh()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SpriteBase3D", "generate_triangle_mesh")
+
+	// Call the parent method.
+	// TriangleMesh
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newTriangleMeshFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(TriangleMeshImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "TriangleMesh" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(TriangleMeshImplementer)
+	}
+
+	return &ret
+}
+
+/*
         Undocumented
 	Args: [], Returns: enum.SpriteBase3D::AlphaCutMode
 */
@@ -137,6 +174,29 @@ func (o *SpriteBase3D) GetAxis() gdnative.Vector3Axis {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
 	return gdnative.Vector3Axis(ret)
+}
+
+/*
+        Undocumented
+	Args: [], Returns: enum.SpatialMaterial::BillboardMode
+*/
+func (o *SpriteBase3D) GetBillboardMode() SpatialMaterialBillboardMode {
+	//log.Println("Calling SpriteBase3D.GetBillboardMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SpriteBase3D", "get_billboard_mode")
+
+	// Call the parent method.
+	// enum.SpatialMaterial::BillboardMode
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return SpatialMaterialBillboardMode(ret)
 }
 
 /*
@@ -391,6 +451,27 @@ func (o *SpriteBase3D) SetAxis(axis gdnative.Int) {
 
 /*
         Undocumented
+	Args: [{ false mode int}], Returns: void
+*/
+func (o *SpriteBase3D) SetBillboardMode(mode gdnative.Int) {
+	//log.Println("Calling SpriteBase3D.SetBillboardMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(mode)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SpriteBase3D", "set_billboard_mode")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false centered bool}], Returns: void
 */
 func (o *SpriteBase3D) SetCentered(centered gdnative.Bool) {
@@ -564,6 +645,7 @@ type SpriteBase3DImplementer interface {
 	GeometryInstanceImplementer
 	X_ImUpdate()
 	X_QueueUpdate()
+	GenerateTriangleMesh() TriangleMeshImplementer
 	GetDrawFlag(flag gdnative.Int) gdnative.Bool
 	GetItemRect() gdnative.Rect2
 	GetModulate() gdnative.Color
@@ -575,6 +657,7 @@ type SpriteBase3DImplementer interface {
 	IsFlippedV() gdnative.Bool
 	SetAlphaCutMode(mode gdnative.Int)
 	SetAxis(axis gdnative.Int)
+	SetBillboardMode(mode gdnative.Int)
 	SetCentered(centered gdnative.Bool)
 	SetDrawFlag(flag gdnative.Int, enabled gdnative.Bool)
 	SetFlipH(flipH gdnative.Bool)

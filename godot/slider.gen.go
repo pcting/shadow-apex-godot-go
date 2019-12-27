@@ -126,6 +126,29 @@ func (o *Slider) IsEditable() gdnative.Bool {
 
 /*
         Undocumented
+	Args: [], Returns: bool
+*/
+func (o *Slider) IsScrollable() gdnative.Bool {
+	//log.Println("Calling Slider.IsScrollable()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Slider", "is_scrollable")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [{ false editable bool}], Returns: void
 */
 func (o *Slider) SetEditable(editable gdnative.Bool) {
@@ -137,6 +160,27 @@ func (o *Slider) SetEditable(editable gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Slider", "set_editable")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false scrollable bool}], Returns: void
+*/
+func (o *Slider) SetScrollable(scrollable gdnative.Bool) {
+	//log.Println("Calling Slider.SetScrollable()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(scrollable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Slider", "set_scrollable")
 
 	// Call the parent method.
 	// void
@@ -194,7 +238,9 @@ type SliderImplementer interface {
 	GetTicks() gdnative.Int
 	GetTicksOnBorders() gdnative.Bool
 	IsEditable() gdnative.Bool
+	IsScrollable() gdnative.Bool
 	SetEditable(editable gdnative.Bool)
+	SetScrollable(scrollable gdnative.Bool)
 	SetTicks(count gdnative.Int)
 	SetTicksOnBorders(ticksOnBorder gdnative.Bool)
 }

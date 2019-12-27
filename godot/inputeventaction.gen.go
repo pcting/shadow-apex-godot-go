@@ -59,6 +59,29 @@ func (o *InputEventAction) GetAction() gdnative.String {
 
 /*
         Undocumented
+	Args: [], Returns: float
+*/
+func (o *InputEventAction) GetStrength() gdnative.Real {
+	//log.Println("Calling InputEventAction.GetStrength()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("InputEventAction", "get_strength")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [{ false action String}], Returns: void
 */
 func (o *InputEventAction) SetAction(action gdnative.String) {
@@ -99,11 +122,34 @@ func (o *InputEventAction) SetPressed(pressed gdnative.Bool) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false strength float}], Returns: void
+*/
+func (o *InputEventAction) SetStrength(strength gdnative.Real) {
+	//log.Println("Calling InputEventAction.SetStrength()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(strength)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("InputEventAction", "set_strength")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // InputEventActionImplementer is an interface that implements the methods
 // of the InputEventAction class.
 type InputEventActionImplementer interface {
 	InputEventImplementer
 	GetAction() gdnative.String
+	GetStrength() gdnative.Real
 	SetAction(action gdnative.String)
 	SetPressed(pressed gdnative.Bool)
+	SetStrength(strength gdnative.Real)
 }

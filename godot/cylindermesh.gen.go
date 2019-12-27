@@ -23,7 +23,7 @@ func newCylinderMeshFromPointer(ptr gdnative.Pointer) CylinderMesh {
 }
 
 /*
-Class representing a cylindrical [PrimitiveMesh].
+Class representing a cylindrical [PrimitiveMesh]. This class can be used to create cones by setting either the [member top_radius] or [member bottom_radius] properties to 0.0.
 */
 type CylinderMesh struct {
 	PrimitiveMesh

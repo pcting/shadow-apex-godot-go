@@ -280,6 +280,53 @@ func (o *NavigationMesh) GetCellSize() gdnative.Real {
 
 /*
         Undocumented
+	Args: [], Returns: int
+*/
+func (o *NavigationMesh) GetCollisionMask() gdnative.Int {
+	//log.Println("Calling NavigationMesh.GetCollisionMask()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NavigationMesh", "get_collision_mask")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false bit int}], Returns: bool
+*/
+func (o *NavigationMesh) GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool {
+	//log.Println("Calling NavigationMesh.GetCollisionMaskBit()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(bit)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NavigationMesh", "get_collision_mask_bit")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: float
 */
 func (o *NavigationMesh) GetDetailSampleDistance() gdnative.Real {
@@ -440,6 +487,29 @@ func (o *NavigationMesh) GetFilterWalkableLowHeightSpans() gdnative.Bool {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *NavigationMesh) GetParsedGeometryType() gdnative.Int {
+	//log.Println("Calling NavigationMesh.GetParsedGeometryType()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NavigationMesh", "get_parsed_geometry_type")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
 
 	Args: [{ false idx int}], Returns: PoolIntArray
 */
@@ -552,6 +622,52 @@ func (o *NavigationMesh) GetSamplePartitionType() gdnative.Int {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *NavigationMesh) GetSourceGeometryMode() gdnative.Int {
+	//log.Println("Calling NavigationMesh.GetSourceGeometryMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NavigationMesh", "get_source_geometry_mode")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: String
+*/
+func (o *NavigationMesh) GetSourceGroupName() gdnative.String {
+	//log.Println("Calling NavigationMesh.GetSourceGroupName()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NavigationMesh", "get_source_group_name")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
 	return ret
 }
 
@@ -729,6 +845,49 @@ func (o *NavigationMesh) SetCellSize(cellSize gdnative.Real) {
 
 /*
         Undocumented
+	Args: [{ false mask int}], Returns: void
+*/
+func (o *NavigationMesh) SetCollisionMask(mask gdnative.Int) {
+	//log.Println("Calling NavigationMesh.SetCollisionMask()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(mask)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NavigationMesh", "set_collision_mask")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false bit int} { false value bool}], Returns: void
+*/
+func (o *NavigationMesh) SetCollisionMaskBit(bit gdnative.Int, value gdnative.Bool) {
+	//log.Println("Calling NavigationMesh.SetCollisionMaskBit()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(bit)
+	ptrArguments[1] = gdnative.NewPointerFromBool(value)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NavigationMesh", "set_collision_mask_bit")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false detail_sample_dist float}], Returns: void
 */
 func (o *NavigationMesh) SetDetailSampleDistance(detailSampleDist gdnative.Real) {
@@ -876,6 +1035,27 @@ func (o *NavigationMesh) SetFilterWalkableLowHeightSpans(filterWalkableLowHeight
 
 /*
         Undocumented
+	Args: [{ false geometry_type int}], Returns: void
+*/
+func (o *NavigationMesh) SetParsedGeometryType(geometryType gdnative.Int) {
+	//log.Println("Calling NavigationMesh.SetParsedGeometryType()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(geometryType)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NavigationMesh", "set_parsed_geometry_type")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false region_merge_size float}], Returns: void
 */
 func (o *NavigationMesh) SetRegionMergeSize(regionMergeSize gdnative.Real) {
@@ -929,6 +1109,48 @@ func (o *NavigationMesh) SetSamplePartitionType(samplePartitionType gdnative.Int
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("NavigationMesh", "set_sample_partition_type")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false mask int}], Returns: void
+*/
+func (o *NavigationMesh) SetSourceGeometryMode(mask gdnative.Int) {
+	//log.Println("Calling NavigationMesh.SetSourceGeometryMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(mask)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NavigationMesh", "set_source_geometry_mode")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false mask String}], Returns: void
+*/
+func (o *NavigationMesh) SetSourceGroupName(mask gdnative.String) {
+	//log.Println("Calling NavigationMesh.SetSourceGroupName()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(mask)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NavigationMesh", "set_source_group_name")
 
 	// Call the parent method.
 	// void
@@ -994,6 +1216,8 @@ type NavigationMeshImplementer interface {
 	GetAgentRadius() gdnative.Real
 	GetCellHeight() gdnative.Real
 	GetCellSize() gdnative.Real
+	GetCollisionMask() gdnative.Int
+	GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool
 	GetDetailSampleDistance() gdnative.Real
 	GetDetailSampleMaxError() gdnative.Real
 	GetEdgeMaxError() gdnative.Real
@@ -1001,11 +1225,14 @@ type NavigationMeshImplementer interface {
 	GetFilterLedgeSpans() gdnative.Bool
 	GetFilterLowHangingObstacles() gdnative.Bool
 	GetFilterWalkableLowHeightSpans() gdnative.Bool
+	GetParsedGeometryType() gdnative.Int
 	GetPolygon(idx gdnative.Int) gdnative.PoolIntArray
 	GetPolygonCount() gdnative.Int
 	GetRegionMergeSize() gdnative.Real
 	GetRegionMinSize() gdnative.Real
 	GetSamplePartitionType() gdnative.Int
+	GetSourceGeometryMode() gdnative.Int
+	GetSourceGroupName() gdnative.String
 	GetVertices() gdnative.PoolVector3Array
 	GetVertsPerPoly() gdnative.Real
 	SetAgentHeight(agentHeight gdnative.Real)
@@ -1014,6 +1241,8 @@ type NavigationMeshImplementer interface {
 	SetAgentRadius(agentRadius gdnative.Real)
 	SetCellHeight(cellHeight gdnative.Real)
 	SetCellSize(cellSize gdnative.Real)
+	SetCollisionMask(mask gdnative.Int)
+	SetCollisionMaskBit(bit gdnative.Int, value gdnative.Bool)
 	SetDetailSampleDistance(detailSampleDist gdnative.Real)
 	SetDetailSampleMaxError(detailSampleMaxError gdnative.Real)
 	SetEdgeMaxError(edgeMaxError gdnative.Real)
@@ -1021,9 +1250,12 @@ type NavigationMeshImplementer interface {
 	SetFilterLedgeSpans(filterLedgeSpans gdnative.Bool)
 	SetFilterLowHangingObstacles(filterLowHangingObstacles gdnative.Bool)
 	SetFilterWalkableLowHeightSpans(filterWalkableLowHeightSpans gdnative.Bool)
+	SetParsedGeometryType(geometryType gdnative.Int)
 	SetRegionMergeSize(regionMergeSize gdnative.Real)
 	SetRegionMinSize(regionMinSize gdnative.Real)
 	SetSamplePartitionType(samplePartitionType gdnative.Int)
+	SetSourceGeometryMode(mask gdnative.Int)
+	SetSourceGroupName(mask gdnative.String)
 	SetVertices(vertices gdnative.PoolVector3Array)
 	SetVertsPerPoly(vertsPerPoly gdnative.Real)
 }

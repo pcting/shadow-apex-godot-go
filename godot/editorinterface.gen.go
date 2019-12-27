@@ -23,7 +23,7 @@ func newEditorInterfaceFromPointer(ptr gdnative.Pointer) EditorInterface {
 }
 
 /*
-Editor interface. Allows saving and (re-)loading scenes, rendering mesh previews, inspecting and editing resources and objects and provides access to [EditorSettings], [EditorFileSystem], [EditorResourcePreview]\ er, [ScriptEditor], the editor viewport, as well as information about scenes. Also see [EditorPlugin] and [EditorScript].
+EditorInterface gives you control over Godot editor's window. It allows customizing the window, saving and (re-)loading scenes, rendering mesh previews, inspecting and editing resources and objects, and provides access to [EditorSettings], [EditorFileSystem], [EditorResourcePreview], [ScriptEditor], the editor viewport, and information about scenes.
 */
 type EditorInterface struct {
 	Node
@@ -56,7 +56,7 @@ func (o *EditorInterface) EditResource(resource ResourceImplementer) {
 }
 
 /*
-        Returns the base [Control].
+        Returns the main container of Godot editor's window. You can use it, for example, to retrieve the size of the container and place your controls accordingly.
 	Args: [], Returns: Control
 */
 func (o *EditorInterface) GetBaseControl() ControlImplementer {
@@ -93,7 +93,30 @@ func (o *EditorInterface) GetBaseControl() ControlImplementer {
 }
 
 /*
-        Returns the edited scene's root [Node].
+        Undocumented
+	Args: [], Returns: String
+*/
+func (o *EditorInterface) GetCurrentPath() gdnative.String {
+	//log.Println("Calling EditorInterface.GetCurrentPath()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorInterface", "get_current_path")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the edited (current) scene's root [Node].
 	Args: [], Returns: Node
 */
 func (o *EditorInterface) GetEditedSceneRoot() NodeImplementer {
@@ -204,7 +227,44 @@ func (o *EditorInterface) GetEditorViewport() ControlImplementer {
 }
 
 /*
-        Returns an [Array] of the currently opened scenes.
+
+	Args: [], Returns: EditorInspector
+*/
+func (o *EditorInterface) GetInspector() EditorInspectorImplementer {
+	//log.Println("Calling EditorInterface.GetInspector()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorInterface", "get_inspector")
+
+	// Call the parent method.
+	// EditorInspector
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newEditorInspectorFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(EditorInspectorImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "EditorInspector" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(EditorInspectorImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Returns an [Array] with the file paths of the currently opened scenes.
 	Args: [], Returns: Array
 */
 func (o *EditorInterface) GetOpenScenes() gdnative.Array {
@@ -264,7 +324,7 @@ func (o *EditorInterface) GetResourceFilesystem() EditorFileSystemImplementer {
 }
 
 /*
-        Returns the [EditorResourcePreview]\ er.
+        Returns the [EditorResourcePreview].
 	Args: [], Returns: EditorResourcePreview
 */
 func (o *EditorInterface) GetResourcePreviewer() EditorResourcePreviewImplementer {
@@ -557,17 +617,59 @@ func (o *EditorInterface) SaveSceneAs(path gdnative.String, withPreview gdnative
 
 /*
 
-	Args: [{ false p_file String}], Returns: void
+	Args: [{ false file String}], Returns: void
 */
-func (o *EditorInterface) SelectFile(pFile gdnative.String) {
+func (o *EditorInterface) SelectFile(file gdnative.String) {
 	//log.Println("Calling EditorInterface.SelectFile()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromString(pFile)
+	ptrArguments[0] = gdnative.NewPointerFromString(file)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorInterface", "select_file")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enter bool}], Returns: void
+*/
+func (o *EditorInterface) SetDistractionFreeMode(enter gdnative.Bool) {
+	//log.Println("Calling EditorInterface.SetDistractionFreeMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enter)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorInterface", "set_distraction_free_mode")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false name String}], Returns: void
+*/
+func (o *EditorInterface) SetMainScreenEditor(name gdnative.String) {
+	//log.Println("Calling EditorInterface.SetMainScreenEditor()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(name)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorInterface", "set_main_screen_editor")
 
 	// Call the parent method.
 	// void
@@ -604,9 +706,11 @@ type EditorInterfaceImplementer interface {
 	NodeImplementer
 	EditResource(resource ResourceImplementer)
 	GetBaseControl() ControlImplementer
+	GetCurrentPath() gdnative.String
 	GetEditedSceneRoot() NodeImplementer
 	GetEditorSettings() EditorSettingsImplementer
 	GetEditorViewport() ControlImplementer
+	GetInspector() EditorInspectorImplementer
 	GetOpenScenes() gdnative.Array
 	GetResourceFilesystem() EditorFileSystemImplementer
 	GetResourcePreviewer() EditorResourcePreviewImplementer
@@ -619,6 +723,8 @@ type EditorInterfaceImplementer interface {
 	OpenSceneFromPath(sceneFilepath gdnative.String)
 	ReloadSceneFromPath(sceneFilepath gdnative.String)
 	SaveSceneAs(path gdnative.String, withPreview gdnative.Bool)
-	SelectFile(pFile gdnative.String)
+	SelectFile(file gdnative.String)
+	SetDistractionFreeMode(enter gdnative.Bool)
+	SetMainScreenEditor(name gdnative.String)
 	SetPluginEnabled(plugin gdnative.String, enabled gdnative.Bool)
 }

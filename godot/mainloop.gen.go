@@ -23,7 +23,7 @@ func newMainLoopFromPointer(ptr gdnative.Pointer) MainLoop {
 }
 
 /*
-Main loop is the abstract main loop base class. All other main loop classes are derived from it. Upon application start, a [code]MainLoop[/code] has to be provided to OS, else the application will exit. This happens automatically (and a [SceneTree] is created), unless a main [Script] is supplied, which may or not create and return a [code]MainLoop[/code].
+[code]MainLoop[/code] is the abstract base class for a Godot project's game loop. It in inherited by [SceneTree], which is the default game loop implementation used in Godot projects, though it is also possible to write and use one's own [code]MainLoop[/code] subclass instead of the scene tree. Upon application start, a [code]MainLoop[/code] implementation has to be provided to the OS, or the application will exit. This happens automatically (and a [SceneTree] is created) unless a main [Script] is provided from the command line (with e.g. [code]godot -s my_loop.gd[/code], which should then be a [code]MainLoop[/code] implementation. Here is an example script implementing a simple [code]MainLoop[/code]: [codeblock] extends MainLoop var time_elapsed = 0 var keys_typed = [] var quit = false func _initialize(): print("Initialized:") print(" Starting time: %s" % str(time_elapsed)) func _idle(delta): time_elapsed += delta # Return true to end the main loop return quit func _input_event(event): # Record keys if event is InputEventKey and event.pressed and !event.echo: keys_typed.append(OS.get_scancode_string(event.scancode)) # Quit on Escape press if event.scancode == KEY_ESCAPE: quit = true # Quit on any mouse click if event is InputEventMouseButton: quit = true func _finalize(): print("Finalized:") print(" End time: %s" % str(time_elapsed)) print(" Keys typed: %s" % var2str(keys_typed)) [/codeblock]
 */
 type MainLoop struct {
 	Object
@@ -35,16 +35,16 @@ func (o *MainLoop) BaseClass() string {
 }
 
 /*
-
-	Args: [{ false files PoolStringArray} { false screen int}], Returns: void
+        Called when files are dragged from the OS file manager and dropped in the game window. The arguments are a list of file paths and the identifier of the screen where the drag originated.
+	Args: [{ false files PoolStringArray} { false from_screen int}], Returns: void
 */
-func (o *MainLoop) X_DropFiles(files gdnative.PoolStringArray, screen gdnative.Int) {
+func (o *MainLoop) X_DropFiles(files gdnative.PoolStringArray, fromScreen gdnative.Int) {
 	//log.Println("Calling MainLoop.X_DropFiles()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromPoolStringArray(files)
-	ptrArguments[1] = gdnative.NewPointerFromInt(screen)
+	ptrArguments[1] = gdnative.NewPointerFromInt(fromScreen)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("MainLoop", "_drop_files")
@@ -77,10 +77,32 @@ func (o *MainLoop) X_Finalize() {
 }
 
 /*
-        Called each idle frame with time since last call as an only argument.
-	Args: [{ false delta float}], Returns: void
+        Undocumented
+	Args: [{ false id Variant} { false meta Variant}], Returns: void
 */
-func (o *MainLoop) X_Idle(delta gdnative.Real) {
+func (o *MainLoop) X_GlobalMenuAction(id gdnative.Variant, meta gdnative.Variant) {
+	//log.Println("Calling MainLoop.X_GlobalMenuAction()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromVariant(id)
+	ptrArguments[1] = gdnative.NewPointerFromVariant(meta)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MainLoop", "_global_menu_action")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Called each idle frame with the time since the last idle frame as argument (in seconds). Equivalent to [method Node._process]. If implemented, the method must return a boolean value. [code]true[/code] ends the main loop, while [code]false[/code] lets it proceed to the next frame.
+	Args: [{ false delta float}], Returns: bool
+*/
+func (o *MainLoop) X_Idle(delta gdnative.Real) gdnative.Bool {
 	//log.Println("Calling MainLoop.X_Idle()")
 
 	// Build out the method's arguments
@@ -91,10 +113,13 @@ func (o *MainLoop) X_Idle(delta gdnative.Real) {
 	methodBind := gdnative.NewMethodBind("MainLoop", "_idle")
 
 	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
+	// bool
+	retPtr := gdnative.NewEmptyBool()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -118,15 +143,15 @@ func (o *MainLoop) X_Initialize() {
 }
 
 /*
-
-	Args: [{ false ev InputEvent}], Returns: void
+        Called whenever an [InputEvent] is received by the main loop.
+	Args: [{ false event InputEvent}], Returns: void
 */
-func (o *MainLoop) X_InputEvent(ev InputEventImplementer) {
+func (o *MainLoop) X_InputEvent(event InputEventImplementer) {
 	//log.Println("Calling MainLoop.X_InputEvent()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromObject(ev.GetBaseObject())
+	ptrArguments[0] = gdnative.NewPointerFromObject(event.GetBaseObject())
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("MainLoop", "_input_event")
@@ -139,7 +164,7 @@ func (o *MainLoop) X_InputEvent(ev InputEventImplementer) {
 }
 
 /*
-
+        Deprecated callback, does not do anything. Use [method _input_event] to parse text input. Will be removed in Godot 4.0.
 	Args: [{ false text String}], Returns: void
 */
 func (o *MainLoop) X_InputText(text gdnative.String) {
@@ -160,10 +185,10 @@ func (o *MainLoop) X_InputText(text gdnative.String) {
 }
 
 /*
-
-	Args: [{ false delta float}], Returns: void
+        Called each physics frame with the time since the last physics frame as argument (in seconds). Equivalent to [method Node._physics_process]. If implemented, the method must return a boolean value. [code]true[/code] ends the main loop, while [code]false[/code] lets it proceed to the next frame.
+	Args: [{ false delta float}], Returns: bool
 */
-func (o *MainLoop) X_Iteration(delta gdnative.Real) {
+func (o *MainLoop) X_Iteration(delta gdnative.Real) gdnative.Bool {
 	//log.Println("Calling MainLoop.X_Iteration()")
 
 	// Build out the method's arguments
@@ -174,14 +199,17 @@ func (o *MainLoop) X_Iteration(delta gdnative.Real) {
 	methodBind := gdnative.NewMethodBind("MainLoop", "_iteration")
 
 	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
+	// bool
+	retPtr := gdnative.NewEmptyBool()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
 }
 
 /*
-
+        Should not be called manually, override [method _finalize] instead. Will be removed in Godot 4.0.
 	Args: [], Returns: void
 */
 func (o *MainLoop) Finish() {
@@ -201,7 +229,7 @@ func (o *MainLoop) Finish() {
 }
 
 /*
-
+        Should not be called manually, override [method _idle] instead. Will be removed in Godot 4.0.
 	Args: [{ false delta float}], Returns: bool
 */
 func (o *MainLoop) Idle(delta gdnative.Real) gdnative.Bool {
@@ -225,7 +253,7 @@ func (o *MainLoop) Idle(delta gdnative.Real) gdnative.Bool {
 }
 
 /*
-
+        Should not be called manually, override [method _initialize] instead. Will be removed in Godot 4.0.
 	Args: [], Returns: void
 */
 func (o *MainLoop) Init() {
@@ -245,15 +273,15 @@ func (o *MainLoop) Init() {
 }
 
 /*
-
-	Args: [{ false ev InputEvent}], Returns: void
+        Should not be called manually, override [method _input_event] instead. Will be removed in Godot 4.0.
+	Args: [{ false event InputEvent}], Returns: void
 */
-func (o *MainLoop) InputEventMethod(ev InputEventImplementer) {
+func (o *MainLoop) InputEventMethod(event InputEventImplementer) {
 	//log.Println("Calling MainLoop.InputEventMethod()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromObject(ev.GetBaseObject())
+	ptrArguments[0] = gdnative.NewPointerFromObject(event.GetBaseObject())
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("MainLoop", "input_event")
@@ -266,7 +294,7 @@ func (o *MainLoop) InputEventMethod(ev InputEventImplementer) {
 }
 
 /*
-
+        Should not be called manually, override [method _input_text] instead. Will be removed in Godot 4.0.
 	Args: [{ false text String}], Returns: void
 */
 func (o *MainLoop) InputText(text gdnative.String) {
@@ -287,7 +315,7 @@ func (o *MainLoop) InputText(text gdnative.String) {
 }
 
 /*
-
+        Should not be called manually, override [method _iteration] instead. Will be removed in Godot 4.0.
 	Args: [{ false delta float}], Returns: bool
 */
 func (o *MainLoop) Iteration(delta gdnative.Real) gdnative.Bool {
@@ -314,17 +342,18 @@ func (o *MainLoop) Iteration(delta gdnative.Real) gdnative.Bool {
 // of the MainLoop class.
 type MainLoopImplementer interface {
 	ObjectImplementer
-	X_DropFiles(files gdnative.PoolStringArray, screen gdnative.Int)
+	X_DropFiles(files gdnative.PoolStringArray, fromScreen gdnative.Int)
 	X_Finalize()
-	X_Idle(delta gdnative.Real)
+	X_GlobalMenuAction(id gdnative.Variant, meta gdnative.Variant)
+	X_Idle(delta gdnative.Real) gdnative.Bool
 	X_Initialize()
-	X_InputEvent(ev InputEventImplementer)
+	X_InputEvent(event InputEventImplementer)
 	X_InputText(text gdnative.String)
-	X_Iteration(delta gdnative.Real)
+	X_Iteration(delta gdnative.Real) gdnative.Bool
 	Finish()
 	Idle(delta gdnative.Real) gdnative.Bool
 	Init()
-	InputEventMethod(ev InputEventImplementer)
+	InputEventMethod(event InputEventImplementer)
 	InputText(text gdnative.String)
 	Iteration(delta gdnative.Real) gdnative.Bool
 }

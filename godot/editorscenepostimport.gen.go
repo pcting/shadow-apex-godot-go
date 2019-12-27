@@ -23,8 +23,8 @@ func newEditorScenePostImportFromPointer(ptr gdnative.Pointer) EditorScenePostIm
 }
 
 /*
-
- */
+Imported scenes can be automatically modified right after import by setting their [i]Custom Script[/i] Import property to a [code]tool[/code] script that inherits from this class. The [method post_import] callback receives the imported scene's root node and returns the modified version of the scene. Usage example: [codeblock] tool # needed so it runs in editor extends EditorScenePostImport # This sample changes all node names # Called right after the scene is imported and gets the root node func post_import(scene): # change all node names to "modified_[oldnodename]" iterate(scene) return scene # remember to return the imported scene func iterate(node): if node != null: node.name = "modified_" + node.name for child in node.get_children(): iterate(child) [/codeblock]
+*/
 type EditorScenePostImport struct {
 	Reference
 	owner gdnative.Object
@@ -35,10 +35,56 @@ func (o *EditorScenePostImport) BaseClass() string {
 }
 
 /*
-
-	Args: [{ false scene Object}], Returns: void
+        Returns the source file path which got imported (e.g. [code]res://scene.dae[/code]).
+	Args: [], Returns: String
 */
-func (o *EditorScenePostImport) PostImport(scene ObjectImplementer) {
+func (o *EditorScenePostImport) GetSourceFile() gdnative.String {
+	//log.Println("Calling EditorScenePostImport.GetSourceFile()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorScenePostImport", "get_source_file")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the resource folder the imported scene file is located in.
+	Args: [], Returns: String
+*/
+func (o *EditorScenePostImport) GetSourceFolder() gdnative.String {
+	//log.Println("Calling EditorScenePostImport.GetSourceFolder()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorScenePostImport", "get_source_folder")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Gets called after the scene got imported and has to return the modified version of the scene.
+	Args: [{ false scene Object}], Returns: Object
+*/
+func (o *EditorScenePostImport) PostImport(scene ObjectImplementer) ObjectImplementer {
 	//log.Println("Calling EditorScenePostImport.PostImport()")
 
 	// Build out the method's arguments
@@ -49,15 +95,34 @@ func (o *EditorScenePostImport) PostImport(scene ObjectImplementer) {
 	methodBind := gdnative.NewMethodBind("EditorScenePostImport", "post_import")
 
 	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
+	// Object
+	retPtr := gdnative.NewEmptyObject()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newObjectFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(ObjectImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Object" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(ObjectImplementer)
+	}
+
+	return &ret
 }
 
 // EditorScenePostImportImplementer is an interface that implements the methods
 // of the EditorScenePostImport class.
 type EditorScenePostImportImplementer interface {
 	ReferenceImplementer
-	PostImport(scene ObjectImplementer)
+	GetSourceFile() gdnative.String
+	GetSourceFolder() gdnative.String
+	PostImport(scene ObjectImplementer) ObjectImplementer
 }

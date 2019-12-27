@@ -79,7 +79,7 @@ func (o *BitMap) X_SetData(arg0 gdnative.Dictionary) {
 }
 
 /*
-        Creates a bitmap with the specified size, filled with false.
+        Creates a bitmap with the specified size, filled with [code]false[/code].
 	Args: [{ false size Vector2}], Returns: void
 */
 func (o *BitMap) Create(size gdnative.Vector2) {
@@ -100,15 +100,16 @@ func (o *BitMap) Create(size gdnative.Vector2) {
 }
 
 /*
-        Creates a bitmap that matches the given image dimensions, every element of the bitmap is set to false if the alpha value of the image at that position is equal to [code]threshold[/code] or less, and true in other case.
-	Args: [{ false image Image}], Returns: void
+        Creates a bitmap that matches the given image dimensions, every element of the bitmap is set to [code]false[/code] if the alpha value of the image at that position is equal to [code]threshold[/code] or less, and [code]true[/code] in other case.
+	Args: [{ false image Image} {0.1 true threshold float}], Returns: void
 */
-func (o *BitMap) CreateFromImageAlpha(image ImageImplementer) {
+func (o *BitMap) CreateFromImageAlpha(image ImageImplementer, threshold gdnative.Real) {
 	//log.Println("Calling BitMap.CreateFromImageAlpha()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromObject(image.GetBaseObject())
+	ptrArguments[1] = gdnative.NewPointerFromReal(threshold)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("BitMap", "create_from_image_alpha")
@@ -168,7 +169,7 @@ func (o *BitMap) GetSize() gdnative.Vector2 {
 }
 
 /*
-        Returns the amount of bitmap elements that are set to true.
+        Returns the amount of bitmap elements that are set to [code]true[/code].
 	Args: [], Returns: int
 */
 func (o *BitMap) GetTrueBitCount() gdnative.Int {
@@ -187,6 +188,53 @@ func (o *BitMap) GetTrueBitCount() gdnative.Int {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false pixels int} { false rect Rect2}], Returns: void
+*/
+func (o *BitMap) GrowMask(pixels gdnative.Int, rect gdnative.Rect2) {
+	//log.Println("Calling BitMap.GrowMask()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(pixels)
+	ptrArguments[1] = gdnative.NewPointerFromRect2(rect)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("BitMap", "grow_mask")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false rect Rect2} {2 true epsilon float}], Returns: Array
+*/
+func (o *BitMap) OpaqueToPolygons(rect gdnative.Rect2, epsilon gdnative.Real) gdnative.Array {
+	//log.Println("Calling BitMap.OpaqueToPolygons()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRect2(rect)
+	ptrArguments[1] = gdnative.NewPointerFromReal(epsilon)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("BitMap", "opaque_to_polygons")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
 	return ret
 }
 
@@ -214,14 +262,14 @@ func (o *BitMap) SetBit(position gdnative.Vector2, bit gdnative.Bool) {
 
 /*
         Sets a rectangular portion of the bitmap to the specified value.
-	Args: [{ false p_rect Rect2} { false bit bool}], Returns: void
+	Args: [{ false rect Rect2} { false bit bool}], Returns: void
 */
-func (o *BitMap) SetBitRect(pRect gdnative.Rect2, bit gdnative.Bool) {
+func (o *BitMap) SetBitRect(rect gdnative.Rect2, bit gdnative.Bool) {
 	//log.Println("Calling BitMap.SetBitRect()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromRect2(pRect)
+	ptrArguments[0] = gdnative.NewPointerFromRect2(rect)
 	ptrArguments[1] = gdnative.NewPointerFromBool(bit)
 
 	// Get the method bind
@@ -241,10 +289,12 @@ type BitMapImplementer interface {
 	X_GetData() gdnative.Dictionary
 	X_SetData(arg0 gdnative.Dictionary)
 	Create(size gdnative.Vector2)
-	CreateFromImageAlpha(image ImageImplementer)
+	CreateFromImageAlpha(image ImageImplementer, threshold gdnative.Real)
 	GetBit(position gdnative.Vector2) gdnative.Bool
 	GetSize() gdnative.Vector2
 	GetTrueBitCount() gdnative.Int
+	GrowMask(pixels gdnative.Int, rect gdnative.Rect2)
+	OpaqueToPolygons(rect gdnative.Rect2, epsilon gdnative.Real) gdnative.Array
 	SetBit(position gdnative.Vector2, bit gdnative.Bool)
-	SetBitRect(pRect gdnative.Rect2, bit gdnative.Bool)
+	SetBitRect(rect gdnative.Rect2, bit gdnative.Bool)
 }

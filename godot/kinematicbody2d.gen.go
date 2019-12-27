@@ -23,7 +23,7 @@ func newKinematicBody2DFromPointer(ptr gdnative.Pointer) KinematicBody2D {
 }
 
 /*
-Kinematic bodies are special types of bodies that are meant to be user-controlled. They are not affected by physics at all (to other types of bodies, such a character or a rigid body, these are the same as a static body). They have however, two main uses: Simulated Motion: When these bodies are moved manually, either from code or from an AnimationPlayer (with process mode set to fixed), the physics will automatically compute an estimate of their linear and angular velocity. This makes them very useful for moving platforms or other AnimationPlayer-controlled objects (like a door, a bridge that opens, etc). Kinematic Characters: KinematicBody2D also has an API for moving objects (the [method move_and_collide] and [method move_and_slide] methods) while performing collision tests. This makes them really useful to implement characters that collide against a world, but that don't require advanced physics.
+Kinematic bodies are special types of bodies that are meant to be user-controlled. They are not affected by physics at all; to other types of bodies, such as a character or a rigid body, these are the same as a static body. However, they have two main uses: [b]Simulated motion:[/b] When these bodies are moved manually, either from code or from an [AnimationPlayer] (with [member AnimationPlayer.playback_process_mode] set to "physics"), the physics will automatically compute an estimate of their linear and angular velocity. This makes them very useful for moving platforms or other AnimationPlayer-controlled objects (like a door, a bridge that opens, etc). [b]Kinematic characters:[/b] KinematicBody2D also has an API for moving objects (the [method move_and_collide] and [method move_and_slide] methods) while performing collision tests. This makes them really useful to implement characters that collide against a world, but that don't require advanced physics.
 */
 type KinematicBody2D struct {
 	PhysicsBody2D
@@ -32,6 +32,27 @@ type KinematicBody2D struct {
 
 func (o *KinematicBody2D) BaseClass() string {
 	return "KinematicBody2D"
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 Object}], Returns: void
+*/
+func (o *KinematicBody2D) X_DirectStateChanged(arg0 ObjectImplementer) {
+	//log.Println("Calling KinematicBody2D.X_DirectStateChanged()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(arg0.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("KinematicBody2D", "_direct_state_changed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
 }
 
 /*
@@ -81,7 +102,7 @@ func (o *KinematicBody2D) GetSafeMargin() gdnative.Real {
 }
 
 /*
-        Returns a [KinematicCollision2D], which contains information about a collision that occurred during the last [method move_and_slide] call. Since the body can collide several times in a single call to [method move_and_slide], you must specify the index of the collision in the range 0 to ([method get_slide_count] - 1).
+        Returns a [KinematicCollision2D], which contains information about a collision that occurred during the last [method move_and_slide] call. Since the body can collide several times in a single call to [method move_and_slide], you must specify the index of the collision in the range 0 to ([method get_slide_count] - 1). Example usage: [codeblock] for i in get_slide_count(): var collision = get_slide_collision(i) print("Collided with: ", collision.collider.name) [/codeblock]
 	Args: [{ false slide_idx int}], Returns: KinematicCollision2D
 */
 func (o *KinematicBody2D) GetSlideCollision(slideIdx gdnative.Int) KinematicCollision2DImplementer {
@@ -211,15 +232,41 @@ func (o *KinematicBody2D) IsOnWall() gdnative.Bool {
 }
 
 /*
-        Moves the body along the vector [code]rel_vec[/code]. The body will stop if it collides. Returns a [KinematicCollision2D], which contains information about the collision.
-	Args: [{ false rel_vec Vector2}], Returns: KinematicCollision2D
+        Undocumented
+	Args: [], Returns: bool
 */
-func (o *KinematicBody2D) MoveAndCollide(relVec gdnative.Vector2) KinematicCollision2DImplementer {
+func (o *KinematicBody2D) IsSyncToPhysicsEnabled() gdnative.Bool {
+	//log.Println("Calling KinematicBody2D.IsSyncToPhysicsEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("KinematicBody2D", "is_sync_to_physics_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Moves the body along the vector [code]rel_vec[/code]. The body will stop if it collides. Returns a [KinematicCollision2D], which contains information about the collision. If [code]test_only[/code] is [code]true[/code], the body does not move but the would-be collision information is given.
+	Args: [{ false rel_vec Vector2} {True true infinite_inertia bool} {True true exclude_raycast_shapes bool} {False true test_only bool}], Returns: KinematicCollision2D
+*/
+func (o *KinematicBody2D) MoveAndCollide(relVec gdnative.Vector2, infiniteInertia gdnative.Bool, excludeRaycastShapes gdnative.Bool, testOnly gdnative.Bool) KinematicCollision2DImplementer {
 	//log.Println("Calling KinematicBody2D.MoveAndCollide()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromVector2(relVec)
+	ptrArguments[1] = gdnative.NewPointerFromBool(infiniteInertia)
+	ptrArguments[2] = gdnative.NewPointerFromBool(excludeRaycastShapes)
+	ptrArguments[3] = gdnative.NewPointerFromBool(testOnly)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("KinematicBody2D", "move_and_collide")
@@ -249,22 +296,53 @@ func (o *KinematicBody2D) MoveAndCollide(relVec gdnative.Vector2) KinematicColli
 }
 
 /*
-        Moves the body along a vector. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a [code]KinematicBody2D[/code] or [RigidBody2D], it will also be affected by the motion of the other body. You can use this to make moving or rotating platforms, or to make nodes push other nodes. [code]linear_velocity[/code] is a value in pixels per second. Unlike in for example [method move_and_collide], you should [i]not[/i] multiply it with [code]delta[/code] — this is done by the method. [code]floor_normal[/code] is the up direction, used to determine what is a wall and what is a floor or a ceiling. If set to the default value of [code]Vector2(0, 0)[/code], everything is considered a wall. This is useful for topdown games. If the body is standing on a slope and the horizontal speed (relative to the floor's speed) goes below [code]slope_stop_min_velocity[/code], the body will stop completely. This prevents the body from sliding down slopes when you include gravity in [code]linear_velocity[/code]. When set to lower values, the body will not be able to stand still on steep slopes. If the body collides, it will change direction a maximum of [code]max_bounces[/code] times before it stops. [code]floor_max_angle[/code] is the maximum angle (in radians) where a slope is still considered a floor (or a ceiling), rather than a wall. The default value equals 45 degrees. Returns the movement that remained when the body stopped. To get more detailed information about collisions that occurred, use [method get_slide_collision].
-	Args: [{ false linear_velocity Vector2} {(0, 0) true floor_normal Vector2} {5 true slope_stop_min_velocity float} {4 true max_bounces int} {0.785398 true floor_max_angle float}], Returns: Vector2
+        Moves the body along a vector. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a [code]KinematicBody2D[/code] or [RigidBody2D], it will also be affected by the motion of the other body. You can use this to make moving or rotating platforms, or to make nodes push other nodes. [code]linear_velocity[/code] is the velocity vector in pixels per second. Unlike in [method move_and_collide], you should [i]not[/i] multiply it by [code]delta[/code] — the physics engine handles applying the velocity. [code]floor_normal[/code] is the up direction, used to determine what is a wall and what is a floor or a ceiling. If set to the default value of [code]Vector2(0, 0)[/code], everything is considered a wall. This is useful for topdown games. If [code]stop_on_slope[/code] is [code]true[/code], body will not slide on slopes when you include gravity in [code]linear_velocity[/code] and the body is standing still. If the body collides, it will change direction a maximum of [code]max_slides[/code] times before it stops. [code]floor_max_angle[/code] is the maximum angle (in radians) where a slope is still considered a floor (or a ceiling), rather than a wall. The default value equals 45 degrees. If [code]infinite_inertia[/code] is [code]true[/code], body will be able to push [RigidBody2D] nodes, but it won't also detect any collisions with them. If [code]false[/code] it will interact with [RigidBody2D] nodes like with [StaticBody2D]. Returns the [code]linear_velocity[/code] vector, rotated and/or scaled if a slide collision occurred. To get detailed information about collisions that occurred, use [method get_slide_collision].
+	Args: [{ false linear_velocity Vector2} {(0, 0) true floor_normal Vector2} {False true stop_on_slope bool} {4 true max_slides int} {0.785398 true floor_max_angle float} {True true infinite_inertia bool}], Returns: Vector2
 */
-func (o *KinematicBody2D) MoveAndSlide(linearVelocity gdnative.Vector2, floorNormal gdnative.Vector2, slopeStopMinVelocity gdnative.Real, maxBounces gdnative.Int, floorMaxAngle gdnative.Real) gdnative.Vector2 {
+func (o *KinematicBody2D) MoveAndSlide(linearVelocity gdnative.Vector2, floorNormal gdnative.Vector2, stopOnSlope gdnative.Bool, maxSlides gdnative.Int, floorMaxAngle gdnative.Real, infiniteInertia gdnative.Bool) gdnative.Vector2 {
 	//log.Println("Calling KinematicBody2D.MoveAndSlide()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 5, 5)
+	ptrArguments := make([]gdnative.Pointer, 6, 6)
 	ptrArguments[0] = gdnative.NewPointerFromVector2(linearVelocity)
 	ptrArguments[1] = gdnative.NewPointerFromVector2(floorNormal)
-	ptrArguments[2] = gdnative.NewPointerFromReal(slopeStopMinVelocity)
-	ptrArguments[3] = gdnative.NewPointerFromInt(maxBounces)
+	ptrArguments[2] = gdnative.NewPointerFromBool(stopOnSlope)
+	ptrArguments[3] = gdnative.NewPointerFromInt(maxSlides)
 	ptrArguments[4] = gdnative.NewPointerFromReal(floorMaxAngle)
+	ptrArguments[5] = gdnative.NewPointerFromBool(infiniteInertia)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("KinematicBody2D", "move_and_slide")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
+}
+
+/*
+        Moves the body while keeping it attached to slopes. Similar to [method move_and_slide]. As long as the [code]snap[/code] vector is in contact with the ground, the body will remain attached to the surface. This means you must disable snap in order to jump, for example. You can do this by setting [code]snap[/code] to [code](0, 0)[/code] or by using [method move_and_slide] instead.
+	Args: [{ false linear_velocity Vector2} { false snap Vector2} {(0, 0) true floor_normal Vector2} {False true stop_on_slope bool} {4 true max_slides int} {0.785398 true floor_max_angle float} {True true infinite_inertia bool}], Returns: Vector2
+*/
+func (o *KinematicBody2D) MoveAndSlideWithSnap(linearVelocity gdnative.Vector2, snap gdnative.Vector2, floorNormal gdnative.Vector2, stopOnSlope gdnative.Bool, maxSlides gdnative.Int, floorMaxAngle gdnative.Real, infiniteInertia gdnative.Bool) gdnative.Vector2 {
+	//log.Println("Calling KinematicBody2D.MoveAndSlideWithSnap()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 7, 7)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(linearVelocity)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(snap)
+	ptrArguments[2] = gdnative.NewPointerFromVector2(floorNormal)
+	ptrArguments[3] = gdnative.NewPointerFromBool(stopOnSlope)
+	ptrArguments[4] = gdnative.NewPointerFromInt(maxSlides)
+	ptrArguments[5] = gdnative.NewPointerFromReal(floorMaxAngle)
+	ptrArguments[6] = gdnative.NewPointerFromBool(infiniteInertia)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("KinematicBody2D", "move_and_slide_with_snap")
 
 	// Call the parent method.
 	// Vector2
@@ -298,16 +376,38 @@ func (o *KinematicBody2D) SetSafeMargin(pixels gdnative.Real) {
 }
 
 /*
-        Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given [Transform2D], then tries to move the body along the vector [code]rel_vec[/code]. Returns [code]true[/code] if a collision would occur.
-	Args: [{ false from Transform2D} { false rel_vec Vector2}], Returns: bool
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
 */
-func (o *KinematicBody2D) TestMove(from gdnative.Transform2D, relVec gdnative.Vector2) gdnative.Bool {
+func (o *KinematicBody2D) SetSyncToPhysics(enable gdnative.Bool) {
+	//log.Println("Calling KinematicBody2D.SetSyncToPhysics()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("KinematicBody2D", "set_sync_to_physics")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given [Transform2D], then tries to move the body along the vector [code]rel_vec[/code]. Returns [code]true[/code] if a collision would occur.
+	Args: [{ false from Transform2D} { false rel_vec Vector2} {True true infinite_inertia bool}], Returns: bool
+*/
+func (o *KinematicBody2D) TestMove(from gdnative.Transform2D, relVec gdnative.Vector2, infiniteInertia gdnative.Bool) gdnative.Bool {
 	//log.Println("Calling KinematicBody2D.TestMove()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
 	ptrArguments[0] = gdnative.NewPointerFromTransform2D(from)
 	ptrArguments[1] = gdnative.NewPointerFromVector2(relVec)
+	ptrArguments[2] = gdnative.NewPointerFromBool(infiniteInertia)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("KinematicBody2D", "test_move")
@@ -326,6 +426,7 @@ func (o *KinematicBody2D) TestMove(from gdnative.Transform2D, relVec gdnative.Ve
 // of the KinematicBody2D class.
 type KinematicBody2DImplementer interface {
 	PhysicsBody2DImplementer
+	X_DirectStateChanged(arg0 ObjectImplementer)
 	GetFloorVelocity() gdnative.Vector2
 	GetSafeMargin() gdnative.Real
 	GetSlideCollision(slideIdx gdnative.Int) KinematicCollision2DImplementer
@@ -333,8 +434,11 @@ type KinematicBody2DImplementer interface {
 	IsOnCeiling() gdnative.Bool
 	IsOnFloor() gdnative.Bool
 	IsOnWall() gdnative.Bool
-	MoveAndCollide(relVec gdnative.Vector2) KinematicCollision2DImplementer
-	MoveAndSlide(linearVelocity gdnative.Vector2, floorNormal gdnative.Vector2, slopeStopMinVelocity gdnative.Real, maxBounces gdnative.Int, floorMaxAngle gdnative.Real) gdnative.Vector2
+	IsSyncToPhysicsEnabled() gdnative.Bool
+	MoveAndCollide(relVec gdnative.Vector2, infiniteInertia gdnative.Bool, excludeRaycastShapes gdnative.Bool, testOnly gdnative.Bool) KinematicCollision2DImplementer
+	MoveAndSlide(linearVelocity gdnative.Vector2, floorNormal gdnative.Vector2, stopOnSlope gdnative.Bool, maxSlides gdnative.Int, floorMaxAngle gdnative.Real, infiniteInertia gdnative.Bool) gdnative.Vector2
+	MoveAndSlideWithSnap(linearVelocity gdnative.Vector2, snap gdnative.Vector2, floorNormal gdnative.Vector2, stopOnSlope gdnative.Bool, maxSlides gdnative.Int, floorMaxAngle gdnative.Real, infiniteInertia gdnative.Bool) gdnative.Vector2
 	SetSafeMargin(pixels gdnative.Real)
-	TestMove(from gdnative.Transform2D, relVec gdnative.Vector2) gdnative.Bool
+	SetSyncToPhysics(enable gdnative.Bool)
+	TestMove(from gdnative.Transform2D, relVec gdnative.Vector2, infiniteInertia gdnative.Bool) gdnative.Bool
 }

@@ -43,7 +43,7 @@ func new_FileFromPointer(ptr gdnative.Pointer) File {
 }
 
 /*
-File type. This is used to permanently store data into the user device's file system and to read from it. This can be used to store game save data or player configuration files, for example. Here's a sample on how to write and read from a file: [codeblock] func save(content): var file = File.new() file.open("user://save_game.dat", file.WRITE) file.store_string(content) file.close() func load(): var file = File.new() file.open("user://save_game.dat", file.READ) var content = file.get_as_text() file.close() return content [/codeblock]
+File type. This is used to permanently store data into the user device's file system and to read from it. This can be used to store game save data or player configuration files, for example. Here's a sample on how to write and read from a file: [codeblock] func save(content): var file = File.new() file.open("user://save_game.dat", File.WRITE) file.store_string(content) file.close() func load(): var file = File.new() file.open("user://save_game.dat", File.READ) var content = file.get_as_text() file.close() return content [/codeblock]
 */
 type File struct {
 	Reference
@@ -495,6 +495,52 @@ func (o *File) GetPascalString() gdnative.String {
 
 /*
         Undocumented
+	Args: [], Returns: String
+*/
+func (o *File) GetPath() gdnative.String {
+	//log.Println("Calling _File.GetPath()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_File", "get_path")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: String
+*/
+func (o *File) GetPathAbsolute() gdnative.String {
+	//log.Println("Calling _File.GetPathAbsolute()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_File", "get_path_absolute")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: int
 */
 func (o *File) GetPosition() gdnative.Int {
@@ -565,13 +611,14 @@ func (o *File) GetSha256(path gdnative.String) gdnative.String {
 
 /*
         Undocumented
-	Args: [], Returns: Variant
+	Args: [{False true allow_objects bool}], Returns: Variant
 */
-func (o *File) GetVar() gdnative.Variant {
+func (o *File) GetVar(allowObjects gdnative.Bool) gdnative.Variant {
 	//log.Println("Calling _File.GetVar()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(allowObjects)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("_File", "get_var")
@@ -882,6 +929,28 @@ func (o *File) StoreBuffer(buffer gdnative.PoolByteArray) {
 
 /*
         Undocumented
+	Args: [{ false values PoolStringArray} {, true delim String}], Returns: void
+*/
+func (o *File) StoreCsvLine(values gdnative.PoolStringArray, delim gdnative.String) {
+	//log.Println("Calling _File.StoreCsvLine()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromPoolStringArray(values)
+	ptrArguments[1] = gdnative.NewPointerFromString(delim)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_File", "store_csv_line")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false value float}], Returns: void
 */
 func (o *File) StoreDouble(value gdnative.Real) {
@@ -1008,14 +1077,15 @@ func (o *File) StoreString(string gdnative.String) {
 
 /*
         Undocumented
-	Args: [{ false value Variant}], Returns: void
+	Args: [{ false value Variant} {False true full_objects bool}], Returns: void
 */
-func (o *File) StoreVar(value gdnative.Variant) {
+func (o *File) StoreVar(value gdnative.Variant, fullObjects gdnative.Bool) {
 	//log.Println("Calling _File.StoreVar()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromVariant(value)
+	ptrArguments[1] = gdnative.NewPointerFromBool(fullObjects)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("_File", "store_var")
@@ -1049,10 +1119,12 @@ type FileImplementer interface {
 	GetMd5(path gdnative.String) gdnative.String
 	GetModifiedTime(file gdnative.String) gdnative.Int
 	GetPascalString() gdnative.String
+	GetPath() gdnative.String
+	GetPathAbsolute() gdnative.String
 	GetPosition() gdnative.Int
 	GetReal() gdnative.Real
 	GetSha256(path gdnative.String) gdnative.String
-	GetVar() gdnative.Variant
+	GetVar(allowObjects gdnative.Bool) gdnative.Variant
 	IsOpen() gdnative.Bool
 	Seek(position gdnative.Int)
 	SeekEnd(position gdnative.Int)
@@ -1062,11 +1134,12 @@ type FileImplementer interface {
 	Store64(value gdnative.Int)
 	Store8(value gdnative.Int)
 	StoreBuffer(buffer gdnative.PoolByteArray)
+	StoreCsvLine(values gdnative.PoolStringArray, delim gdnative.String)
 	StoreDouble(value gdnative.Real)
 	StoreFloat(value gdnative.Real)
 	StoreLine(line gdnative.String)
 	StorePascalString(string gdnative.String)
 	StoreReal(value gdnative.Real)
 	StoreString(string gdnative.String)
-	StoreVar(value gdnative.Variant)
+	StoreVar(value gdnative.Variant, fullObjects gdnative.Bool)
 }

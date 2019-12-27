@@ -35,7 +35,7 @@ func (o *PacketPeer) BaseClass() string {
 }
 
 /*
-        Return the number of packets currently available in the ring-buffer.
+        Returns the number of packets currently available in the ring-buffer.
 	Args: [], Returns: int
 */
 func (o *PacketPeer) GetAvailablePacketCount() gdnative.Int {
@@ -81,7 +81,7 @@ func (o *PacketPeer) GetPacket() gdnative.PoolByteArray {
 }
 
 /*
-        Return the error state of the last packet received (via [method get_packet] and [method get_var]).
+        Returns the error state of the last packet received (via [method get_packet] and [method get_var]).
 	Args: [], Returns: enum.Error
 */
 func (o *PacketPeer) GetPacketError() gdnative.Error {
@@ -104,14 +104,15 @@ func (o *PacketPeer) GetPacketError() gdnative.Error {
 }
 
 /*
-        Get a Variant.
-	Args: [], Returns: Variant
+        Get a Variant. When [code]allow_objects[/code] (or [member allow_object_decoding]) is [code]true[/code] decoding objects is allowed. [b]WARNING:[/b] Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
+	Args: [{False true allow_objects bool}], Returns: Variant
 */
-func (o *PacketPeer) GetVar() gdnative.Variant {
+func (o *PacketPeer) GetVar(allowObjects gdnative.Bool) gdnative.Variant {
 	//log.Println("Calling PacketPeer.GetVar()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(allowObjects)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("PacketPeer", "get_var")
@@ -174,15 +175,16 @@ func (o *PacketPeer) PutPacket(buffer gdnative.PoolByteArray) gdnative.Error {
 }
 
 /*
-        Send a Variant as a packet.
-	Args: [{ false var Variant}], Returns: enum.Error
+        Send a Variant as a packet. When [code]full_objects[/code] (or [member allow_object_decoding]) is [code]true[/code] encoding objects is allowed (and can potentially include code).
+	Args: [{ false var Variant} {False true full_objects bool}], Returns: enum.Error
 */
-func (o *PacketPeer) PutVar(variable gdnative.Variant) gdnative.Error {
+func (o *PacketPeer) PutVar(variable gdnative.Variant, fullObjects gdnative.Bool) gdnative.Error {
 	//log.Println("Calling PacketPeer.PutVar()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromVariant(variable)
+	ptrArguments[1] = gdnative.NewPointerFromBool(fullObjects)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("PacketPeer", "put_var")
@@ -224,7 +226,7 @@ type PacketPeerImplementer interface {
 	ReferenceImplementer
 	GetAvailablePacketCount() gdnative.Int
 	GetPacket() gdnative.PoolByteArray
-	GetVar() gdnative.Variant
+	GetVar(allowObjects gdnative.Bool) gdnative.Variant
 	IsObjectDecodingAllowed() gdnative.Bool
 	SetAllowObjectDecoding(enable gdnative.Bool)
 }

@@ -23,7 +23,7 @@ func newCubeMeshFromPointer(ptr gdnative.Pointer) CubeMesh {
 }
 
 /*
-Generate an axis-aligned cuboid [PrimitiveMesh].
+Generate an axis-aligned cuboid [PrimitiveMesh]. The cube's UV layout is arranged in a 3×2 layout that allows texturing each face individually. To apply the same texture on all faces, change the material's UV property to [code]Vector3(3, 2, 1)[/code].
 */
 type CubeMesh struct {
 	PrimitiveMesh

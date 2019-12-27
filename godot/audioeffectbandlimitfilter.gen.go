@@ -23,7 +23,7 @@ func newAudioEffectBandLimitFilterFromPointer(ptr gdnative.Pointer) AudioEffectB
 }
 
 /*
-Limits the frequencies in a range around the [member cutoff_hz] and allows frequencies outside of this range to pass.
+Limits the frequencies in a range around the [member AudioEffectFilter.cutoff_hz] and allows frequencies outside of this range to pass.
 */
 type AudioEffectBandLimitFilter struct {
 	AudioEffectFilter

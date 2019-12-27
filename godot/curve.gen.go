@@ -88,7 +88,7 @@ func (o *Curve) X_SetData(data gdnative.Array) {
 }
 
 /*
-        Adds a point to the curve. For each side, if the [code]*_mode[/code] is [code]TANGENT_LINEAR[/code], the [code]*_tangent[/code] angle (in degrees) uses the slope of the curve halfway to the adjacent point. Allows custom assignments to the [code]*_tangent[/code] angle if [code]*_mode[/code] is set to [code]TANGENT_FREE[/code].
+        Adds a point to the curve. For each side, if the [code]*_mode[/code] is [constant TANGENT_LINEAR], the [code]*_tangent[/code] angle (in degrees) uses the slope of the curve halfway to the adjacent point. Allows custom assignments to the [code]*_tangent[/code] angle if [code]*_mode[/code] is set to [constant TANGENT_FREE].
 	Args: [{ false position Vector2} {0 true left_tangent float} {0 true right_tangent float} {0 true left_mode int} {0 true right_mode int}], Returns: int
 */
 func (o *Curve) AddPoint(position gdnative.Vector2, leftTangent gdnative.Real, rightTangent gdnative.Real, leftMode gdnative.Int, rightMode gdnative.Int) gdnative.Int {
@@ -241,6 +241,29 @@ func (o *Curve) GetMinValue() gdnative.Real {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the number of points describing the curve.
+	Args: [], Returns: int
+*/
+func (o *Curve) GetPointCount() gdnative.Int {
+	//log.Println("Calling Curve.GetPointCount()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Curve", "get_point_count")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
 }
 
@@ -644,6 +667,7 @@ type CurveImplementer interface {
 	GetBakeResolution() gdnative.Int
 	GetMaxValue() gdnative.Real
 	GetMinValue() gdnative.Real
+	GetPointCount() gdnative.Int
 	GetPointLeftTangent(index gdnative.Int) gdnative.Real
 	GetPointPosition(index gdnative.Int) gdnative.Vector2
 	GetPointRightTangent(index gdnative.Int) gdnative.Real

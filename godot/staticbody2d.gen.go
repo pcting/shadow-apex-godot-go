@@ -36,6 +36,26 @@ func (o *StaticBody2D) BaseClass() string {
 
 /*
         Undocumented
+	Args: [], Returns: void
+*/
+func (o *StaticBody2D) X_ReloadPhysicsCharacteristics() {
+	//log.Println("Calling StaticBody2D.X_ReloadPhysicsCharacteristics()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("StaticBody2D", "_reload_physics_characteristics")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [], Returns: float
 */
 func (o *StaticBody2D) GetBounce() gdnative.Real {
@@ -128,6 +148,43 @@ func (o *StaticBody2D) GetFriction() gdnative.Real {
 
 /*
         Undocumented
+	Args: [], Returns: PhysicsMaterial
+*/
+func (o *StaticBody2D) GetPhysicsMaterialOverride() PhysicsMaterialImplementer {
+	//log.Println("Calling StaticBody2D.GetPhysicsMaterialOverride()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("StaticBody2D", "get_physics_material_override")
+
+	// Call the parent method.
+	// PhysicsMaterial
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newPhysicsMaterialFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(PhysicsMaterialImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "PhysicsMaterial" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(PhysicsMaterialImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Undocumented
 	Args: [{ false bounce float}], Returns: void
 */
 func (o *StaticBody2D) SetBounce(bounce gdnative.Real) {
@@ -210,16 +267,40 @@ func (o *StaticBody2D) SetFriction(friction gdnative.Real) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false physics_material_override PhysicsMaterial}], Returns: void
+*/
+func (o *StaticBody2D) SetPhysicsMaterialOverride(physicsMaterialOverride PhysicsMaterialImplementer) {
+	//log.Println("Calling StaticBody2D.SetPhysicsMaterialOverride()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(physicsMaterialOverride.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("StaticBody2D", "set_physics_material_override")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // StaticBody2DImplementer is an interface that implements the methods
 // of the StaticBody2D class.
 type StaticBody2DImplementer interface {
 	PhysicsBody2DImplementer
+	X_ReloadPhysicsCharacteristics()
 	GetBounce() gdnative.Real
 	GetConstantAngularVelocity() gdnative.Real
 	GetConstantLinearVelocity() gdnative.Vector2
 	GetFriction() gdnative.Real
+	GetPhysicsMaterialOverride() PhysicsMaterialImplementer
 	SetBounce(bounce gdnative.Real)
 	SetConstantAngularVelocity(vel gdnative.Real)
 	SetConstantLinearVelocity(vel gdnative.Vector2)
 	SetFriction(friction gdnative.Real)
+	SetPhysicsMaterialOverride(physicsMaterialOverride PhysicsMaterialImplementer)
 }

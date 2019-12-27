@@ -23,7 +23,7 @@ func newNavigationFromPointer(ptr gdnative.Pointer) Navigation {
 }
 
 /*
-The Navigation node is used for basic or advanced navigation. By default it will automatically collect all child [code]NavigationMesh[/code] resources, but they can also be added on the fly through scripting. It can be used for generating a simple path between two points or it can be used to ensure that a navigation agent is angled perfectly to the terrain it is navigating.
+Provides navigation and pathfinding within a collection of [NavigationMesh]es. By default these will be automatically collected from child [NavigationMeshInstance] nodes, but they can also be added on the fly with [method navmesh_add]. In addition to basic pathfinding, this class also assists with aligning navigation agents with the meshes they are navigating on.
 */
 type Navigation struct {
 	Spatial
@@ -35,7 +35,7 @@ func (o *Navigation) BaseClass() string {
 }
 
 /*
-        Returns the closest navigation point to the point passed.
+        Returns the navigation point closest to the point given. Points are in local coordinate space.
 	Args: [{ false to_point Vector3}], Returns: Vector3
 */
 func (o *Navigation) GetClosestPoint(toPoint gdnative.Vector3) gdnative.Vector3 {
@@ -59,7 +59,7 @@ func (o *Navigation) GetClosestPoint(toPoint gdnative.Vector3) gdnative.Vector3 
 }
 
 /*
-        Returns the surface normal of the navigation mesh at the point passed. For instance, if the point passed was at a 45 degree slope it would return something like (0.5,0.5,0). This is useful for rotating a navigation agent in accordance with the [code]NavigationMesh[/code].
+        Returns the surface normal at the navigation point closest to the point given. Useful for rotating a navigation agent according to the navigation mesh it moves on.
 	Args: [{ false to_point Vector3}], Returns: Vector3
 */
 func (o *Navigation) GetClosestPointNormal(toPoint gdnative.Vector3) gdnative.Vector3 {
@@ -83,7 +83,7 @@ func (o *Navigation) GetClosestPointNormal(toPoint gdnative.Vector3) gdnative.Ve
 }
 
 /*
-        Returns the nearest [code]NavigationMeshInstance[/code] to the point passed.
+        Returns the owner of the [NavigationMesh] which contains the navigation point closest to the point given. This is usually a [NavigationMeshInstance]. For meshes added via [method navmesh_add], returns the owner that was given (or [code]null[/code] if the [code]owner[/code] parameter was omitted).
 	Args: [{ false to_point Vector3}], Returns: Object
 */
 func (o *Navigation) GetClosestPointOwner(toPoint gdnative.Vector3) ObjectImplementer {
@@ -121,7 +121,7 @@ func (o *Navigation) GetClosestPointOwner(toPoint gdnative.Vector3) ObjectImplem
 }
 
 /*
-        Returns the nearest point to the line segment passed. The third optional parameter takes collisions into account.
+        Returns the navigation point closest to the given line segment. When enabling [code]use_collision[/code], only considers intersection points between segment and navigation meshes. If multiple intersection points are found, the one closest to the segment start point is returned.
 	Args: [{ false start Vector3} { false end Vector3} {False true use_collision bool}], Returns: Vector3
 */
 func (o *Navigation) GetClosestPointToSegment(start gdnative.Vector3, end gdnative.Vector3, useCollision gdnative.Bool) gdnative.Vector3 {
@@ -147,7 +147,7 @@ func (o *Navigation) GetClosestPointToSegment(start gdnative.Vector3, end gdnati
 }
 
 /*
-        Returns a path of points as a [code]PoolVector3Array[/code]. If [code]optimize[/code] is false the [code]NavigationMesh[/code] agent properties will be taken into account, otherwise it will return the nearest path and ignore agent radius, height, etc.
+        Returns the path between two given points. Points are in local coordinate space. If [code]optimize[/code] is [code]true[/code] (the default), the agent properties associated with each [NavigationMesh] (radius, height, etc.) are considered in the path calculation, otherwise they are ignored.
 	Args: [{ false start Vector3} { false end Vector3} {True true optimize bool}], Returns: PoolVector3Array
 */
 func (o *Navigation) GetSimplePath(start gdnative.Vector3, end gdnative.Vector3, optimize gdnative.Bool) gdnative.PoolVector3Array {
@@ -196,7 +196,7 @@ func (o *Navigation) GetUpVector() gdnative.Vector3 {
 }
 
 /*
-        Adds a [code]NavigationMesh[/code] to the list of NavigationMesh's in this node. Returns an id. Its position, rotation and scale are associated with the [code]Transform[/code] passed. The [code]Node[/code] (or [code]Object[/code]) that owns this node is an optional parameter.
+        Adds a [NavigationMesh]. Returns an ID for use with [method navmesh_remove] or [method navmesh_set_transform]. If given, a [Transform2D] is applied to the polygon. The optional [code]owner[/code] is used as return value for [method get_closest_point_owner].
 	Args: [{ false mesh NavigationMesh} { false xform Transform} {Null true owner Object}], Returns: int
 */
 func (o *Navigation) NavmeshAdd(mesh NavigationMeshImplementer, xform gdnative.Transform, owner ObjectImplementer) gdnative.Int {
@@ -222,7 +222,7 @@ func (o *Navigation) NavmeshAdd(mesh NavigationMeshImplementer, xform gdnative.T
 }
 
 /*
-        Removes a [code]NavigationMesh[/code] from the list of NavigationMesh's in this node.
+        Removes the [NavigationMesh] with the given ID.
 	Args: [{ false id int}], Returns: void
 */
 func (o *Navigation) NavmeshRemove(id gdnative.Int) {
@@ -243,7 +243,7 @@ func (o *Navigation) NavmeshRemove(id gdnative.Int) {
 }
 
 /*
-        Associates a [code]NavigationMesh[/code]'s id with a [code]Transform[/code]. Its position, rotation and scale are based on the [code]Transform[/code] passed.
+        Sets the transform applied to the [NavigationMesh] with the given ID.
 	Args: [{ false id int} { false xform Transform}], Returns: void
 */
 func (o *Navigation) NavmeshSetTransform(id gdnative.Int, xform gdnative.Transform) {

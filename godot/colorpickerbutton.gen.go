@@ -23,7 +23,7 @@ func newColorPickerButtonFromPointer(ptr gdnative.Pointer) ColorPickerButton {
 }
 
 /*
-Encapsulates a [ColorPicker] making it accesible by pressing a button, pressing the button will toggle the [ColorPicker] visibility
+Encapsulates a [ColorPicker] making it accessible by pressing a button. Pressing the button will toggle the [ColorPicker] visibility.
 */
 type ColorPickerButton struct {
 	Button
@@ -57,6 +57,26 @@ func (o *ColorPickerButton) X_ColorChanged(arg0 gdnative.Color) {
 
 /*
         Undocumented
+	Args: [], Returns: void
+*/
+func (o *ColorPickerButton) X_ModalClosed() {
+	//log.Println("Calling ColorPickerButton.X_ModalClosed()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ColorPickerButton", "_modal_closed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [], Returns: Color
 */
 func (o *ColorPickerButton) GetPickColor() gdnative.Color {
@@ -79,7 +99,7 @@ func (o *ColorPickerButton) GetPickColor() gdnative.Color {
 }
 
 /*
-        Returns the [code]ColorPicker[/code] that this [code]ColorPickerButton[/code] toggles.
+        Returns the [ColorPicker] that this node toggles.
 	Args: [], Returns: ColorPicker
 */
 func (o *ColorPickerButton) GetPicker() ColorPickerImplementer {
@@ -116,7 +136,7 @@ func (o *ColorPickerButton) GetPicker() ColorPickerImplementer {
 }
 
 /*
-        Returns the control's [PopupPanel] which allows you to connect to Popup Signals. This allows you to handle events when the ColorPicker is shown or hidden.
+        Returns the control's [PopupPanel] which allows you to connect to popup signals. This allows you to handle events when the ColorPicker is shown or hidden.
 	Args: [], Returns: PopupPanel
 */
 func (o *ColorPickerButton) GetPopup() PopupPanelImplementer {
@@ -222,6 +242,7 @@ func (o *ColorPickerButton) SetPickColor(color gdnative.Color) {
 type ColorPickerButtonImplementer interface {
 	ButtonImplementer
 	X_ColorChanged(arg0 gdnative.Color)
+	X_ModalClosed()
 	GetPickColor() gdnative.Color
 	GetPicker() ColorPickerImplementer
 	GetPopup() PopupPanelImplementer

@@ -65,6 +65,26 @@ func (o *SplitContainer) X_GuiInput(arg0 InputEventImplementer) {
 }
 
 /*
+
+	Args: [], Returns: void
+*/
+func (o *SplitContainer) ClampSplitOffset() {
+	//log.Println("Calling SplitContainer.ClampSplitOffset()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SplitContainer", "clamp_split_offset")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Undocumented
 	Args: [], Returns: enum.SplitContainer::DraggerVisibility
 */
@@ -200,6 +220,7 @@ func (o *SplitContainer) SetSplitOffset(offset gdnative.Int) {
 // of the SplitContainer class.
 type SplitContainerImplementer interface {
 	ContainerImplementer
+	ClampSplitOffset()
 	GetSplitOffset() gdnative.Int
 	IsCollapsed() gdnative.Bool
 	SetCollapsed(collapsed gdnative.Bool)

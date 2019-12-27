@@ -67,6 +67,29 @@ func (o *CollisionPolygon2D) GetBuildMode() CollisionPolygon2DBuildMode {
 
 /*
         Undocumented
+	Args: [], Returns: float
+*/
+func (o *CollisionPolygon2D) GetOneWayCollisionMargin() gdnative.Real {
+	//log.Println("Calling CollisionPolygon2D.GetOneWayCollisionMargin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CollisionPolygon2D", "get_one_way_collision_margin")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: PoolVector2Array
 */
 func (o *CollisionPolygon2D) GetPolygon() gdnative.PoolVector2Array {
@@ -199,6 +222,27 @@ func (o *CollisionPolygon2D) SetOneWayCollision(enabled gdnative.Bool) {
 
 /*
         Undocumented
+	Args: [{ false margin float}], Returns: void
+*/
+func (o *CollisionPolygon2D) SetOneWayCollisionMargin(margin gdnative.Real) {
+	//log.Println("Calling CollisionPolygon2D.SetOneWayCollisionMargin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(margin)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CollisionPolygon2D", "set_one_way_collision_margin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false polygon PoolVector2Array}], Returns: void
 */
 func (o *CollisionPolygon2D) SetPolygon(polygon gdnative.PoolVector2Array) {
@@ -222,11 +266,13 @@ func (o *CollisionPolygon2D) SetPolygon(polygon gdnative.PoolVector2Array) {
 // of the CollisionPolygon2D class.
 type CollisionPolygon2DImplementer interface {
 	Node2DImplementer
+	GetOneWayCollisionMargin() gdnative.Real
 	GetPolygon() gdnative.PoolVector2Array
 	IsDisabled() gdnative.Bool
 	IsOneWayCollisionEnabled() gdnative.Bool
 	SetBuildMode(buildMode gdnative.Int)
 	SetDisabled(disabled gdnative.Bool)
 	SetOneWayCollision(enabled gdnative.Bool)
+	SetOneWayCollisionMargin(margin gdnative.Real)
 	SetPolygon(polygon gdnative.PoolVector2Array)
 }

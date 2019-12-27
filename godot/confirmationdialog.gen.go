@@ -35,7 +35,7 @@ func (o *ConfirmationDialog) BaseClass() string {
 }
 
 /*
-        Return the cancel button.
+        Returns the cancel button.
 	Args: [], Returns: Button
 */
 func (o *ConfirmationDialog) GetCancel() ButtonImplementer {

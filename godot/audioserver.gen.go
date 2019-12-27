@@ -18,6 +18,7 @@ type AudioServerSpeakerMode int
 
 const (
 	AudioServerSpeakerModeStereo AudioServerSpeakerMode = 0
+	AudioServerSpeakerSurround31 AudioServerSpeakerMode = 1
 	AudioServerSpeakerSurround51 AudioServerSpeakerMode = 2
 	AudioServerSpeakerSurround71 AudioServerSpeakerMode = 3
 )
@@ -112,7 +113,125 @@ func (o *audioServer) AddBusEffect(busIdx gdnative.Int, effect AudioEffectImplem
 }
 
 /*
-        Generates an [AudioBusLayout] using the available busses and effects.
+
+	Args: [], Returns: String
+*/
+func (o *audioServer) CaptureGetDevice() gdnative.String {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.CaptureGetDevice()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "capture_get_device")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [], Returns: Array
+*/
+func (o *audioServer) CaptureGetDeviceList() gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.CaptureGetDeviceList()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "capture_get_device_list")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false name String}], Returns: void
+*/
+func (o *audioServer) CaptureSetDevice(name gdnative.String) {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.CaptureSetDevice()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(name)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "capture_set_device")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: enum.Error
+*/
+func (o *audioServer) CaptureStart() gdnative.Error {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.CaptureStart()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "capture_start")
+
+	// Call the parent method.
+	// enum.Error
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return gdnative.Error(ret)
+}
+
+/*
+        Undocumented
+	Args: [], Returns: enum.Error
+*/
+func (o *audioServer) CaptureStop() gdnative.Error {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.CaptureStop()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "capture_stop")
+
+	// Call the parent method.
+	// enum.Error
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return gdnative.Error(ret)
+}
+
+/*
+        Generates an [AudioBusLayout] using the available buses and effects.
 	Args: [], Returns: AudioBusLayout
 */
 func (o *audioServer) GenerateBusLayout() AudioBusLayoutImplementer {
@@ -150,7 +269,32 @@ func (o *audioServer) GenerateBusLayout() AudioBusLayoutImplementer {
 }
 
 /*
-        Returns the number of available busses.
+        Returns the amount of channels of the bus at index [code]bus_idx[/code].
+	Args: [{ false bus_idx int}], Returns: int
+*/
+func (o *audioServer) GetBusChannels(busIdx gdnative.Int) gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetBusChannels()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(busIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_bus_channels")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the number of available buses.
 	Args: [], Returns: int
 */
 func (o *audioServer) GetBusCount() gdnative.Int {
@@ -236,6 +380,47 @@ func (o *audioServer) GetBusEffectCount(busIdx gdnative.Int) gdnative.Int {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
+}
+
+/*
+
+	Args: [{ false bus_idx int} { false effect_idx int} {0 true channel int}], Returns: AudioEffectInstance
+*/
+func (o *audioServer) GetBusEffectInstance(busIdx gdnative.Int, effectIdx gdnative.Int, channel gdnative.Int) AudioEffectInstanceImplementer {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetBusEffectInstance()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(busIdx)
+	ptrArguments[1] = gdnative.NewPointerFromInt(effectIdx)
+	ptrArguments[2] = gdnative.NewPointerFromInt(channel)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_bus_effect_instance")
+
+	// Call the parent method.
+	// AudioEffectInstance
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newAudioEffectInstanceFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(AudioEffectInstanceImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "AudioEffectInstance" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(AudioEffectInstanceImplementer)
+	}
+
+	return &ret
 }
 
 /*
@@ -391,6 +576,150 @@ func (o *audioServer) GetBusVolumeDb(busIdx gdnative.Int) gdnative.Real {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: PoolIntArray
+*/
+func (o *audioServer) GetCaptureBuffer() gdnative.PoolIntArray {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetCaptureBuffer()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_capture_buffer")
+
+	// Call the parent method.
+	// PoolIntArray
+	retPtr := gdnative.NewEmptyPoolIntArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewPoolIntArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *audioServer) GetCapturePosition() gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetCapturePosition()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_capture_position")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *audioServer) GetCaptureSize() gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetCaptureSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_capture_size")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [], Returns: String
+*/
+func (o *audioServer) GetDevice() gdnative.String {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetDevice()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_device")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [], Returns: Array
+*/
+func (o *audioServer) GetDeviceList() gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetDeviceList()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_device_list")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *audioServer) GetGlobalRateScale() gdnative.Real {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetGlobalRateScale()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_global_rate_scale")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns the sample rate at the output of the audioserver.
 	Args: [], Returns: float
 */
@@ -403,6 +732,30 @@ func (o *audioServer) GetMixRate() gdnative.Real {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("AudioServer", "get_mix_rate")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *audioServer) GetOutputLatency() gdnative.Real {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetOutputLatency()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_output_latency")
 
 	// Call the parent method.
 	// float
@@ -439,7 +792,55 @@ func (o *audioServer) GetSpeakerMode() AudioServerSpeakerMode {
 }
 
 /*
-        If [code]true[/code] the bus at index [code]bus_idx[/code] is bypassing effects.
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *audioServer) GetTimeSinceLastMix() gdnative.Real {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetTimeSinceLastMix()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_time_since_last_mix")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *audioServer) GetTimeToNextMix() gdnative.Real {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.GetTimeToNextMix()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "get_time_to_next_mix")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        If [code]true[/code], the bus at index [code]bus_idx[/code] is bypassing effects.
 	Args: [{ false bus_idx int}], Returns: bool
 */
 func (o *audioServer) IsBusBypassingEffects(busIdx gdnative.Int) gdnative.Bool {
@@ -464,7 +865,7 @@ func (o *audioServer) IsBusBypassingEffects(busIdx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        If [code]true[/code] the effect at index [code]effect_idx[/code] on the bus at index [code]bus_idx[/code] is enabled.
+        If [code]true[/code], the effect at index [code]effect_idx[/code] on the bus at index [code]bus_idx[/code] is enabled.
 	Args: [{ false bus_idx int} { false effect_idx int}], Returns: bool
 */
 func (o *audioServer) IsBusEffectEnabled(busIdx gdnative.Int, effectIdx gdnative.Int) gdnative.Bool {
@@ -490,7 +891,7 @@ func (o *audioServer) IsBusEffectEnabled(busIdx gdnative.Int, effectIdx gdnative
 }
 
 /*
-        If [code]true[/code] the bus at index [code]bus_idx[/code] is muted.
+        If [code]true[/code], the bus at index [code]bus_idx[/code] is muted.
 	Args: [{ false bus_idx int}], Returns: bool
 */
 func (o *audioServer) IsBusMute(busIdx gdnative.Int) gdnative.Bool {
@@ -515,7 +916,7 @@ func (o *audioServer) IsBusMute(busIdx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        If [code]true[/code] the bus at index [code]bus_idx[/code] is in solo mode.
+        If [code]true[/code], the bus at index [code]bus_idx[/code] is in solo mode.
 	Args: [{ false bus_idx int}], Returns: bool
 */
 func (o *audioServer) IsBusSolo(busIdx gdnative.Int) gdnative.Bool {
@@ -629,7 +1030,7 @@ func (o *audioServer) RemoveBusEffect(busIdx gdnative.Int, effectIdx gdnative.In
 }
 
 /*
-        If [code]true[/code] the bus at index [code]bus_idx[/code] is bypassing effects.
+        If [code]true[/code], the bus at index [code]bus_idx[/code] is bypassing effects.
 	Args: [{ false bus_idx int} { false enable bool}], Returns: void
 */
 func (o *audioServer) SetBusBypassEffects(busIdx gdnative.Int, enable gdnative.Bool) {
@@ -652,7 +1053,7 @@ func (o *audioServer) SetBusBypassEffects(busIdx gdnative.Int, enable gdnative.B
 }
 
 /*
-        Adds and removes busses to make the number of busses match [code]amount[/code].
+        Adds and removes buses to make the number of buses match [code]amount[/code].
 	Args: [{ false amount int}], Returns: void
 */
 func (o *audioServer) SetBusCount(amount gdnative.Int) {
@@ -674,7 +1075,7 @@ func (o *audioServer) SetBusCount(amount gdnative.Int) {
 }
 
 /*
-        If [code]true[/code] the effect at index [code]effect_idx[/code] on the bus at index [code]bus_idx[/code] is enabled.
+        If [code]true[/code], the effect at index [code]effect_idx[/code] on the bus at index [code]bus_idx[/code] is enabled.
 	Args: [{ false bus_idx int} { false effect_idx int} { false enabled bool}], Returns: void
 */
 func (o *audioServer) SetBusEffectEnabled(busIdx gdnative.Int, effectIdx gdnative.Int, enabled gdnative.Bool) {
@@ -720,7 +1121,7 @@ func (o *audioServer) SetBusLayout(busLayout AudioBusLayoutImplementer) {
 }
 
 /*
-        If [code]true[/code] the bus at index [code]bus_idx[/code] is muted.
+        If [code]true[/code], the bus at index [code]bus_idx[/code] is muted.
 	Args: [{ false bus_idx int} { false enable bool}], Returns: void
 */
 func (o *audioServer) SetBusMute(busIdx gdnative.Int, enable gdnative.Bool) {
@@ -789,7 +1190,7 @@ func (o *audioServer) SetBusSend(busIdx gdnative.Int, send gdnative.String) {
 }
 
 /*
-        If [code]true[/code] the bus at index [code]bus_idx[/code] is in solo mode.
+        If [code]true[/code], the bus at index [code]bus_idx[/code] is in solo mode.
 	Args: [{ false bus_idx int} { false enable bool}], Returns: void
 */
 func (o *audioServer) SetBusSolo(busIdx gdnative.Int, enable gdnative.Bool) {
@@ -826,6 +1227,50 @@ func (o *audioServer) SetBusVolumeDb(busIdx gdnative.Int, volumeDb gdnative.Real
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("AudioServer", "set_bus_volume_db")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false device String}], Returns: void
+*/
+func (o *audioServer) SetDevice(device gdnative.String) {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.SetDevice()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(device)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "set_device")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false scale float}], Returns: void
+*/
+func (o *audioServer) SetGlobalRateScale(scale gdnative.Real) {
+	o.ensureSingleton()
+	//log.Println("Calling AudioServer.SetGlobalRateScale()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(scale)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioServer", "set_global_rate_scale")
 
 	// Call the parent method.
 	// void
@@ -885,17 +1330,31 @@ type AudioServerImplementer interface {
 	ObjectImplementer
 	AddBus(atPosition gdnative.Int)
 	AddBusEffect(busIdx gdnative.Int, effect AudioEffectImplementer, atPosition gdnative.Int)
+	CaptureGetDevice() gdnative.String
+	CaptureGetDeviceList() gdnative.Array
+	CaptureSetDevice(name gdnative.String)
 	GenerateBusLayout() AudioBusLayoutImplementer
+	GetBusChannels(busIdx gdnative.Int) gdnative.Int
 	GetBusCount() gdnative.Int
 	GetBusEffect(busIdx gdnative.Int, effectIdx gdnative.Int) AudioEffectImplementer
 	GetBusEffectCount(busIdx gdnative.Int) gdnative.Int
+	GetBusEffectInstance(busIdx gdnative.Int, effectIdx gdnative.Int, channel gdnative.Int) AudioEffectInstanceImplementer
 	GetBusIndex(busName gdnative.String) gdnative.Int
 	GetBusName(busIdx gdnative.Int) gdnative.String
 	GetBusPeakVolumeLeftDb(busIdx gdnative.Int, channel gdnative.Int) gdnative.Real
 	GetBusPeakVolumeRightDb(busIdx gdnative.Int, channel gdnative.Int) gdnative.Real
 	GetBusSend(busIdx gdnative.Int) gdnative.String
 	GetBusVolumeDb(busIdx gdnative.Int) gdnative.Real
+	GetCaptureBuffer() gdnative.PoolIntArray
+	GetCapturePosition() gdnative.Int
+	GetCaptureSize() gdnative.Int
+	GetDevice() gdnative.String
+	GetDeviceList() gdnative.Array
+	GetGlobalRateScale() gdnative.Real
 	GetMixRate() gdnative.Real
+	GetOutputLatency() gdnative.Real
+	GetTimeSinceLastMix() gdnative.Real
+	GetTimeToNextMix() gdnative.Real
 	IsBusBypassingEffects(busIdx gdnative.Int) gdnative.Bool
 	IsBusEffectEnabled(busIdx gdnative.Int, effectIdx gdnative.Int) gdnative.Bool
 	IsBusMute(busIdx gdnative.Int) gdnative.Bool
@@ -913,6 +1372,8 @@ type AudioServerImplementer interface {
 	SetBusSend(busIdx gdnative.Int, send gdnative.String)
 	SetBusSolo(busIdx gdnative.Int, enable gdnative.Bool)
 	SetBusVolumeDb(busIdx gdnative.Int, volumeDb gdnative.Real)
+	SetDevice(device gdnative.String)
+	SetGlobalRateScale(scale gdnative.Real)
 	SwapBusEffects(busIdx gdnative.Int, effectIdx gdnative.Int, byEffectIdx gdnative.Int)
 	Unlock()
 }

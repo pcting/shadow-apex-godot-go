@@ -23,7 +23,7 @@ func newQuadMeshFromPointer(ptr gdnative.Pointer) QuadMesh {
 }
 
 /*
-Class representing a square mesh with size (2,2,0). Consider using a [PlaneMesh] if you require a differently sized plane.
+Class representing a square [PrimitiveMesh]. This flat mesh does not have a thickness. By default, this mesh is aligned on the X and Y axes; this default rotation is more suited for use with billboarded materials. Unlike [PlaneMesh], this mesh doesn't provide subdivision options.
 */
 type QuadMesh struct {
 	PrimitiveMesh

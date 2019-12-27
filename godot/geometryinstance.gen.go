@@ -17,8 +17,9 @@ import (
 type GeometryInstanceFlags int
 
 const (
-	GeometryInstanceFlagMax           GeometryInstanceFlags = 1
-	GeometryInstanceFlagUseBakedLight GeometryInstanceFlags = 0
+	GeometryInstanceFlagDrawNextFrameIfVisible GeometryInstanceFlags = 1
+	GeometryInstanceFlagMax                    GeometryInstanceFlags = 2
+	GeometryInstanceFlagUseBakedLight          GeometryInstanceFlags = 0
 )
 
 // GeometryInstanceShadowCastingSetting is an enum for ShadowCastingSetting values.
@@ -274,6 +275,27 @@ func (o *GeometryInstance) SetCastShadowsSetting(shadowCastingSetting gdnative.I
 
 /*
         Undocumented
+	Args: [{ false aabb AABB}], Returns: void
+*/
+func (o *GeometryInstance) SetCustomAabb(aabb gdnative.Aabb) {
+	//log.Println("Calling GeometryInstance.SetCustomAabb()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromAabb(aabb)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("GeometryInstance", "set_custom_aabb")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false margin float}], Returns: void
 */
 func (o *GeometryInstance) SetExtraCullMargin(margin gdnative.Real) {
@@ -432,6 +454,7 @@ type GeometryInstanceImplementer interface {
 	GetLodMinHysteresis() gdnative.Real
 	GetMaterialOverride() MaterialImplementer
 	SetCastShadowsSetting(shadowCastingSetting gdnative.Int)
+	SetCustomAabb(aabb gdnative.Aabb)
 	SetExtraCullMargin(margin gdnative.Real)
 	SetFlag(flag gdnative.Int, value gdnative.Bool)
 	SetLodMaxDistance(mode gdnative.Real)

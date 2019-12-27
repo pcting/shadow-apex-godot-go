@@ -38,14 +38,14 @@ func (o *AudioStreamOGGVorbis) BaseClass() string {
         Undocumented
 	Args: [], Returns: PoolByteArray
 */
-func (o *AudioStreamOGGVorbis) X_GetData() gdnative.PoolByteArray {
-	//log.Println("Calling AudioStreamOGGVorbis.X_GetData()")
+func (o *AudioStreamOGGVorbis) GetData() gdnative.PoolByteArray {
+	//log.Println("Calling AudioStreamOGGVorbis.GetData()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 0, 0)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("AudioStreamOGGVorbis", "_get_data")
+	methodBind := gdnative.NewMethodBind("AudioStreamOGGVorbis", "get_data")
 
 	// Call the parent method.
 	// PoolByteArray
@@ -55,27 +55,6 @@ func (o *AudioStreamOGGVorbis) X_GetData() gdnative.PoolByteArray {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewPoolByteArrayFromPointer(retPtr)
 	return ret
-}
-
-/*
-        Undocumented
-	Args: [{ false data PoolByteArray}], Returns: void
-*/
-func (o *AudioStreamOGGVorbis) X_SetData(data gdnative.PoolByteArray) {
-	//log.Println("Calling AudioStreamOGGVorbis.X_SetData()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromPoolByteArray(data)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("AudioStreamOGGVorbis", "_set_data")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
 }
 
 /*
@@ -126,6 +105,27 @@ func (o *AudioStreamOGGVorbis) HasLoop() gdnative.Bool {
 
 /*
         Undocumented
+	Args: [{ false data PoolByteArray}], Returns: void
+*/
+func (o *AudioStreamOGGVorbis) SetData(data gdnative.PoolByteArray) {
+	//log.Println("Calling AudioStreamOGGVorbis.SetData()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromPoolByteArray(data)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioStreamOGGVorbis", "set_data")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false enable bool}], Returns: void
 */
 func (o *AudioStreamOGGVorbis) SetLoop(enable gdnative.Bool) {
@@ -170,10 +170,10 @@ func (o *AudioStreamOGGVorbis) SetLoopOffset(seconds gdnative.Real) {
 // of the AudioStreamOGGVorbis class.
 type AudioStreamOGGVorbisImplementer interface {
 	AudioStreamImplementer
-	X_GetData() gdnative.PoolByteArray
-	X_SetData(data gdnative.PoolByteArray)
+	GetData() gdnative.PoolByteArray
 	GetLoopOffset() gdnative.Real
 	HasLoop() gdnative.Bool
+	SetData(data gdnative.PoolByteArray)
 	SetLoop(enable gdnative.Bool)
 	SetLoopOffset(seconds gdnative.Real)
 }

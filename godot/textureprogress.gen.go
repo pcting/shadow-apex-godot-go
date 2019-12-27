@@ -17,12 +17,15 @@ import (
 type TextureProgressFillMode int
 
 const (
-	TextureProgressFillBottomToTop      TextureProgressFillMode = 3
-	TextureProgressFillClockwise        TextureProgressFillMode = 4
-	TextureProgressFillCounterClockwise TextureProgressFillMode = 5
-	TextureProgressFillLeftToRight      TextureProgressFillMode = 0
-	TextureProgressFillRightToLeft      TextureProgressFillMode = 1
-	TextureProgressFillTopToBottom      TextureProgressFillMode = 2
+	TextureProgressFillBilinearLeftAndRight         TextureProgressFillMode = 6
+	TextureProgressFillBilinearTopAndBottom         TextureProgressFillMode = 7
+	TextureProgressFillBottomToTop                  TextureProgressFillMode = 3
+	TextureProgressFillClockwise                    TextureProgressFillMode = 4
+	TextureProgressFillClockwiseAndCounterClockwise TextureProgressFillMode = 8
+	TextureProgressFillCounterClockwise             TextureProgressFillMode = 5
+	TextureProgressFillLeftToRight                  TextureProgressFillMode = 0
+	TextureProgressFillRightToLeft                  TextureProgressFillMode = 1
+	TextureProgressFillTopToBottom                  TextureProgressFillMode = 2
 )
 
 //func NewTextureProgressFromPointer(ptr gdnative.Pointer) TextureProgress {
@@ -261,6 +264,75 @@ func (o *TextureProgress) GetStretchMargin(margin gdnative.Int) gdnative.Int {
 
 /*
         Undocumented
+	Args: [], Returns: Color
+*/
+func (o *TextureProgress) GetTintOver() gdnative.Color {
+	//log.Println("Calling TextureProgress.GetTintOver()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureProgress", "get_tint_over")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Color
+*/
+func (o *TextureProgress) GetTintProgress() gdnative.Color {
+	//log.Println("Calling TextureProgress.GetTintProgress()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureProgress", "get_tint_progress")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Color
+*/
+func (o *TextureProgress) GetTintUnder() gdnative.Color {
+	//log.Println("Calling TextureProgress.GetTintUnder()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureProgress", "get_tint_under")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: Texture
 */
 func (o *TextureProgress) GetUnderTexture() TextureImplementer {
@@ -467,6 +539,69 @@ func (o *TextureProgress) SetStretchMargin(margin gdnative.Int, value gdnative.I
 
 /*
         Undocumented
+	Args: [{ false tint Color}], Returns: void
+*/
+func (o *TextureProgress) SetTintOver(tint gdnative.Color) {
+	//log.Println("Calling TextureProgress.SetTintOver()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromColor(tint)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureProgress", "set_tint_over")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false tint Color}], Returns: void
+*/
+func (o *TextureProgress) SetTintProgress(tint gdnative.Color) {
+	//log.Println("Calling TextureProgress.SetTintProgress()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromColor(tint)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureProgress", "set_tint_progress")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false tint Color}], Returns: void
+*/
+func (o *TextureProgress) SetTintUnder(tint gdnative.Color) {
+	//log.Println("Calling TextureProgress.SetTintUnder()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromColor(tint)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureProgress", "set_tint_under")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false tex Texture}], Returns: void
 */
 func (o *TextureProgress) SetUnderTexture(tex TextureImplementer) {
@@ -498,6 +633,9 @@ type TextureProgressImplementer interface {
 	GetRadialCenterOffset() gdnative.Vector2
 	GetRadialInitialAngle() gdnative.Real
 	GetStretchMargin(margin gdnative.Int) gdnative.Int
+	GetTintOver() gdnative.Color
+	GetTintProgress() gdnative.Color
+	GetTintUnder() gdnative.Color
 	GetUnderTexture() TextureImplementer
 	SetFillDegrees(mode gdnative.Real)
 	SetFillMode(mode gdnative.Int)
@@ -507,5 +645,8 @@ type TextureProgressImplementer interface {
 	SetRadialCenterOffset(mode gdnative.Vector2)
 	SetRadialInitialAngle(mode gdnative.Real)
 	SetStretchMargin(margin gdnative.Int, value gdnative.Int)
+	SetTintOver(tint gdnative.Color)
+	SetTintProgress(tint gdnative.Color)
+	SetTintUnder(tint gdnative.Color)
 	SetUnderTexture(tex TextureImplementer)
 }

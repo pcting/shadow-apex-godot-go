@@ -123,7 +123,7 @@ func (o *SpriteFrames) X_SetFrames(arg0 gdnative.Array) {
 }
 
 /*
-        Adds a new animation to the the library.
+        Adds a new animation to the library.
 	Args: [{ false anim String}], Returns: void
 */
 func (o *SpriteFrames) AddAnimation(anim gdnative.String) {
@@ -208,7 +208,7 @@ func (o *SpriteFrames) ClearAll() {
 }
 
 /*
-        If [code]true[/code] the given animation will loop.
+        If [code]true[/code], the given animation will loop.
 	Args: [{ false anim String}], Returns: bool
 */
 func (o *SpriteFrames) GetAnimationLoop(anim gdnative.String) gdnative.Bool {
@@ -228,6 +228,29 @@ func (o *SpriteFrames) GetAnimationLoop(anim gdnative.String) gdnative.Bool {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns an array containing the names associated to each animation. Values are placed in alphabetical order.
+	Args: [], Returns: PoolStringArray
+*/
+func (o *SpriteFrames) GetAnimationNames() gdnative.PoolStringArray {
+	//log.Println("Calling SpriteFrames.GetAnimationNames()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SpriteFrames", "get_animation_names")
+
+	// Call the parent method.
+	// PoolStringArray
+	retPtr := gdnative.NewEmptyPoolStringArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewPoolStringArrayFromPointer(retPtr)
 	return ret
 }
 
@@ -319,7 +342,7 @@ func (o *SpriteFrames) GetFrameCount(anim gdnative.String) gdnative.Int {
 }
 
 /*
-        If [code]true[/code] the named animation exists.
+        If [code]true[/code], the named animation exists.
 	Args: [{ false anim String}], Returns: bool
 */
 func (o *SpriteFrames) HasAnimation(anim gdnative.String) gdnative.Bool {
@@ -408,7 +431,7 @@ func (o *SpriteFrames) RenameAnimation(anim gdnative.String, newname gdnative.St
 }
 
 /*
-        If [code]true[/code] the animation will loop.
+        If [code]true[/code], the animation will loop.
 	Args: [{ false anim String} { false loop bool}], Returns: void
 */
 func (o *SpriteFrames) SetAnimationLoop(anim gdnative.String, loop gdnative.Bool) {
@@ -487,6 +510,7 @@ type SpriteFramesImplementer interface {
 	Clear(anim gdnative.String)
 	ClearAll()
 	GetAnimationLoop(anim gdnative.String) gdnative.Bool
+	GetAnimationNames() gdnative.PoolStringArray
 	GetAnimationSpeed(anim gdnative.String) gdnative.Real
 	GetFrame(anim gdnative.String, idx gdnative.Int) TextureImplementer
 	GetFrameCount(anim gdnative.String) gdnative.Int

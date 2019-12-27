@@ -100,7 +100,7 @@ func (o *MeshLibrary) FindItemByName(name gdnative.String) gdnative.Int {
 }
 
 /*
-        Return the list of items.
+        Returns the list of items.
 	Args: [], Returns: PoolIntArray
 */
 func (o *MeshLibrary) GetItemList() gdnative.PoolIntArray {
@@ -123,7 +123,7 @@ func (o *MeshLibrary) GetItemList() gdnative.PoolIntArray {
 }
 
 /*
-        Return the mesh of the item.
+        Returns the mesh of the item.
 	Args: [{ false id int}], Returns: Mesh
 */
 func (o *MeshLibrary) GetItemMesh(id gdnative.Int) MeshImplementer {
@@ -161,7 +161,7 @@ func (o *MeshLibrary) GetItemMesh(id gdnative.Int) MeshImplementer {
 }
 
 /*
-        Return the name of the item.
+        Returns the name of the item.
 	Args: [{ false id int}], Returns: String
 */
 func (o *MeshLibrary) GetItemName(id gdnative.Int) gdnative.String {
@@ -220,6 +220,30 @@ func (o *MeshLibrary) GetItemNavmesh(id gdnative.Int) NavigationMeshImplementer 
 	}
 
 	return &ret
+}
+
+/*
+        Undocumented
+	Args: [{ false id int}], Returns: Transform
+*/
+func (o *MeshLibrary) GetItemNavmeshTransform(id gdnative.Int) gdnative.Transform {
+	//log.Println("Calling MeshLibrary.GetItemNavmeshTransform()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MeshLibrary", "get_item_navmesh_transform")
+
+	// Call the parent method.
+	// Transform
+	retPtr := gdnative.NewEmptyTransform()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewTransformFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -395,6 +419,28 @@ func (o *MeshLibrary) SetItemNavmesh(id gdnative.Int, navmesh NavigationMeshImpl
 }
 
 /*
+        Undocumented
+	Args: [{ false id int} { false navmesh Transform}], Returns: void
+*/
+func (o *MeshLibrary) SetItemNavmeshTransform(id gdnative.Int, navmesh gdnative.Transform) {
+	//log.Println("Calling MeshLibrary.SetItemNavmeshTransform()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromTransform(navmesh)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MeshLibrary", "set_item_navmesh_transform")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
 
 	Args: [{ false id int} { false texture Texture}], Returns: void
 */
@@ -449,6 +495,7 @@ type MeshLibraryImplementer interface {
 	GetItemMesh(id gdnative.Int) MeshImplementer
 	GetItemName(id gdnative.Int) gdnative.String
 	GetItemNavmesh(id gdnative.Int) NavigationMeshImplementer
+	GetItemNavmeshTransform(id gdnative.Int) gdnative.Transform
 	GetItemPreview(id gdnative.Int) TextureImplementer
 	GetItemShapes(id gdnative.Int) gdnative.Array
 	GetLastUnusedItemId() gdnative.Int
@@ -456,6 +503,7 @@ type MeshLibraryImplementer interface {
 	SetItemMesh(id gdnative.Int, mesh MeshImplementer)
 	SetItemName(id gdnative.Int, name gdnative.String)
 	SetItemNavmesh(id gdnative.Int, navmesh NavigationMeshImplementer)
+	SetItemNavmeshTransform(id gdnative.Int, navmesh gdnative.Transform)
 	SetItemPreview(id gdnative.Int, texture TextureImplementer)
 	SetItemShapes(id gdnative.Int, shapes gdnative.Array)
 }

@@ -56,9 +56,9 @@ func (o *EditorScript) X_Run() {
 
 /*
         Adds [code]node[/code] as a child of the root node in the editor context. WARNING: The implementation of this method is currently disabled.
-	Args: [{ false node Object}], Returns: void
+	Args: [{ false node Node}], Returns: void
 */
-func (o *EditorScript) AddRootNode(node ObjectImplementer) {
+func (o *EditorScript) AddRootNode(node NodeImplementer) {
 	//log.Println("Calling EditorScript.AddRootNode()")
 
 	// Build out the method's arguments
@@ -154,7 +154,7 @@ func (o *EditorScript) GetScene() NodeImplementer {
 type EditorScriptImplementer interface {
 	ReferenceImplementer
 	X_Run()
-	AddRootNode(node ObjectImplementer)
+	AddRootNode(node NodeImplementer)
 	GetEditorInterface() EditorInterfaceImplementer
 	GetScene() NodeImplementer
 }

@@ -27,18 +27,25 @@ const (
 type RichTextLabelItemType int
 
 const (
-	RichTextLabelItemAlign     RichTextLabelItemType = 7
-	RichTextLabelItemColor     RichTextLabelItemType = 5
-	RichTextLabelItemFont      RichTextLabelItemType = 4
-	RichTextLabelItemFrame     RichTextLabelItemType = 0
-	RichTextLabelItemImage     RichTextLabelItemType = 2
-	RichTextLabelItemIndent    RichTextLabelItemType = 8
-	RichTextLabelItemList      RichTextLabelItemType = 9
-	RichTextLabelItemMeta      RichTextLabelItemType = 11
-	RichTextLabelItemNewline   RichTextLabelItemType = 3
-	RichTextLabelItemTable     RichTextLabelItemType = 10
-	RichTextLabelItemText      RichTextLabelItemType = 1
-	RichTextLabelItemUnderline RichTextLabelItemType = 6
+	RichTextLabelItemAlign         RichTextLabelItemType = 8
+	RichTextLabelItemColor         RichTextLabelItemType = 5
+	RichTextLabelItemCustomfx      RichTextLabelItemType = 18
+	RichTextLabelItemFade          RichTextLabelItemType = 12
+	RichTextLabelItemFont          RichTextLabelItemType = 4
+	RichTextLabelItemFrame         RichTextLabelItemType = 0
+	RichTextLabelItemImage         RichTextLabelItemType = 2
+	RichTextLabelItemIndent        RichTextLabelItemType = 9
+	RichTextLabelItemList          RichTextLabelItemType = 10
+	RichTextLabelItemMeta          RichTextLabelItemType = 17
+	RichTextLabelItemNewline       RichTextLabelItemType = 3
+	RichTextLabelItemRainbow       RichTextLabelItemType = 16
+	RichTextLabelItemShake         RichTextLabelItemType = 13
+	RichTextLabelItemStrikethrough RichTextLabelItemType = 7
+	RichTextLabelItemTable         RichTextLabelItemType = 11
+	RichTextLabelItemText          RichTextLabelItemType = 1
+	RichTextLabelItemTornado       RichTextLabelItemType = 15
+	RichTextLabelItemUnderline     RichTextLabelItemType = 6
+	RichTextLabelItemWave          RichTextLabelItemType = 14
 )
 
 // RichTextLabelListType is an enum for ListType values.
@@ -115,14 +122,16 @@ func (o *RichTextLabel) X_ScrollChanged(arg0 gdnative.Real) {
 
 /*
         Adds an image's opening and closing tags to the tag stack.
-	Args: [{ false image Texture}], Returns: void
+	Args: [{ false image Texture} {0 true width int} {0 true height int}], Returns: void
 */
-func (o *RichTextLabel) AddImage(image TextureImplementer) {
+func (o *RichTextLabel) AddImage(image TextureImplementer, width gdnative.Int, height gdnative.Int) {
 	//log.Println("Calling RichTextLabel.AddImage()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
 	ptrArguments[0] = gdnative.NewPointerFromObject(image.GetBaseObject())
+	ptrArguments[1] = gdnative.NewPointerFromInt(width)
+	ptrArguments[2] = gdnative.NewPointerFromInt(height)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("RichTextLabel", "add_image")
@@ -156,7 +165,7 @@ func (o *RichTextLabel) AddText(text gdnative.String) {
 }
 
 /*
-        Parses [code]bbcode[/code] and adds tags to the tag stack as needed. Returns the result of the parsing, [code]OK[/code] if successful.
+        Parses [code]bbcode[/code] and adds tags to the tag stack as needed. Returns the result of the parsing, [constant @GlobalScope.OK] if successful.
 	Args: [{ false bbcode String}], Returns: enum.Error
 */
 func (o *RichTextLabel) AppendBbcode(bbcode gdnative.String) gdnative.Error {
@@ -219,6 +228,52 @@ func (o *RichTextLabel) GetBbcode() gdnative.String {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the height of the content.
+	Args: [], Returns: int
+*/
+func (o *RichTextLabel) GetContentHeight() gdnative.Int {
+	//log.Println("Calling RichTextLabel.GetContentHeight()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "get_content_height")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Array
+*/
+func (o *RichTextLabel) GetEffects() gdnative.Array {
+	//log.Println("Calling RichTextLabel.GetEffects()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "get_effects")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
 	return ret
 }
 
@@ -422,6 +477,27 @@ func (o *RichTextLabel) GetVisibleLineCount() gdnative.Int {
 
 /*
         Undocumented
+	Args: [{ false effect Variant}], Returns: void
+*/
+func (o *RichTextLabel) InstallEffect(effect gdnative.Variant) {
+	//log.Println("Calling RichTextLabel.InstallEffect()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVariant(effect)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "install_effect")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [], Returns: bool
 */
 func (o *RichTextLabel) IsMetaUnderlined() gdnative.Bool {
@@ -579,7 +655,7 @@ func (o *RichTextLabel) Newline() {
 }
 
 /*
-        The assignment version of [method append_bbcode]. Clears the tag stack and inserts the new content. Returns [code]OK[/code] if parses [code]bbcode[/code] successfully.
+        The assignment version of [method append_bbcode]. Clears the tag stack and inserts the new content. Returns [constant @GlobalScope.OK] if parses [code]bbcode[/code] successfully.
 	Args: [{ false bbcode String}], Returns: enum.Error
 */
 func (o *RichTextLabel) ParseBbcode(bbcode gdnative.String) gdnative.Error {
@@ -603,6 +679,30 @@ func (o *RichTextLabel) ParseBbcode(bbcode gdnative.String) gdnative.Error {
 }
 
 /*
+        Undocumented
+	Args: [{ false expressions PoolStringArray}], Returns: Dictionary
+*/
+func (o *RichTextLabel) ParseExpressionsForValues(expressions gdnative.PoolStringArray) gdnative.Dictionary {
+	//log.Println("Calling RichTextLabel.ParseExpressionsForValues()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromPoolStringArray(expressions)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "parse_expressions_for_values")
+
+	// Call the parent method.
+	// Dictionary
+	retPtr := gdnative.NewEmptyDictionary()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewDictionaryFromPointer(retPtr)
+	return ret
+}
+
+/*
         Terminates the current tag. Use after [code]push_*[/code] methods to close bbcodes manually. Does not need to follow [code]add_*[/code] methods.
 	Args: [], Returns: void
 */
@@ -623,7 +723,7 @@ func (o *RichTextLabel) Pop() {
 }
 
 /*
-        Adds a [code][right][/code] tag to the tag stack.
+        Adds an alignment tag based on the given [code]align[/code] value. See [enum Align] for possible values.
 	Args: [{ false align int}], Returns: void
 */
 func (o *RichTextLabel) PushAlign(align gdnative.Int) {
@@ -644,7 +744,47 @@ func (o *RichTextLabel) PushAlign(align gdnative.Int) {
 }
 
 /*
-        Adds a [code][cell][/code] tag to the tag stack. Must be inside a [table] tag. See [method push_table] for details.
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *RichTextLabel) PushBold() {
+	//log.Println("Calling RichTextLabel.PushBold()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "push_bold")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *RichTextLabel) PushBoldItalics() {
+	//log.Println("Calling RichTextLabel.PushBoldItalics()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "push_bold_italics")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Adds a [code][cell][/code] tag to the tag stack. Must be inside a [code][table][/code] tag. See [method push_table] for details.
 	Args: [], Returns: void
 */
 func (o *RichTextLabel) PushCell() {
@@ -727,6 +867,26 @@ func (o *RichTextLabel) PushIndent(level gdnative.Int) {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *RichTextLabel) PushItalics() {
+	//log.Println("Calling RichTextLabel.PushItalics()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "push_italics")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Adds a list tag to the tag stack. Similar to the bbcodes [code][ol][/code] or [code][ul][/code], but supports more list types. Not fully implemented!
 	Args: [{ false type int}], Returns: void
 */
@@ -760,6 +920,66 @@ func (o *RichTextLabel) PushMeta(data gdnative.Variant) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("RichTextLabel", "push_meta")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *RichTextLabel) PushMono() {
+	//log.Println("Calling RichTextLabel.PushMono()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "push_mono")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *RichTextLabel) PushNormal() {
+	//log.Println("Calling RichTextLabel.PushNormal()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "push_normal")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Adds a [code][s][/code] tag to the tag stack.
+	Args: [], Returns: void
+*/
+func (o *RichTextLabel) PushStrikethrough() {
+	//log.Println("Calling RichTextLabel.PushStrikethrough()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "push_strikethrough")
 
 	// Call the parent method.
 	// void
@@ -867,6 +1087,27 @@ func (o *RichTextLabel) SetBbcode(text gdnative.String) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("RichTextLabel", "set_bbcode")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false effects Array}], Returns: void
+*/
+func (o *RichTextLabel) SetEffects(effects gdnative.Array) {
+	//log.Println("Calling RichTextLabel.SetEffects()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromArray(effects)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RichTextLabel", "set_effects")
 
 	// Call the parent method.
 	// void
@@ -1113,10 +1354,12 @@ func (o *RichTextLabel) SetVisibleCharacters(amount gdnative.Int) {
 type RichTextLabelImplementer interface {
 	ControlImplementer
 	X_ScrollChanged(arg0 gdnative.Real)
-	AddImage(image TextureImplementer)
+	AddImage(image TextureImplementer, width gdnative.Int, height gdnative.Int)
 	AddText(text gdnative.String)
 	Clear()
 	GetBbcode() gdnative.String
+	GetContentHeight() gdnative.Int
+	GetEffects() gdnative.Array
 	GetLineCount() gdnative.Int
 	GetPercentVisible() gdnative.Real
 	GetTabSize() gdnative.Int
@@ -1125,6 +1368,7 @@ type RichTextLabelImplementer interface {
 	GetVScroll() VScrollBarImplementer
 	GetVisibleCharacters() gdnative.Int
 	GetVisibleLineCount() gdnative.Int
+	InstallEffect(effect gdnative.Variant)
 	IsMetaUnderlined() gdnative.Bool
 	IsOverridingSelectedFontColor() gdnative.Bool
 	IsScrollActive() gdnative.Bool
@@ -1132,19 +1376,27 @@ type RichTextLabelImplementer interface {
 	IsSelectionEnabled() gdnative.Bool
 	IsUsingBbcode() gdnative.Bool
 	Newline()
+	ParseExpressionsForValues(expressions gdnative.PoolStringArray) gdnative.Dictionary
 	Pop()
 	PushAlign(align gdnative.Int)
+	PushBold()
+	PushBoldItalics()
 	PushCell()
 	PushColor(color gdnative.Color)
 	PushFont(font FontImplementer)
 	PushIndent(level gdnative.Int)
+	PushItalics()
 	PushList(aType gdnative.Int)
 	PushMeta(data gdnative.Variant)
+	PushMono()
+	PushNormal()
+	PushStrikethrough()
 	PushTable(columns gdnative.Int)
 	PushUnderline()
 	RemoveLine(line gdnative.Int) gdnative.Bool
 	ScrollToLine(line gdnative.Int)
 	SetBbcode(text gdnative.String)
+	SetEffects(effects gdnative.Array)
 	SetMetaUnderline(enable gdnative.Bool)
 	SetOverrideSelectedFontColor(override gdnative.Bool)
 	SetPercentVisible(percentVisible gdnative.Real)

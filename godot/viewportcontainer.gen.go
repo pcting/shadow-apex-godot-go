@@ -23,8 +23,8 @@ func newViewportContainerFromPointer(ptr gdnative.Pointer) ViewportContainer {
 }
 
 /*
-
- */
+A [Container] node that holds a [Viewport], automatically setting its size.
+*/
 type ViewportContainer struct {
 	Container
 	owner gdnative.Object
@@ -47,6 +47,27 @@ func (o *ViewportContainer) X_Input(event InputEventImplementer) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ViewportContainer", "_input")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false event InputEvent}], Returns: void
+*/
+func (o *ViewportContainer) X_UnhandledInput(event InputEventImplementer) {
+	//log.Println("Calling ViewportContainer.X_UnhandledInput()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(event.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ViewportContainer", "_unhandled_input")
 
 	// Call the parent method.
 	// void

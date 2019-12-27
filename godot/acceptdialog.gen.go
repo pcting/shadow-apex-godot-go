@@ -97,7 +97,7 @@ func (o *AcceptDialog) X_Ok() {
 }
 
 /*
-        Adds a button with label [i]text[/i] and a custom [i]action[/i] to the dialog and returns the created button. [i]action[/i] will be passed to the [custom_action] signal when pressed. If [code]true[/code], [i]right[/i] will place the button to the right of any sibling buttons. Default value: [code]false[/code].
+        Adds a button with label [i]text[/i] and a custom [i]action[/i] to the dialog and returns the created button. [i]action[/i] will be passed to the [signal custom_action] signal when pressed. If [code]true[/code], [i]right[/i] will place the button to the right of any sibling buttons. Default value: [code]false[/code].
 	Args: [{ false text String} {False true right bool} { true action String}], Returns: Button
 */
 func (o *AcceptDialog) AddButton(text gdnative.String, right gdnative.Bool, action gdnative.String) ButtonImplementer {
@@ -198,7 +198,7 @@ func (o *AcceptDialog) GetHideOnOk() gdnative.Bool {
 }
 
 /*
-        Return the label used for built-in text.
+        Returns the label used for built-in text.
 	Args: [], Returns: Label
 */
 func (o *AcceptDialog) GetLabel() LabelImplementer {
@@ -235,7 +235,7 @@ func (o *AcceptDialog) GetLabel() LabelImplementer {
 }
 
 /*
-        Return the OK Button.
+        Returns the OK Button.
 	Args: [], Returns: Button
 */
 func (o *AcceptDialog) GetOk() ButtonImplementer {
@@ -295,10 +295,33 @@ func (o *AcceptDialog) GetText() gdnative.String {
 }
 
 /*
-        Registers a [LineEdit] in the dialog. When the enter key is pressed, the dialog will be accepted.
-	Args: [{ false line_edit Object}], Returns: void
+        Undocumented
+	Args: [], Returns: bool
 */
-func (o *AcceptDialog) RegisterTextEnter(lineEdit ObjectImplementer) {
+func (o *AcceptDialog) HasAutowrap() gdnative.Bool {
+	//log.Println("Calling AcceptDialog.HasAutowrap()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AcceptDialog", "has_autowrap")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Registers a [LineEdit] in the dialog. When the enter key is pressed, the dialog will be accepted.
+	Args: [{ false line_edit Node}], Returns: void
+*/
+func (o *AcceptDialog) RegisterTextEnter(lineEdit NodeImplementer) {
 	//log.Println("Calling AcceptDialog.RegisterTextEnter()")
 
 	// Build out the method's arguments
@@ -307,6 +330,27 @@ func (o *AcceptDialog) RegisterTextEnter(lineEdit ObjectImplementer) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("AcceptDialog", "register_text_enter")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false autowrap bool}], Returns: void
+*/
+func (o *AcceptDialog) SetAutowrap(autowrap gdnative.Bool) {
+	//log.Println("Calling AcceptDialog.SetAutowrap()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(autowrap)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AcceptDialog", "set_autowrap")
 
 	// Call the parent method.
 	// void
@@ -370,7 +414,9 @@ type AcceptDialogImplementer interface {
 	GetLabel() LabelImplementer
 	GetOk() ButtonImplementer
 	GetText() gdnative.String
-	RegisterTextEnter(lineEdit ObjectImplementer)
+	HasAutowrap() gdnative.Bool
+	RegisterTextEnter(lineEdit NodeImplementer)
+	SetAutowrap(autowrap gdnative.Bool)
 	SetHideOnOk(enabled gdnative.Bool)
 	SetText(text gdnative.String)
 }

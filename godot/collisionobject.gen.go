@@ -176,7 +176,7 @@ func (o *CollisionObject) IsRayPickable() gdnative.Bool {
 }
 
 /*
-        If [code]true[/code] the shape owner and its shapes are disabled.
+        If [code]true[/code], the shape owner and its shapes are disabled.
 	Args: [{ false owner_id int}], Returns: bool
 */
 func (o *CollisionObject) IsShapeOwnerDisabled(ownerId gdnative.Int) gdnative.Bool {
@@ -502,7 +502,7 @@ func (o *CollisionObject) ShapeOwnerRemoveShape(ownerId gdnative.Int, shapeId gd
 }
 
 /*
-        If [code]true[/code] disables the given shape owner.
+        If [code]true[/code], disables the given shape owner.
 	Args: [{ false owner_id int} { false disabled bool}], Returns: void
 */
 func (o *CollisionObject) ShapeOwnerSetDisabled(ownerId gdnative.Int, disabled gdnative.Bool) {

@@ -21,6 +21,14 @@ const (
 	Camera2DAnchorModeFixedTopLeft Camera2DAnchorMode = 0
 )
 
+// Camera2DCamera2DProcessMode is an enum for Camera2DProcessMode values.
+type Camera2DCamera2DProcessMode int
+
+const (
+	Camera2DCamera2DProcessIdle    Camera2DCamera2DProcessMode = 1
+	Camera2DCamera2DProcessPhysics Camera2DCamera2DProcessMode = 0
+)
+
 //func NewCamera2DFromPointer(ptr gdnative.Pointer) Camera2D {
 func newCamera2DFromPointer(ptr gdnative.Pointer) Camera2D {
 	owner := gdnative.NewObjectFromPointer(ptr)
@@ -209,7 +217,7 @@ func (o *Camera2D) GetAnchorMode() Camera2DAnchorMode {
 }
 
 /*
-        Return the camera position.
+        Returns the camera position.
 	Args: [], Returns: Vector2
 */
 func (o *Camera2D) GetCameraPosition() gdnative.Vector2 {
@@ -406,6 +414,29 @@ func (o *Camera2D) GetOffset() gdnative.Vector2 {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewVector2FromPointer(retPtr)
 	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: enum.Camera2D::Camera2DProcessMode
+*/
+func (o *Camera2D) GetProcessMode() Camera2DCamera2DProcessMode {
+	//log.Println("Calling Camera2D.GetProcessMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Camera2D", "get_process_mode")
+
+	// Call the parent method.
+	// enum.Camera2D::Camera2DProcessMode
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return Camera2DCamera2DProcessMode(ret)
 }
 
 /*
@@ -724,9 +755,9 @@ func (o *Camera2D) SetAnchorMode(anchorMode gdnative.Int) {
 
 /*
         Undocumented
-	Args: [{ false viewport Object}], Returns: void
+	Args: [{ false viewport Node}], Returns: void
 */
-func (o *Camera2D) SetCustomViewport(viewport ObjectImplementer) {
+func (o *Camera2D) SetCustomViewport(viewport NodeImplementer) {
 	//log.Println("Calling Camera2D.SetCustomViewport()")
 
 	// Build out the method's arguments
@@ -957,6 +988,27 @@ func (o *Camera2D) SetOffset(offset gdnative.Vector2) {
 
 /*
         Undocumented
+	Args: [{ false mode int}], Returns: void
+*/
+func (o *Camera2D) SetProcessMode(mode gdnative.Int) {
+	//log.Println("Calling Camera2D.SetProcessMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(mode)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Camera2D", "set_process_mode")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false rotating bool}], Returns: void
 */
 func (o *Camera2D) SetRotating(rotating gdnative.Bool) {
@@ -1093,7 +1145,7 @@ type Camera2DImplementer interface {
 	MakeCurrent()
 	ResetSmoothing()
 	SetAnchorMode(anchorMode gdnative.Int)
-	SetCustomViewport(viewport ObjectImplementer)
+	SetCustomViewport(viewport NodeImplementer)
 	SetDragMargin(margin gdnative.Int, dragMargin gdnative.Real)
 	SetEnableFollowSmoothing(followSmoothing gdnative.Bool)
 	SetFollowSmoothing(followSmoothing gdnative.Real)
@@ -1104,6 +1156,7 @@ type Camera2DImplementer interface {
 	SetLimitSmoothingEnabled(limitSmoothingEnabled gdnative.Bool)
 	SetMarginDrawingEnabled(marginDrawingEnabled gdnative.Bool)
 	SetOffset(offset gdnative.Vector2)
+	SetProcessMode(mode gdnative.Int)
 	SetRotating(rotating gdnative.Bool)
 	SetScreenDrawingEnabled(screenDrawingEnabled gdnative.Bool)
 	SetVDragEnabled(enabled gdnative.Bool)

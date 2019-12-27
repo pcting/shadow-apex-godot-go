@@ -23,7 +23,7 @@ func newAudioBusLayoutFromPointer(ptr gdnative.Pointer) AudioBusLayout {
 }
 
 /*
-Stores position, muting, solo, bypass, effects, effect position, volume, and the connections between busses. See [AudioServer] for usage.
+Stores position, muting, solo, bypass, effects, effect position, volume, and the connections between buses. See [AudioServer] for usage.
 */
 type AudioBusLayout struct {
 	Resource

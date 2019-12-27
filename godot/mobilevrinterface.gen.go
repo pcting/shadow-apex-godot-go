@@ -84,6 +84,29 @@ func (o *MobileVRInterface) GetDisplayWidth() gdnative.Real {
         Undocumented
 	Args: [], Returns: float
 */
+func (o *MobileVRInterface) GetEyeHeight() gdnative.Real {
+	//log.Println("Calling MobileVRInterface.GetEyeHeight()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MobileVRInterface", "get_eye_height")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
 func (o *MobileVRInterface) GetIod() gdnative.Real {
 	//log.Println("Calling MobileVRInterface.GetIod()")
 
@@ -216,6 +239,27 @@ func (o *MobileVRInterface) SetDisplayWidth(displayWidth gdnative.Real) {
 
 /*
         Undocumented
+	Args: [{ false eye_height float}], Returns: void
+*/
+func (o *MobileVRInterface) SetEyeHeight(eyeHeight gdnative.Real) {
+	//log.Println("Calling MobileVRInterface.SetEyeHeight()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(eyeHeight)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MobileVRInterface", "set_eye_height")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false iod float}], Returns: void
 */
 func (o *MobileVRInterface) SetIod(iod gdnative.Real) {
@@ -304,12 +348,14 @@ type MobileVRInterfaceImplementer interface {
 	ARVRInterfaceImplementer
 	GetDisplayToLens() gdnative.Real
 	GetDisplayWidth() gdnative.Real
+	GetEyeHeight() gdnative.Real
 	GetIod() gdnative.Real
 	GetK1() gdnative.Real
 	GetK2() gdnative.Real
 	GetOversample() gdnative.Real
 	SetDisplayToLens(displayToLens gdnative.Real)
 	SetDisplayWidth(displayWidth gdnative.Real)
+	SetEyeHeight(eyeHeight gdnative.Real)
 	SetIod(iod gdnative.Real)
 	SetK1(k gdnative.Real)
 	SetK2(k gdnative.Real)

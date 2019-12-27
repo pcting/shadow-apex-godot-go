@@ -152,6 +152,7 @@ const (
 	Physics2DServerSpaceParamConstraintDefaultBias             Physics2DServerSpaceParameter = 6
 	Physics2DServerSpaceParamContactMaxSeparation              Physics2DServerSpaceParameter = 1
 	Physics2DServerSpaceParamContactRecycleRadius              Physics2DServerSpaceParameter = 0
+	Physics2DServerSpaceParamTestMotionMinContactDepth         Physics2DServerSpaceParameter = 7
 )
 
 //func Newphysics2DServerFromPointer(ptr gdnative.Pointer) physics2DServer {
@@ -199,20 +200,44 @@ func (o *physics2DServer) BaseClass() string {
 
 /*
         Adds a shape to the area, along with a transform matrix. Shapes are usually referenced by their index, so you should track which shape has a given index.
-	Args: [{ false area RID} { false shape RID} {((1, 0), (0, 1), (0, 0)) true transform Transform2D}], Returns: void
+	Args: [{ false area RID} { false shape RID} {((1, 0), (0, 1), (0, 0)) true transform Transform2D} {False true disabled bool}], Returns: void
 */
-func (o *physics2DServer) AreaAddShape(area gdnative.Rid, shape gdnative.Rid, transform gdnative.Transform2D) {
+func (o *physics2DServer) AreaAddShape(area gdnative.Rid, shape gdnative.Rid, transform gdnative.Transform2D, disabled gdnative.Bool) {
 	o.ensureSingleton()
 	//log.Println("Calling Physics2DServer.AreaAddShape()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromRid(area)
 	ptrArguments[1] = gdnative.NewPointerFromRid(shape)
 	ptrArguments[2] = gdnative.NewPointerFromTransform2D(transform)
+	ptrArguments[3] = gdnative.NewPointerFromBool(disabled)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Physics2DServer", "area_add_shape")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false area RID} { false id int}], Returns: void
+*/
+func (o *physics2DServer) AreaAttachCanvasInstanceId(area gdnative.Rid, id gdnative.Int) {
+	o.ensureSingleton()
+	//log.Println("Calling Physics2DServer.AreaAttachCanvasInstanceId()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(area)
+	ptrArguments[1] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Physics2DServer", "area_attach_canvas_instance_id")
 
 	// Call the parent method.
 	// void
@@ -291,6 +316,31 @@ func (o *physics2DServer) AreaCreate() gdnative.Rid {
 }
 
 /*
+
+	Args: [{ false area RID}], Returns: int
+*/
+func (o *physics2DServer) AreaGetCanvasInstanceId(area gdnative.Rid) gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling Physics2DServer.AreaGetCanvasInstanceId()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(area)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Physics2DServer", "area_get_canvas_instance_id")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
         Gets the instance ID of the object the area is assigned to.
 	Args: [{ false area RID}], Returns: int
 */
@@ -316,7 +366,7 @@ func (o *physics2DServer) AreaGetObjectInstanceId(area gdnative.Rid) gdnative.In
 }
 
 /*
-        Returns an area parameter value. A list of available parameters is on the AREA_PARAM_* constants.
+        Returns an area parameter value. See [enum AreaParameter] for a list of available parameters.
 	Args: [{ false area RID} { false param int}], Returns: Variant
 */
 func (o *physics2DServer) AreaGetParam(area gdnative.Rid, param gdnative.Int) gdnative.Variant {
@@ -517,6 +567,30 @@ func (o *physics2DServer) AreaRemoveShape(area gdnative.Rid, shapeIdx gdnative.I
 }
 
 /*
+
+	Args: [{ false area RID} { false receiver Object} { false method String}], Returns: void
+*/
+func (o *physics2DServer) AreaSetAreaMonitorCallback(area gdnative.Rid, receiver ObjectImplementer, method gdnative.String) {
+	o.ensureSingleton()
+	//log.Println("Calling Physics2DServer.AreaSetAreaMonitorCallback()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromRid(area)
+	ptrArguments[1] = gdnative.NewPointerFromObject(receiver.GetBaseObject())
+	ptrArguments[2] = gdnative.NewPointerFromString(method)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Physics2DServer", "area_set_area_monitor_callback")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Assigns the area to one or many physics layers.
 	Args: [{ false area RID} { false layer int}], Returns: void
 */
@@ -587,7 +661,30 @@ func (o *physics2DServer) AreaSetMonitorCallback(area gdnative.Rid, receiver Obj
 }
 
 /*
-        Sets the value for an area parameter. A list of available parameters is on the AREA_PARAM_* constants.
+
+	Args: [{ false area RID} { false monitorable bool}], Returns: void
+*/
+func (o *physics2DServer) AreaSetMonitorable(area gdnative.Rid, monitorable gdnative.Bool) {
+	o.ensureSingleton()
+	//log.Println("Calling Physics2DServer.AreaSetMonitorable()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(area)
+	ptrArguments[1] = gdnative.NewPointerFromBool(monitorable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Physics2DServer", "area_set_monitorable")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the value for an area parameter. See [enum AreaParameter] for a list of available parameters.
 	Args: [{ false area RID} { false param int} { false value Variant}], Returns: void
 */
 func (o *physics2DServer) AreaSetParam(area gdnative.Rid, param gdnative.Int, value gdnative.Variant) {
@@ -636,9 +733,9 @@ func (o *physics2DServer) AreaSetShape(area gdnative.Rid, shapeIdx gdnative.Int,
 
 /*
         Disables a given shape in an area.
-	Args: [{ false area RID} { false shape_idx int} { false disable bool}], Returns: void
+	Args: [{ false area RID} { false shape_idx int} { false disabled bool}], Returns: void
 */
-func (o *physics2DServer) AreaSetShapeDisabled(area gdnative.Rid, shapeIdx gdnative.Int, disable gdnative.Bool) {
+func (o *physics2DServer) AreaSetShapeDisabled(area gdnative.Rid, shapeIdx gdnative.Int, disabled gdnative.Bool) {
 	o.ensureSingleton()
 	//log.Println("Calling Physics2DServer.AreaSetShapeDisabled()")
 
@@ -646,7 +743,7 @@ func (o *physics2DServer) AreaSetShapeDisabled(area gdnative.Rid, shapeIdx gdnat
 	ptrArguments := make([]gdnative.Pointer, 3, 3)
 	ptrArguments[0] = gdnative.NewPointerFromRid(area)
 	ptrArguments[1] = gdnative.NewPointerFromInt(shapeIdx)
-	ptrArguments[2] = gdnative.NewPointerFromBool(disable)
+	ptrArguments[2] = gdnative.NewPointerFromBool(disabled)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Physics2DServer", "area_set_shape_disabled")
@@ -706,7 +803,7 @@ func (o *physics2DServer) AreaSetSpace(area gdnative.Rid, space gdnative.Rid) {
 }
 
 /*
-        Sets the space override mode for the area. The modes are described in the constants AREA_SPACE_OVERRIDE_*.
+        Sets the space override mode for the area. See [enum AreaSpaceOverrideMode] for a list of available modes.
 	Args: [{ false area RID} { false mode int}], Returns: void
 */
 func (o *physics2DServer) AreaSetSpaceOverrideMode(area gdnative.Rid, mode gdnative.Int) {
@@ -743,6 +840,29 @@ func (o *physics2DServer) AreaSetTransform(area gdnative.Rid, transform gdnative
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Physics2DServer", "area_set_transform")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false body RID} { false force Vector2}], Returns: void
+*/
+func (o *physics2DServer) BodyAddCentralForce(body gdnative.Rid, force gdnative.Vector2) {
+	o.ensureSingleton()
+	//log.Println("Calling Physics2DServer.BodyAddCentralForce()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(body)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(force)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_add_central_force")
 
 	// Call the parent method.
 	// void
@@ -800,20 +920,67 @@ func (o *physics2DServer) BodyAddForce(body gdnative.Rid, offset gdnative.Vector
 
 /*
         Adds a shape to the body, along with a transform matrix. Shapes are usually referenced by their index, so you should track which shape has a given index.
-	Args: [{ false body RID} { false shape RID} {((1, 0), (0, 1), (0, 0)) true transform Transform2D}], Returns: void
+	Args: [{ false body RID} { false shape RID} {((1, 0), (0, 1), (0, 0)) true transform Transform2D} {False true disabled bool}], Returns: void
 */
-func (o *physics2DServer) BodyAddShape(body gdnative.Rid, shape gdnative.Rid, transform gdnative.Transform2D) {
+func (o *physics2DServer) BodyAddShape(body gdnative.Rid, shape gdnative.Rid, transform gdnative.Transform2D, disabled gdnative.Bool) {
 	o.ensureSingleton()
 	//log.Println("Calling Physics2DServer.BodyAddShape()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromRid(body)
 	ptrArguments[1] = gdnative.NewPointerFromRid(shape)
 	ptrArguments[2] = gdnative.NewPointerFromTransform2D(transform)
+	ptrArguments[3] = gdnative.NewPointerFromBool(disabled)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_add_shape")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false body RID} { false torque float}], Returns: void
+*/
+func (o *physics2DServer) BodyAddTorque(body gdnative.Rid, torque gdnative.Real) {
+	o.ensureSingleton()
+	//log.Println("Calling Physics2DServer.BodyAddTorque()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(body)
+	ptrArguments[1] = gdnative.NewPointerFromReal(torque)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_add_torque")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false body RID} { false impulse Vector2}], Returns: void
+*/
+func (o *physics2DServer) BodyApplyCentralImpulse(body gdnative.Rid, impulse gdnative.Vector2) {
+	o.ensureSingleton()
+	//log.Println("Calling Physics2DServer.BodyApplyCentralImpulse()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(body)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(impulse)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_apply_central_impulse")
 
 	// Call the parent method.
 	// void
@@ -838,6 +1005,52 @@ func (o *physics2DServer) BodyApplyImpulse(body gdnative.Rid, position gdnative.
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_apply_impulse")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false body RID} { false impulse float}], Returns: void
+*/
+func (o *physics2DServer) BodyApplyTorqueImpulse(body gdnative.Rid, impulse gdnative.Real) {
+	o.ensureSingleton()
+	//log.Println("Calling Physics2DServer.BodyApplyTorqueImpulse()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(body)
+	ptrArguments[1] = gdnative.NewPointerFromReal(impulse)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_apply_torque_impulse")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false body RID} { false id int}], Returns: void
+*/
+func (o *physics2DServer) BodyAttachCanvasInstanceId(body gdnative.Rid, id gdnative.Int) {
+	o.ensureSingleton()
+	//log.Println("Calling Physics2DServer.BodyAttachCanvasInstanceId()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(body)
+	ptrArguments[1] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_attach_canvas_instance_id")
 
 	// Call the parent method.
 	// void
@@ -892,7 +1105,7 @@ func (o *physics2DServer) BodyClearShapes(body gdnative.Rid) {
 }
 
 /*
-        Creates a physics body. The first parameter can be any value from constants BODY_MODE*, for the type of body created. Additionally, the body can be created in sleeping state to save processing time.
+        Creates a physics body.
 	Args: [], Returns: RID
 */
 func (o *physics2DServer) BodyCreate() gdnative.Rid {
@@ -912,6 +1125,31 @@ func (o *physics2DServer) BodyCreate() gdnative.Rid {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewRidFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false body RID}], Returns: int
+*/
+func (o *physics2DServer) BodyGetCanvasInstanceId(body gdnative.Rid) gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling Physics2DServer.BodyGetCanvasInstanceId()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(body)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_get_canvas_instance_id")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
 }
 
@@ -1105,7 +1343,7 @@ func (o *physics2DServer) BodyGetObjectInstanceId(body gdnative.Rid) gdnative.In
 }
 
 /*
-        Returns the value of a body parameter. A list of available parameters is on the BODY_PARAM_* constants.
+        Returns the value of a body parameter. See [enum BodyParameter] for a list of available parameters.
 	Args: [{ false body RID} { false param int}], Returns: float
 */
 func (o *physics2DServer) BodyGetParam(body gdnative.Rid, param gdnative.Int) gdnative.Real {
@@ -1425,7 +1663,7 @@ func (o *physics2DServer) BodySetCollisionMask(body gdnative.Rid, mask gdnative.
 }
 
 /*
-        Sets the continuous collision detection mode from any of the CCD_MODE_* constants. Continuous collision detection tries to predict where a moving body will collide, instead of moving it and correcting its movement if it collided.
+        Sets the continuous collision detection mode using one of the [enum CCDMode] constants. Continuous collision detection tries to predict where a moving body will collide, instead of moving it and correcting its movement if it collided.
 	Args: [{ false body RID} { false mode int}], Returns: void
 */
 func (o *physics2DServer) BodySetContinuousCollisionDetectionMode(body gdnative.Rid, mode gdnative.Int) {
@@ -1448,7 +1686,7 @@ func (o *physics2DServer) BodySetContinuousCollisionDetectionMode(body gdnative.
 }
 
 /*
-        Sets the function used to calculate physics for an object, if that object allows it (see [method body_set_omit_force integration]).
+        Sets the function used to calculate physics for an object, if that object allows it (see [method body_set_omit_force_integration]).
 	Args: [{ false body RID} { false receiver Object} { false method String} {Null true userdata Variant}], Returns: void
 */
 func (o *physics2DServer) BodySetForceIntegrationCallback(body gdnative.Rid, receiver ObjectImplementer, method gdnative.String, userdata gdnative.Variant) {
@@ -1496,7 +1734,7 @@ func (o *physics2DServer) BodySetMaxContactsReported(body gdnative.Rid, amount g
 }
 
 /*
-        Sets the body mode, from one of the constants BODY_MODE*.
+        Sets the body mode using one of the [enum BodyMode] constants.
 	Args: [{ false body RID} { false mode int}], Returns: void
 */
 func (o *physics2DServer) BodySetMode(body gdnative.Rid, mode gdnative.Int) {
@@ -1542,7 +1780,7 @@ func (o *physics2DServer) BodySetOmitForceIntegration(body gdnative.Rid, enable 
 }
 
 /*
-        Sets a body parameter. A list of available parameters is on the BODY_PARAM_* constants.
+        Sets a body parameter. See [enum BodyParameter] for a list of available parameters.
 	Args: [{ false body RID} { false param int} { false value float}], Returns: void
 */
 func (o *physics2DServer) BodySetParam(body gdnative.Rid, param gdnative.Int, value gdnative.Real) {
@@ -1591,17 +1829,18 @@ func (o *physics2DServer) BodySetShape(body gdnative.Rid, shapeIdx gdnative.Int,
 
 /*
         Enables one way collision on body if [code]enable[/code] is [code]true[/code].
-	Args: [{ false body RID} { false shape_idx int} { false enable bool}], Returns: void
+	Args: [{ false body RID} { false shape_idx int} { false enable bool} { false margin float}], Returns: void
 */
-func (o *physics2DServer) BodySetShapeAsOneWayCollision(body gdnative.Rid, shapeIdx gdnative.Int, enable gdnative.Bool) {
+func (o *physics2DServer) BodySetShapeAsOneWayCollision(body gdnative.Rid, shapeIdx gdnative.Int, enable gdnative.Bool, margin gdnative.Real) {
 	o.ensureSingleton()
 	//log.Println("Calling Physics2DServer.BodySetShapeAsOneWayCollision()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromRid(body)
 	ptrArguments[1] = gdnative.NewPointerFromInt(shapeIdx)
 	ptrArguments[2] = gdnative.NewPointerFromBool(enable)
+	ptrArguments[3] = gdnative.NewPointerFromReal(margin)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_set_shape_as_one_way_collision")
@@ -1615,9 +1854,9 @@ func (o *physics2DServer) BodySetShapeAsOneWayCollision(body gdnative.Rid, shape
 
 /*
         Disables shape in body if [code]disable[/code] is [code]true[/code].
-	Args: [{ false body RID} { false shape_idx int} { false disable bool}], Returns: void
+	Args: [{ false body RID} { false shape_idx int} { false disabled bool}], Returns: void
 */
-func (o *physics2DServer) BodySetShapeDisabled(body gdnative.Rid, shapeIdx gdnative.Int, disable gdnative.Bool) {
+func (o *physics2DServer) BodySetShapeDisabled(body gdnative.Rid, shapeIdx gdnative.Int, disabled gdnative.Bool) {
 	o.ensureSingleton()
 	//log.Println("Calling Physics2DServer.BodySetShapeDisabled()")
 
@@ -1625,7 +1864,7 @@ func (o *physics2DServer) BodySetShapeDisabled(body gdnative.Rid, shapeIdx gdnat
 	ptrArguments := make([]gdnative.Pointer, 3, 3)
 	ptrArguments[0] = gdnative.NewPointerFromRid(body)
 	ptrArguments[1] = gdnative.NewPointerFromInt(shapeIdx)
-	ptrArguments[2] = gdnative.NewPointerFromBool(disable)
+	ptrArguments[2] = gdnative.NewPointerFromBool(disabled)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_set_shape_disabled")
@@ -1686,7 +1925,7 @@ func (o *physics2DServer) BodySetShapeTransform(body gdnative.Rid, shapeIdx gdna
 }
 
 /*
-        Assigns a space to the body (see [method create_space]).
+        Assigns a space to the body (see [method space_create]).
 	Args: [{ false body RID} { false space RID}], Returns: void
 */
 func (o *physics2DServer) BodySetSpace(body gdnative.Rid, space gdnative.Rid) {
@@ -1709,7 +1948,7 @@ func (o *physics2DServer) BodySetSpace(body gdnative.Rid, space gdnative.Rid) {
 }
 
 /*
-        Sets a body state (see BODY_STATE* constants).
+        Sets a body state using one of the [enum BodyState] constants.
 	Args: [{ false body RID} { false state int} { false value Variant}], Returns: void
 */
 func (o *physics2DServer) BodySetState(body gdnative.Rid, state gdnative.Int, value gdnative.Variant) {
@@ -1734,19 +1973,20 @@ func (o *physics2DServer) BodySetState(body gdnative.Rid, state gdnative.Int, va
 
 /*
         Returns whether a body can move from a given point in a given direction. Apart from the boolean return value, a [Physics2DTestMotionResult] can be passed to return additional information in.
-	Args: [{ false body RID} { false from Transform2D} { false motion Vector2} {0.08 true margin float} {Null true result Physics2DTestMotionResult}], Returns: bool
+	Args: [{ false body RID} { false from Transform2D} { false motion Vector2} { false infinite_inertia bool} {0.08 true margin float} {Null true result Physics2DTestMotionResult}], Returns: bool
 */
-func (o *physics2DServer) BodyTestMotion(body gdnative.Rid, from gdnative.Transform2D, motion gdnative.Vector2, margin gdnative.Real, result Physics2DTestMotionResultImplementer) gdnative.Bool {
+func (o *physics2DServer) BodyTestMotion(body gdnative.Rid, from gdnative.Transform2D, motion gdnative.Vector2, infiniteInertia gdnative.Bool, margin gdnative.Real, result Physics2DTestMotionResultImplementer) gdnative.Bool {
 	o.ensureSingleton()
 	//log.Println("Calling Physics2DServer.BodyTestMotion()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 5, 5)
+	ptrArguments := make([]gdnative.Pointer, 6, 6)
 	ptrArguments[0] = gdnative.NewPointerFromRid(body)
 	ptrArguments[1] = gdnative.NewPointerFromTransform2D(from)
 	ptrArguments[2] = gdnative.NewPointerFromVector2(motion)
-	ptrArguments[3] = gdnative.NewPointerFromReal(margin)
-	ptrArguments[4] = gdnative.NewPointerFromObject(result.GetBaseObject())
+	ptrArguments[3] = gdnative.NewPointerFromBool(infiniteInertia)
+	ptrArguments[4] = gdnative.NewPointerFromReal(margin)
+	ptrArguments[5] = gdnative.NewPointerFromObject(result.GetBaseObject())
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Physics2DServer", "body_test_motion")
@@ -1912,7 +2152,7 @@ func (o *physics2DServer) DampedStringJointGetParam(joint gdnative.Rid, param gd
 }
 
 /*
-        Sets a damped spring joint parameter. Parameters are explained in the DAMPED_STRING* constants.
+        Sets a damped spring joint parameter. See [enum DampedStringParam] for a list of available parameters.
 	Args: [{ false joint RID} { false param int} { false value float}], Returns: void
 */
 func (o *physics2DServer) DampedStringJointSetParam(joint gdnative.Rid, param gdnative.Int, value gdnative.Real) {
@@ -1958,7 +2198,7 @@ func (o *physics2DServer) FreeRid(rid gdnative.Rid) {
 }
 
 /*
-        Returns information about the current state of the 2D physics engine. The states are listed under the INFO_* constants.
+        Returns information about the current state of the 2D physics engine. See [enum ProcessInfo] for a list of available states.
 	Args: [{ false process_info int}], Returns: int
 */
 func (o *physics2DServer) GetProcessInfo(processInfo gdnative.Int) gdnative.Int {
@@ -1983,7 +2223,7 @@ func (o *physics2DServer) GetProcessInfo(processInfo gdnative.Int) gdnative.Int 
 }
 
 /*
-        Creates a groove joint between two bodies. If not specified, the bodyies are assumed to be the joint itself.
+        Creates a groove joint between two bodies. If not specified, the bodies are assumed to be the joint itself.
 	Args: [{ false groove1_a Vector2} { false groove2_a Vector2} { false anchor_b Vector2} {[RID] true body_a RID} {[RID] true body_b RID}], Returns: RID
 */
 func (o *physics2DServer) GrooveJointCreate(groove1A gdnative.Vector2, groove2A gdnative.Vector2, anchorB gdnative.Vector2, bodyA gdnative.Rid, bodyB gdnative.Rid) gdnative.Rid {
@@ -2038,7 +2278,7 @@ func (o *physics2DServer) JointGetParam(joint gdnative.Rid, param gdnative.Int) 
 }
 
 /*
-        Returns the type of a joint (see JOINT_* constants).
+        Returns the type of a joint (see [enum JointType]).
 	Args: [{ false joint RID}], Returns: enum.Physics2DServer::JointType
 */
 func (o *physics2DServer) JointGetType(joint gdnative.Rid) Physics2DServerJointType {
@@ -2063,7 +2303,7 @@ func (o *physics2DServer) JointGetType(joint gdnative.Rid) Physics2DServerJointT
 }
 
 /*
-        Sets a joint parameter. Parameters are explained in the JOINT_PARAM* constants.
+        Sets a joint parameter. See [enum JointParam] for a list of available parameters.
 	Args: [{ false joint RID} { false param int} { false value float}], Returns: void
 */
 func (o *physics2DServer) JointSetParam(joint gdnative.Rid, param gdnative.Int, value gdnative.Real) {
@@ -2257,7 +2497,7 @@ func (o *physics2DServer) ShapeGetData(shape gdnative.Rid) gdnative.Variant {
 }
 
 /*
-        Returns the type of shape (see SHAPE_* constants).
+        Returns the type of shape (see [enum ShapeType]).
 	Args: [{ false shape RID}], Returns: enum.Physics2DServer::ShapeType
 */
 func (o *physics2DServer) ShapeGetType(shape gdnative.Rid) Physics2DServerShapeType {
@@ -2442,7 +2682,7 @@ func (o *physics2DServer) SpaceSetActive(space gdnative.Rid, active gdnative.Boo
 }
 
 /*
-        Sets the value for a space parameter. A list of available parameters is on the SPACE_PARAM_* constants.
+        Sets the value for a space parameter. See [enum SpaceParameter] for a list of available parameters.
 	Args: [{ false space RID} { false param int} { false value float}], Returns: void
 */
 func (o *physics2DServer) SpaceSetParam(space gdnative.Rid, param gdnative.Int, value gdnative.Real) {
@@ -2469,10 +2709,12 @@ func (o *physics2DServer) SpaceSetParam(space gdnative.Rid, param gdnative.Int, 
 // of the Physics2DServer class.
 type Physics2DServerImplementer interface {
 	ObjectImplementer
-	AreaAddShape(area gdnative.Rid, shape gdnative.Rid, transform gdnative.Transform2D)
+	AreaAddShape(area gdnative.Rid, shape gdnative.Rid, transform gdnative.Transform2D, disabled gdnative.Bool)
+	AreaAttachCanvasInstanceId(area gdnative.Rid, id gdnative.Int)
 	AreaAttachObjectInstanceId(area gdnative.Rid, id gdnative.Int)
 	AreaClearShapes(area gdnative.Rid)
 	AreaCreate() gdnative.Rid
+	AreaGetCanvasInstanceId(area gdnative.Rid) gdnative.Int
 	AreaGetObjectInstanceId(area gdnative.Rid) gdnative.Int
 	AreaGetParam(area gdnative.Rid, param gdnative.Int) gdnative.Variant
 	AreaGetShape(area gdnative.Rid, shapeIdx gdnative.Int) gdnative.Rid
@@ -2481,23 +2723,31 @@ type Physics2DServerImplementer interface {
 	AreaGetSpace(area gdnative.Rid) gdnative.Rid
 	AreaGetTransform(area gdnative.Rid) gdnative.Transform2D
 	AreaRemoveShape(area gdnative.Rid, shapeIdx gdnative.Int)
+	AreaSetAreaMonitorCallback(area gdnative.Rid, receiver ObjectImplementer, method gdnative.String)
 	AreaSetCollisionLayer(area gdnative.Rid, layer gdnative.Int)
 	AreaSetCollisionMask(area gdnative.Rid, mask gdnative.Int)
 	AreaSetMonitorCallback(area gdnative.Rid, receiver ObjectImplementer, method gdnative.String)
+	AreaSetMonitorable(area gdnative.Rid, monitorable gdnative.Bool)
 	AreaSetParam(area gdnative.Rid, param gdnative.Int, value gdnative.Variant)
 	AreaSetShape(area gdnative.Rid, shapeIdx gdnative.Int, shape gdnative.Rid)
-	AreaSetShapeDisabled(area gdnative.Rid, shapeIdx gdnative.Int, disable gdnative.Bool)
+	AreaSetShapeDisabled(area gdnative.Rid, shapeIdx gdnative.Int, disabled gdnative.Bool)
 	AreaSetShapeTransform(area gdnative.Rid, shapeIdx gdnative.Int, transform gdnative.Transform2D)
 	AreaSetSpace(area gdnative.Rid, space gdnative.Rid)
 	AreaSetSpaceOverrideMode(area gdnative.Rid, mode gdnative.Int)
 	AreaSetTransform(area gdnative.Rid, transform gdnative.Transform2D)
+	BodyAddCentralForce(body gdnative.Rid, force gdnative.Vector2)
 	BodyAddCollisionException(body gdnative.Rid, exceptedBody gdnative.Rid)
 	BodyAddForce(body gdnative.Rid, offset gdnative.Vector2, force gdnative.Vector2)
-	BodyAddShape(body gdnative.Rid, shape gdnative.Rid, transform gdnative.Transform2D)
+	BodyAddShape(body gdnative.Rid, shape gdnative.Rid, transform gdnative.Transform2D, disabled gdnative.Bool)
+	BodyAddTorque(body gdnative.Rid, torque gdnative.Real)
+	BodyApplyCentralImpulse(body gdnative.Rid, impulse gdnative.Vector2)
 	BodyApplyImpulse(body gdnative.Rid, position gdnative.Vector2, impulse gdnative.Vector2)
+	BodyApplyTorqueImpulse(body gdnative.Rid, impulse gdnative.Real)
+	BodyAttachCanvasInstanceId(body gdnative.Rid, id gdnative.Int)
 	BodyAttachObjectInstanceId(body gdnative.Rid, id gdnative.Int)
 	BodyClearShapes(body gdnative.Rid)
 	BodyCreate() gdnative.Rid
+	BodyGetCanvasInstanceId(body gdnative.Rid) gdnative.Int
 	BodyGetCollisionLayer(body gdnative.Rid) gdnative.Int
 	BodyGetCollisionMask(body gdnative.Rid) gdnative.Int
 	BodyGetDirectState(body gdnative.Rid) Physics2DDirectBodyStateImplementer
@@ -2523,13 +2773,13 @@ type Physics2DServerImplementer interface {
 	BodySetOmitForceIntegration(body gdnative.Rid, enable gdnative.Bool)
 	BodySetParam(body gdnative.Rid, param gdnative.Int, value gdnative.Real)
 	BodySetShape(body gdnative.Rid, shapeIdx gdnative.Int, shape gdnative.Rid)
-	BodySetShapeAsOneWayCollision(body gdnative.Rid, shapeIdx gdnative.Int, enable gdnative.Bool)
-	BodySetShapeDisabled(body gdnative.Rid, shapeIdx gdnative.Int, disable gdnative.Bool)
+	BodySetShapeAsOneWayCollision(body gdnative.Rid, shapeIdx gdnative.Int, enable gdnative.Bool, margin gdnative.Real)
+	BodySetShapeDisabled(body gdnative.Rid, shapeIdx gdnative.Int, disabled gdnative.Bool)
 	BodySetShapeMetadata(body gdnative.Rid, shapeIdx gdnative.Int, metadata gdnative.Variant)
 	BodySetShapeTransform(body gdnative.Rid, shapeIdx gdnative.Int, transform gdnative.Transform2D)
 	BodySetSpace(body gdnative.Rid, space gdnative.Rid)
 	BodySetState(body gdnative.Rid, state gdnative.Int, value gdnative.Variant)
-	BodyTestMotion(body gdnative.Rid, from gdnative.Transform2D, motion gdnative.Vector2, margin gdnative.Real, result Physics2DTestMotionResultImplementer) gdnative.Bool
+	BodyTestMotion(body gdnative.Rid, from gdnative.Transform2D, motion gdnative.Vector2, infiniteInertia gdnative.Bool, margin gdnative.Real, result Physics2DTestMotionResultImplementer) gdnative.Bool
 	CapsuleShapeCreate() gdnative.Rid
 	CircleShapeCreate() gdnative.Rid
 	ConcavePolygonShapeCreate() gdnative.Rid

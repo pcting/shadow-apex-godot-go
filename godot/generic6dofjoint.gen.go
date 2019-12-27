@@ -17,31 +17,36 @@ import (
 type Generic6DOFJointFlag int
 
 const (
-	Generic6DOFJointFlagEnableAngularLimit Generic6DOFJointFlag = 1
-	Generic6DOFJointFlagEnableLinearLimit  Generic6DOFJointFlag = 0
-	Generic6DOFJointFlagEnableMotor        Generic6DOFJointFlag = 2
-	Generic6DOFJointFlagMax                Generic6DOFJointFlag = 3
+	Generic6DOFJointFlagEnableAngularLimit  Generic6DOFJointFlag = 1
+	Generic6DOFJointFlagEnableAngularSpring Generic6DOFJointFlag = 2
+	Generic6DOFJointFlagEnableLinearLimit   Generic6DOFJointFlag = 0
+	Generic6DOFJointFlagEnableLinearMotor   Generic6DOFJointFlag = 5
+	Generic6DOFJointFlagEnableLinearSpring  Generic6DOFJointFlag = 3
+	Generic6DOFJointFlagEnableMotor         Generic6DOFJointFlag = 4
+	Generic6DOFJointFlagMax                 Generic6DOFJointFlag = 6
 )
 
 // Generic6DOFJointParam is an enum for Param values.
 type Generic6DOFJointParam int
 
 const (
-	Generic6DOFJointParamAngularDamping             Generic6DOFJointParam = 8
-	Generic6DOFJointParamAngularErp                 Generic6DOFJointParam = 11
-	Generic6DOFJointParamAngularForceLimit          Generic6DOFJointParam = 10
-	Generic6DOFJointParamAngularLimitSoftness       Generic6DOFJointParam = 7
-	Generic6DOFJointParamAngularLowerLimit          Generic6DOFJointParam = 5
-	Generic6DOFJointParamAngularMotorForceLimit     Generic6DOFJointParam = 13
-	Generic6DOFJointParamAngularMotorTargetVelocity Generic6DOFJointParam = 12
-	Generic6DOFJointParamAngularRestitution         Generic6DOFJointParam = 9
-	Generic6DOFJointParamAngularUpperLimit          Generic6DOFJointParam = 6
+	Generic6DOFJointParamAngularDamping             Generic6DOFJointParam = 13
+	Generic6DOFJointParamAngularErp                 Generic6DOFJointParam = 16
+	Generic6DOFJointParamAngularForceLimit          Generic6DOFJointParam = 15
+	Generic6DOFJointParamAngularLimitSoftness       Generic6DOFJointParam = 12
+	Generic6DOFJointParamAngularLowerLimit          Generic6DOFJointParam = 10
+	Generic6DOFJointParamAngularMotorForceLimit     Generic6DOFJointParam = 18
+	Generic6DOFJointParamAngularMotorTargetVelocity Generic6DOFJointParam = 17
+	Generic6DOFJointParamAngularRestitution         Generic6DOFJointParam = 14
+	Generic6DOFJointParamAngularUpperLimit          Generic6DOFJointParam = 11
 	Generic6DOFJointParamLinearDamping              Generic6DOFJointParam = 4
 	Generic6DOFJointParamLinearLimitSoftness        Generic6DOFJointParam = 2
 	Generic6DOFJointParamLinearLowerLimit           Generic6DOFJointParam = 0
+	Generic6DOFJointParamLinearMotorForceLimit      Generic6DOFJointParam = 6
+	Generic6DOFJointParamLinearMotorTargetVelocity  Generic6DOFJointParam = 5
 	Generic6DOFJointParamLinearRestitution          Generic6DOFJointParam = 3
 	Generic6DOFJointParamLinearUpperLimit           Generic6DOFJointParam = 1
-	Generic6DOFJointParamMax                        Generic6DOFJointParam = 14
+	Generic6DOFJointParamMax                        Generic6DOFJointParam = 22
 )
 
 //func NewGeneric6DOFJointFromPointer(ptr gdnative.Pointer) Generic6DOFJoint {
@@ -54,7 +59,7 @@ func newGeneric6DOFJointFromPointer(ptr gdnative.Pointer) Generic6DOFJoint {
 }
 
 /*
-The first 3 dof axes are linear axes, which represent translation of Bodies, and the latter 3 dof axes represent the angular motion. Each axis can be either locked, or limited.
+The first 3 DOF axes are linear axes, which represent translation of Bodies, and the latter 3 DOF axes represent the angular motion. Each axis can be either locked, or limited.
 */
 type Generic6DOFJoint struct {
 	Joint
@@ -475,6 +480,29 @@ func (o *Generic6DOFJoint) GetParamZ(param gdnative.Int) gdnative.Real {
 
 /*
         Undocumented
+	Args: [], Returns: int
+*/
+func (o *Generic6DOFJoint) GetPrecision() gdnative.Int {
+	//log.Println("Calling Generic6DOFJoint.GetPrecision()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Generic6DOFJoint", "get_precision")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [{ false flag int} { false value bool}], Returns: void
 */
 func (o *Generic6DOFJoint) SetFlagX(flag gdnative.Int, value gdnative.Bool) {
@@ -605,6 +633,27 @@ func (o *Generic6DOFJoint) SetParamZ(param gdnative.Int, value gdnative.Real) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false precision int}], Returns: void
+*/
+func (o *Generic6DOFJoint) SetPrecision(precision gdnative.Int) {
+	//log.Println("Calling Generic6DOFJoint.SetPrecision()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(precision)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Generic6DOFJoint", "set_precision")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // Generic6DOFJointImplementer is an interface that implements the methods
 // of the Generic6DOFJoint class.
 type Generic6DOFJointImplementer interface {
@@ -627,10 +676,12 @@ type Generic6DOFJointImplementer interface {
 	GetParamX(param gdnative.Int) gdnative.Real
 	GetParamY(param gdnative.Int) gdnative.Real
 	GetParamZ(param gdnative.Int) gdnative.Real
+	GetPrecision() gdnative.Int
 	SetFlagX(flag gdnative.Int, value gdnative.Bool)
 	SetFlagY(flag gdnative.Int, value gdnative.Bool)
 	SetFlagZ(flag gdnative.Int, value gdnative.Bool)
 	SetParamX(param gdnative.Int, value gdnative.Real)
 	SetParamY(param gdnative.Int, value gdnative.Real)
 	SetParamZ(param gdnative.Int, value gdnative.Real)
+	SetPrecision(precision gdnative.Int)
 }

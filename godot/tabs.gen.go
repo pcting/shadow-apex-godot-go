@@ -76,7 +76,47 @@ func (o *Tabs) X_GuiInput(arg0 InputEventImplementer) {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *Tabs) X_OnMouseExited() {
+	//log.Println("Calling Tabs.X_OnMouseExited()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Tabs", "_on_mouse_exited")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *Tabs) X_UpdateHover() {
+	//log.Println("Calling Tabs.X_UpdateHover()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Tabs", "_update_hover")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Adds a new tab.
 	Args: [{ true title String} {[Object:null] true icon Texture}], Returns: void
 */
 func (o *Tabs) AddTab(title gdnative.String, icon TextureImplementer) {
@@ -98,7 +138,7 @@ func (o *Tabs) AddTab(title gdnative.String, icon TextureImplementer) {
 }
 
 /*
-
+        Moves the Scroll view to make the tab visible.
 	Args: [{ false idx int}], Returns: void
 */
 func (o *Tabs) EnsureTabVisible(idx gdnative.Int) {
@@ -142,6 +182,29 @@ func (o *Tabs) GetCurrentTab() gdnative.Int {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *Tabs) GetDragToRearrangeEnabled() gdnative.Bool {
+	//log.Println("Calling Tabs.GetDragToRearrangeEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Tabs", "get_drag_to_rearrange_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
 
 	Args: [], Returns: bool
 */
@@ -176,6 +239,29 @@ func (o *Tabs) GetScrollingEnabled() gdnative.Bool {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Tabs", "get_scrolling_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns [code]true[/code] if select with right mouse button is enabled.
+	Args: [], Returns: bool
+*/
+func (o *Tabs) GetSelectWithRmb() gdnative.Bool {
+	//log.Println("Calling Tabs.GetSelectWithRmb()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Tabs", "get_select_with_rmb")
 
 	// Call the parent method.
 	// bool
@@ -234,7 +320,7 @@ func (o *Tabs) GetTabCloseDisplayPolicy() TabsCloseButtonDisplayPolicy {
 }
 
 /*
-
+        Returns the number of tabs.
 	Args: [], Returns: int
 */
 func (o *Tabs) GetTabCount() gdnative.Int {
@@ -257,7 +343,7 @@ func (o *Tabs) GetTabCount() gdnative.Int {
 }
 
 /*
-
+        Returns [code]true[/code] if the tab at index [code]tab_idx[/code] is disabled.
 	Args: [{ false tab_idx int}], Returns: bool
 */
 func (o *Tabs) GetTabDisabled(tabIdx gdnative.Int) gdnative.Bool {
@@ -281,7 +367,7 @@ func (o *Tabs) GetTabDisabled(tabIdx gdnative.Int) gdnative.Bool {
 }
 
 /*
-
+        Returns the [Texture] for the tab at index [code]tab_idx[/code] or null if the tab has no [Texture].
 	Args: [{ false tab_idx int}], Returns: Texture
 */
 func (o *Tabs) GetTabIcon(tabIdx gdnative.Int) TextureImplementer {
@@ -366,7 +452,7 @@ func (o *Tabs) GetTabRect(tabIdx gdnative.Int) gdnative.Rect2 {
 }
 
 /*
-
+        Returns the title of the tab at index [code]tab_idx[/code]. Tab titles default to the name of the indexed child node, but this can be overridden with [method set_tab_title].
 	Args: [{ false tab_idx int}], Returns: String
 */
 func (o *Tabs) GetTabTitle(tabIdx gdnative.Int) gdnative.String {
@@ -386,6 +472,29 @@ func (o *Tabs) GetTabTitle(tabIdx gdnative.Int) gdnative.String {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the [code]Tabs[/code] rearrange group id.
+	Args: [], Returns: int
+*/
+func (o *Tabs) GetTabsRearrangeGroup() gdnative.Int {
+	//log.Println("Calling Tabs.GetTabsRearrangeGroup()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Tabs", "get_tabs_rearrange_group")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
 }
 
@@ -412,7 +521,7 @@ func (o *Tabs) MoveTab(from gdnative.Int, to gdnative.Int) {
 }
 
 /*
-
+        Removes tab at index [code]tab_idx[/code]
 	Args: [{ false tab_idx int}], Returns: void
 */
 func (o *Tabs) RemoveTab(tabIdx gdnative.Int) {
@@ -457,6 +566,27 @@ func (o *Tabs) SetCurrentTab(tabIdx gdnative.Int) {
         Undocumented
 	Args: [{ false enabled bool}], Returns: void
 */
+func (o *Tabs) SetDragToRearrangeEnabled(enabled gdnative.Bool) {
+	//log.Println("Calling Tabs.SetDragToRearrangeEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Tabs", "set_drag_to_rearrange_enabled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enabled bool}], Returns: void
+*/
 func (o *Tabs) SetScrollingEnabled(enabled gdnative.Bool) {
 	//log.Println("Calling Tabs.SetScrollingEnabled()")
 
@@ -466,6 +596,27 @@ func (o *Tabs) SetScrollingEnabled(enabled gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Tabs", "set_scrolling_enabled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        If [code]true[/code], enables selecting a tab with right mouse button.
+	Args: [{ false enabled bool}], Returns: void
+*/
+func (o *Tabs) SetSelectWithRmb(enabled gdnative.Bool) {
+	//log.Println("Calling Tabs.SetSelectWithRmb()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Tabs", "set_select_with_rmb")
 
 	// Call the parent method.
 	// void
@@ -517,7 +668,7 @@ func (o *Tabs) SetTabCloseDisplayPolicy(policy gdnative.Int) {
 }
 
 /*
-
+        If [code]disabled[/code] is [code]false[/code], hides the tab at index [code]tab_idx[/code]. Note that its title text will remain, unless also removed with [method set_tab_title].
 	Args: [{ false tab_idx int} { false disabled bool}], Returns: void
 */
 func (o *Tabs) SetTabDisabled(tabIdx gdnative.Int, disabled gdnative.Bool) {
@@ -539,7 +690,7 @@ func (o *Tabs) SetTabDisabled(tabIdx gdnative.Int, disabled gdnative.Bool) {
 }
 
 /*
-
+        Sets an icon for the tab at index [code]tab_idx[/code].
 	Args: [{ false tab_idx int} { false icon Texture}], Returns: void
 */
 func (o *Tabs) SetTabIcon(tabIdx gdnative.Int, icon TextureImplementer) {
@@ -561,7 +712,7 @@ func (o *Tabs) SetTabIcon(tabIdx gdnative.Int, icon TextureImplementer) {
 }
 
 /*
-
+        Sets a title for the tab at index [code]tab_idx[/code].
 	Args: [{ false tab_idx int} { false title String}], Returns: void
 */
 func (o *Tabs) SetTabTitle(tabIdx gdnative.Int, title gdnative.String) {
@@ -582,28 +733,57 @@ func (o *Tabs) SetTabTitle(tabIdx gdnative.Int, title gdnative.String) {
 
 }
 
+/*
+        Defines rearrange group id, choose for each [code]Tabs[/code] the same value to enable tab drag between [code]Tabs[/code]. Enable drag with [code]set_drag_to_rearrange_enabled(true)[/code].
+	Args: [{ false group_id int}], Returns: void
+*/
+func (o *Tabs) SetTabsRearrangeGroup(groupId gdnative.Int) {
+	//log.Println("Calling Tabs.SetTabsRearrangeGroup()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(groupId)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Tabs", "set_tabs_rearrange_group")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // TabsImplementer is an interface that implements the methods
 // of the Tabs class.
 type TabsImplementer interface {
 	ControlImplementer
+	X_OnMouseExited()
+	X_UpdateHover()
 	AddTab(title gdnative.String, icon TextureImplementer)
 	EnsureTabVisible(idx gdnative.Int)
 	GetCurrentTab() gdnative.Int
+	GetDragToRearrangeEnabled() gdnative.Bool
 	GetOffsetButtonsVisible() gdnative.Bool
 	GetScrollingEnabled() gdnative.Bool
+	GetSelectWithRmb() gdnative.Bool
 	GetTabCount() gdnative.Int
 	GetTabDisabled(tabIdx gdnative.Int) gdnative.Bool
 	GetTabIcon(tabIdx gdnative.Int) TextureImplementer
 	GetTabOffset() gdnative.Int
 	GetTabRect(tabIdx gdnative.Int) gdnative.Rect2
 	GetTabTitle(tabIdx gdnative.Int) gdnative.String
+	GetTabsRearrangeGroup() gdnative.Int
 	MoveTab(from gdnative.Int, to gdnative.Int)
 	RemoveTab(tabIdx gdnative.Int)
 	SetCurrentTab(tabIdx gdnative.Int)
+	SetDragToRearrangeEnabled(enabled gdnative.Bool)
 	SetScrollingEnabled(enabled gdnative.Bool)
+	SetSelectWithRmb(enabled gdnative.Bool)
 	SetTabAlign(align gdnative.Int)
 	SetTabCloseDisplayPolicy(policy gdnative.Int)
 	SetTabDisabled(tabIdx gdnative.Int, disabled gdnative.Bool)
 	SetTabIcon(tabIdx gdnative.Int, icon TextureImplementer)
 	SetTabTitle(tabIdx gdnative.Int, title gdnative.String)
+	SetTabsRearrangeGroup(groupId gdnative.Int)
 }

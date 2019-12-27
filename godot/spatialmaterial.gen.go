@@ -71,6 +71,16 @@ const (
 	SpatialMaterialDiffuseToon        SpatialMaterialDiffuseMode = 4
 )
 
+// SpatialMaterialDistanceFadeMode is an enum for DistanceFadeMode values.
+type SpatialMaterialDistanceFadeMode int
+
+const (
+	SpatialMaterialDistanceFadeDisabled     SpatialMaterialDistanceFadeMode = 0
+	SpatialMaterialDistanceFadeObjectDither SpatialMaterialDistanceFadeMode = 3
+	SpatialMaterialDistanceFadePixelAlpha   SpatialMaterialDistanceFadeMode = 1
+	SpatialMaterialDistanceFadePixelDither  SpatialMaterialDistanceFadeMode = 2
+)
+
 // SpatialMaterialEmissionOperator is an enum for EmissionOperator values.
 type SpatialMaterialEmissionOperator int
 
@@ -103,20 +113,25 @@ type SpatialMaterialFlags int
 
 const (
 	SpatialMaterialFlagAlbedoFromVertexColor  SpatialMaterialFlags = 3
-	SpatialMaterialFlagAlbedoTextureForceSrgb SpatialMaterialFlags = 13
-	SpatialMaterialFlagAoOnUv2                SpatialMaterialFlags = 10
+	SpatialMaterialFlagAlbedoTextureForceSrgb SpatialMaterialFlags = 14
+	SpatialMaterialFlagAoOnUv2                SpatialMaterialFlags = 11
+	SpatialMaterialFlagBillboardKeepScale     SpatialMaterialFlags = 7
+	SpatialMaterialFlagDisableAmbientLight    SpatialMaterialFlags = 17
 	SpatialMaterialFlagDisableDepthTest       SpatialMaterialFlags = 2
-	SpatialMaterialFlagEmissionOnUv2          SpatialMaterialFlags = 11
+	SpatialMaterialFlagDontReceiveShadows     SpatialMaterialFlags = 15
+	SpatialMaterialFlagEmissionOnUv2          SpatialMaterialFlags = 12
+	SpatialMaterialFlagEnsureCorrectNormals   SpatialMaterialFlags = 16
 	SpatialMaterialFlagFixedSize              SpatialMaterialFlags = 6
-	SpatialMaterialFlagMax                    SpatialMaterialFlags = 14
+	SpatialMaterialFlagMax                    SpatialMaterialFlags = 19
 	SpatialMaterialFlagSrgbVertexColor        SpatialMaterialFlags = 4
-	SpatialMaterialFlagTriplanarUseWorld      SpatialMaterialFlags = 9
+	SpatialMaterialFlagTriplanarUseWorld      SpatialMaterialFlags = 10
 	SpatialMaterialFlagUnshaded               SpatialMaterialFlags = 0
-	SpatialMaterialFlagUseAlphaScissor        SpatialMaterialFlags = 12
+	SpatialMaterialFlagUseAlphaScissor        SpatialMaterialFlags = 13
 	SpatialMaterialFlagUsePointSize           SpatialMaterialFlags = 5
+	SpatialMaterialFlagUseShadowToOpacity     SpatialMaterialFlags = 18
 	SpatialMaterialFlagUseVertexLighting      SpatialMaterialFlags = 1
-	SpatialMaterialFlagUv1UseTriplanar        SpatialMaterialFlags = 7
-	SpatialMaterialFlagUv2UseTriplanar        SpatialMaterialFlags = 8
+	SpatialMaterialFlagUv1UseTriplanar        SpatialMaterialFlags = 8
+	SpatialMaterialFlagUv2UseTriplanar        SpatialMaterialFlags = 9
 )
 
 // SpatialMaterialSpecularMode is an enum for SpecularMode values.
@@ -174,8 +189,8 @@ func newSpatialMaterialFromPointer(ptr gdnative.Pointer) SpatialMaterial {
 }
 
 /*
-
- */
+This provides a default material with a wide variety of rendering features and properties without the need to write shader code. See the tutorial below for details.
+*/
 type SpatialMaterial struct {
 	Material
 	owner gdnative.Object
@@ -417,6 +432,52 @@ func (o *SpatialMaterial) GetCullMode() SpatialMaterialCullMode {
 
 /*
         Undocumented
+	Args: [], Returns: bool
+*/
+func (o *SpatialMaterial) GetDepthDeepParallaxFlipBinormal() gdnative.Bool {
+	//log.Println("Calling SpatialMaterial.GetDepthDeepParallaxFlipBinormal()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SpatialMaterial", "get_depth_deep_parallax_flip_binormal")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *SpatialMaterial) GetDepthDeepParallaxFlipTangent() gdnative.Bool {
+	//log.Println("Calling SpatialMaterial.GetDepthDeepParallaxFlipTangent()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SpatialMaterial", "get_depth_deep_parallax_flip_tangent")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: int
 */
 func (o *SpatialMaterial) GetDepthDeepParallaxMaxLayers() gdnative.Int {
@@ -574,6 +635,29 @@ func (o *SpatialMaterial) GetDiffuseMode() SpatialMaterialDiffuseMode {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
 	return SpatialMaterialDiffuseMode(ret)
+}
+
+/*
+        Undocumented
+	Args: [], Returns: enum.SpatialMaterial::DistanceFadeMode
+*/
+func (o *SpatialMaterial) GetDistanceFade() SpatialMaterialDistanceFadeMode {
+	//log.Println("Calling SpatialMaterial.GetDistanceFade()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SpatialMaterial", "get_distance_fade")
+
+	// Call the parent method.
+	// enum.SpatialMaterial::DistanceFadeMode
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return SpatialMaterialDistanceFadeMode(ret)
 }
 
 /*
@@ -879,9 +963,9 @@ func (o *SpatialMaterial) GetParticlesAnimHFrames() gdnative.Int {
 
 /*
         Undocumented
-	Args: [], Returns: int
+	Args: [], Returns: bool
 */
-func (o *SpatialMaterial) GetParticlesAnimLoop() gdnative.Int {
+func (o *SpatialMaterial) GetParticlesAnimLoop() gdnative.Bool {
 	//log.Println("Calling SpatialMaterial.GetParticlesAnimLoop()")
 
 	// Build out the method's arguments
@@ -891,12 +975,12 @@ func (o *SpatialMaterial) GetParticlesAnimLoop() gdnative.Int {
 	methodBind := gdnative.NewMethodBind("SpatialMaterial", "get_particles_anim_loop")
 
 	// Call the parent method.
-	// int
-	retPtr := gdnative.NewEmptyInt()
+	// bool
+	retPtr := gdnative.NewEmptyBool()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
 	// If we have a return type, convert it from a pointer into its actual object.
-	ret := gdnative.NewIntFromPointer(retPtr)
+	ret := gdnative.NewBoolFromPointer(retPtr)
 	return ret
 }
 
@@ -1402,29 +1486,6 @@ func (o *SpatialMaterial) IsDepthDeepParallaxEnabled() gdnative.Bool {
         Undocumented
 	Args: [], Returns: bool
 */
-func (o *SpatialMaterial) IsDistanceFadeEnabled() gdnative.Bool {
-	//log.Println("Calling SpatialMaterial.IsDistanceFadeEnabled()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("SpatialMaterial", "is_distance_fade_enabled")
-
-	// Call the parent method.
-	// bool
-	retPtr := gdnative.NewEmptyBool()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := gdnative.NewBoolFromPointer(retPtr)
-	return ret
-}
-
-/*
-        Undocumented
-	Args: [], Returns: bool
-*/
 func (o *SpatialMaterial) IsGrowEnabled() gdnative.Bool {
 	//log.Println("Calling SpatialMaterial.IsGrowEnabled()")
 
@@ -1700,6 +1761,48 @@ func (o *SpatialMaterial) SetDepthDeepParallax(enable gdnative.Bool) {
 
 /*
         Undocumented
+	Args: [{ false flip bool}], Returns: void
+*/
+func (o *SpatialMaterial) SetDepthDeepParallaxFlipBinormal(flip gdnative.Bool) {
+	//log.Println("Calling SpatialMaterial.SetDepthDeepParallaxFlipBinormal()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(flip)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SpatialMaterial", "set_depth_deep_parallax_flip_binormal")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false flip bool}], Returns: void
+*/
+func (o *SpatialMaterial) SetDepthDeepParallaxFlipTangent(flip gdnative.Bool) {
+	//log.Println("Calling SpatialMaterial.SetDepthDeepParallaxFlipTangent()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(flip)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SpatialMaterial", "set_depth_deep_parallax_flip_tangent")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false layer int}], Returns: void
 */
 func (o *SpatialMaterial) SetDepthDeepParallaxMaxLayers(layer gdnative.Int) {
@@ -1847,14 +1950,14 @@ func (o *SpatialMaterial) SetDiffuseMode(diffuseMode gdnative.Int) {
 
 /*
         Undocumented
-	Args: [{ false enabled bool}], Returns: void
+	Args: [{ false mode int}], Returns: void
 */
-func (o *SpatialMaterial) SetDistanceFade(enabled gdnative.Bool) {
+func (o *SpatialMaterial) SetDistanceFade(mode gdnative.Int) {
 	//log.Println("Calling SpatialMaterial.SetDistanceFade()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+	ptrArguments[0] = gdnative.NewPointerFromInt(mode)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("SpatialMaterial", "set_distance_fade")
@@ -2164,14 +2267,14 @@ func (o *SpatialMaterial) SetParticlesAnimHFrames(frames gdnative.Int) {
 
 /*
         Undocumented
-	Args: [{ false frames int}], Returns: void
+	Args: [{ false loop bool}], Returns: void
 */
-func (o *SpatialMaterial) SetParticlesAnimLoop(frames gdnative.Int) {
+func (o *SpatialMaterial) SetParticlesAnimLoop(loop gdnative.Bool) {
 	//log.Println("Calling SpatialMaterial.SetParticlesAnimLoop()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(frames)
+	ptrArguments[0] = gdnative.NewPointerFromBool(loop)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("SpatialMaterial", "set_particles_anim_loop")
@@ -2635,6 +2738,8 @@ type SpatialMaterialImplementer interface {
 	GetAoLightAffect() gdnative.Real
 	GetClearcoat() gdnative.Real
 	GetClearcoatGloss() gdnative.Real
+	GetDepthDeepParallaxFlipBinormal() gdnative.Bool
+	GetDepthDeepParallaxFlipTangent() gdnative.Bool
 	GetDepthDeepParallaxMaxLayers() gdnative.Int
 	GetDepthDeepParallaxMinLayers() gdnative.Int
 	GetDepthScale() gdnative.Real
@@ -2649,7 +2754,7 @@ type SpatialMaterialImplementer interface {
 	GetMetallic() gdnative.Real
 	GetNormalScale() gdnative.Real
 	GetParticlesAnimHFrames() gdnative.Int
-	GetParticlesAnimLoop() gdnative.Int
+	GetParticlesAnimLoop() gdnative.Bool
 	GetParticlesAnimVFrames() gdnative.Int
 	GetPointSize() gdnative.Real
 	GetProximityFadeDistance() gdnative.Real
@@ -2668,7 +2773,6 @@ type SpatialMaterialImplementer interface {
 	GetUv2Scale() gdnative.Vector3
 	GetUv2TriplanarBlendSharpness() gdnative.Real
 	IsDepthDeepParallaxEnabled() gdnative.Bool
-	IsDistanceFadeEnabled() gdnative.Bool
 	IsGrowEnabled() gdnative.Bool
 	IsProximityFadeEnabled() gdnative.Bool
 	SetAlbedo(albedo gdnative.Color)
@@ -2682,6 +2786,8 @@ type SpatialMaterialImplementer interface {
 	SetClearcoatGloss(clearcoatGloss gdnative.Real)
 	SetCullMode(cullMode gdnative.Int)
 	SetDepthDeepParallax(enable gdnative.Bool)
+	SetDepthDeepParallaxFlipBinormal(flip gdnative.Bool)
+	SetDepthDeepParallaxFlipTangent(flip gdnative.Bool)
 	SetDepthDeepParallaxMaxLayers(layer gdnative.Int)
 	SetDepthDeepParallaxMinLayers(layer gdnative.Int)
 	SetDepthDrawMode(depthDrawMode gdnative.Int)
@@ -2689,7 +2795,7 @@ type SpatialMaterialImplementer interface {
 	SetDetailBlendMode(detailBlendMode gdnative.Int)
 	SetDetailUv(detailUv gdnative.Int)
 	SetDiffuseMode(diffuseMode gdnative.Int)
-	SetDistanceFade(enabled gdnative.Bool)
+	SetDistanceFade(mode gdnative.Int)
 	SetDistanceFadeMaxDistance(distance gdnative.Real)
 	SetDistanceFadeMinDistance(distance gdnative.Real)
 	SetEmission(emission gdnative.Color)
@@ -2704,7 +2810,7 @@ type SpatialMaterialImplementer interface {
 	SetMetallicTextureChannel(channel gdnative.Int)
 	SetNormalScale(normalScale gdnative.Real)
 	SetParticlesAnimHFrames(frames gdnative.Int)
-	SetParticlesAnimLoop(frames gdnative.Int)
+	SetParticlesAnimLoop(loop gdnative.Bool)
 	SetParticlesAnimVFrames(frames gdnative.Int)
 	SetPointSize(pointSize gdnative.Real)
 	SetProximityFade(enabled gdnative.Bool)

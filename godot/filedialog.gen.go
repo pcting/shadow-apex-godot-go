@@ -262,14 +262,37 @@ func (o *FileDialog) X_SelectDrive(arg0 gdnative.Int) {
         Undocumented
 	Args: [], Returns: void
 */
-func (o *FileDialog) X_TreeDbSelected() {
-	//log.Println("Calling FileDialog.X_TreeDbSelected()")
+func (o *FileDialog) X_TreeItemActivated() {
+	//log.Println("Calling FileDialog.X_TreeItemActivated()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 0, 0)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("FileDialog", "_tree_db_selected")
+	methodBind := gdnative.NewMethodBind("FileDialog", "_tree_item_activated")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 Object} { false arg1 int} { false arg2 bool}], Returns: void
+*/
+func (o *FileDialog) X_TreeMultiSelected(arg0 ObjectImplementer, arg1 gdnative.Int, arg2 gdnative.Bool) {
+	//log.Println("Calling FileDialog.X_TreeMultiSelected()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromObject(arg0.GetBaseObject())
+	ptrArguments[1] = gdnative.NewPointerFromInt(arg1)
+	ptrArguments[2] = gdnative.NewPointerFromBool(arg2)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("FileDialog", "_tree_multi_selected")
 
 	// Call the parent method.
 	// void
@@ -360,7 +383,27 @@ func (o *FileDialog) X_UpdateFileList() {
 }
 
 /*
-        Add a custom filter. Filter format is: "mask ; description", example (C++): dialog->add_filter("*.png ; PNG Images");
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *FileDialog) X_UpdateFileName() {
+	//log.Println("Calling FileDialog.X_UpdateFileName()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("FileDialog", "_update_file_name")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Add a custom filter. Example: [code]add_filter("*.png ; PNG Images")[/code]
 	Args: [{ false filter String}], Returns: void
 */
 func (o *FileDialog) AddFilter(filter gdnative.String) {
@@ -401,7 +444,7 @@ func (o *FileDialog) ClearFilters() {
 }
 
 /*
-
+        Clear currently selected items in the dialog.
 	Args: [], Returns: void
 */
 func (o *FileDialog) DeselectItems() {
@@ -536,6 +579,43 @@ func (o *FileDialog) GetFilters() gdnative.PoolStringArray {
 }
 
 /*
+        Returns the LineEdit for the selected file.
+	Args: [], Returns: LineEdit
+*/
+func (o *FileDialog) GetLineEdit() LineEditImplementer {
+	//log.Println("Calling FileDialog.GetLineEdit()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("FileDialog", "get_line_edit")
+
+	// Call the parent method.
+	// LineEdit
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newLineEditFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(LineEditImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "LineEdit" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(LineEditImplementer)
+	}
+
+	return &ret
+}
+
+/*
         Undocumented
 	Args: [], Returns: enum.FileDialog::Mode
 */
@@ -559,7 +639,7 @@ func (o *FileDialog) GetMode() FileDialogMode {
 }
 
 /*
-        Return the vertical box container of the dialog, custom controls can be added to it.
+        Returns the vertical box container of the dialog, custom controls can be added to it.
 	Args: [], Returns: VBoxContainer
 */
 func (o *FileDialog) GetVbox() VBoxContainerImplementer {
@@ -843,10 +923,12 @@ type FileDialogImplementer interface {
 	X_MakeDirConfirm()
 	X_SaveConfirmPressed()
 	X_SelectDrive(arg0 gdnative.Int)
-	X_TreeDbSelected()
+	X_TreeItemActivated()
+	X_TreeMultiSelected(arg0 ObjectImplementer, arg1 gdnative.Int, arg2 gdnative.Bool)
 	X_TreeSelected()
 	X_UpdateDir()
 	X_UpdateFileList()
+	X_UpdateFileName()
 	AddFilter(filter gdnative.String)
 	ClearFilters()
 	DeselectItems()
@@ -854,6 +936,7 @@ type FileDialogImplementer interface {
 	GetCurrentFile() gdnative.String
 	GetCurrentPath() gdnative.String
 	GetFilters() gdnative.PoolStringArray
+	GetLineEdit() LineEditImplementer
 	GetVbox() VBoxContainerImplementer
 	Invalidate()
 	IsModeOverridingTitle() gdnative.Bool

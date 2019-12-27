@@ -66,6 +66,27 @@ func (o *ARVRPositionalTracker) X_SetJoyId(joyId gdnative.Int) {
 
 /*
         Undocumented
+	Args: [{ false mesh Mesh}], Returns: void
+*/
+func (o *ARVRPositionalTracker) X_SetMesh(mesh MeshImplementer) {
+	//log.Println("Calling ARVRPositionalTracker.X_SetMesh()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(mesh.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ARVRPositionalTracker", "_set_mesh")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false name String}], Returns: void
 */
 func (o *ARVRPositionalTracker) X_SetName(name gdnative.String) {
@@ -192,6 +213,43 @@ func (o *ARVRPositionalTracker) GetJoyId() gdnative.Int {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Mesh
+*/
+func (o *ARVRPositionalTracker) GetMesh() MeshImplementer {
+	//log.Println("Calling ARVRPositionalTracker.GetMesh()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ARVRPositionalTracker", "get_mesh")
+
+	// Call the parent method.
+	// Mesh
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newMeshFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(MeshImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Mesh" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(MeshImplementer)
+	}
+
+	return &ret
 }
 
 /*
@@ -405,11 +463,13 @@ func (o *ARVRPositionalTracker) SetRumble(rumble gdnative.Real) {
 type ARVRPositionalTrackerImplementer interface {
 	ObjectImplementer
 	X_SetJoyId(joyId gdnative.Int)
+	X_SetMesh(mesh MeshImplementer)
 	X_SetName(name gdnative.String)
 	X_SetOrientation(orientation gdnative.Basis)
 	X_SetRwPosition(rwPosition gdnative.Vector3)
 	X_SetType(aType gdnative.Int)
 	GetJoyId() gdnative.Int
+	GetMesh() MeshImplementer
 	GetName() gdnative.String
 	GetOrientation() gdnative.Basis
 	GetPosition() gdnative.Vector3

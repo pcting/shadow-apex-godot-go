@@ -35,7 +35,7 @@ func (o *PHashTranslation) BaseClass() string {
 }
 
 /*
-
+        Generates and sets an optimized translation from the given [Translation] resource.
 	Args: [{ false from Translation}], Returns: void
 */
 func (o *PHashTranslation) Generate(from TranslationImplementer) {

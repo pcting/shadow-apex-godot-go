@@ -51,8 +51,8 @@ func newBakedLightmapFromPointer(ptr gdnative.Pointer) BakedLightmap {
 }
 
 /*
-
- */
+Baked lightmaps are an alternative workflow for adding indirect (or baked) lighting to a scene. Unlike the [GIProbe] approach, baked lightmaps work fine on low-end PCs and mobile devices as they consume almost no resources in run-time.
+*/
 type BakedLightmap struct {
 	VisualInstance
 	owner gdnative.Object
@@ -63,10 +63,10 @@ func (o *BakedLightmap) BaseClass() string {
 }
 
 /*
-
-	Args: [{Null true from_node Object} {False true create_visual_debug bool}], Returns: enum.BakedLightmap::BakeError
+        Bakes the lightmaps within the currently edited scene.
+	Args: [{Null true from_node Node} {False true create_visual_debug bool}], Returns: enum.BakedLightmap::BakeError
 */
-func (o *BakedLightmap) Bake(fromNode ObjectImplementer, createVisualDebug gdnative.Bool) BakedLightmapBakeError {
+func (o *BakedLightmap) Bake(fromNode NodeImplementer, createVisualDebug gdnative.Bool) BakedLightmapBakeError {
 	//log.Println("Calling BakedLightmap.Bake()")
 
 	// Build out the method's arguments
@@ -88,7 +88,7 @@ func (o *BakedLightmap) Bake(fromNode ObjectImplementer, createVisualDebug gdnat
 }
 
 /*
-
+        Executes a dry run bake of lightmaps within the currently edited scene.
 	Args: [], Returns: void
 */
 func (o *BakedLightmap) DebugBake() {
@@ -119,6 +119,29 @@ func (o *BakedLightmap) GetBakeCellSize() gdnative.Real {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("BakedLightmap", "get_bake_cell_size")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *BakedLightmap) GetBakeDefaultTexelsPerUnit() gdnative.Real {
+	//log.Println("Calling BakedLightmap.GetBakeDefaultTexelsPerUnit()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("BakedLightmap", "get_bake_default_texels_per_unit")
 
 	// Call the parent method.
 	// float
@@ -374,6 +397,27 @@ func (o *BakedLightmap) SetBakeCellSize(bakeCellSize gdnative.Real) {
 
 /*
         Undocumented
+	Args: [{ false texels float}], Returns: void
+*/
+func (o *BakedLightmap) SetBakeDefaultTexelsPerUnit(texels gdnative.Real) {
+	//log.Println("Calling BakedLightmap.SetBakeDefaultTexelsPerUnit()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(texels)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("BakedLightmap", "set_bake_default_texels_per_unit")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false bake_mode int}], Returns: void
 */
 func (o *BakedLightmap) SetBakeMode(bakeMode gdnative.Int) {
@@ -567,6 +611,7 @@ type BakedLightmapImplementer interface {
 	VisualInstanceImplementer
 	DebugBake()
 	GetBakeCellSize() gdnative.Real
+	GetBakeDefaultTexelsPerUnit() gdnative.Real
 	GetCaptureCellSize() gdnative.Real
 	GetEnergy() gdnative.Real
 	GetExtents() gdnative.Vector3
@@ -575,6 +620,7 @@ type BakedLightmapImplementer interface {
 	GetPropagation() gdnative.Real
 	IsHdr() gdnative.Bool
 	SetBakeCellSize(bakeCellSize gdnative.Real)
+	SetBakeDefaultTexelsPerUnit(texels gdnative.Real)
 	SetBakeMode(bakeMode gdnative.Int)
 	SetBakeQuality(bakeQuality gdnative.Int)
 	SetCaptureCellSize(captureCellSize gdnative.Real)

@@ -76,7 +76,7 @@ func (o *WindowDialog) X_GuiInput(arg0 InputEventImplementer) {
 }
 
 /*
-        Return the close [TextureButton].
+        Returns the close [TextureButton].
 	Args: [], Returns: TextureButton
 */
 func (o *WindowDialog) GetCloseButton() TextureButtonImplementer {

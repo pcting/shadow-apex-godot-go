@@ -90,9 +90,11 @@ const (
 type ImageInterpolation int
 
 const (
-	ImageInterpolateBilinear ImageInterpolation = 1
-	ImageInterpolateCubic    ImageInterpolation = 2
-	ImageInterpolateNearest  ImageInterpolation = 0
+	ImageInterpolateBilinear  ImageInterpolation = 1
+	ImageInterpolateCubic     ImageInterpolation = 2
+	ImageInterpolateLanczos   ImageInterpolation = 4
+	ImageInterpolateNearest   ImageInterpolation = 0
+	ImageInterpolateTrilinear ImageInterpolation = 3
 )
 
 //func NewImageFromPointer(ptr gdnative.Pointer) Image {
@@ -105,7 +107,7 @@ func newImageFromPointer(ptr gdnative.Pointer) Image {
 }
 
 /*
-Native image datatype. Contains image data, which can be converted to a [Texture], and several functions to interact with it. The maximum width and height for an [code]Image[/code] is 16384 pixels.
+Native image datatype. Contains image data, which can be converted to a [Texture], and several functions to interact with it. The maximum width and height for an [code]Image[/code] are [constant MAX_WIDTH] and [constant MAX_HEIGHT].
 */
 type Image struct {
 	Resource
@@ -255,6 +257,27 @@ func (o *Image) BlitRectMask(src ImageImplementer, mask ImageImplementer, srcRec
 }
 
 /*
+
+	Args: [{1 true bump_scale float}], Returns: void
+*/
+func (o *Image) BumpmapToNormalmap(bumpScale gdnative.Real) {
+	//log.Println("Calling Image.BumpmapToNormalmap()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(bumpScale)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Image", "bumpmap_to_normalmap")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Removes the image's mipmaps.
 	Args: [], Returns: void
 */
@@ -343,7 +366,7 @@ func (o *Image) CopyFrom(src ImageImplementer) {
 }
 
 /*
-        Creates an empty image of given size and format. See [code]FORMAT_*[/code] constants. If [code]use_mipmaps[/code] is true then generate mipmaps for this image. See the [code]generate_mipmaps[/code] method.
+        Creates an empty image of given size and format. See [code]FORMAT_*[/code] constants. If [code]use_mipmaps[/code] is [code]true[/code] then generate mipmaps for this image. See the [code]generate_mipmaps[/code] method.
 	Args: [{ false width int} { false height int} { false use_mipmaps bool} { false format int}], Returns: void
 */
 func (o *Image) Create(width gdnative.Int, height gdnative.Int, useMipmaps gdnative.Bool, format gdnative.Int) {
@@ -367,7 +390,7 @@ func (o *Image) Create(width gdnative.Int, height gdnative.Int, useMipmaps gdnat
 }
 
 /*
-        Creates a new image of given size and format. See [code]FORMAT_*[/code] constants. Fills the image with the given raw data. If [code]use_mipmaps[/code] is true then generate mipmaps for this image. See the [code]generate_mipmaps[/code] method.
+        Creates a new image of given size and format. See [code]FORMAT_*[/code] constants. Fills the image with the given raw data. If [code]use_mipmaps[/code] is [code]true[/code] then generate mipmaps for this image. See the [code]generate_mipmaps[/code] method.
 	Args: [{ false width int} { false height int} { false use_mipmaps bool} { false format int} { false data PoolByteArray}], Returns: void
 */
 func (o *Image) CreateFromData(width gdnative.Int, height gdnative.Int, useMipmaps gdnative.Bool, format gdnative.Int, data gdnative.PoolByteArray) {
@@ -562,13 +585,14 @@ func (o *Image) FlipY() {
 
 /*
         Generates mipmaps for the image. Mipmaps are pre-calculated and lower resolution copies of the image. Mipmaps are automatically used if the image needs to be scaled down when rendered. This improves image quality and the performance of the rendering. Returns an error if the image is compressed, in a custom format or if the image's width/height is 0.
-	Args: [], Returns: enum.Error
+	Args: [{False true renormalize bool}], Returns: enum.Error
 */
-func (o *Image) GenerateMipmaps() gdnative.Error {
+func (o *Image) GenerateMipmaps(renormalize gdnative.Bool) gdnative.Error {
 	//log.Println("Calling Image.GenerateMipmaps()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(renormalize)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Image", "generate_mipmaps")
@@ -607,7 +631,7 @@ func (o *Image) GetData() gdnative.PoolByteArray {
 }
 
 /*
-        Returns the image’s format. See [code]FORMAT_*[/code] constants.
+        Returns the image's format. See [code]FORMAT_*[/code] constants.
 	Args: [], Returns: enum.Image::Format
 */
 func (o *Image) GetFormat() ImageFormat {
@@ -690,6 +714,30 @@ func (o *Image) GetPixel(x gdnative.Int, y gdnative.Int) gdnative.Color {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Image", "get_pixel")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false src Vector2}], Returns: Color
+*/
+func (o *Image) GetPixelv(src gdnative.Vector2) gdnative.Color {
+	//log.Println("Calling Image.GetPixelv()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(src)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Image", "get_pixelv")
 
 	// Call the parent method.
 	// Color
@@ -925,7 +973,7 @@ func (o *Image) Load(path gdnative.String) gdnative.Error {
 }
 
 /*
-
+        Loads an image from the binary contents of a JPEG file.
 	Args: [{ false buffer PoolByteArray}], Returns: enum.Error
 */
 func (o *Image) LoadJpgFromBuffer(buffer gdnative.PoolByteArray) gdnative.Error {
@@ -949,7 +997,7 @@ func (o *Image) LoadJpgFromBuffer(buffer gdnative.PoolByteArray) gdnative.Error 
 }
 
 /*
-
+        Loads an image from the binary contents of a PNG file.
 	Args: [{ false buffer PoolByteArray}], Returns: enum.Error
 */
 func (o *Image) LoadPngFromBuffer(buffer gdnative.PoolByteArray) gdnative.Error {
@@ -973,7 +1021,31 @@ func (o *Image) LoadPngFromBuffer(buffer gdnative.PoolByteArray) gdnative.Error 
 }
 
 /*
-        Locks the data for writing access.
+        Loads an image from the binary contents of a WebP file.
+	Args: [{ false buffer PoolByteArray}], Returns: enum.Error
+*/
+func (o *Image) LoadWebpFromBuffer(buffer gdnative.PoolByteArray) gdnative.Error {
+	//log.Println("Calling Image.LoadWebpFromBuffer()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromPoolByteArray(buffer)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Image", "load_webp_from_buffer")
+
+	// Call the parent method.
+	// enum.Error
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return gdnative.Error(ret)
+}
+
+/*
+        Locks the data for reading and writing access. Sends an error to the console if the image is not locked when reading or writing a pixel.
 	Args: [], Returns: void
 */
 func (o *Image) Lock() {
@@ -1077,6 +1149,68 @@ func (o *Image) ResizeToPo2(square gdnative.Bool) {
 }
 
 /*
+
+	Args: [], Returns: Image
+*/
+func (o *Image) RgbeToSrgb() ImageImplementer {
+	//log.Println("Calling Image.RgbeToSrgb()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Image", "rgbe_to_srgb")
+
+	// Call the parent method.
+	// Image
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newImageFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(ImageImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Image" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(ImageImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Undocumented
+	Args: [{ false path String} {False true grayscale bool}], Returns: enum.Error
+*/
+func (o *Image) SaveExr(path gdnative.String, grayscale gdnative.Bool) gdnative.Error {
+	//log.Println("Calling Image.SaveExr()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromString(path)
+	ptrArguments[1] = gdnative.NewPointerFromBool(grayscale)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Image", "save_exr")
+
+	// Call the parent method.
+	// enum.Error
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return gdnative.Error(ret)
+}
+
+/*
         Saves the image as a PNG file to [code]path[/code].
 	Args: [{ false path String}], Returns: enum.Error
 */
@@ -1115,6 +1249,28 @@ func (o *Image) SetPixel(x gdnative.Int, y gdnative.Int, color gdnative.Color) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Image", "set_pixel")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false dst Vector2} { false color Color}], Returns: void
+*/
+func (o *Image) SetPixelv(dst gdnative.Vector2, color gdnative.Color) {
+	//log.Println("Calling Image.SetPixelv()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(dst)
+	ptrArguments[1] = gdnative.NewPointerFromColor(color)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Image", "set_pixelv")
 
 	// Call the parent method.
 	// void
@@ -1193,6 +1349,7 @@ type ImageImplementer interface {
 	BlendRectMask(src ImageImplementer, mask ImageImplementer, srcRect gdnative.Rect2, dst gdnative.Vector2)
 	BlitRect(src ImageImplementer, srcRect gdnative.Rect2, dst gdnative.Vector2)
 	BlitRectMask(src ImageImplementer, mask ImageImplementer, srcRect gdnative.Rect2, dst gdnative.Vector2)
+	BumpmapToNormalmap(bumpScale gdnative.Real)
 	ClearMipmaps()
 	Convert(format gdnative.Int)
 	CopyFrom(src ImageImplementer)
@@ -1208,6 +1365,7 @@ type ImageImplementer interface {
 	GetHeight() gdnative.Int
 	GetMipmapOffset(mipmap gdnative.Int) gdnative.Int
 	GetPixel(x gdnative.Int, y gdnative.Int) gdnative.Color
+	GetPixelv(src gdnative.Vector2) gdnative.Color
 	GetRect(rect gdnative.Rect2) ImageImplementer
 	GetSize() gdnative.Vector2
 	GetUsedRect() gdnative.Rect2
@@ -1221,7 +1379,9 @@ type ImageImplementer interface {
 	PremultiplyAlpha()
 	Resize(width gdnative.Int, height gdnative.Int, interpolation gdnative.Int)
 	ResizeToPo2(square gdnative.Bool)
+	RgbeToSrgb() ImageImplementer
 	SetPixel(x gdnative.Int, y gdnative.Int, color gdnative.Color)
+	SetPixelv(dst gdnative.Vector2, color gdnative.Color)
 	ShrinkX2()
 	SrgbToLinear()
 	Unlock()

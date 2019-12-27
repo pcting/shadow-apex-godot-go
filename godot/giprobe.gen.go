@@ -47,9 +47,9 @@ func (o *GIProbe) BaseClass() string {
 
 /*
 
-	Args: [{Null true from_node Object} {False true create_visual_debug bool}], Returns: void
+	Args: [{Null true from_node Node} {False true create_visual_debug bool}], Returns: void
 */
-func (o *GIProbe) Bake(fromNode ObjectImplementer, createVisualDebug gdnative.Bool) {
+func (o *GIProbe) Bake(fromNode NodeImplementer, createVisualDebug gdnative.Bool) {
 	//log.Println("Calling GIProbe.Bake()")
 
 	// Build out the method's arguments
@@ -545,7 +545,7 @@ func (o *GIProbe) SetSubdiv(subdiv gdnative.Int) {
 // of the GIProbe class.
 type GIProbeImplementer interface {
 	VisualInstanceImplementer
-	Bake(fromNode ObjectImplementer, createVisualDebug gdnative.Bool)
+	Bake(fromNode NodeImplementer, createVisualDebug gdnative.Bool)
 	DebugBake()
 	GetBias() gdnative.Real
 	GetDynamicRange() gdnative.Int

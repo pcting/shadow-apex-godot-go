@@ -108,7 +108,7 @@ func (o *RigidBody) X_DirectStateChanged(arg0 ObjectImplementer) {
 }
 
 /*
-        Called during physics processing, allowing you to read and safely modify the simulation state for the object. By default it works in addition to the usual physics behavior, but [method set_use_custom_integrator] allows you to disable the default behavior and do fully custom force integration for a body.
+        Called during physics processing, allowing you to read and safely modify the simulation state for the object. By default, it works in addition to the usual physics behavior, but the [member custom_integrator] property allows you to disable the default behavior and do fully custom force integration for a body.
 	Args: [{ false state PhysicsDirectBodyState}], Returns: void
 */
 func (o *RigidBody) X_IntegrateForces(state PhysicsDirectBodyStateImplementer) {
@@ -129,7 +129,112 @@ func (o *RigidBody) X_IntegrateForces(state PhysicsDirectBodyStateImplementer) {
 }
 
 /*
-        Apply a positioned impulse (which will be affected by the body mass and shape). This is the equivalent of hitting a billiard ball with a cue: a force that is applied once, and only once. Both the impulse and the position are in global coordinates, and the position is relative to the object's origin.
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *RigidBody) X_ReloadPhysicsCharacteristics() {
+	//log.Println("Calling RigidBody.X_ReloadPhysicsCharacteristics()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RigidBody", "_reload_physics_characteristics")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Adds a constant directional force without affecting rotation. This is equivalent to [code]add_force(force, Vector3(0,0,0))[/code].
+	Args: [{ false force Vector3}], Returns: void
+*/
+func (o *RigidBody) AddCentralForce(force gdnative.Vector3) {
+	//log.Println("Calling RigidBody.AddCentralForce()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(force)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RigidBody", "add_central_force")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Adds a constant force (i.e. acceleration).
+	Args: [{ false force Vector3} { false position Vector3}], Returns: void
+*/
+func (o *RigidBody) AddForce(force gdnative.Vector3, position gdnative.Vector3) {
+	//log.Println("Calling RigidBody.AddForce()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(force)
+	ptrArguments[1] = gdnative.NewPointerFromVector3(position)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RigidBody", "add_force")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Adds a constant rotational force (i.e. a motor) without affecting position.
+	Args: [{ false torque Vector3}], Returns: void
+*/
+func (o *RigidBody) AddTorque(torque gdnative.Vector3) {
+	//log.Println("Calling RigidBody.AddTorque()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(torque)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RigidBody", "add_torque")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Applies a directional impulse without affecting rotation. This is equivalent to [code]apply_impulse(Vector3(0,0,0), impulse)[/code].
+	Args: [{ false impulse Vector3}], Returns: void
+*/
+func (o *RigidBody) ApplyCentralImpulse(impulse gdnative.Vector3) {
+	//log.Println("Calling RigidBody.ApplyCentralImpulse()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(impulse)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RigidBody", "apply_central_impulse")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
 	Args: [{ false position Vector3} { false impulse Vector3}], Returns: void
 */
 func (o *RigidBody) ApplyImpulse(position gdnative.Vector3, impulse gdnative.Vector3) {
@@ -142,6 +247,27 @@ func (o *RigidBody) ApplyImpulse(position gdnative.Vector3, impulse gdnative.Vec
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("RigidBody", "apply_impulse")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Applies a torque impulse which will be affected by the body mass and shape. This will rotate the body around the passed in vector.
+	Args: [{ false impulse Vector3}], Returns: void
+*/
+func (o *RigidBody) ApplyTorqueImpulse(impulse gdnative.Vector3) {
+	//log.Println("Calling RigidBody.ApplyTorqueImpulse()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(impulse)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RigidBody", "apply_torque_impulse")
 
 	// Call the parent method.
 	// void
@@ -244,7 +370,7 @@ func (o *RigidBody) GetBounce() gdnative.Real {
 }
 
 /*
-        Return a list of the bodies colliding with this one. By default, number of max contacts reported is at 0 , see [method set_max_contacts_reported] to increase it. Note that the result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
+        Returns a list of the bodies colliding with this one. By default, number of max contacts reported is at 0, see the [member contacts_reported] property to increase it. Note that the result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
 	Args: [], Returns: Array
 */
 func (o *RigidBody) GetCollidingBodies() gdnative.Array {
@@ -425,6 +551,43 @@ func (o *RigidBody) GetMode() RigidBodyMode {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
 	return RigidBodyMode(ret)
+}
+
+/*
+        Undocumented
+	Args: [], Returns: PhysicsMaterial
+*/
+func (o *RigidBody) GetPhysicsMaterialOverride() PhysicsMaterialImplementer {
+	//log.Println("Calling RigidBody.GetPhysicsMaterialOverride()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RigidBody", "get_physics_material_override")
+
+	// Call the parent method.
+	// PhysicsMaterial
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newPhysicsMaterialFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(PhysicsMaterialImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "PhysicsMaterial" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(PhysicsMaterialImplementer)
+	}
+
+	return &ret
 }
 
 /*
@@ -630,7 +793,7 @@ func (o *RigidBody) SetAxisLock(axis gdnative.Int, lock gdnative.Bool) {
 }
 
 /*
-        Set an axis velocity. The velocity in the given vector axis will be set as the given vector length. This is useful for jumping behavior.
+        Sets an axis velocity. The velocity in the given vector axis will be set as the given vector length. This is useful for jumping behavior.
 	Args: [{ false axis_velocity Vector3}], Returns: void
 */
 func (o *RigidBody) SetAxisVelocity(axisVelocity gdnative.Vector3) {
@@ -862,6 +1025,27 @@ func (o *RigidBody) SetMode(mode gdnative.Int) {
 
 /*
         Undocumented
+	Args: [{ false physics_material_override PhysicsMaterial}], Returns: void
+*/
+func (o *RigidBody) SetPhysicsMaterialOverride(physicsMaterialOverride PhysicsMaterialImplementer) {
+	//log.Println("Calling RigidBody.SetPhysicsMaterialOverride()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(physicsMaterialOverride.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RigidBody", "set_physics_material_override")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false sleeping bool}], Returns: void
 */
 func (o *RigidBody) SetSleeping(sleeping gdnative.Bool) {
@@ -952,7 +1136,13 @@ type RigidBodyImplementer interface {
 	X_BodyExitTree(arg0 gdnative.Int)
 	X_DirectStateChanged(arg0 ObjectImplementer)
 	X_IntegrateForces(state PhysicsDirectBodyStateImplementer)
+	X_ReloadPhysicsCharacteristics()
+	AddCentralForce(force gdnative.Vector3)
+	AddForce(force gdnative.Vector3, position gdnative.Vector3)
+	AddTorque(torque gdnative.Vector3)
+	ApplyCentralImpulse(impulse gdnative.Vector3)
 	ApplyImpulse(position gdnative.Vector3, impulse gdnative.Vector3)
+	ApplyTorqueImpulse(impulse gdnative.Vector3)
 	GetAngularDamp() gdnative.Real
 	GetAngularVelocity() gdnative.Vector3
 	GetAxisLock(axis gdnative.Int) gdnative.Bool
@@ -964,6 +1154,7 @@ type RigidBodyImplementer interface {
 	GetLinearVelocity() gdnative.Vector3
 	GetMass() gdnative.Real
 	GetMaxContactsReported() gdnative.Int
+	GetPhysicsMaterialOverride() PhysicsMaterialImplementer
 	GetWeight() gdnative.Real
 	IsAbleToSleep() gdnative.Bool
 	IsContactMonitorEnabled() gdnative.Bool
@@ -984,6 +1175,7 @@ type RigidBodyImplementer interface {
 	SetMass(mass gdnative.Real)
 	SetMaxContactsReported(amount gdnative.Int)
 	SetMode(mode gdnative.Int)
+	SetPhysicsMaterialOverride(physicsMaterialOverride PhysicsMaterialImplementer)
 	SetSleeping(sleeping gdnative.Bool)
 	SetUseContinuousCollisionDetection(enable gdnative.Bool)
 	SetUseCustomIntegrator(enable gdnative.Bool)

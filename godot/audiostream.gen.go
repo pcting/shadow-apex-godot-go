@@ -23,7 +23,7 @@ func newAudioStreamFromPointer(ptr gdnative.Pointer) AudioStream {
 }
 
 /*
-Base class for audio streams. Audio streams are used for music playback, or other types of streamed sounds that don't fit or require more flexibility than a [Sample].
+Base class for audio streams. Audio streams are used for sound effects and music playback, and support WAV (via [AudioStreamSample]) and OGG (via [AudioStreamOGGVorbis]) file formats.
 */
 type AudioStream struct {
 	Resource
@@ -35,7 +35,7 @@ func (o *AudioStream) BaseClass() string {
 }
 
 /*
-
+        Returns the length of the audio stream in seconds.
 	Args: [], Returns: float
 */
 func (o *AudioStream) GetLength() gdnative.Real {

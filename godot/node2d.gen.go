@@ -196,9 +196,9 @@ func (o *Node2D) GetPosition() gdnative.Vector2 {
 
 /*
         Returns the [Transform2D] relative to this node's parent.
-	Args: [{ false parent Object}], Returns: Transform2D
+	Args: [{ false parent Node}], Returns: Transform2D
 */
-func (o *Node2D) GetRelativeTransformToParent(parent ObjectImplementer) gdnative.Transform2D {
+func (o *Node2D) GetRelativeTransformToParent(parent NodeImplementer) gdnative.Transform2D {
 	//log.Println("Calling Node2D.GetRelativeTransformToParent()")
 
 	// Build out the method's arguments
@@ -376,7 +376,7 @@ func (o *Node2D) LookAt(point gdnative.Vector2) {
 }
 
 /*
-        Applies a local translation on the node's X axis based on the [method Node._process]'s [code]delta[/code]. If [code]scaled[/code] is false, normalizes the movement.
+        Applies a local translation on the node's X axis based on the [method Node._process]'s [code]delta[/code]. If [code]scaled[/code] is [code]false[/code], normalizes the movement.
 	Args: [{ false delta float} {False true scaled bool}], Returns: void
 */
 func (o *Node2D) MoveLocalX(delta gdnative.Real, scaled gdnative.Bool) {
@@ -398,7 +398,7 @@ func (o *Node2D) MoveLocalX(delta gdnative.Real, scaled gdnative.Bool) {
 }
 
 /*
-        Applies a local translation on the node's Y axis based on the [method Node._process]'s [code]delta[/code]. If [code]scaled[/code] is false, normalizes the movement.
+        Applies a local translation on the node's Y axis based on the [method Node._process]'s [code]delta[/code]. If [code]scaled[/code] is [code]false[/code], normalizes the movement.
 	Args: [{ false delta float} {False true scaled bool}], Returns: void
 */
 func (o *Node2D) MoveLocalY(delta gdnative.Real, scaled gdnative.Bool) {
@@ -772,7 +772,7 @@ type Node2DImplementer interface {
 	GetGlobalRotationDegrees() gdnative.Real
 	GetGlobalScale() gdnative.Vector2
 	GetPosition() gdnative.Vector2
-	GetRelativeTransformToParent(parent ObjectImplementer) gdnative.Transform2D
+	GetRelativeTransformToParent(parent NodeImplementer) gdnative.Transform2D
 	GetRotation() gdnative.Real
 	GetRotationDegrees() gdnative.Real
 	GetScale() gdnative.Vector2

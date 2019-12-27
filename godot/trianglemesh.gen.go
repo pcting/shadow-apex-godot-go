@@ -23,8 +23,8 @@ func newTriangleMeshFromPointer(ptr gdnative.Pointer) TriangleMesh {
 }
 
 /*
-
- */
+Mesh type used internally for collision calculations.
+*/
 type TriangleMesh struct {
 	Reference
 	owner gdnative.Object

@@ -404,6 +404,43 @@ func (o *GridMap) GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool {
 
 /*
         Undocumented
+	Args: [], Returns: MeshLibrary
+*/
+func (o *GridMap) GetMeshLibrary() MeshLibraryImplementer {
+	//log.Println("Calling GridMap.GetMeshLibrary()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("GridMap", "get_mesh_library")
+
+	// Call the parent method.
+	// MeshLibrary
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newMeshLibraryFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(MeshLibraryImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "MeshLibrary" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(MeshLibraryImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: Array
 */
 func (o *GridMap) GetMeshes() gdnative.Array {
@@ -446,43 +483,6 @@ func (o *GridMap) GetOctantSize() gdnative.Int {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
-}
-
-/*
-        Undocumented
-	Args: [], Returns: MeshLibrary
-*/
-func (o *GridMap) GetTheme() MeshLibraryImplementer {
-	//log.Println("Calling GridMap.GetTheme()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("GridMap", "get_theme")
-
-	// Call the parent method.
-	// MeshLibrary
-	retPtr := gdnative.NewEmptyObject()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := newMeshLibraryFromPointer(retPtr)
-
-	// Check to see if we already have an instance of this object in our Go instance registry.
-	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
-		return instance.(MeshLibraryImplementer)
-	}
-
-	// Check to see what kind of class this is and create it. This is generally used with
-	// GetNode().
-	className := ret.GetClass()
-	if className != "MeshLibrary" {
-		actualRet := getActualClass(className, ret.GetBaseObject())
-		return actualRet.(MeshLibraryImplementer)
-	}
-
-	return &ret
 }
 
 /*
@@ -819,6 +819,27 @@ func (o *GridMap) SetCollisionMaskBit(bit gdnative.Int, value gdnative.Bool) {
 
 /*
         Undocumented
+	Args: [{ false mesh_library MeshLibrary}], Returns: void
+*/
+func (o *GridMap) SetMeshLibrary(meshLibrary MeshLibraryImplementer) {
+	//log.Println("Calling GridMap.SetMeshLibrary()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(meshLibrary.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("GridMap", "set_mesh_library")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false size int}], Returns: void
 */
 func (o *GridMap) SetOctantSize(size gdnative.Int) {
@@ -830,27 +851,6 @@ func (o *GridMap) SetOctantSize(size gdnative.Int) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("GridMap", "set_octant_size")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-        Undocumented
-	Args: [{ false theme MeshLibrary}], Returns: void
-*/
-func (o *GridMap) SetTheme(theme MeshLibraryImplementer) {
-	//log.Println("Calling GridMap.SetTheme()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromObject(theme.GetBaseObject())
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("GridMap", "set_theme")
 
 	// Call the parent method.
 	// void
@@ -903,9 +903,9 @@ type GridMapImplementer interface {
 	GetCollisionLayerBit(bit gdnative.Int) gdnative.Bool
 	GetCollisionMask() gdnative.Int
 	GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool
+	GetMeshLibrary() MeshLibraryImplementer
 	GetMeshes() gdnative.Array
 	GetOctantSize() gdnative.Int
-	GetTheme() MeshLibraryImplementer
 	GetUsedCells() gdnative.Array
 	MakeBakedMeshes(genLightmapUv gdnative.Bool, lightmapUvTexelSize gdnative.Real)
 	MapToWorld(x gdnative.Int, y gdnative.Int, z gdnative.Int) gdnative.Vector3
@@ -921,7 +921,7 @@ type GridMapImplementer interface {
 	SetCollisionLayerBit(bit gdnative.Int, value gdnative.Bool)
 	SetCollisionMask(mask gdnative.Int)
 	SetCollisionMaskBit(bit gdnative.Int, value gdnative.Bool)
+	SetMeshLibrary(meshLibrary MeshLibraryImplementer)
 	SetOctantSize(size gdnative.Int)
-	SetTheme(theme MeshLibraryImplementer)
 	WorldToMap(pos gdnative.Vector3) gdnative.Vector3
 }

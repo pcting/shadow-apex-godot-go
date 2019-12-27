@@ -102,6 +102,98 @@ func (o *CanvasItemMaterial) GetLightMode() CanvasItemMaterialLightMode {
 
 /*
         Undocumented
+	Args: [], Returns: int
+*/
+func (o *CanvasItemMaterial) GetParticlesAnimHFrames() gdnative.Int {
+	//log.Println("Calling CanvasItemMaterial.GetParticlesAnimHFrames()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasItemMaterial", "get_particles_anim_h_frames")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *CanvasItemMaterial) GetParticlesAnimLoop() gdnative.Bool {
+	//log.Println("Calling CanvasItemMaterial.GetParticlesAnimLoop()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasItemMaterial", "get_particles_anim_loop")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *CanvasItemMaterial) GetParticlesAnimVFrames() gdnative.Int {
+	//log.Println("Calling CanvasItemMaterial.GetParticlesAnimVFrames()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasItemMaterial", "get_particles_anim_v_frames")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *CanvasItemMaterial) GetParticlesAnimation() gdnative.Bool {
+	//log.Println("Calling CanvasItemMaterial.GetParticlesAnimation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasItemMaterial", "get_particles_animation")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [{ false blend_mode int}], Returns: void
 */
 func (o *CanvasItemMaterial) SetBlendMode(blendMode gdnative.Int) {
@@ -142,10 +234,102 @@ func (o *CanvasItemMaterial) SetLightMode(lightMode gdnative.Int) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false frames int}], Returns: void
+*/
+func (o *CanvasItemMaterial) SetParticlesAnimHFrames(frames gdnative.Int) {
+	//log.Println("Calling CanvasItemMaterial.SetParticlesAnimHFrames()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(frames)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasItemMaterial", "set_particles_anim_h_frames")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false loop bool}], Returns: void
+*/
+func (o *CanvasItemMaterial) SetParticlesAnimLoop(loop gdnative.Bool) {
+	//log.Println("Calling CanvasItemMaterial.SetParticlesAnimLoop()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(loop)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasItemMaterial", "set_particles_anim_loop")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false frames int}], Returns: void
+*/
+func (o *CanvasItemMaterial) SetParticlesAnimVFrames(frames gdnative.Int) {
+	//log.Println("Calling CanvasItemMaterial.SetParticlesAnimVFrames()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(frames)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasItemMaterial", "set_particles_anim_v_frames")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false particles_anim bool}], Returns: void
+*/
+func (o *CanvasItemMaterial) SetParticlesAnimation(particlesAnim gdnative.Bool) {
+	//log.Println("Calling CanvasItemMaterial.SetParticlesAnimation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(particlesAnim)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CanvasItemMaterial", "set_particles_animation")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // CanvasItemMaterialImplementer is an interface that implements the methods
 // of the CanvasItemMaterial class.
 type CanvasItemMaterialImplementer interface {
 	MaterialImplementer
+	GetParticlesAnimHFrames() gdnative.Int
+	GetParticlesAnimLoop() gdnative.Bool
+	GetParticlesAnimVFrames() gdnative.Int
+	GetParticlesAnimation() gdnative.Bool
 	SetBlendMode(blendMode gdnative.Int)
 	SetLightMode(lightMode gdnative.Int)
+	SetParticlesAnimHFrames(frames gdnative.Int)
+	SetParticlesAnimLoop(loop gdnative.Bool)
+	SetParticlesAnimVFrames(frames gdnative.Int)
+	SetParticlesAnimation(particlesAnim gdnative.Bool)
 }

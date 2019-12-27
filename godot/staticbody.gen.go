@@ -23,7 +23,7 @@ func newStaticBodyFromPointer(ptr gdnative.Pointer) StaticBody {
 }
 
 /*
-Static body for 3D Physics. A static body is a simple body that is not intended to move. They don't consume any CPU resources in contrast to a [RigidBody3D] so they are great for scenario collision. A static body can also be animated by using simulated motion mode. This is useful for implementing functionalities such as moving platforms. When this mode is active the body can be animated and automatically computes linear and angular velocity to apply in that frame and to influence other bodies. Alternatively, a constant linear or angular velocity can be set for the static body, so even if it doesn't move, it affects other bodies as if it was moving (this is useful for simulating conveyor belts or conveyor wheels).
+Static body for 3D physics. A static body is a simple body that is not intended to move. They don't consume any CPU resources in contrast to a [RigidBody] so they are great for scenario collision. A static body can also be animated by using simulated motion mode. This is useful for implementing functionalities such as moving platforms. When this mode is active the body can be animated and automatically computes linear and angular velocity to apply in that frame and to influence other bodies. Alternatively, a constant linear or angular velocity can be set for the static body, so even if it doesn't move, it affects other bodies as if it was moving (this is useful for simulating conveyor belts or conveyor wheels).
 */
 type StaticBody struct {
 	PhysicsBody
@@ -32,6 +32,26 @@ type StaticBody struct {
 
 func (o *StaticBody) BaseClass() string {
 	return "StaticBody"
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *StaticBody) X_ReloadPhysicsCharacteristics() {
+	//log.Println("Calling StaticBody.X_ReloadPhysicsCharacteristics()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("StaticBody", "_reload_physics_characteristics")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
 }
 
 /*
@@ -128,6 +148,43 @@ func (o *StaticBody) GetFriction() gdnative.Real {
 
 /*
         Undocumented
+	Args: [], Returns: PhysicsMaterial
+*/
+func (o *StaticBody) GetPhysicsMaterialOverride() PhysicsMaterialImplementer {
+	//log.Println("Calling StaticBody.GetPhysicsMaterialOverride()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("StaticBody", "get_physics_material_override")
+
+	// Call the parent method.
+	// PhysicsMaterial
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newPhysicsMaterialFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(PhysicsMaterialImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "PhysicsMaterial" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(PhysicsMaterialImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Undocumented
 	Args: [{ false bounce float}], Returns: void
 */
 func (o *StaticBody) SetBounce(bounce gdnative.Real) {
@@ -210,16 +267,40 @@ func (o *StaticBody) SetFriction(friction gdnative.Real) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false physics_material_override PhysicsMaterial}], Returns: void
+*/
+func (o *StaticBody) SetPhysicsMaterialOverride(physicsMaterialOverride PhysicsMaterialImplementer) {
+	//log.Println("Calling StaticBody.SetPhysicsMaterialOverride()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(physicsMaterialOverride.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("StaticBody", "set_physics_material_override")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // StaticBodyImplementer is an interface that implements the methods
 // of the StaticBody class.
 type StaticBodyImplementer interface {
 	PhysicsBodyImplementer
+	X_ReloadPhysicsCharacteristics()
 	GetBounce() gdnative.Real
 	GetConstantAngularVelocity() gdnative.Vector3
 	GetConstantLinearVelocity() gdnative.Vector3
 	GetFriction() gdnative.Real
+	GetPhysicsMaterialOverride() PhysicsMaterialImplementer
 	SetBounce(bounce gdnative.Real)
 	SetConstantAngularVelocity(vel gdnative.Vector3)
 	SetConstantLinearVelocity(vel gdnative.Vector3)
 	SetFriction(friction gdnative.Real)
+	SetPhysicsMaterialOverride(physicsMaterialOverride PhysicsMaterialImplementer)
 }

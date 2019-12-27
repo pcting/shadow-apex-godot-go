@@ -17,12 +17,13 @@ import (
 type _ResourceSaverSaverFlags int
 
 const (
-	_ResourceSaverFlagBundleResources      _ResourceSaverSaverFlags = 2
-	_ResourceSaverFlagChangePath           _ResourceSaverSaverFlags = 4
-	_ResourceSaverFlagCompress             _ResourceSaverSaverFlags = 32
-	_ResourceSaverFlagOmitEditorProperties _ResourceSaverSaverFlags = 8
-	_ResourceSaverFlagRelativePaths        _ResourceSaverSaverFlags = 1
-	_ResourceSaverFlagSaveBigEndian        _ResourceSaverSaverFlags = 16
+	_ResourceSaverFlagBundleResources         _ResourceSaverSaverFlags = 2
+	_ResourceSaverFlagChangePath              _ResourceSaverSaverFlags = 4
+	_ResourceSaverFlagCompress                _ResourceSaverSaverFlags = 32
+	_ResourceSaverFlagOmitEditorProperties    _ResourceSaverSaverFlags = 8
+	_ResourceSaverFlagRelativePaths           _ResourceSaverSaverFlags = 1
+	_ResourceSaverFlagReplaceSubresourcePaths _ResourceSaverSaverFlags = 64
+	_ResourceSaverFlagSaveBigEndian           _ResourceSaverSaverFlags = 16
 )
 
 //func NewresourceSaverFromPointer(ptr gdnative.Pointer) resourceSaver {
@@ -39,12 +40,12 @@ func newSingletonResourceSaver() *resourceSaver {
 }
 
 /*
-   Resource Saving Interface. This interface is used for saving resources to disk.
+   Singleton for saving Godot-specific resource types to the filesystem. It uses the many [ResourceFormatSaver] classes registered in the engine (either built-in or from a plugin) to save engine-specific resource data to text-based (e.g. [code].tres[/code] or [code].tscn[/code]) or binary files (e.g. [code].res[/code] or [code].scn[/code]).
 */
 var ResourceSaver = newSingletonResourceSaver()
 
 /*
-Resource Saving Interface. This interface is used for saving resources to disk.
+Singleton for saving Godot-specific resource types to the filesystem. It uses the many [ResourceFormatSaver] classes registered in the engine (either built-in or from a plugin) to save engine-specific resource data to text-based (e.g. [code].tres[/code] or [code].tscn[/code]) or binary files (e.g. [code].res[/code] or [code].scn[/code]).
 */
 type resourceSaver struct {
 	Object

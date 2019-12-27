@@ -89,6 +89,29 @@ func (o *ARVRInterface) GetAnchorDetectionIsEnabled() gdnative.Bool {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *ARVRInterface) GetCameraFeedId() gdnative.Int {
+	//log.Println("Calling ARVRInterface.GetCameraFeedId()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ARVRInterface", "get_camera_feed_id")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns a combination of flags providing information about the capabilities of this interface.
 	Args: [], Returns: int
 */
@@ -250,7 +273,7 @@ func (o *ARVRInterface) IsPrimary() gdnative.Bool {
 }
 
 /*
-        Returns true if the current output of this interface is in stereo.
+        Returns [code]true[/code] if the current output of this interface is in stereo.
 	Args: [], Returns: bool
 */
 func (o *ARVRInterface) IsStereo() gdnative.Bool {
@@ -360,6 +383,7 @@ func (o *ARVRInterface) Uninitialize() {
 type ARVRInterfaceImplementer interface {
 	ReferenceImplementer
 	GetAnchorDetectionIsEnabled() gdnative.Bool
+	GetCameraFeedId() gdnative.Int
 	GetCapabilities() gdnative.Int
 	GetName() gdnative.String
 	GetRenderTargetsize() gdnative.Vector2

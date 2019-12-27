@@ -23,7 +23,7 @@ func newRemoteTransformFromPointer(ptr gdnative.Pointer) RemoteTransform {
 }
 
 /*
-RemoteTransform leads the [Transform] of another [Spatial] derived Node (called the remote node) in the scene. It can be set to track another Node's position, rotation and/or scale. It can update using either global or local coordinates.
+RemoteTransform pushes its own [Transform] to another [Spatial] derived Node (called the remote node) in the scene. It can be set to update another Node's position, rotation and/or scale. It can use either global or local coordinates.
 */
 type RemoteTransform struct {
 	Spatial
@@ -32,6 +32,26 @@ type RemoteTransform struct {
 
 func (o *RemoteTransform) BaseClass() string {
 	return "RemoteTransform"
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *RemoteTransform) ForceUpdateCache() {
+	//log.Println("Calling RemoteTransform.ForceUpdateCache()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RemoteTransform", "force_update_cache")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
 }
 
 /*
@@ -258,6 +278,7 @@ func (o *RemoteTransform) SetUseGlobalCoordinates(useGlobalCoordinates gdnative.
 // of the RemoteTransform class.
 type RemoteTransformImplementer interface {
 	SpatialImplementer
+	ForceUpdateCache()
 	GetRemoteNode() gdnative.NodePath
 	GetUpdatePosition() gdnative.Bool
 	GetUpdateRotation() gdnative.Bool

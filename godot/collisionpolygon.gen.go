@@ -36,6 +36,29 @@ func (o *CollisionPolygon) BaseClass() string {
 
 /*
         Undocumented
+	Args: [], Returns: bool
+*/
+func (o *CollisionPolygon) X_IsEditable3DPolygon() gdnative.Bool {
+	//log.Println("Calling CollisionPolygon.X_IsEditable3DPolygon()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CollisionPolygon", "_is_editable_3d_polygon")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: float
 */
 func (o *CollisionPolygon) GetDepth() gdnative.Real {
@@ -170,6 +193,7 @@ func (o *CollisionPolygon) SetPolygon(polygon gdnative.PoolVector2Array) {
 // of the CollisionPolygon class.
 type CollisionPolygonImplementer interface {
 	SpatialImplementer
+	X_IsEditable3DPolygon() gdnative.Bool
 	GetDepth() gdnative.Real
 	GetPolygon() gdnative.PoolVector2Array
 	IsDisabled() gdnative.Bool

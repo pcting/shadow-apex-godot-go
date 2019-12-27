@@ -23,7 +23,7 @@ func newPlaneMeshFromPointer(ptr gdnative.Pointer) PlaneMesh {
 }
 
 /*
-Class representing a planar [PrimitiveMesh]. This flat mesh does not have a thickness.
+Class representing a planar [PrimitiveMesh]. This flat mesh does not have a thickness. By default, this mesh is aligned on the X and Z axes; this default rotation isn't suited for use with billboarded materials. For billboarded materials, use [QuadMesh] instead.
 */
 type PlaneMesh struct {
 	PrimitiveMesh

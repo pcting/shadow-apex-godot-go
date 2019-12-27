@@ -23,7 +23,7 @@ func newEditorSpatialGizmoFromPointer(ptr gdnative.Pointer) EditorSpatialGizmo {
 }
 
 /*
-Custom gizmo that is used for providing custom visualization and editing (handles) for 3D Spatial objects. These are created by [method EditorPlugin.create_spatial_gizmo].
+Custom gizmo that is used for providing custom visualization and editing (handles) for 3D Spatial objects. See [EditorSpatialGizmoPlugin] for more information.
 */
 type EditorSpatialGizmo struct {
 	SpatialGizmo
@@ -57,15 +57,14 @@ func (o *EditorSpatialGizmo) AddCollisionSegments(segments gdnative.PoolVector3A
 
 /*
         Add collision triangles to the gizmo for picking. A [TriangleMesh] can be generated from a regular [Mesh] too. Call this function during [method redraw].
-	Args: [{ false triangles TriangleMesh} { false bounds AABB}], Returns: void
+	Args: [{ false triangles TriangleMesh}], Returns: void
 */
-func (o *EditorSpatialGizmo) AddCollisionTriangles(triangles TriangleMeshImplementer, bounds gdnative.Aabb) {
+func (o *EditorSpatialGizmo) AddCollisionTriangles(triangles TriangleMeshImplementer) {
 	//log.Println("Calling EditorSpatialGizmo.AddCollisionTriangles()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
 	ptrArguments[0] = gdnative.NewPointerFromObject(triangles.GetBaseObject())
-	ptrArguments[1] = gdnative.NewPointerFromAabb(bounds)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorSpatialGizmo", "add_collision_triangles")
@@ -79,16 +78,17 @@ func (o *EditorSpatialGizmo) AddCollisionTriangles(triangles TriangleMeshImpleme
 
 /*
         Add a list of handles (points) which can be used to deform the object being edited. There are virtual functions which will be called upon editing of these handles. Call this function during [method redraw].
-	Args: [{ false handles PoolVector3Array} {False true billboard bool} {False true secondary bool}], Returns: void
+	Args: [{ false handles PoolVector3Array} { false material Material} {False true billboard bool} {False true secondary bool}], Returns: void
 */
-func (o *EditorSpatialGizmo) AddHandles(handles gdnative.PoolVector3Array, billboard gdnative.Bool, secondary gdnative.Bool) {
+func (o *EditorSpatialGizmo) AddHandles(handles gdnative.PoolVector3Array, material MaterialImplementer, billboard gdnative.Bool, secondary gdnative.Bool) {
 	//log.Println("Calling EditorSpatialGizmo.AddHandles()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromPoolVector3Array(handles)
-	ptrArguments[1] = gdnative.NewPointerFromBool(billboard)
-	ptrArguments[2] = gdnative.NewPointerFromBool(secondary)
+	ptrArguments[1] = gdnative.NewPointerFromObject(material.GetBaseObject())
+	ptrArguments[2] = gdnative.NewPointerFromBool(billboard)
+	ptrArguments[3] = gdnative.NewPointerFromBool(secondary)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorSpatialGizmo", "add_handles")
@@ -125,16 +125,17 @@ func (o *EditorSpatialGizmo) AddLines(lines gdnative.PoolVector3Array, material 
 
 /*
 
-	Args: [{ false mesh ArrayMesh} {False true billboard bool} {[RID] true skeleton RID}], Returns: void
+	Args: [{ false mesh ArrayMesh} {False true billboard bool} {[Object:null] true skeleton SkinReference} {Null true material Material}], Returns: void
 */
-func (o *EditorSpatialGizmo) AddMesh(mesh ArrayMeshImplementer, billboard gdnative.Bool, skeleton gdnative.Rid) {
+func (o *EditorSpatialGizmo) AddMesh(mesh ArrayMeshImplementer, billboard gdnative.Bool, skeleton SkinReferenceImplementer, material MaterialImplementer) {
 	//log.Println("Calling EditorSpatialGizmo.AddMesh()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromObject(mesh.GetBaseObject())
 	ptrArguments[1] = gdnative.NewPointerFromBool(billboard)
-	ptrArguments[2] = gdnative.NewPointerFromRid(skeleton)
+	ptrArguments[2] = gdnative.NewPointerFromObject(skeleton.GetBaseObject())
+	ptrArguments[3] = gdnative.NewPointerFromObject(material.GetBaseObject())
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorSpatialGizmo", "add_mesh")
@@ -189,7 +190,7 @@ func (o *EditorSpatialGizmo) Clear() {
 }
 
 /*
-        Commit a handle being edited (handles must have been previously added by [method add_handles]). If the cancel parameter is true, an option to restore the edited value to the original is provided.
+        Commit a handle being edited (handles must have been previously added by [method add_handles]). If the cancel parameter is [code]true[/code], an option to restore the edited value to the original is provided.
 	Args: [{ false index int} { false restore Variant} { false cancel bool}], Returns: void
 */
 func (o *EditorSpatialGizmo) CommitHandle(index gdnative.Int, restore gdnative.Variant, cancel gdnative.Bool) {
@@ -236,7 +237,7 @@ func (o *EditorSpatialGizmo) GetHandleName(index gdnative.Int) gdnative.String {
 }
 
 /*
-        Get actual value of a handle. This value can be anything and used for eventually undoing the motion when calling [method commit_handle]
+        Get actual value of a handle. This value can be anything and used for eventually undoing the motion when calling [method commit_handle].
 	Args: [{ false index int}], Returns: Variant
 */
 func (o *EditorSpatialGizmo) GetHandleValue(index gdnative.Int) gdnative.Variant {
@@ -256,6 +257,104 @@ func (o *EditorSpatialGizmo) GetHandleValue(index gdnative.Int) gdnative.Variant
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewVariantFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the [EditorSpatialGizmoPlugin] that owns this gizmo. It's useful to retrieve materials using [method EditorSpatialGizmoPlugin.get_material].
+	Args: [], Returns: EditorSpatialGizmoPlugin
+*/
+func (o *EditorSpatialGizmo) GetPlugin() EditorSpatialGizmoPluginImplementer {
+	//log.Println("Calling EditorSpatialGizmo.GetPlugin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorSpatialGizmo", "get_plugin")
+
+	// Call the parent method.
+	// EditorSpatialGizmoPlugin
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newEditorSpatialGizmoPluginFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(EditorSpatialGizmoPluginImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "EditorSpatialGizmoPlugin" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(EditorSpatialGizmoPluginImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Returns the Spatial node associated with this gizmo.
+	Args: [], Returns: Spatial
+*/
+func (o *EditorSpatialGizmo) GetSpatialNode() SpatialImplementer {
+	//log.Println("Calling EditorSpatialGizmo.GetSpatialNode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorSpatialGizmo", "get_spatial_node")
+
+	// Call the parent method.
+	// Spatial
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newSpatialFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(SpatialImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Spatial" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(SpatialImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Get whether a handle is highlighted or not.
+	Args: [{ false index int}], Returns: bool
+*/
+func (o *EditorSpatialGizmo) IsHandleHighlighted(index gdnative.Int) gdnative.Bool {
+	//log.Println("Calling EditorSpatialGizmo.IsHandleHighlighted()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(index)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorSpatialGizmo", "is_handle_highlighted")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
 	return ret
 }
 
@@ -304,9 +403,30 @@ func (o *EditorSpatialGizmo) SetHandle(index gdnative.Int, camera CameraImplemen
 
 /*
 
-	Args: [{ false node Object}], Returns: void
+	Args: [{ false hidden bool}], Returns: void
 */
-func (o *EditorSpatialGizmo) SetSpatialNode(node ObjectImplementer) {
+func (o *EditorSpatialGizmo) SetHidden(hidden gdnative.Bool) {
+	//log.Println("Calling EditorSpatialGizmo.SetHidden()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(hidden)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorSpatialGizmo", "set_hidden")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false node Node}], Returns: void
+*/
+func (o *EditorSpatialGizmo) SetSpatialNode(node NodeImplementer) {
 	//log.Println("Calling EditorSpatialGizmo.SetSpatialNode()")
 
 	// Build out the method's arguments
@@ -328,16 +448,20 @@ func (o *EditorSpatialGizmo) SetSpatialNode(node ObjectImplementer) {
 type EditorSpatialGizmoImplementer interface {
 	SpatialGizmoImplementer
 	AddCollisionSegments(segments gdnative.PoolVector3Array)
-	AddCollisionTriangles(triangles TriangleMeshImplementer, bounds gdnative.Aabb)
-	AddHandles(handles gdnative.PoolVector3Array, billboard gdnative.Bool, secondary gdnative.Bool)
+	AddCollisionTriangles(triangles TriangleMeshImplementer)
+	AddHandles(handles gdnative.PoolVector3Array, material MaterialImplementer, billboard gdnative.Bool, secondary gdnative.Bool)
 	AddLines(lines gdnative.PoolVector3Array, material MaterialImplementer, billboard gdnative.Bool)
-	AddMesh(mesh ArrayMeshImplementer, billboard gdnative.Bool, skeleton gdnative.Rid)
+	AddMesh(mesh ArrayMeshImplementer, billboard gdnative.Bool, skeleton SkinReferenceImplementer, material MaterialImplementer)
 	AddUnscaledBillboard(material MaterialImplementer, defaultScale gdnative.Real)
 	Clear()
 	CommitHandle(index gdnative.Int, restore gdnative.Variant, cancel gdnative.Bool)
 	GetHandleName(index gdnative.Int) gdnative.String
 	GetHandleValue(index gdnative.Int) gdnative.Variant
+	GetPlugin() EditorSpatialGizmoPluginImplementer
+	GetSpatialNode() SpatialImplementer
+	IsHandleHighlighted(index gdnative.Int) gdnative.Bool
 	Redraw()
 	SetHandle(index gdnative.Int, camera CameraImplementer, point gdnative.Vector2)
-	SetSpatialNode(node ObjectImplementer)
+	SetHidden(hidden gdnative.Bool)
+	SetSpatialNode(node NodeImplementer)
 }

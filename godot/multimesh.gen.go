@@ -22,6 +22,15 @@ const (
 	MultiMeshColorNone  MultiMeshColorFormat = 0
 )
 
+// MultiMeshCustomDataFormat is an enum for CustomDataFormat values.
+type MultiMeshCustomDataFormat int
+
+const (
+	MultiMeshCustomData8Bit  MultiMeshCustomDataFormat = 1
+	MultiMeshCustomDataFloat MultiMeshCustomDataFormat = 2
+	MultiMeshCustomDataNone  MultiMeshCustomDataFormat = 0
+)
+
 // MultiMeshTransformFormat is an enum for TransformFormat values.
 type MultiMeshTransformFormat int
 
@@ -40,7 +49,7 @@ func newMultiMeshFromPointer(ptr gdnative.Pointer) MultiMesh {
 }
 
 /*
-MultiMesh provides low level mesh instancing. If the amount of [Mesh] instances needed goes from hundreds to thousands (and most need to be visible at close proximity) creating such a large amount of [MeshInstance] nodes may affect performance by using too much CPU or video memory. For this case a MultiMesh becomes very useful, as it can draw thousands of instances with little API overhead. As a drawback, if the instances are too far away of each other, performance may be reduced as every single instance will always rendered (they are spatially indexed as one, for the whole object). Since instances may have any behavior, the AABB used for visibility must be provided by the user.
+MultiMesh provides low level mesh instancing. Drawing thousands of [MeshInstance] nodes can be slow because each object is submitted to the GPU to be drawn individually. MultiMesh is much faster because it can draw thousands of instances with a single draw call, resulting in less API overhead. As a drawback, if the instances are too far away of each other, performance may be reduced as every single instance will always rendered (they are spatially indexed as one, for the whole object). Since instances may have any behavior, the AABB used for visibility must be provided by the user.
 */
 type MultiMesh struct {
 	Resource
@@ -71,6 +80,52 @@ func (o *MultiMesh) X_GetColorArray() gdnative.PoolColorArray {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewPoolColorArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: PoolColorArray
+*/
+func (o *MultiMesh) X_GetCustomDataArray() gdnative.PoolColorArray {
+	//log.Println("Calling MultiMesh.X_GetCustomDataArray()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "_get_custom_data_array")
+
+	// Call the parent method.
+	// PoolColorArray
+	retPtr := gdnative.NewEmptyPoolColorArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewPoolColorArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: PoolVector2Array
+*/
+func (o *MultiMesh) X_GetTransform2DArray() gdnative.PoolVector2Array {
+	//log.Println("Calling MultiMesh.X_GetTransform2DArray()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "_get_transform_2d_array")
+
+	// Call the parent method.
+	// PoolVector2Array
+	retPtr := gdnative.NewEmptyPoolVector2Array()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewPoolVector2ArrayFromPointer(retPtr)
 	return ret
 }
 
@@ -120,6 +175,48 @@ func (o *MultiMesh) X_SetColorArray(arg0 gdnative.PoolColorArray) {
 
 /*
         Undocumented
+	Args: [{ false arg0 PoolColorArray}], Returns: void
+*/
+func (o *MultiMesh) X_SetCustomDataArray(arg0 gdnative.PoolColorArray) {
+	//log.Println("Calling MultiMesh.X_SetCustomDataArray()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromPoolColorArray(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "_set_custom_data_array")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 PoolVector2Array}], Returns: void
+*/
+func (o *MultiMesh) X_SetTransform2DArray(arg0 gdnative.PoolVector2Array) {
+	//log.Println("Calling MultiMesh.X_SetTransform2DArray()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "_set_transform_2d_array")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false arg0 PoolVector3Array}], Returns: void
 */
 func (o *MultiMesh) X_SetTransformArray(arg0 gdnative.PoolVector3Array) {
@@ -140,7 +237,7 @@ func (o *MultiMesh) X_SetTransformArray(arg0 gdnative.PoolVector3Array) {
 }
 
 /*
-        Return the visibility AABB.
+        Returns the visibility AABB.
 	Args: [], Returns: AABB
 */
 func (o *MultiMesh) GetAabb() gdnative.Aabb {
@@ -183,6 +280,29 @@ func (o *MultiMesh) GetColorFormat() MultiMeshColorFormat {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
 	return MultiMeshColorFormat(ret)
+}
+
+/*
+        Undocumented
+	Args: [], Returns: enum.MultiMesh::CustomDataFormat
+*/
+func (o *MultiMesh) GetCustomDataFormat() MultiMeshCustomDataFormat {
+	//log.Println("Calling MultiMesh.GetCustomDataFormat()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "get_custom_data_format")
+
+	// Call the parent method.
+	// enum.MultiMesh::CustomDataFormat
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return MultiMeshCustomDataFormat(ret)
 }
 
 /*
@@ -233,7 +353,31 @@ func (o *MultiMesh) GetInstanceCount() gdnative.Int {
 }
 
 /*
-        Return the transform of a specific instance.
+        Returns the custom data that has been set for a specific instance.
+	Args: [{ false instance int}], Returns: Color
+*/
+func (o *MultiMesh) GetInstanceCustomData(instance gdnative.Int) gdnative.Color {
+	//log.Println("Calling MultiMesh.GetInstanceCustomData()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(instance)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "get_instance_custom_data")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the [Transform] of a specific instance.
 	Args: [{ false instance int}], Returns: Transform
 */
 func (o *MultiMesh) GetInstanceTransform(instance gdnative.Int) gdnative.Transform {
@@ -253,6 +397,30 @@ func (o *MultiMesh) GetInstanceTransform(instance gdnative.Int) gdnative.Transfo
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewTransformFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the [Transform2D] of a specific instance.
+	Args: [{ false instance int}], Returns: Transform2D
+*/
+func (o *MultiMesh) GetInstanceTransform2D(instance gdnative.Int) gdnative.Transform2D {
+	//log.Println("Calling MultiMesh.GetInstanceTransform2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(instance)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "get_instance_transform_2d")
+
+	// Call the parent method.
+	// Transform2D
+	retPtr := gdnative.NewEmptyTransform2D()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewTransform2DFromPointer(retPtr)
 	return ret
 }
 
@@ -318,6 +486,50 @@ func (o *MultiMesh) GetTransformFormat() MultiMeshTransformFormat {
 
 /*
         Undocumented
+	Args: [], Returns: int
+*/
+func (o *MultiMesh) GetVisibleInstanceCount() gdnative.Int {
+	//log.Println("Calling MultiMesh.GetVisibleInstanceCount()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "get_visible_instance_count")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false array PoolRealArray}], Returns: void
+*/
+func (o *MultiMesh) SetAsBulkArray(array gdnative.PoolRealArray) {
+	//log.Println("Calling MultiMesh.SetAsBulkArray()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromPoolRealArray(array)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "set_as_bulk_array")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false format int}], Returns: void
 */
 func (o *MultiMesh) SetColorFormat(format gdnative.Int) {
@@ -338,7 +550,28 @@ func (o *MultiMesh) SetColorFormat(format gdnative.Int) {
 }
 
 /*
-        Set the color of a specific instance.
+        Undocumented
+	Args: [{ false format int}], Returns: void
+*/
+func (o *MultiMesh) SetCustomDataFormat(format gdnative.Int) {
+	//log.Println("Calling MultiMesh.SetCustomDataFormat()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(format)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "set_custom_data_format")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Set the color of a specific instance. For the color to take effect, ensure that [member color_format] is non-[code]null[/code] on the [code]MultiMesh[/code] and [member SpatialMaterial.vertex_color_use_as_albedo] is [code]true[/code] on the material.
 	Args: [{ false instance int} { false color Color}], Returns: void
 */
 func (o *MultiMesh) SetInstanceColor(instance gdnative.Int, color gdnative.Color) {
@@ -381,6 +614,28 @@ func (o *MultiMesh) SetInstanceCount(count gdnative.Int) {
 }
 
 /*
+        Set custom data for a specific instance. Although [Color] is used, it is just a container for 4 numbers.
+	Args: [{ false instance int} { false custom_data Color}], Returns: void
+*/
+func (o *MultiMesh) SetInstanceCustomData(instance gdnative.Int, customData gdnative.Color) {
+	//log.Println("Calling MultiMesh.SetInstanceCustomData()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(instance)
+	ptrArguments[1] = gdnative.NewPointerFromColor(customData)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "set_instance_custom_data")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Set the transform for a specific instance.
 	Args: [{ false instance int} { false transform Transform}], Returns: void
 */
@@ -394,6 +649,28 @@ func (o *MultiMesh) SetInstanceTransform(instance gdnative.Int, transform gdnati
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("MultiMesh", "set_instance_transform")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false instance int} { false transform Transform2D}], Returns: void
+*/
+func (o *MultiMesh) SetInstanceTransform2D(instance gdnative.Int, transform gdnative.Transform2D) {
+	//log.Println("Calling MultiMesh.SetInstanceTransform2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(instance)
+	ptrArguments[1] = gdnative.NewPointerFromTransform2D(transform)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "set_instance_transform_2d")
 
 	// Call the parent method.
 	// void
@@ -444,23 +721,56 @@ func (o *MultiMesh) SetTransformFormat(format gdnative.Int) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false count int}], Returns: void
+*/
+func (o *MultiMesh) SetVisibleInstanceCount(count gdnative.Int) {
+	//log.Println("Calling MultiMesh.SetVisibleInstanceCount()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(count)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MultiMesh", "set_visible_instance_count")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // MultiMeshImplementer is an interface that implements the methods
 // of the MultiMesh class.
 type MultiMeshImplementer interface {
 	ResourceImplementer
 	X_GetColorArray() gdnative.PoolColorArray
+	X_GetCustomDataArray() gdnative.PoolColorArray
+	X_GetTransform2DArray() gdnative.PoolVector2Array
 	X_GetTransformArray() gdnative.PoolVector3Array
 	X_SetColorArray(arg0 gdnative.PoolColorArray)
+	X_SetCustomDataArray(arg0 gdnative.PoolColorArray)
+	X_SetTransform2DArray(arg0 gdnative.PoolVector2Array)
 	X_SetTransformArray(arg0 gdnative.PoolVector3Array)
 	GetAabb() gdnative.Aabb
 	GetInstanceColor(instance gdnative.Int) gdnative.Color
 	GetInstanceCount() gdnative.Int
+	GetInstanceCustomData(instance gdnative.Int) gdnative.Color
 	GetInstanceTransform(instance gdnative.Int) gdnative.Transform
+	GetInstanceTransform2D(instance gdnative.Int) gdnative.Transform2D
 	GetMesh() MeshImplementer
+	GetVisibleInstanceCount() gdnative.Int
+	SetAsBulkArray(array gdnative.PoolRealArray)
 	SetColorFormat(format gdnative.Int)
+	SetCustomDataFormat(format gdnative.Int)
 	SetInstanceColor(instance gdnative.Int, color gdnative.Color)
 	SetInstanceCount(count gdnative.Int)
+	SetInstanceCustomData(instance gdnative.Int, customData gdnative.Color)
 	SetInstanceTransform(instance gdnative.Int, transform gdnative.Transform)
+	SetInstanceTransform2D(instance gdnative.Int, transform gdnative.Transform2D)
 	SetMesh(mesh MeshImplementer)
 	SetTransformFormat(format gdnative.Int)
+	SetVisibleInstanceCount(count gdnative.Int)
 }

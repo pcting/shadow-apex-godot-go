@@ -33,7 +33,7 @@ func newDynamicFontFromPointer(ptr gdnative.Pointer) DynamicFont {
 }
 
 /*
-DynamicFont renders vector font files (such as TTF or OTF) dynamically at runtime instead of using a prerendered texture atlas like [BitmapFont]. This trades the faster loading time of [BitmapFont]s for the ability to change font parameters like size and spacing during runtime. [DynamicFontData] is used for referencing the font file paths.
+DynamicFont renders vector font files (such as TTF or OTF) dynamically at runtime instead of using a prerendered texture atlas like [BitmapFont]. This trades the faster loading time of [BitmapFont]s for the ability to change font parameters like size and spacing during runtime. [DynamicFontData] is used for referencing the font file paths. [codeblock] var dynamic_font = DynamicFont.new() dynamic_font.font_data = load("res://BarlowCondensed-Bold.ttf") dynamic_font.size = 64 $"Label".set("custom_fonts/font", dynamic_font) [/codeblock]
 */
 type DynamicFont struct {
 	Font
@@ -161,6 +161,52 @@ func (o *DynamicFont) GetFontData() DynamicFontDataImplementer {
 	}
 
 	return &ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Color
+*/
+func (o *DynamicFont) GetOutlineColor() gdnative.Color {
+	//log.Println("Calling DynamicFont.GetOutlineColor()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("DynamicFont", "get_outline_color")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *DynamicFont) GetOutlineSize() gdnative.Int {
+	//log.Println("Calling DynamicFont.GetOutlineSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("DynamicFont", "get_outline_size")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -322,6 +368,48 @@ func (o *DynamicFont) SetFontData(data DynamicFontDataImplementer) {
 
 /*
         Undocumented
+	Args: [{ false color Color}], Returns: void
+*/
+func (o *DynamicFont) SetOutlineColor(color gdnative.Color) {
+	//log.Println("Calling DynamicFont.SetOutlineColor()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromColor(color)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("DynamicFont", "set_outline_color")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false size int}], Returns: void
+*/
+func (o *DynamicFont) SetOutlineSize(size gdnative.Int) {
+	//log.Println("Calling DynamicFont.SetOutlineSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(size)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("DynamicFont", "set_outline_size")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false data int}], Returns: void
 */
 func (o *DynamicFont) SetSize(data gdnative.Int) {
@@ -413,6 +501,8 @@ type DynamicFontImplementer interface {
 	GetFallback(idx gdnative.Int) DynamicFontDataImplementer
 	GetFallbackCount() gdnative.Int
 	GetFontData() DynamicFontDataImplementer
+	GetOutlineColor() gdnative.Color
+	GetOutlineSize() gdnative.Int
 	GetSize() gdnative.Int
 	GetSpacing(aType gdnative.Int) gdnative.Int
 	GetUseFilter() gdnative.Bool
@@ -420,6 +510,8 @@ type DynamicFontImplementer interface {
 	RemoveFallback(idx gdnative.Int)
 	SetFallback(idx gdnative.Int, data DynamicFontDataImplementer)
 	SetFontData(data DynamicFontDataImplementer)
+	SetOutlineColor(color gdnative.Color)
+	SetOutlineSize(size gdnative.Int)
 	SetSize(data gdnative.Int)
 	SetSpacing(aType gdnative.Int, value gdnative.Int)
 	SetUseFilter(enable gdnative.Bool)

@@ -23,8 +23,8 @@ func newSceneTreeTimerFromPointer(ptr gdnative.Pointer) SceneTreeTimer {
 }
 
 /*
-
- */
+A one-shot timer managed by the scene tree, which emits [signal timeout] on completion. See also [method SceneTree.create_timer]. As opposed to [Timer], it does not require the instantiation of a node. Commonly used to create a one-shot delay timer as in the following example: [codeblock] func some_function(): print("start") yield(get_tree().create_timer(1.0), "timeout") print("end") [/codeblock]
+*/
 type SceneTreeTimer struct {
 	Reference
 	owner gdnative.Object

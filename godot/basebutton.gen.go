@@ -25,10 +25,11 @@ const (
 type BaseButtonDrawMode int
 
 const (
-	BaseButtonDrawDisabled BaseButtonDrawMode = 3
-	BaseButtonDrawHover    BaseButtonDrawMode = 2
-	BaseButtonDrawNormal   BaseButtonDrawMode = 0
-	BaseButtonDrawPressed  BaseButtonDrawMode = 1
+	BaseButtonDrawDisabled     BaseButtonDrawMode = 3
+	BaseButtonDrawHover        BaseButtonDrawMode = 2
+	BaseButtonDrawHoverPressed BaseButtonDrawMode = 4
+	BaseButtonDrawNormal       BaseButtonDrawMode = 0
+	BaseButtonDrawPressed      BaseButtonDrawMode = 1
 )
 
 //func NewBaseButtonFromPointer(ptr gdnative.Pointer) BaseButton {
@@ -74,7 +75,7 @@ func (o *BaseButton) X_GuiInput(arg0 InputEventImplementer) {
 }
 
 /*
-        Called when button is pressed.
+        Called when the button is pressed.
 	Args: [], Returns: void
 */
 func (o *BaseButton) X_Pressed() {
@@ -94,7 +95,7 @@ func (o *BaseButton) X_Pressed() {
 }
 
 /*
-        Called when button is toggled (only if toggle_mode is active).
+        Called when the button is toggled (only if toggle_mode is active).
 	Args: [{ false button_pressed bool}], Returns: void
 */
 func (o *BaseButton) X_Toggled(buttonPressed gdnative.Bool) {
@@ -196,7 +197,30 @@ func (o *BaseButton) GetButtonGroup() ButtonGroupImplementer {
 }
 
 /*
-        Return the visual state used to draw the button. This is useful mainly when implementing your own draw code by either overriding _draw() or connecting to "draw" signal. The visual state of the button is defined by the DRAW_* enum.
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *BaseButton) GetButtonMask() gdnative.Int {
+	//log.Println("Calling BaseButton.GetButtonMask()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("BaseButton", "get_button_mask")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the visual state used to draw the button. This is useful mainly when implementing your own draw code by either overriding _draw() or connecting to "draw" signal. The visual state of the button is defined by the DRAW_* enum.
 	Args: [], Returns: enum.BaseButton::DrawMode
 */
 func (o *BaseButton) GetDrawMode() BaseButtonDrawMode {
@@ -302,7 +326,7 @@ func (o *BaseButton) IsDisabled() gdnative.Bool {
 }
 
 /*
-        Return true if mouse entered the button before it exit.
+        Returns [code]true[/code] if the mouse has entered the button and has not left it yet.
 	Args: [], Returns: bool
 */
 func (o *BaseButton) IsHovered() gdnative.Bool {
@@ -328,6 +352,29 @@ func (o *BaseButton) IsHovered() gdnative.Bool {
         Undocumented
 	Args: [], Returns: bool
 */
+func (o *BaseButton) IsKeepPressedOutside() gdnative.Bool {
+	//log.Println("Calling BaseButton.IsKeepPressedOutside()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("BaseButton", "is_keep_pressed_outside")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
 func (o *BaseButton) IsPressed() gdnative.Bool {
 	//log.Println("Calling BaseButton.IsPressed()")
 
@@ -336,6 +383,29 @@ func (o *BaseButton) IsPressed() gdnative.Bool {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("BaseButton", "is_pressed")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *BaseButton) IsShortcutInTooltipEnabled() gdnative.Bool {
+	//log.Println("Calling BaseButton.IsShortcutInTooltipEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("BaseButton", "is_shortcut_in_tooltip_enabled")
 
 	// Call the parent method.
 	// bool
@@ -414,6 +484,27 @@ func (o *BaseButton) SetButtonGroup(buttonGroup ButtonGroupImplementer) {
 
 /*
         Undocumented
+	Args: [{ false mask int}], Returns: void
+*/
+func (o *BaseButton) SetButtonMask(mask gdnative.Int) {
+	//log.Println("Calling BaseButton.SetButtonMask()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(mask)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("BaseButton", "set_button_mask")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false disabled bool}], Returns: void
 */
 func (o *BaseButton) SetDisabled(disabled gdnative.Bool) {
@@ -446,6 +537,27 @@ func (o *BaseButton) SetEnabledFocusMode(mode gdnative.Int) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("BaseButton", "set_enabled_focus_mode")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enabled bool}], Returns: void
+*/
+func (o *BaseButton) SetKeepPressedOutside(enabled gdnative.Bool) {
+	//log.Println("Calling BaseButton.SetKeepPressedOutside()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("BaseButton", "set_keep_pressed_outside")
 
 	// Call the parent method.
 	// void
@@ -500,6 +612,27 @@ func (o *BaseButton) SetShortcut(shortcut ShortCutImplementer) {
         Undocumented
 	Args: [{ false enabled bool}], Returns: void
 */
+func (o *BaseButton) SetShortcutInTooltip(enabled gdnative.Bool) {
+	//log.Println("Calling BaseButton.SetShortcutInTooltip()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("BaseButton", "set_shortcut_in_tooltip")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enabled bool}], Returns: void
+*/
 func (o *BaseButton) SetToggleMode(enabled gdnative.Bool) {
 	//log.Println("Calling BaseButton.SetToggleMode()")
 
@@ -524,16 +657,22 @@ type BaseButtonImplementer interface {
 	X_Pressed()
 	X_Toggled(buttonPressed gdnative.Bool)
 	GetButtonGroup() ButtonGroupImplementer
+	GetButtonMask() gdnative.Int
 	GetShortcut() ShortCutImplementer
 	IsDisabled() gdnative.Bool
 	IsHovered() gdnative.Bool
+	IsKeepPressedOutside() gdnative.Bool
 	IsPressed() gdnative.Bool
+	IsShortcutInTooltipEnabled() gdnative.Bool
 	IsToggleMode() gdnative.Bool
 	SetActionMode(mode gdnative.Int)
 	SetButtonGroup(buttonGroup ButtonGroupImplementer)
+	SetButtonMask(mask gdnative.Int)
 	SetDisabled(disabled gdnative.Bool)
 	SetEnabledFocusMode(mode gdnative.Int)
+	SetKeepPressedOutside(enabled gdnative.Bool)
 	SetPressed(pressed gdnative.Bool)
 	SetShortcut(shortcut ShortCutImplementer)
+	SetShortcutInTooltip(enabled gdnative.Bool)
 	SetToggleMode(enabled gdnative.Bool)
 }

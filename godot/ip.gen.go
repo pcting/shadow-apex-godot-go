@@ -145,6 +145,30 @@ func (o *ip) GetLocalAddresses() gdnative.Array {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: Array
+*/
+func (o *ip) GetLocalInterfaces() gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling IP.GetLocalInterfaces()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("IP", "get_local_interfaces")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns a queued hostname's IP address, given its queue "id". Returns an empty string on error or if resolution hasn't happened yet (see [method get_resolve_item_status]).
 	Args: [{ false id int}], Returns: String
 */
@@ -253,6 +277,7 @@ type IPImplementer interface {
 	ClearCache(hostname gdnative.String)
 	EraseResolveItem(id gdnative.Int)
 	GetLocalAddresses() gdnative.Array
+	GetLocalInterfaces() gdnative.Array
 	GetResolveItemAddress(id gdnative.Int) gdnative.String
 	ResolveHostname(host gdnative.String, ipType gdnative.Int) gdnative.String
 	ResolveHostnameQueueItem(host gdnative.String, ipType gdnative.Int) gdnative.Int

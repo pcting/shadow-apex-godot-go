@@ -23,7 +23,7 @@ func newVSplitContainerFromPointer(ptr gdnative.Pointer) VSplitContainer {
 }
 
 /*
-Vertical split container. See [SplitContainer]. This goes from left to right.
+Vertical split container. See [SplitContainer]. This goes from top to bottom.
 */
 type VSplitContainer struct {
 	SplitContainer

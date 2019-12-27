@@ -43,7 +43,7 @@ func newLabelFromPointer(ptr gdnative.Pointer) Label {
 }
 
 /*
-Label displays plain text on the screen. It gives you control over the horizontal and vertical alignment, and can wrap the text inside the node's bounding rectangle. It doesn't support bold, italics or other formatting. For that, use [RichTextLabel] instead. Note that contrarily to most other [Control]s, Label's [member Control.mouse_filter] defaults to MOUSE_FILTER_IGNORE (i.e. it doesn't react to mouse input events).
+Label displays plain text on the screen. It gives you control over the horizontal and vertical alignment, and can wrap the text inside the node's bounding rectangle. It doesn't support bold, italics or other formatting. For that, use [RichTextLabel] instead. Note that contrarily to most other [Control]s, Label's [member Control.mouse_filter] defaults to MOUSE_FILTER_IGNORE (i.e. it doesn't react to mouse input events). This implies that a label won't display any configured [member Control.hint_tooltip], unless you change its mouse filter.
 */
 type Label struct {
 	Control
@@ -216,7 +216,7 @@ func (o *Label) GetText() gdnative.String {
 }
 
 /*
-        Returns the total length of the text.
+        Returns the total number of printable characters in the text (excluding spaces and newlines).
 	Args: [], Returns: int
 */
 func (o *Label) GetTotalCharacterCount() gdnative.Int {

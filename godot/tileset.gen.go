@@ -31,8 +31,18 @@ const (
 type TileSetBitmaskMode int
 
 const (
-	TileSetBitmask2X2 TileSetBitmaskMode = 0
-	TileSetBitmask3X3 TileSetBitmaskMode = 1
+	TileSetBitmask2X2        TileSetBitmaskMode = 0
+	TileSetBitmask3X3        TileSetBitmaskMode = 2
+	TileSetBitmask3X3Minimal TileSetBitmaskMode = 1
+)
+
+// TileSetTileMode is an enum for TileMode values.
+type TileSetTileMode int
+
+const (
+	TileSetAtlasTile  TileSetTileMode = 2
+	TileSetAutoTile   TileSetTileMode = 1
+	TileSetSingleTile TileSetTileMode = 0
 )
 
 //func NewTileSetFromPointer(ptr gdnative.Pointer) TileSet {
@@ -54,6 +64,32 @@ type TileSet struct {
 
 func (o *TileSet) BaseClass() string {
 	return "TileSet"
+}
+
+/*
+        Undocumented
+	Args: [{ false atlastile_id int} { false tilemap Object} { false tile_location Vector2}], Returns: Vector2
+*/
+func (o *TileSet) X_ForwardAtlasSubtileSelection(atlastileId gdnative.Int, tilemap ObjectImplementer, tileLocation gdnative.Vector2) gdnative.Vector2 {
+	//log.Println("Calling TileSet.X_ForwardAtlasSubtileSelection()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(atlastileId)
+	ptrArguments[1] = gdnative.NewPointerFromObject(tilemap.GetBaseObject())
+	ptrArguments[2] = gdnative.NewPointerFromVector2(tileLocation)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "_forward_atlas_subtile_selection")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -109,7 +145,53 @@ func (o *TileSet) X_IsTileBound(drawnId gdnative.Int, neighborId gdnative.Int) g
 }
 
 /*
+        Clears all bitmask info of the autotile.
+	Args: [{ false id int}], Returns: void
+*/
+func (o *TileSet) AutotileClearBitmaskMap(id gdnative.Int) {
+	//log.Println("Calling TileSet.AutotileClearBitmaskMap()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_clear_bitmask_map")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Returns the bitmask of the subtile from an autotile given its coordinates. The value is the sum of the values in [enum TileSet.AutotileBindings] present in the subtile (e.g. a value of 5 means the bitmask has bindings in both the top left and top right).
+	Args: [{ false id int} { false coord Vector2}], Returns: int
+*/
+func (o *TileSet) AutotileGetBitmask(id gdnative.Int, coord gdnative.Vector2) gdnative.Int {
+	//log.Println("Calling TileSet.AutotileGetBitmask()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(coord)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_get_bitmask")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the [enum TileSet.BitmaskMode] of the autotile.
 	Args: [{ false id int}], Returns: enum.TileSet::BitmaskMode
 */
 func (o *TileSet) AutotileGetBitmaskMode(id gdnative.Int) TileSetBitmaskMode {
@@ -133,7 +215,230 @@ func (o *TileSet) AutotileGetBitmaskMode(id gdnative.Int) TileSetBitmaskMode {
 }
 
 /*
+        Returns the subtile that's being used as an icon in an atlas/autotile given its coordinates. The subtile defined as the icon will be used as a fallback when the atlas/autotile's bitmask info is incomplete. It will also be used to represent it in the TileSet editor.
+	Args: [{ false id int}], Returns: Vector2
+*/
+func (o *TileSet) AutotileGetIconCoordinate(id gdnative.Int) gdnative.Vector2 {
+	//log.Println("Calling TileSet.AutotileGetIconCoordinate()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_get_icon_coordinate")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the light occluder of the subtile from an atlas/autotile given its coordinates.
+	Args: [{ false id int} { false coord Vector2}], Returns: OccluderPolygon2D
+*/
+func (o *TileSet) AutotileGetLightOccluder(id gdnative.Int, coord gdnative.Vector2) OccluderPolygon2DImplementer {
+	//log.Println("Calling TileSet.AutotileGetLightOccluder()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(coord)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_get_light_occluder")
+
+	// Call the parent method.
+	// OccluderPolygon2D
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newOccluderPolygon2DFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(OccluderPolygon2DImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "OccluderPolygon2D" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(OccluderPolygon2DImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Returns the navigation polygon of the subtile from an atlas/autotile given its coordinates.
+	Args: [{ false id int} { false coord Vector2}], Returns: NavigationPolygon
+*/
+func (o *TileSet) AutotileGetNavigationPolygon(id gdnative.Int, coord gdnative.Vector2) NavigationPolygonImplementer {
+	//log.Println("Calling TileSet.AutotileGetNavigationPolygon()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(coord)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_get_navigation_polygon")
+
+	// Call the parent method.
+	// NavigationPolygon
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newNavigationPolygonFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(NavigationPolygonImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "NavigationPolygon" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(NavigationPolygonImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Returns the size of the subtiles in an atlas/autotile.
+	Args: [{ false id int}], Returns: Vector2
+*/
+func (o *TileSet) AutotileGetSize(id gdnative.Int) gdnative.Vector2 {
+	//log.Println("Calling TileSet.AutotileGetSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_get_size")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the spacing between subtiles of the atlas/autotile.
+	Args: [{ false id int}], Returns: int
+*/
+func (o *TileSet) AutotileGetSpacing(id gdnative.Int) gdnative.Int {
+	//log.Println("Calling TileSet.AutotileGetSpacing()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_get_spacing")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the priority of the subtile from an autotile given its coordinates. When more than one subtile has the same bitmask value, one of them will be picked randomly for drawing. Its priority will define how often it will be picked.
+	Args: [{ false id int} { false coord Vector2}], Returns: int
+*/
+func (o *TileSet) AutotileGetSubtilePriority(id gdnative.Int, coord gdnative.Vector2) gdnative.Int {
+	//log.Println("Calling TileSet.AutotileGetSubtilePriority()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(coord)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_get_subtile_priority")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the drawing index of the subtile from an atlas/autotile given its coordinates.
+	Args: [{ false id int} { false coord Vector2}], Returns: int
+*/
+func (o *TileSet) AutotileGetZIndex(id gdnative.Int, coord gdnative.Vector2) gdnative.Int {
+	//log.Println("Calling TileSet.AutotileGetZIndex()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(coord)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_get_z_index")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Sets the bitmask of the subtile from an autotile given its coordinates. The value is the sum of the values in [enum TileSet.AutotileBindings] present in the subtile (e.g. a value of 5 means the bitmask has bindings in both the top left and top right).
+	Args: [{ false id int} { false bitmask Vector2} { false flag int}], Returns: void
+*/
+func (o *TileSet) AutotileSetBitmask(id gdnative.Int, bitmask gdnative.Vector2, flag gdnative.Int) {
+	//log.Println("Calling TileSet.AutotileSetBitmask()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(bitmask)
+	ptrArguments[2] = gdnative.NewPointerFromInt(flag)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_set_bitmask")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the [enum TileSet.BitmaskMode] of the autotile.
 	Args: [{ false id int} { false mode int}], Returns: void
 */
 func (o *TileSet) AutotileSetBitmaskMode(id gdnative.Int, mode gdnative.Int) {
@@ -155,7 +460,165 @@ func (o *TileSet) AutotileSetBitmaskMode(id gdnative.Int, mode gdnative.Int) {
 }
 
 /*
-        Clear all tiles.
+        Sets the subtile that will be used as an icon in an atlas/autotile given its coordinates. The subtile defined as the icon will be used as a fallback when the atlas/autotile's bitmask info is incomplete. It will also be used to represent it in the TileSet editor.
+	Args: [{ false id int} { false coord Vector2}], Returns: void
+*/
+func (o *TileSet) AutotileSetIconCoordinate(id gdnative.Int, coord gdnative.Vector2) {
+	//log.Println("Calling TileSet.AutotileSetIconCoordinate()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(coord)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_set_icon_coordinate")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the light occluder of the subtile from an atlas/autotile given its coordinates.
+	Args: [{ false id int} { false light_occluder OccluderPolygon2D} { false coord Vector2}], Returns: void
+*/
+func (o *TileSet) AutotileSetLightOccluder(id gdnative.Int, lightOccluder OccluderPolygon2DImplementer, coord gdnative.Vector2) {
+	//log.Println("Calling TileSet.AutotileSetLightOccluder()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromObject(lightOccluder.GetBaseObject())
+	ptrArguments[2] = gdnative.NewPointerFromVector2(coord)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_set_light_occluder")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the navigation polygon of the subtile from an atlas/autotile given its coordinates.
+	Args: [{ false id int} { false navigation_polygon NavigationPolygon} { false coord Vector2}], Returns: void
+*/
+func (o *TileSet) AutotileSetNavigationPolygon(id gdnative.Int, navigationPolygon NavigationPolygonImplementer, coord gdnative.Vector2) {
+	//log.Println("Calling TileSet.AutotileSetNavigationPolygon()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromObject(navigationPolygon.GetBaseObject())
+	ptrArguments[2] = gdnative.NewPointerFromVector2(coord)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_set_navigation_polygon")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the size of the subtiles in an atlas/autotile.
+	Args: [{ false id int} { false size Vector2}], Returns: void
+*/
+func (o *TileSet) AutotileSetSize(id gdnative.Int, size gdnative.Vector2) {
+	//log.Println("Calling TileSet.AutotileSetSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(size)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_set_size")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the spacing between subtiles of the atlas/autotile.
+	Args: [{ false id int} { false spacing int}], Returns: void
+*/
+func (o *TileSet) AutotileSetSpacing(id gdnative.Int, spacing gdnative.Int) {
+	//log.Println("Calling TileSet.AutotileSetSpacing()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromInt(spacing)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_set_spacing")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the priority of the subtile from an autotile given its coordinates. When more than one subtile has the same bitmask value, one of them will be picked randomly for drawing. Its priority will define how often it will be picked.
+	Args: [{ false id int} { false coord Vector2} { false priority int}], Returns: void
+*/
+func (o *TileSet) AutotileSetSubtilePriority(id gdnative.Int, coord gdnative.Vector2, priority gdnative.Int) {
+	//log.Println("Calling TileSet.AutotileSetSubtilePriority()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(coord)
+	ptrArguments[2] = gdnative.NewPointerFromInt(priority)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_set_subtile_priority")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the drawing index of the subtile from an atlas/autotile given its coordinates.
+	Args: [{ false id int} { false coord Vector2} { false z_index int}], Returns: void
+*/
+func (o *TileSet) AutotileSetZIndex(id gdnative.Int, coord gdnative.Vector2, zIndex gdnative.Int) {
+	//log.Println("Calling TileSet.AutotileSetZIndex()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(coord)
+	ptrArguments[2] = gdnative.NewPointerFromInt(zIndex)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "autotile_set_z_index")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Clears all tiles.
 	Args: [], Returns: void
 */
 func (o *TileSet) Clear() {
@@ -175,7 +638,7 @@ func (o *TileSet) Clear() {
 }
 
 /*
-        Create a new tile which will be referenced by the given ID.
+        Creates a new tile with the given ID.
 	Args: [{ false id int}], Returns: void
 */
 func (o *TileSet) CreateTile(id gdnative.Int) {
@@ -196,7 +659,7 @@ func (o *TileSet) CreateTile(id gdnative.Int) {
 }
 
 /*
-        Find the first tile matching the given name.
+        Returns the first tile matching the given name.
 	Args: [{ false name String}], Returns: int
 */
 func (o *TileSet) FindTileByName(name gdnative.String) gdnative.Int {
@@ -220,7 +683,7 @@ func (o *TileSet) FindTileByName(name gdnative.String) gdnative.Int {
 }
 
 /*
-        Return the ID following the last currently used ID, useful when creating a new tile.
+        Returns the ID following the last currently used ID, useful when creating a new tile.
 	Args: [], Returns: int
 */
 func (o *TileSet) GetLastUnusedTileId() gdnative.Int {
@@ -243,7 +706,7 @@ func (o *TileSet) GetLastUnusedTileId() gdnative.Int {
 }
 
 /*
-        Return an array of all currently used tile IDs.
+        Returns an array of all currently used tile IDs.
 	Args: [], Returns: Array
 */
 func (o *TileSet) GetTilesIds() gdnative.Array {
@@ -266,7 +729,7 @@ func (o *TileSet) GetTilesIds() gdnative.Array {
 }
 
 /*
-        Remove the tile referenced by the given ID.
+        Removes the given tile ID.
 	Args: [{ false id int}], Returns: void
 */
 func (o *TileSet) RemoveTile(id gdnative.Int) {
@@ -287,7 +750,7 @@ func (o *TileSet) RemoveTile(id gdnative.Int) {
 }
 
 /*
-
+        Adds a shape to the tile.
 	Args: [{ false id int} { false shape Shape2D} { false shape_transform Transform2D} {False true one_way bool} {(0, 0) true autotile_coord Vector2}], Returns: void
 */
 func (o *TileSet) TileAddShape(id gdnative.Int, shape Shape2DImplementer, shapeTransform gdnative.Transform2D, oneWay gdnative.Bool, autotileCoord gdnative.Vector2) {
@@ -312,7 +775,7 @@ func (o *TileSet) TileAddShape(id gdnative.Int, shape Shape2DImplementer, shapeT
 }
 
 /*
-        Return the light occluder of the tile.
+        Returns the tile's light occluder.
 	Args: [{ false id int}], Returns: OccluderPolygon2D
 */
 func (o *TileSet) TileGetLightOccluder(id gdnative.Int) OccluderPolygon2DImplementer {
@@ -350,7 +813,7 @@ func (o *TileSet) TileGetLightOccluder(id gdnative.Int) OccluderPolygon2DImpleme
 }
 
 /*
-        Return the material of the tile.
+        Returns the tile's material.
 	Args: [{ false id int}], Returns: ShaderMaterial
 */
 func (o *TileSet) TileGetMaterial(id gdnative.Int) ShaderMaterialImplementer {
@@ -388,7 +851,31 @@ func (o *TileSet) TileGetMaterial(id gdnative.Int) ShaderMaterialImplementer {
 }
 
 /*
-        Return the name of the tile.
+        Returns the tile's modulation color.
+	Args: [{ false id int}], Returns: Color
+*/
+func (o *TileSet) TileGetModulate(id gdnative.Int) gdnative.Color {
+	//log.Println("Calling TileSet.TileGetModulate()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "tile_get_modulate")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the tile's name.
 	Args: [{ false id int}], Returns: String
 */
 func (o *TileSet) TileGetName(id gdnative.Int) gdnative.String {
@@ -412,7 +899,7 @@ func (o *TileSet) TileGetName(id gdnative.Int) gdnative.String {
 }
 
 /*
-        Return the navigation polygon of the tile.
+        Returns the navigation polygon of the tile.
 	Args: [{ false id int}], Returns: NavigationPolygon
 */
 func (o *TileSet) TileGetNavigationPolygon(id gdnative.Int) NavigationPolygonImplementer {
@@ -450,7 +937,7 @@ func (o *TileSet) TileGetNavigationPolygon(id gdnative.Int) NavigationPolygonImp
 }
 
 /*
-        Return the offset of the tile's navigation polygon.
+        Returns the offset of the tile's navigation polygon.
 	Args: [{ false id int}], Returns: Vector2
 */
 func (o *TileSet) TileGetNavigationPolygonOffset(id gdnative.Int) gdnative.Vector2 {
@@ -474,7 +961,7 @@ func (o *TileSet) TileGetNavigationPolygonOffset(id gdnative.Int) gdnative.Vecto
 }
 
 /*
-
+        Returns the tile's normal map texture.
 	Args: [{ false id int}], Returns: Texture
 */
 func (o *TileSet) TileGetNormalMap(id gdnative.Int) TextureImplementer {
@@ -512,7 +999,7 @@ func (o *TileSet) TileGetNormalMap(id gdnative.Int) TextureImplementer {
 }
 
 /*
-        Return the offset of the tile's light occluder.
+        Returns the offset of the tile's light occluder.
 	Args: [{ false id int}], Returns: Vector2
 */
 func (o *TileSet) TileGetOccluderOffset(id gdnative.Int) gdnative.Vector2 {
@@ -536,7 +1023,7 @@ func (o *TileSet) TileGetOccluderOffset(id gdnative.Int) gdnative.Vector2 {
 }
 
 /*
-        Return the tile sub-region in the texture.
+        Returns the tile sub-region in the texture.
 	Args: [{ false id int}], Returns: Rect2
 */
 func (o *TileSet) TileGetRegion(id gdnative.Int) gdnative.Rect2 {
@@ -560,7 +1047,7 @@ func (o *TileSet) TileGetRegion(id gdnative.Int) gdnative.Rect2 {
 }
 
 /*
-
+        Returns a tile's given shape.
 	Args: [{ false id int} { false shape_id int}], Returns: Shape2D
 */
 func (o *TileSet) TileGetShape(id gdnative.Int, shapeId gdnative.Int) Shape2DImplementer {
@@ -599,7 +1086,7 @@ func (o *TileSet) TileGetShape(id gdnative.Int, shapeId gdnative.Int) Shape2DImp
 }
 
 /*
-
+        Returns the number of shapes assigned to a tile.
 	Args: [{ false id int}], Returns: int
 */
 func (o *TileSet) TileGetShapeCount(id gdnative.Int) gdnative.Int {
@@ -623,7 +1110,32 @@ func (o *TileSet) TileGetShapeCount(id gdnative.Int) gdnative.Int {
 }
 
 /*
+        Returns the offset of a tile's shape.
+	Args: [{ false id int} { false shape_id int}], Returns: Vector2
+*/
+func (o *TileSet) TileGetShapeOffset(id gdnative.Int, shapeId gdnative.Int) gdnative.Vector2 {
+	//log.Println("Calling TileSet.TileGetShapeOffset()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromInt(shapeId)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "tile_get_shape_offset")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the one-way collision value of a tile's shape.
 	Args: [{ false id int} { false shape_id int}], Returns: bool
 */
 func (o *TileSet) TileGetShapeOneWay(id gdnative.Int, shapeId gdnative.Int) gdnative.Bool {
@@ -649,6 +1161,31 @@ func (o *TileSet) TileGetShapeOneWay(id gdnative.Int, shapeId gdnative.Int) gdna
 
 /*
 
+	Args: [{ false id int} { false shape_id int}], Returns: float
+*/
+func (o *TileSet) TileGetShapeOneWayMargin(id gdnative.Int, shapeId gdnative.Int) gdnative.Real {
+	//log.Println("Calling TileSet.TileGetShapeOneWayMargin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromInt(shapeId)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "tile_get_shape_one_way_margin")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the [Transform2D] of a tile's shape.
 	Args: [{ false id int} { false shape_id int}], Returns: Transform2D
 */
 func (o *TileSet) TileGetShapeTransform(id gdnative.Int, shapeId gdnative.Int) gdnative.Transform2D {
@@ -673,7 +1210,7 @@ func (o *TileSet) TileGetShapeTransform(id gdnative.Int, shapeId gdnative.Int) g
 }
 
 /*
-        Return the array of shapes of the tile.
+        Returns an array of the tile's shapes.
 	Args: [{ false id int}], Returns: Array
 */
 func (o *TileSet) TileGetShapes(id gdnative.Int) gdnative.Array {
@@ -697,7 +1234,7 @@ func (o *TileSet) TileGetShapes(id gdnative.Int) gdnative.Array {
 }
 
 /*
-        Return the texture of the tile.
+        Returns the tile's texture.
 	Args: [{ false id int}], Returns: Texture
 */
 func (o *TileSet) TileGetTexture(id gdnative.Int) TextureImplementer {
@@ -735,7 +1272,7 @@ func (o *TileSet) TileGetTexture(id gdnative.Int) TextureImplementer {
 }
 
 /*
-        Return the texture offset of the tile.
+        Returns the texture offset of the tile.
 	Args: [{ false id int}], Returns: Vector2
 */
 func (o *TileSet) TileGetTextureOffset(id gdnative.Int) gdnative.Vector2 {
@@ -759,7 +1296,55 @@ func (o *TileSet) TileGetTextureOffset(id gdnative.Int) gdnative.Vector2 {
 }
 
 /*
-        Set a light occluder for the tile.
+        Returns the tile's [enum TileSet.TileMode].
+	Args: [{ false id int}], Returns: enum.TileSet::TileMode
+*/
+func (o *TileSet) TileGetTileMode(id gdnative.Int) TileSetTileMode {
+	//log.Println("Calling TileSet.TileGetTileMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "tile_get_tile_mode")
+
+	// Call the parent method.
+	// enum.TileSet::TileMode
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return TileSetTileMode(ret)
+}
+
+/*
+        Returns the tile's z-index (drawing layer).
+	Args: [{ false id int}], Returns: int
+*/
+func (o *TileSet) TileGetZIndex(id gdnative.Int) gdnative.Int {
+	//log.Println("Calling TileSet.TileGetZIndex()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "tile_get_z_index")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Sets a light occluder for the tile.
 	Args: [{ false id int} { false light_occluder OccluderPolygon2D}], Returns: void
 */
 func (o *TileSet) TileSetLightOccluder(id gdnative.Int, lightOccluder OccluderPolygon2DImplementer) {
@@ -781,7 +1366,7 @@ func (o *TileSet) TileSetLightOccluder(id gdnative.Int, lightOccluder OccluderPo
 }
 
 /*
-        Set the material of the tile.
+        Sets the tile's material.
 	Args: [{ false id int} { false material ShaderMaterial}], Returns: void
 */
 func (o *TileSet) TileSetMaterial(id gdnative.Int, material ShaderMaterialImplementer) {
@@ -803,7 +1388,29 @@ func (o *TileSet) TileSetMaterial(id gdnative.Int, material ShaderMaterialImplem
 }
 
 /*
-        Set the name of the tile, for descriptive purposes.
+        Sets the tile's modulation color.
+	Args: [{ false id int} { false color Color}], Returns: void
+*/
+func (o *TileSet) TileSetModulate(id gdnative.Int, color gdnative.Color) {
+	//log.Println("Calling TileSet.TileSetModulate()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromColor(color)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "tile_set_modulate")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the tile's name.
 	Args: [{ false id int} { false name String}], Returns: void
 */
 func (o *TileSet) TileSetName(id gdnative.Int, name gdnative.String) {
@@ -825,7 +1432,7 @@ func (o *TileSet) TileSetName(id gdnative.Int, name gdnative.String) {
 }
 
 /*
-        Set a navigation polygon for the tile.
+        Sets the tile's navigation polygon.
 	Args: [{ false id int} { false navigation_polygon NavigationPolygon}], Returns: void
 */
 func (o *TileSet) TileSetNavigationPolygon(id gdnative.Int, navigationPolygon NavigationPolygonImplementer) {
@@ -847,7 +1454,7 @@ func (o *TileSet) TileSetNavigationPolygon(id gdnative.Int, navigationPolygon Na
 }
 
 /*
-        Set an offset for the tile's navigation polygon.
+        Sets an offset for the tile's navigation polygon.
 	Args: [{ false id int} { false navigation_polygon_offset Vector2}], Returns: void
 */
 func (o *TileSet) TileSetNavigationPolygonOffset(id gdnative.Int, navigationPolygonOffset gdnative.Vector2) {
@@ -869,7 +1476,7 @@ func (o *TileSet) TileSetNavigationPolygonOffset(id gdnative.Int, navigationPoly
 }
 
 /*
-
+        Sets the tile's normal map texture.
 	Args: [{ false id int} { false normal_map Texture}], Returns: void
 */
 func (o *TileSet) TileSetNormalMap(id gdnative.Int, normalMap TextureImplementer) {
@@ -891,7 +1498,7 @@ func (o *TileSet) TileSetNormalMap(id gdnative.Int, normalMap TextureImplementer
 }
 
 /*
-        Set an offset for the tile's light occluder.
+        Sets an offset for the tile's light occluder.
 	Args: [{ false id int} { false occluder_offset Vector2}], Returns: void
 */
 func (o *TileSet) TileSetOccluderOffset(id gdnative.Int, occluderOffset gdnative.Vector2) {
@@ -913,7 +1520,7 @@ func (o *TileSet) TileSetOccluderOffset(id gdnative.Int, occluderOffset gdnative
 }
 
 /*
-        Set the tile sub-region in the texture. This is common in texture atlases.
+        Sets the tile's sub-region in the texture. This is common in texture atlases.
 	Args: [{ false id int} { false region Rect2}], Returns: void
 */
 func (o *TileSet) TileSetRegion(id gdnative.Int, region gdnative.Rect2) {
@@ -935,7 +1542,7 @@ func (o *TileSet) TileSetRegion(id gdnative.Int, region gdnative.Rect2) {
 }
 
 /*
-
+        Sets a shape for the tile, enabling collision.
 	Args: [{ false id int} { false shape_id int} { false shape Shape2D}], Returns: void
 */
 func (o *TileSet) TileSetShape(id gdnative.Int, shapeId gdnative.Int, shape Shape2DImplementer) {
@@ -958,7 +1565,30 @@ func (o *TileSet) TileSetShape(id gdnative.Int, shapeId gdnative.Int, shape Shap
 }
 
 /*
+        Sets the offset of a tile's shape.
+	Args: [{ false id int} { false shape_id int} { false shape_offset Vector2}], Returns: void
+*/
+func (o *TileSet) TileSetShapeOffset(id gdnative.Int, shapeId gdnative.Int, shapeOffset gdnative.Vector2) {
+	//log.Println("Calling TileSet.TileSetShapeOffset()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromInt(shapeId)
+	ptrArguments[2] = gdnative.NewPointerFromVector2(shapeOffset)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "tile_set_shape_offset")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Enables one-way collision on a tile's shape.
 	Args: [{ false id int} { false shape_id int} { false one_way bool}], Returns: void
 */
 func (o *TileSet) TileSetShapeOneWay(id gdnative.Int, shapeId gdnative.Int, oneWay gdnative.Bool) {
@@ -982,6 +1612,29 @@ func (o *TileSet) TileSetShapeOneWay(id gdnative.Int, shapeId gdnative.Int, oneW
 
 /*
 
+	Args: [{ false id int} { false shape_id int} { false one_way float}], Returns: void
+*/
+func (o *TileSet) TileSetShapeOneWayMargin(id gdnative.Int, shapeId gdnative.Int, oneWay gdnative.Real) {
+	//log.Println("Calling TileSet.TileSetShapeOneWayMargin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromInt(shapeId)
+	ptrArguments[2] = gdnative.NewPointerFromReal(oneWay)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "tile_set_shape_one_way_margin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets a [Transform2D] on a tile's shape.
 	Args: [{ false id int} { false shape_id int} { false shape_transform Transform2D}], Returns: void
 */
 func (o *TileSet) TileSetShapeTransform(id gdnative.Int, shapeId gdnative.Int, shapeTransform gdnative.Transform2D) {
@@ -1004,7 +1657,7 @@ func (o *TileSet) TileSetShapeTransform(id gdnative.Int, shapeId gdnative.Int, s
 }
 
 /*
-        Set an array of shapes for the tile, enabling physics to collide with it.
+        Sets an array of shapes for the tile, enabling collision.
 	Args: [{ false id int} { false shapes Array}], Returns: void
 */
 func (o *TileSet) TileSetShapes(id gdnative.Int, shapes gdnative.Array) {
@@ -1026,7 +1679,7 @@ func (o *TileSet) TileSetShapes(id gdnative.Int, shapes gdnative.Array) {
 }
 
 /*
-        Set the texture of the tile.
+        Sets the tile's texture.
 	Args: [{ false id int} { false texture Texture}], Returns: void
 */
 func (o *TileSet) TileSetTexture(id gdnative.Int, texture TextureImplementer) {
@@ -1048,7 +1701,7 @@ func (o *TileSet) TileSetTexture(id gdnative.Int, texture TextureImplementer) {
 }
 
 /*
-        Set the texture offset of the tile.
+        Sets the tile's texture offset.
 	Args: [{ false id int} { false texture_offset Vector2}], Returns: void
 */
 func (o *TileSet) TileSetTextureOffset(id gdnative.Int, textureOffset gdnative.Vector2) {
@@ -1069,13 +1722,75 @@ func (o *TileSet) TileSetTextureOffset(id gdnative.Int, textureOffset gdnative.V
 
 }
 
+/*
+        Sets the tile's [enum TileSet.TileMode].
+	Args: [{ false id int} { false tilemode int}], Returns: void
+*/
+func (o *TileSet) TileSetTileMode(id gdnative.Int, tilemode gdnative.Int) {
+	//log.Println("Calling TileSet.TileSetTileMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromInt(tilemode)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "tile_set_tile_mode")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the tile's drawing index.
+	Args: [{ false id int} { false z_index int}], Returns: void
+*/
+func (o *TileSet) TileSetZIndex(id gdnative.Int, zIndex gdnative.Int) {
+	//log.Println("Calling TileSet.TileSetZIndex()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+	ptrArguments[1] = gdnative.NewPointerFromInt(zIndex)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TileSet", "tile_set_z_index")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // TileSetImplementer is an interface that implements the methods
 // of the TileSet class.
 type TileSetImplementer interface {
 	ResourceImplementer
+	X_ForwardAtlasSubtileSelection(atlastileId gdnative.Int, tilemap ObjectImplementer, tileLocation gdnative.Vector2) gdnative.Vector2
 	X_ForwardSubtileSelection(autotileId gdnative.Int, bitmask gdnative.Int, tilemap ObjectImplementer, tileLocation gdnative.Vector2) gdnative.Vector2
 	X_IsTileBound(drawnId gdnative.Int, neighborId gdnative.Int) gdnative.Bool
+	AutotileClearBitmaskMap(id gdnative.Int)
+	AutotileGetBitmask(id gdnative.Int, coord gdnative.Vector2) gdnative.Int
+	AutotileGetIconCoordinate(id gdnative.Int) gdnative.Vector2
+	AutotileGetLightOccluder(id gdnative.Int, coord gdnative.Vector2) OccluderPolygon2DImplementer
+	AutotileGetNavigationPolygon(id gdnative.Int, coord gdnative.Vector2) NavigationPolygonImplementer
+	AutotileGetSize(id gdnative.Int) gdnative.Vector2
+	AutotileGetSpacing(id gdnative.Int) gdnative.Int
+	AutotileGetSubtilePriority(id gdnative.Int, coord gdnative.Vector2) gdnative.Int
+	AutotileGetZIndex(id gdnative.Int, coord gdnative.Vector2) gdnative.Int
+	AutotileSetBitmask(id gdnative.Int, bitmask gdnative.Vector2, flag gdnative.Int)
 	AutotileSetBitmaskMode(id gdnative.Int, mode gdnative.Int)
+	AutotileSetIconCoordinate(id gdnative.Int, coord gdnative.Vector2)
+	AutotileSetLightOccluder(id gdnative.Int, lightOccluder OccluderPolygon2DImplementer, coord gdnative.Vector2)
+	AutotileSetNavigationPolygon(id gdnative.Int, navigationPolygon NavigationPolygonImplementer, coord gdnative.Vector2)
+	AutotileSetSize(id gdnative.Int, size gdnative.Vector2)
+	AutotileSetSpacing(id gdnative.Int, spacing gdnative.Int)
+	AutotileSetSubtilePriority(id gdnative.Int, coord gdnative.Vector2, priority gdnative.Int)
+	AutotileSetZIndex(id gdnative.Int, coord gdnative.Vector2, zIndex gdnative.Int)
 	Clear()
 	CreateTile(id gdnative.Int)
 	FindTileByName(name gdnative.String) gdnative.Int
@@ -1085,6 +1800,7 @@ type TileSetImplementer interface {
 	TileAddShape(id gdnative.Int, shape Shape2DImplementer, shapeTransform gdnative.Transform2D, oneWay gdnative.Bool, autotileCoord gdnative.Vector2)
 	TileGetLightOccluder(id gdnative.Int) OccluderPolygon2DImplementer
 	TileGetMaterial(id gdnative.Int) ShaderMaterialImplementer
+	TileGetModulate(id gdnative.Int) gdnative.Color
 	TileGetName(id gdnative.Int) gdnative.String
 	TileGetNavigationPolygon(id gdnative.Int) NavigationPolygonImplementer
 	TileGetNavigationPolygonOffset(id gdnative.Int) gdnative.Vector2
@@ -1093,13 +1809,17 @@ type TileSetImplementer interface {
 	TileGetRegion(id gdnative.Int) gdnative.Rect2
 	TileGetShape(id gdnative.Int, shapeId gdnative.Int) Shape2DImplementer
 	TileGetShapeCount(id gdnative.Int) gdnative.Int
+	TileGetShapeOffset(id gdnative.Int, shapeId gdnative.Int) gdnative.Vector2
 	TileGetShapeOneWay(id gdnative.Int, shapeId gdnative.Int) gdnative.Bool
+	TileGetShapeOneWayMargin(id gdnative.Int, shapeId gdnative.Int) gdnative.Real
 	TileGetShapeTransform(id gdnative.Int, shapeId gdnative.Int) gdnative.Transform2D
 	TileGetShapes(id gdnative.Int) gdnative.Array
 	TileGetTexture(id gdnative.Int) TextureImplementer
 	TileGetTextureOffset(id gdnative.Int) gdnative.Vector2
+	TileGetZIndex(id gdnative.Int) gdnative.Int
 	TileSetLightOccluder(id gdnative.Int, lightOccluder OccluderPolygon2DImplementer)
 	TileSetMaterial(id gdnative.Int, material ShaderMaterialImplementer)
+	TileSetModulate(id gdnative.Int, color gdnative.Color)
 	TileSetName(id gdnative.Int, name gdnative.String)
 	TileSetNavigationPolygon(id gdnative.Int, navigationPolygon NavigationPolygonImplementer)
 	TileSetNavigationPolygonOffset(id gdnative.Int, navigationPolygonOffset gdnative.Vector2)
@@ -1107,9 +1827,13 @@ type TileSetImplementer interface {
 	TileSetOccluderOffset(id gdnative.Int, occluderOffset gdnative.Vector2)
 	TileSetRegion(id gdnative.Int, region gdnative.Rect2)
 	TileSetShape(id gdnative.Int, shapeId gdnative.Int, shape Shape2DImplementer)
+	TileSetShapeOffset(id gdnative.Int, shapeId gdnative.Int, shapeOffset gdnative.Vector2)
 	TileSetShapeOneWay(id gdnative.Int, shapeId gdnative.Int, oneWay gdnative.Bool)
+	TileSetShapeOneWayMargin(id gdnative.Int, shapeId gdnative.Int, oneWay gdnative.Real)
 	TileSetShapeTransform(id gdnative.Int, shapeId gdnative.Int, shapeTransform gdnative.Transform2D)
 	TileSetShapes(id gdnative.Int, shapes gdnative.Array)
 	TileSetTexture(id gdnative.Int, texture TextureImplementer)
 	TileSetTextureOffset(id gdnative.Int, textureOffset gdnative.Vector2)
+	TileSetTileMode(id gdnative.Int, tilemode gdnative.Int)
+	TileSetZIndex(id gdnative.Int, zIndex gdnative.Int)
 }

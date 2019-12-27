@@ -23,7 +23,7 @@ func newARVRControllerFromPointer(ptr gdnative.Pointer) ARVRController {
 }
 
 /*
-This is a helper spatial node that is linked to the tracking of controllers. It also offers several handy pass throughs to the state of buttons and such on the controllers. Controllers are linked by their id. You can create controller nodes before the controllers are available. Say your game always uses two controllers (one for each hand) you can predefine the controllers with id 1 and 2 and they will become active as soon as the controllers are identified. If you expect additional controllers to be used you should react to the signals and add ARVRController nodes to your scene. The position of the controller node is automatically updated by the ARVR Server. This makes this node ideal to add child nodes to visualise the controller.
+This is a helper spatial node that is linked to the tracking of controllers. It also offers several handy passthroughs to the state of buttons and such on the controllers. Controllers are linked by their id. You can create controller nodes before the controllers are available. Say your game always uses two controllers (one for each hand) you can predefine the controllers with id 1 and 2 and they will become active as soon as the controllers are identified. If you expect additional controllers to be used, you should react to the signals and add ARVRController nodes to your scene. The position of the controller node is automatically updated by the ARVR Server. This makes this node ideal to add child nodes to visualise the controller.
 */
 type ARVRController struct {
 	Spatial
@@ -175,6 +175,43 @@ func (o *ARVRController) GetJoystickId() gdnative.Int {
 
 /*
         Undocumented
+	Args: [], Returns: Mesh
+*/
+func (o *ARVRController) GetMesh() MeshImplementer {
+	//log.Println("Calling ARVRController.GetMesh()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ARVRController", "get_mesh")
+
+	// Call the parent method.
+	// Mesh
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newMeshFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(MeshImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Mesh" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(MeshImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: float
 */
 func (o *ARVRController) GetRumble() gdnative.Real {
@@ -271,6 +308,7 @@ type ARVRControllerImplementer interface {
 	GetIsActive() gdnative.Bool
 	GetJoystickAxis(axis gdnative.Int) gdnative.Real
 	GetJoystickId() gdnative.Int
+	GetMesh() MeshImplementer
 	GetRumble() gdnative.Real
 	IsButtonPressed(button gdnative.Int) gdnative.Int
 	SetControllerId(controllerId gdnative.Int)

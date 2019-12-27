@@ -23,7 +23,7 @@ func newVideoPlayerFromPointer(ptr gdnative.Pointer) VideoPlayer {
 }
 
 /*
-This control has the ability to play video streams. The only format accepted is the OGV Theora, so any other format must be converted before using in a project.
+Control node for playing video streams. Supported formats are WebM and OGV Theora.
 */
 type VideoPlayer struct {
 	Control
@@ -141,7 +141,7 @@ func (o *VideoPlayer) GetStream() VideoStreamImplementer {
 }
 
 /*
-        Get the name of the video stream.
+        Returns the video stream's name.
 	Args: [], Returns: String
 */
 func (o *VideoPlayer) GetStreamName() gdnative.String {
@@ -187,7 +187,7 @@ func (o *VideoPlayer) GetStreamPosition() gdnative.Real {
 }
 
 /*
-        Get the current frame of the video as a [Texture].
+        Returns the current frame as a [Texture].
 	Args: [], Returns: Texture
 */
 func (o *VideoPlayer) GetVideoTexture() TextureImplementer {
@@ -339,7 +339,7 @@ func (o *VideoPlayer) IsPaused() gdnative.Bool {
 }
 
 /*
-        Get whether or not the video is playing.
+        Returns [code]true[/code] if the video is playing.
 	Args: [], Returns: bool
 */
 func (o *VideoPlayer) IsPlaying() gdnative.Bool {
@@ -362,7 +362,7 @@ func (o *VideoPlayer) IsPlaying() gdnative.Bool {
 }
 
 /*
-        Start the video playback.
+        Starts the video playback.
 	Args: [], Returns: void
 */
 func (o *VideoPlayer) Play() {
@@ -592,7 +592,7 @@ func (o *VideoPlayer) SetVolumeDb(db gdnative.Real) {
 }
 
 /*
-        Stop the video playback.
+        Stops the video playback.
 	Args: [], Returns: void
 */
 func (o *VideoPlayer) Stop() {

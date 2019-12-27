@@ -23,7 +23,7 @@ func newJointFromPointer(ptr gdnative.Pointer) Joint {
 }
 
 /*
-All 3D joints link two nodes, has a priority, and can decide if the two bodies of the nodes should be able to collide with each other
+Joints are used to bind together two physics bodies. They have a solver priority and can define if the bodies of the two attached nodes should be able to collide with each other.
 */
 type Joint struct {
 	Spatial

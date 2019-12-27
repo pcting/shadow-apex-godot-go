@@ -79,7 +79,7 @@ func (o *Popup) PopupMethod(bounds gdnative.Rect2) {
 }
 
 /*
-        Popup (show the control in modal form) in the center of the screen, at the current size, or at a size determined by "size".
+        Popup (show the control in modal form) in the center of the screen relative to its current canvas transform, at the current size, or at a size determined by "size".
 	Args: [{(0, 0) true size Vector2}], Returns: void
 */
 func (o *Popup) PopupCentered(size gdnative.Vector2) {
@@ -100,7 +100,29 @@ func (o *Popup) PopupCentered(size gdnative.Vector2) {
 }
 
 /*
-        Popup (show the control in modal form) in the center of the screen, ensuring the size is never smaller than [code]minsize[/code].
+        Undocumented
+	Args: [{(0, 0) true size Vector2} {0.75 true fallback_ratio float}], Returns: void
+*/
+func (o *Popup) PopupCenteredClamped(size gdnative.Vector2, fallbackRatio gdnative.Real) {
+	//log.Println("Calling Popup.PopupCenteredClamped()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(size)
+	ptrArguments[1] = gdnative.NewPointerFromReal(fallbackRatio)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Popup", "popup_centered_clamped")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, ensuring the size is never smaller than [code]minsize[/code].
 	Args: [{(0, 0) true minsize Vector2}], Returns: void
 */
 func (o *Popup) PopupCenteredMinsize(minsize gdnative.Vector2) {
@@ -121,7 +143,7 @@ func (o *Popup) PopupCenteredMinsize(minsize gdnative.Vector2) {
 }
 
 /*
-        Popup (show the control in modal form) in the center of the screen, scaled at a ratio of size of the screen.
+        Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, scaled at a ratio of size of the screen.
 	Args: [{0.75 true ratio float}], Returns: void
 */
 func (o *Popup) PopupCenteredRatio(ratio gdnative.Real) {
@@ -133,6 +155,26 @@ func (o *Popup) PopupCenteredRatio(ratio gdnative.Real) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Popup", "popup_centered_ratio")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *Popup) SetAsMinsize() {
+	//log.Println("Calling Popup.SetAsMinsize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Popup", "set_as_minsize")
 
 	// Call the parent method.
 	// void
@@ -169,7 +211,9 @@ type PopupImplementer interface {
 	IsExclusive() gdnative.Bool
 	PopupMethod(bounds gdnative.Rect2)
 	PopupCentered(size gdnative.Vector2)
+	PopupCenteredClamped(size gdnative.Vector2, fallbackRatio gdnative.Real)
 	PopupCenteredMinsize(minsize gdnative.Vector2)
 	PopupCenteredRatio(ratio gdnative.Real)
+	SetAsMinsize()
 	SetExclusive(enable gdnative.Bool)
 }

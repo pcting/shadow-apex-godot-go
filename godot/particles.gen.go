@@ -44,7 +44,7 @@ func (o *Particles) BaseClass() string {
 }
 
 /*
-
+        Returns the bounding box that contains all the particles that are active in the current frame.
 	Args: [], Returns: AABB
 */
 func (o *Particles) CaptureAabb() gdnative.Aabb {
@@ -464,7 +464,7 @@ func (o *Particles) IsEmitting() gdnative.Bool {
 }
 
 /*
-
+        Restarts the particle emission, clearing existing particles.
 	Args: [], Returns: void
 */
 func (o *Particles) Restart() {

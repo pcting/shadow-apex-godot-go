@@ -35,8 +35,9 @@ const (
 type Line2DLineTextureMode int
 
 const (
-	Line2DLineTextureNone Line2DLineTextureMode = 0
-	Line2DLineTextureTile Line2DLineTextureMode = 1
+	Line2DLineTextureNone    Line2DLineTextureMode = 0
+	Line2DLineTextureStretch Line2DLineTextureMode = 2
+	Line2DLineTextureTile    Line2DLineTextureMode = 1
 )
 
 //func NewLine2DFromPointer(ptr gdnative.Pointer) Line2D {
@@ -64,6 +65,26 @@ func (o *Line2D) BaseClass() string {
         Undocumented
 	Args: [], Returns: void
 */
+func (o *Line2D) X_CurveChanged() {
+	//log.Println("Calling Line2D.X_CurveChanged()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Line2D", "_curve_changed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
 func (o *Line2D) X_GradientChanged() {
 	//log.Println("Calling Line2D.X_GradientChanged()")
 
@@ -82,14 +103,15 @@ func (o *Line2D) X_GradientChanged() {
 
 /*
         Add a point at the [code]position[/code]. Appends the point at the end of the line.
-	Args: [{ false position Vector2}], Returns: void
+	Args: [{ false position Vector2} {-1 true at_position int}], Returns: void
 */
-func (o *Line2D) AddPoint(position gdnative.Vector2) {
+func (o *Line2D) AddPoint(position gdnative.Vector2, atPosition gdnative.Int) {
 	//log.Println("Calling Line2D.AddPoint()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromVector2(position)
+	ptrArguments[1] = gdnative.NewPointerFromInt(atPosition)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Line2D", "add_point")
@@ -99,6 +121,49 @@ func (o *Line2D) AddPoint(position gdnative.Vector2) {
 	retPtr := gdnative.NewEmptyVoid()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+}
+
+/*
+        Removes all points from the line.
+	Args: [], Returns: void
+*/
+func (o *Line2D) ClearPoints() {
+	//log.Println("Calling Line2D.ClearPoints()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Line2D", "clear_points")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *Line2D) GetAntialiased() gdnative.Bool {
+	//log.Println("Calling Line2D.GetAntialiased()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Line2D", "get_antialiased")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -122,6 +187,43 @@ func (o *Line2D) GetBeginCapMode() Line2DLineCapMode {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
 	return Line2DLineCapMode(ret)
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Curve
+*/
+func (o *Line2D) GetCurve() CurveImplementer {
+	//log.Println("Calling Line2D.GetCurve()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Line2D", "get_curve")
+
+	// Call the parent method.
+	// Curve
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newCurveFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(CurveImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Curve" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(CurveImplementer)
+	}
+
+	return &ret
 }
 
 /*
@@ -452,6 +554,27 @@ func (o *Line2D) RemovePoint(i gdnative.Int) {
 
 /*
         Undocumented
+	Args: [{ false antialiased bool}], Returns: void
+*/
+func (o *Line2D) SetAntialiased(antialiased gdnative.Bool) {
+	//log.Println("Calling Line2D.SetAntialiased()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(antialiased)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Line2D", "set_antialiased")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false mode int}], Returns: void
 */
 func (o *Line2D) SetBeginCapMode(mode gdnative.Int) {
@@ -463,6 +586,27 @@ func (o *Line2D) SetBeginCapMode(mode gdnative.Int) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Line2D", "set_begin_cap_mode")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false curve Curve}], Returns: void
+*/
+func (o *Line2D) SetCurve(curve CurveImplementer) {
+	//log.Println("Calling Line2D.SetCurve()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(curve.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Line2D", "set_curve")
 
 	// Call the parent method.
 	// void
@@ -707,8 +851,12 @@ func (o *Line2D) SetWidth(width gdnative.Real) {
 // of the Line2D class.
 type Line2DImplementer interface {
 	Node2DImplementer
+	X_CurveChanged()
 	X_GradientChanged()
-	AddPoint(position gdnative.Vector2)
+	AddPoint(position gdnative.Vector2, atPosition gdnative.Int)
+	ClearPoints()
+	GetAntialiased() gdnative.Bool
+	GetCurve() CurveImplementer
 	GetDefaultColor() gdnative.Color
 	GetGradient() GradientImplementer
 	GetPointCount() gdnative.Int
@@ -719,7 +867,9 @@ type Line2DImplementer interface {
 	GetTexture() TextureImplementer
 	GetWidth() gdnative.Real
 	RemovePoint(i gdnative.Int)
+	SetAntialiased(antialiased gdnative.Bool)
 	SetBeginCapMode(mode gdnative.Int)
+	SetCurve(curve CurveImplementer)
 	SetDefaultColor(color gdnative.Color)
 	SetEndCapMode(mode gdnative.Int)
 	SetGradient(color GradientImplementer)

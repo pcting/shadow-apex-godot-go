@@ -100,7 +100,7 @@ func (o *MenuButton) X_UnhandledKeyInput(arg0 InputEventImplementer) {
 }
 
 /*
-        Return the [PopupMenu] contained in this button.
+        Returns the [PopupMenu] contained in this button.
 	Args: [], Returns: PopupMenu
 */
 func (o *MenuButton) GetPopup() PopupMenuImplementer {
@@ -137,6 +137,29 @@ func (o *MenuButton) GetPopup() PopupMenuImplementer {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *MenuButton) IsSwitchOnHover() gdnative.Bool {
+	//log.Println("Calling MenuButton.IsSwitchOnHover()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MenuButton", "is_switch_on_hover")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
 
 	Args: [{ false disabled bool}], Returns: void
 */
@@ -157,6 +180,27 @@ func (o *MenuButton) SetDisableShortcuts(disabled gdnative.Bool) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *MenuButton) SetSwitchOnHover(enable gdnative.Bool) {
+	//log.Println("Calling MenuButton.SetSwitchOnHover()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MenuButton", "set_switch_on_hover")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // MenuButtonImplementer is an interface that implements the methods
 // of the MenuButton class.
 type MenuButtonImplementer interface {
@@ -164,5 +208,7 @@ type MenuButtonImplementer interface {
 	X_GetItems() gdnative.Array
 	X_SetItems(arg0 gdnative.Array)
 	GetPopup() PopupMenuImplementer
+	IsSwitchOnHover() gdnative.Bool
 	SetDisableShortcuts(disabled gdnative.Bool)
+	SetSwitchOnHover(enable gdnative.Bool)
 }

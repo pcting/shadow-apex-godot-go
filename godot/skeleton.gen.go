@@ -23,7 +23,7 @@ func newSkeletonFromPointer(ptr gdnative.Pointer) Skeleton {
 }
 
 /*
-Skeleton provides a hierarchical interface for managing bones, including pose, rest and animation (see [Animation]). Skeleton will support rag doll dynamics in the future.
+Skeleton provides a hierarchical interface for managing bones, including pose, rest and animation (see [Animation]). Skeleton will support rag doll dynamics in the future. The overall transform of a bone with respect to the skeleton is determined by the following hierarchical order: rest pose, custom pose and pose. Note that "global pose" below refers to the overall transform of the bone with respect to skeleton, so it not the actual global/world transform of the bone.
 */
 type Skeleton struct {
 	Spatial
@@ -57,9 +57,9 @@ func (o *Skeleton) AddBone(name gdnative.String) {
 
 /*
         Deprecated soon.
-	Args: [{ false bone_idx int} { false node Object}], Returns: void
+	Args: [{ false bone_idx int} { false node Node}], Returns: void
 */
-func (o *Skeleton) BindChildNodeToBone(boneIdx gdnative.Int, node ObjectImplementer) {
+func (o *Skeleton) BindChildNodeToBone(boneIdx gdnative.Int, node NodeImplementer) {
 	//log.Println("Calling Skeleton.BindChildNodeToBone()")
 
 	// Build out the method's arguments
@@ -98,7 +98,7 @@ func (o *Skeleton) ClearBones() {
 }
 
 /*
-        Return the bone index that matches "name" as its name.
+        Returns the bone index that matches "name" as its name.
 	Args: [{ false name String}], Returns: int
 */
 func (o *Skeleton) FindBone(name gdnative.String) gdnative.Int {
@@ -122,7 +122,7 @@ func (o *Skeleton) FindBone(name gdnative.String) gdnative.Int {
 }
 
 /*
-        Return the amount of bones in the skeleton.
+        Returns the amount of bones in the skeleton.
 	Args: [], Returns: int
 */
 func (o *Skeleton) GetBoneCount() gdnative.Int {
@@ -145,7 +145,7 @@ func (o *Skeleton) GetBoneCount() gdnative.Int {
 }
 
 /*
-
+        Returns the custom pose of the specified bone. Custom pose is applied on top of the rest pose.
 	Args: [{ false bone_idx int}], Returns: Transform
 */
 func (o *Skeleton) GetBoneCustomPose(boneIdx gdnative.Int) gdnative.Transform {
@@ -169,7 +169,7 @@ func (o *Skeleton) GetBoneCustomPose(boneIdx gdnative.Int) gdnative.Transform {
 }
 
 /*
-
+        Returns the overall transform of the specified bone, with respect to the skeleton. Being relative to the skeleton frame, this is not the actual "global" transform of the bone.
 	Args: [{ false bone_idx int}], Returns: Transform
 */
 func (o *Skeleton) GetBoneGlobalPose(boneIdx gdnative.Int) gdnative.Transform {
@@ -193,7 +193,7 @@ func (o *Skeleton) GetBoneGlobalPose(boneIdx gdnative.Int) gdnative.Transform {
 }
 
 /*
-        Return the name of the bone at index "index"
+        Returns the name of the bone at index "index".
 	Args: [{ false bone_idx int}], Returns: String
 */
 func (o *Skeleton) GetBoneName(boneIdx gdnative.Int) gdnative.String {
@@ -217,7 +217,7 @@ func (o *Skeleton) GetBoneName(boneIdx gdnative.Int) gdnative.String {
 }
 
 /*
-        Return the bone index which is the parent of the bone at "bone_idx". If -1, then bone has no parent. Note that the parent bone returned will always be less than "bone_idx".
+        Returns the bone index which is the parent of the bone at "bone_idx". If -1, then bone has no parent. Note that the parent bone returned will always be less than "bone_idx".
 	Args: [{ false bone_idx int}], Returns: int
 */
 func (o *Skeleton) GetBoneParent(boneIdx gdnative.Int) gdnative.Int {
@@ -241,7 +241,7 @@ func (o *Skeleton) GetBoneParent(boneIdx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Return the pose transform for bone "bone_idx".
+        Returns the pose transform of the specified bone. Pose is applied on top of the custom pose, which is applied on top the rest pose.
 	Args: [{ false bone_idx int}], Returns: Transform
 */
 func (o *Skeleton) GetBonePose(boneIdx gdnative.Int) gdnative.Transform {
@@ -265,7 +265,7 @@ func (o *Skeleton) GetBonePose(boneIdx gdnative.Int) gdnative.Transform {
 }
 
 /*
-        Return the rest transform for a bone "bone_idx".
+        Returns the rest transform for a bone "bone_idx".
 	Args: [{ false bone_idx int}], Returns: Transform
 */
 func (o *Skeleton) GetBoneRest(boneIdx gdnative.Int) gdnative.Transform {
@@ -277,30 +277,6 @@ func (o *Skeleton) GetBoneRest(boneIdx gdnative.Int) gdnative.Transform {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Skeleton", "get_bone_rest")
-
-	// Call the parent method.
-	// Transform
-	retPtr := gdnative.NewEmptyTransform()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := gdnative.NewTransformFromPointer(retPtr)
-	return ret
-}
-
-/*
-
-	Args: [{ false bone_idx int}], Returns: Transform
-*/
-func (o *Skeleton) GetBoneTransform(boneIdx gdnative.Int) gdnative.Transform {
-	//log.Println("Calling Skeleton.GetBoneTransform()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(boneIdx)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("Skeleton", "get_bone_transform")
 
 	// Call the parent method.
 	// Transform
@@ -361,6 +337,147 @@ func (o *Skeleton) IsBoneRestDisabled(boneIdx gdnative.Int) gdnative.Bool {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *Skeleton) LocalizeRests() {
+	//log.Println("Calling Skeleton.LocalizeRests()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Skeleton", "localize_rests")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false exception RID}], Returns: void
+*/
+func (o *Skeleton) PhysicalBonesAddCollisionException(exception gdnative.Rid) {
+	//log.Println("Calling Skeleton.PhysicalBonesAddCollisionException()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(exception)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Skeleton", "physical_bones_add_collision_exception")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false exception RID}], Returns: void
+*/
+func (o *Skeleton) PhysicalBonesRemoveCollisionException(exception gdnative.Rid) {
+	//log.Println("Calling Skeleton.PhysicalBonesRemoveCollisionException()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(exception)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Skeleton", "physical_bones_remove_collision_exception")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{[] true bones Array}], Returns: void
+*/
+func (o *Skeleton) PhysicalBonesStartSimulation(bones gdnative.Array) {
+	//log.Println("Calling Skeleton.PhysicalBonesStartSimulation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromArray(bones)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Skeleton", "physical_bones_start_simulation")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [], Returns: void
+*/
+func (o *Skeleton) PhysicalBonesStopSimulation() {
+	//log.Println("Calling Skeleton.PhysicalBonesStopSimulation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Skeleton", "physical_bones_stop_simulation")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false skin Skin}], Returns: SkinReference
+*/
+func (o *Skeleton) RegisterSkin(skin SkinImplementer) SkinReferenceImplementer {
+	//log.Println("Calling Skeleton.RegisterSkin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(skin.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Skeleton", "register_skin")
+
+	// Call the parent method.
+	// SkinReference
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newSkinReferenceFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(SkinReferenceImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "SkinReference" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(SkinReferenceImplementer)
+	}
+
+	return &ret
+}
+
+/*
 
 	Args: [{ false bone_idx int} { false custom_pose Transform}], Returns: void
 */
@@ -405,19 +522,21 @@ func (o *Skeleton) SetBoneDisableRest(boneIdx gdnative.Int, disable gdnative.Boo
 }
 
 /*
-
-	Args: [{ false bone_idx int} { false pose Transform}], Returns: void
+        Undocumented
+	Args: [{ false bone_idx int} { false pose Transform} { false amount float} {False true persistent bool}], Returns: void
 */
-func (o *Skeleton) SetBoneGlobalPose(boneIdx gdnative.Int, pose gdnative.Transform) {
-	//log.Println("Calling Skeleton.SetBoneGlobalPose()")
+func (o *Skeleton) SetBoneGlobalPoseOverride(boneIdx gdnative.Int, pose gdnative.Transform, amount gdnative.Real, persistent gdnative.Bool) {
+	//log.Println("Calling Skeleton.SetBoneGlobalPoseOverride()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromInt(boneIdx)
 	ptrArguments[1] = gdnative.NewPointerFromTransform(pose)
+	ptrArguments[2] = gdnative.NewPointerFromReal(amount)
+	ptrArguments[3] = gdnative.NewPointerFromBool(persistent)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("Skeleton", "set_bone_global_pose")
+	methodBind := gdnative.NewMethodBind("Skeleton", "set_bone_global_pose_override")
 
 	// Call the parent method.
 	// void
@@ -449,7 +568,7 @@ func (o *Skeleton) SetBoneParent(boneIdx gdnative.Int, parentIdx gdnative.Int) {
 }
 
 /*
-        Return the pose transform for bone "bone_idx".
+        Returns the pose transform for bone "bone_idx".
 	Args: [{ false bone_idx int} { false pose Transform}], Returns: void
 */
 func (o *Skeleton) SetBonePose(boneIdx gdnative.Int, pose gdnative.Transform) {
@@ -494,9 +613,9 @@ func (o *Skeleton) SetBoneRest(boneIdx gdnative.Int, rest gdnative.Transform) {
 
 /*
         Deprecated soon.
-	Args: [{ false bone_idx int} { false node Object}], Returns: void
+	Args: [{ false bone_idx int} { false node Node}], Returns: void
 */
-func (o *Skeleton) UnbindChildNodeFromBone(boneIdx gdnative.Int, node ObjectImplementer) {
+func (o *Skeleton) UnbindChildNodeFromBone(boneIdx gdnative.Int, node NodeImplementer) {
 	//log.Println("Calling Skeleton.UnbindChildNodeFromBone()")
 
 	// Build out the method's arguments
@@ -540,7 +659,7 @@ func (o *Skeleton) UnparentBoneAndRest(boneIdx gdnative.Int) {
 type SkeletonImplementer interface {
 	SpatialImplementer
 	AddBone(name gdnative.String)
-	BindChildNodeToBone(boneIdx gdnative.Int, node ObjectImplementer)
+	BindChildNodeToBone(boneIdx gdnative.Int, node NodeImplementer)
 	ClearBones()
 	FindBone(name gdnative.String) gdnative.Int
 	GetBoneCount() gdnative.Int
@@ -550,15 +669,20 @@ type SkeletonImplementer interface {
 	GetBoneParent(boneIdx gdnative.Int) gdnative.Int
 	GetBonePose(boneIdx gdnative.Int) gdnative.Transform
 	GetBoneRest(boneIdx gdnative.Int) gdnative.Transform
-	GetBoneTransform(boneIdx gdnative.Int) gdnative.Transform
 	GetBoundChildNodesToBone(boneIdx gdnative.Int) gdnative.Array
 	IsBoneRestDisabled(boneIdx gdnative.Int) gdnative.Bool
+	LocalizeRests()
+	PhysicalBonesAddCollisionException(exception gdnative.Rid)
+	PhysicalBonesRemoveCollisionException(exception gdnative.Rid)
+	PhysicalBonesStartSimulation(bones gdnative.Array)
+	PhysicalBonesStopSimulation()
+	RegisterSkin(skin SkinImplementer) SkinReferenceImplementer
 	SetBoneCustomPose(boneIdx gdnative.Int, customPose gdnative.Transform)
 	SetBoneDisableRest(boneIdx gdnative.Int, disable gdnative.Bool)
-	SetBoneGlobalPose(boneIdx gdnative.Int, pose gdnative.Transform)
+	SetBoneGlobalPoseOverride(boneIdx gdnative.Int, pose gdnative.Transform, amount gdnative.Real, persistent gdnative.Bool)
 	SetBoneParent(boneIdx gdnative.Int, parentIdx gdnative.Int)
 	SetBonePose(boneIdx gdnative.Int, pose gdnative.Transform)
 	SetBoneRest(boneIdx gdnative.Int, rest gdnative.Transform)
-	UnbindChildNodeFromBone(boneIdx gdnative.Int, node ObjectImplementer)
+	UnbindChildNodeFromBone(boneIdx gdnative.Int, node NodeImplementer)
 	UnparentBoneAndRest(boneIdx gdnative.Int)
 }

@@ -23,7 +23,7 @@ func newAudioEffectNotchFilterFromPointer(ptr gdnative.Pointer) AudioEffectNotch
 }
 
 /*
-Attenuates frequencies in a narrow band around the [member cutoff_hz] and cuts frequencies outside of this range.
+Attenuates frequencies in a narrow band around the [member AudioEffectFilter.cutoff_hz] and cuts frequencies outside of this range.
 */
 type AudioEffectNotchFilter struct {
 	AudioEffectFilter

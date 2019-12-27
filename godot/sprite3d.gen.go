@@ -59,6 +59,29 @@ func (o *Sprite3D) GetFrame() gdnative.Int {
 
 /*
         Undocumented
+	Args: [], Returns: Vector2
+*/
+func (o *Sprite3D) GetFrameCoords() gdnative.Vector2 {
+	//log.Println("Calling Sprite3D.GetFrameCoords()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Sprite3D", "get_frame_coords")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: int
 */
 func (o *Sprite3D) GetHframes() gdnative.Int {
@@ -209,6 +232,27 @@ func (o *Sprite3D) SetFrame(frame gdnative.Int) {
 
 /*
         Undocumented
+	Args: [{ false coords Vector2}], Returns: void
+*/
+func (o *Sprite3D) SetFrameCoords(coords gdnative.Vector2) {
+	//log.Println("Calling Sprite3D.SetFrameCoords()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(coords)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Sprite3D", "set_frame_coords")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false hframes int}], Returns: void
 */
 func (o *Sprite3D) SetHframes(hframes gdnative.Int) {
@@ -317,12 +361,14 @@ func (o *Sprite3D) SetVframes(vframes gdnative.Int) {
 type Sprite3DImplementer interface {
 	SpriteBase3DImplementer
 	GetFrame() gdnative.Int
+	GetFrameCoords() gdnative.Vector2
 	GetHframes() gdnative.Int
 	GetRegionRect() gdnative.Rect2
 	GetTexture() TextureImplementer
 	GetVframes() gdnative.Int
 	IsRegion() gdnative.Bool
 	SetFrame(frame gdnative.Int)
+	SetFrameCoords(coords gdnative.Vector2)
 	SetHframes(hframes gdnative.Int)
 	SetRegion(enabled gdnative.Bool)
 	SetRegionRect(rect gdnative.Rect2)

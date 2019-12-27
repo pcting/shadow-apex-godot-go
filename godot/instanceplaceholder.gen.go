@@ -23,7 +23,7 @@ func newInstancePlaceholderFromPointer(ptr gdnative.Pointer) InstancePlaceholder
 }
 
 /*
-Turning on the option [b]Load As Placeholder[/b] for an instanced scene in the editor causes it to be replaced by an InstacePlaceholder when running the game. This makes it possible to delay actually loading the scene until calling [method replace_by_instance]. This is useful to avoid loading large scenes all at once by loading parts of it selectively. The InstancePlaceholder does not have a transform. This causes any child nodes to be positioned relatively to the Viewport from point (0,0), rather than their parent as displayed in the editor. Replacing the placeholder with a scene with a transform will transform children relatively to their parent again.
+Turning on the option [b]Load As Placeholder[/b] for an instanced scene in the editor causes it to be replaced by an InstancePlaceholder when running the game. This makes it possible to delay actually loading the scene until calling [method replace_by_instance]. This is useful to avoid loading large scenes all at once by loading parts of it selectively. The InstancePlaceholder does not have a transform. This causes any child nodes to be positioned relatively to the Viewport from point (0,0), rather than their parent as displayed in the editor. Replacing the placeholder with a scene with a transform will transform children relatively to their parent again.
 */
 type InstancePlaceholder struct {
 	Node
@@ -32,6 +32,45 @@ type InstancePlaceholder struct {
 
 func (o *InstancePlaceholder) BaseClass() string {
 	return "InstancePlaceholder"
+}
+
+/*
+
+	Args: [{False true replace bool} {Null true custom_scene PackedScene}], Returns: Node
+*/
+func (o *InstancePlaceholder) CreateInstance(replace gdnative.Bool, customScene PackedSceneImplementer) NodeImplementer {
+	//log.Println("Calling InstancePlaceholder.CreateInstance()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromBool(replace)
+	ptrArguments[1] = gdnative.NewPointerFromObject(customScene.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("InstancePlaceholder", "create_instance")
+
+	// Call the parent method.
+	// Node
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newNodeFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(NodeImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Node" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(NodeImplementer)
+	}
+
+	return &ret
 }
 
 /*
@@ -106,6 +145,7 @@ func (o *InstancePlaceholder) ReplaceByInstance(customScene PackedSceneImplement
 // of the InstancePlaceholder class.
 type InstancePlaceholderImplementer interface {
 	NodeImplementer
+	CreateInstance(replace gdnative.Bool, customScene PackedSceneImplementer) NodeImplementer
 	GetInstancePath() gdnative.String
 	GetStoredValues(withOrder gdnative.Bool) gdnative.Dictionary
 	ReplaceByInstance(customScene PackedSceneImplementer)

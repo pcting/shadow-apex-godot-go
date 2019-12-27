@@ -218,6 +218,29 @@ func (o *HTTPClient) GetConnection() StreamPeerImplementer {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *HTTPClient) GetReadChunkSize() gdnative.Int {
+	//log.Println("Calling HTTPClient.GetReadChunkSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("HTTPClient", "get_read_chunk_size")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns the response's body length.
 	Args: [], Returns: int
 */
@@ -333,7 +356,7 @@ func (o *HTTPClient) GetStatus() HTTPClientStatus {
 }
 
 /*
-        If [code]true[/code] this [code]HTTPClient[/code] has a response available.
+        If [code]true[/code], this [code]HTTPClient[/code] has a response available.
 	Args: [], Returns: bool
 */
 func (o *HTTPClient) HasResponse() gdnative.Bool {
@@ -379,7 +402,7 @@ func (o *HTTPClient) IsBlockingModeEnabled() gdnative.Bool {
 }
 
 /*
-        If [code]true[/code] this [code]HTTPClient[/code] has a response that is chunked.
+        If [code]true[/code], this [code]HTTPClient[/code] has a response that is chunked.
 	Args: [], Returns: bool
 */
 func (o *HTTPClient) IsResponseChunked() gdnative.Bool {
@@ -425,7 +448,7 @@ func (o *HTTPClient) Poll() gdnative.Error {
 }
 
 /*
-        Generates a GET/POST application/x-www-form-urlencoded style query string from a provided dictionary, e.g.: [codeblock] var fields = {"username": "user", "password": "pass"} String queryString = httpClient.query_string_from_dict(fields) returns:= "username=user&password=pass" [/codeblock]
+        Generates a GET/POST application/x-www-form-urlencoded style query string from a provided dictionary, e.g.: [codeblock] var fields = {"username": "user", "password": "pass"} String query_string = http_client.query_string_from_dict(fields) # returns: "username=user&password=pass" [/codeblock] Furthermore, if a key has a null value, only the key itself is added, without equal sign and value. If the value is an array, for each value in it a pair with the same key is added. [codeblock] var fields = {"single": 123, "not_valued": null, "multiple": [22, 33, 44]} String query_string = http_client.query_string_from_dict(fields) # returns: "single=123&not_valued&multiple=22&multiple=33&multiple=44" [/codeblock]
 	Args: [{ false fields Dictionary}], Returns: String
 */
 func (o *HTTPClient) QueryStringFromDict(fields gdnative.Dictionary) gdnative.String {
@@ -472,7 +495,7 @@ func (o *HTTPClient) ReadResponseBodyChunk() gdnative.PoolByteArray {
 }
 
 /*
-        Sends a request to the connected host. The URL parameter is just the part after the host, so for [code]http://somehost.com/index.php[/code], it is [code]index.php[/code]. Headers are HTTP request headers. For available HTTP methods, see [code]METHOD_*[/code]. To create a POST request with query strings to push to the server, do: [codeblock] var fields = {"username" : "user", "password" : "pass"} var queryString = httpClient.query_string_from_dict(fields) var headers = ["Content-Type: application/x-www-form-urlencoded", "Content-Length: " + str(queryString.length())] var result = httpClient.request(httpClient.METHOD_POST, "index.php", headers, queryString) [/codeblock]
+        Sends a request to the connected host. The URL parameter is just the part after the host, so for [code]http://somehost.com/index.php[/code], it is [code]index.php[/code]. Headers are HTTP request headers. For available HTTP methods, see [code]METHOD_*[/code]. To create a POST request with query strings to push to the server, do: [codeblock] var fields = {"username" : "user", "password" : "pass"} var query_string = http_client.query_string_from_dict(fields) var headers = ["Content-Type: application/x-www-form-urlencoded", "Content-Length: " + str(query_string.length())] var result = http_client.request(http_client.METHOD_POST, "index.php", headers, query_string) [/codeblock]
 	Args: [{ false method int} { false url String} { false headers PoolStringArray} { true body String}], Returns: enum.Error
 */
 func (o *HTTPClient) Request(method gdnative.Int, url gdnative.String, headers gdnative.PoolStringArray, body gdnative.String) gdnative.Error {
@@ -594,6 +617,7 @@ type HTTPClientImplementer interface {
 	ReferenceImplementer
 	Close()
 	GetConnection() StreamPeerImplementer
+	GetReadChunkSize() gdnative.Int
 	GetResponseBodyLength() gdnative.Int
 	GetResponseCode() gdnative.Int
 	GetResponseHeaders() gdnative.PoolStringArray

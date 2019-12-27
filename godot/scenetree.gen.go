@@ -53,8 +53,8 @@ func newSceneTreeFromPointer(ptr gdnative.Pointer) SceneTree {
 }
 
 /*
-
- */
+As one of the most important classes, the [code]SceneTree[/code] manages the hierarchy of nodes in a scene as well as scenes themselves. Nodes can be added, retrieved and removed. The whole scene tree (and thus the current scene) can be paused. Scenes can be loaded, switched and reloaded. You can also use the [code]SceneTree[/code] to organize your nodes into groups: every node can be assigned as many groups as you want to create, e.g. a "enemy" group. You can then iterate these groups or even call methods and set properties on all the group's members at once. [code]SceneTree[/code] is the default [MainLoop] implementation used by scenes, and is thus in charge of the game loop.
+*/
 type SceneTree struct {
 	MainLoop
 	owner gdnative.Object
@@ -66,9 +66,9 @@ func (o *SceneTree) BaseClass() string {
 
 /*
         Undocumented
-	Args: [{ false arg0 Object}], Returns: void
+	Args: [{ false arg0 Node}], Returns: void
 */
-func (o *SceneTree) X_ChangeScene(arg0 ObjectImplementer) {
+func (o *SceneTree) X_ChangeScene(arg0 NodeImplementer) {
 	//log.Println("Calling SceneTree.X_ChangeScene()")
 
 	// Build out the method's arguments
@@ -188,7 +188,7 @@ func (o *SceneTree) X_ServerDisconnected() {
 }
 
 /*
-
+        Calls [code]method[/code] on each member of the given group.
 	Args: [{ false group String} { false method String}], Returns: Variant
 */
 func (o *SceneTree) CallGroup(group gdnative.String, method gdnative.String) gdnative.Variant {
@@ -213,7 +213,7 @@ func (o *SceneTree) CallGroup(group gdnative.String, method gdnative.String) gdn
 }
 
 /*
-
+        Calls [code]method[/code] on each member of the given group, respecting the given [enum GroupCallFlags].
 	Args: [{ false flags int} { false group String} { false method String}], Returns: Variant
 */
 func (o *SceneTree) CallGroupFlags(flags gdnative.Int, group gdnative.String, method gdnative.String) gdnative.Variant {
@@ -239,7 +239,7 @@ func (o *SceneTree) CallGroupFlags(flags gdnative.Int, group gdnative.String, me
 }
 
 /*
-
+        Changes the running scene to the one at the given [code]path[/code], after loading it into a [PackedScene] and creating a new instance. Returns [constant @GlobalScope.OK] on success, [constant @GlobalScope.ERR_CANT_OPEN] if the [code]path[/code] cannot be loaded into a [PackedScene], or [constant @GlobalScope.ERR_CANT_CREATE] if that scene cannot be instantiated.
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *SceneTree) ChangeScene(path gdnative.String) gdnative.Error {
@@ -263,7 +263,7 @@ func (o *SceneTree) ChangeScene(path gdnative.String) gdnative.Error {
 }
 
 /*
-
+        Changes the running scene to a new instance of the given [PackedScene]. Returns [constant @GlobalScope.OK] on success or [constant @GlobalScope.ERR_CANT_CREATE] if the scene cannot be instantiated.
 	Args: [{ false packed_scene PackedScene}], Returns: enum.Error
 */
 func (o *SceneTree) ChangeSceneTo(packedScene PackedSceneImplementer) gdnative.Error {
@@ -287,7 +287,7 @@ func (o *SceneTree) ChangeSceneTo(packedScene PackedSceneImplementer) gdnative.E
 }
 
 /*
-
+        Returns a [SceneTreeTimer] which will [signal SceneTreeTimer.timeout] after the given time in seconds elapsed in this [code]SceneTree[/code]. If [code]pause_mode_process[/code] is set to [code]false[/code], pausing the [code]SceneTree[/code] will also pause the timer. Commonly used to create a one-shot delay timer as in the following example: [codeblock] func some_function(): print("start") yield(get_tree().create_timer(1.0), "timeout") print("end") [/codeblock]
 	Args: [{ false time_sec float} {True true pause_mode_process bool}], Returns: SceneTreeTimer
 */
 func (o *SceneTree) CreateTimer(timeSec gdnative.Real, pauseModeProcess gdnative.Bool) SceneTreeTimerImplementer {
@@ -400,7 +400,7 @@ func (o *SceneTree) GetEditedSceneRoot() NodeImplementer {
 }
 
 /*
-
+        Returns the current frame number, i.e. the total frame count since the application started.
 	Args: [], Returns: int
 */
 func (o *SceneTree) GetFrame() gdnative.Int {
@@ -423,7 +423,44 @@ func (o *SceneTree) GetFrame() gdnative.Int {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: MultiplayerAPI
+*/
+func (o *SceneTree) GetMultiplayer() MultiplayerAPIImplementer {
+	//log.Println("Calling SceneTree.GetMultiplayer()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SceneTree", "get_multiplayer")
+
+	// Call the parent method.
+	// MultiplayerAPI
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newMultiplayerAPIFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(MultiplayerAPIImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "MultiplayerAPI" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(MultiplayerAPIImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Returns the peer IDs of all connected peers of this [code]SceneTree[/code]'s [member network_peer].
 	Args: [], Returns: PoolIntArray
 */
 func (o *SceneTree) GetNetworkConnectedPeers() gdnative.PoolIntArray {
@@ -483,7 +520,7 @@ func (o *SceneTree) GetNetworkPeer() NetworkedMultiplayerPeerImplementer {
 }
 
 /*
-
+        Returns the unique peer ID of this [code]SceneTree[/code]'s [member network_peer].
 	Args: [], Returns: int
 */
 func (o *SceneTree) GetNetworkUniqueId() gdnative.Int {
@@ -506,7 +543,7 @@ func (o *SceneTree) GetNetworkUniqueId() gdnative.Int {
 }
 
 /*
-
+        Returns the number of nodes in this [code]SceneTree[/code].
 	Args: [], Returns: int
 */
 func (o *SceneTree) GetNodeCount() gdnative.Int {
@@ -529,7 +566,7 @@ func (o *SceneTree) GetNodeCount() gdnative.Int {
 }
 
 /*
-
+        Returns a list of all nodes assigned to the given group.
 	Args: [{ false group String}], Returns: Array
 */
 func (o *SceneTree) GetNodesInGroup(group gdnative.String) gdnative.Array {
@@ -590,7 +627,7 @@ func (o *SceneTree) GetRoot() ViewportImplementer {
 }
 
 /*
-
+        Returns the sender's peer ID for the most recently received RPC call.
 	Args: [], Returns: int
 */
 func (o *SceneTree) GetRpcSenderId() gdnative.Int {
@@ -613,7 +650,7 @@ func (o *SceneTree) GetRpcSenderId() gdnative.Int {
 }
 
 /*
-
+        Returns [code]true[/code] if the given group exists.
 	Args: [{ false name String}], Returns: bool
 */
 func (o *SceneTree) HasGroup(name gdnative.String) gdnative.Bool {
@@ -637,7 +674,7 @@ func (o *SceneTree) HasGroup(name gdnative.String) gdnative.Bool {
 }
 
 /*
-        Returns true if there is a [NetworkedMultiplayerPeer] set (with [method SceneTree.set_network_peer]).
+        Returns [code]true[/code] if there is a [member network_peer] set.
 	Args: [], Returns: bool
 */
 func (o *SceneTree) HasNetworkPeer() gdnative.Bool {
@@ -706,7 +743,7 @@ func (o *SceneTree) IsDebuggingNavigationHint() gdnative.Bool {
 }
 
 /*
-
+        Returns [code]true[/code] if the most recent [InputEvent] was marked as handled with [method set_input_as_handled].
 	Args: [], Returns: bool
 */
 func (o *SceneTree) IsInputHandled() gdnative.Bool {
@@ -729,7 +766,30 @@ func (o *SceneTree) IsInputHandled() gdnative.Bool {
 }
 
 /*
-        Returns true if this SceneTree's [NetworkedMultiplayerPeer] is in server mode (listening for connections).
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *SceneTree) IsMultiplayerPollEnabled() gdnative.Bool {
+	//log.Println("Calling SceneTree.IsMultiplayerPollEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SceneTree", "is_multiplayer_poll_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns [code]true[/code] if this [code]SceneTree[/code]'s [member network_peer] is in server mode (listening for connections).
 	Args: [], Returns: bool
 */
 func (o *SceneTree) IsNetworkServer() gdnative.Bool {
@@ -821,7 +881,7 @@ func (o *SceneTree) IsUsingFontOversampling() gdnative.Bool {
 }
 
 /*
-
+        Sends the given notification to all members of the [code]group[/code].
 	Args: [{ false group String} { false notification int}], Returns: void
 */
 func (o *SceneTree) NotifyGroup(group gdnative.String, notification gdnative.Int) {
@@ -843,7 +903,7 @@ func (o *SceneTree) NotifyGroup(group gdnative.String, notification gdnative.Int
 }
 
 /*
-
+        Sends the given notification to all members of the [code]group[/code], respecting the given [enum GroupCallFlags].
 	Args: [{ false call_flags int} { false group String} { false notification int}], Returns: void
 */
 func (o *SceneTree) NotifyGroupFlags(callFlags gdnative.Int, group gdnative.String, notification gdnative.Int) {
@@ -866,7 +926,7 @@ func (o *SceneTree) NotifyGroupFlags(callFlags gdnative.Int, group gdnative.Stri
 }
 
 /*
-
+        Queues the given object for deletion, delaying the call to [method Object.free] to after the current frame.
 	Args: [{ false obj Object}], Returns: void
 */
 func (o *SceneTree) QueueDelete(obj ObjectImplementer) {
@@ -887,7 +947,7 @@ func (o *SceneTree) QueueDelete(obj ObjectImplementer) {
 }
 
 /*
-
+        Quits the application.
 	Args: [], Returns: void
 */
 func (o *SceneTree) Quit() {
@@ -907,7 +967,7 @@ func (o *SceneTree) Quit() {
 }
 
 /*
-
+        Reloads the currently active scene. Returns an [enum @GlobalScope.Error] code as described in [method change_scene], with the addition of [constant @GlobalScope.ERR_UNCONFIGURED] if no [member current_scene] was defined yet.
 	Args: [], Returns: enum.Error
 */
 func (o *SceneTree) ReloadCurrentScene() gdnative.Error {
@@ -930,7 +990,7 @@ func (o *SceneTree) ReloadCurrentScene() gdnative.Error {
 }
 
 /*
-
+        If [code]true[/code], the application automatically accepts quitting. Defaults to [code]true[/code].
 	Args: [{ false enabled bool}], Returns: void
 */
 func (o *SceneTree) SetAutoAcceptQuit(enabled gdnative.Bool) {
@@ -952,9 +1012,9 @@ func (o *SceneTree) SetAutoAcceptQuit(enabled gdnative.Bool) {
 
 /*
         Undocumented
-	Args: [{ false child_node Object}], Returns: void
+	Args: [{ false child_node Node}], Returns: void
 */
-func (o *SceneTree) SetCurrentScene(childNode ObjectImplementer) {
+func (o *SceneTree) SetCurrentScene(childNode NodeImplementer) {
 	//log.Println("Calling SceneTree.SetCurrentScene()")
 
 	// Build out the method's arguments
@@ -1015,9 +1075,9 @@ func (o *SceneTree) SetDebugNavigationHint(enable gdnative.Bool) {
 
 /*
         Undocumented
-	Args: [{ false scene Object}], Returns: void
+	Args: [{ false scene Node}], Returns: void
 */
-func (o *SceneTree) SetEditedSceneRoot(scene ObjectImplementer) {
+func (o *SceneTree) SetEditedSceneRoot(scene NodeImplementer) {
 	//log.Println("Calling SceneTree.SetEditedSceneRoot()")
 
 	// Build out the method's arguments
@@ -1035,7 +1095,7 @@ func (o *SceneTree) SetEditedSceneRoot(scene ObjectImplementer) {
 }
 
 /*
-
+        Sets the given [code]property[/code] to [code]value[/code] on all members of the given group.
 	Args: [{ false group String} { false property String} { false value Variant}], Returns: void
 */
 func (o *SceneTree) SetGroup(group gdnative.String, property gdnative.String, value gdnative.Variant) {
@@ -1058,7 +1118,7 @@ func (o *SceneTree) SetGroup(group gdnative.String, property gdnative.String, va
 }
 
 /*
-
+        Sets the given [code]property[/code] to [code]value[/code] on all members of the given group, respecting the given [enum GroupCallFlags].
 	Args: [{ false call_flags int} { false group String} { false property String} { false value Variant}], Returns: void
 */
 func (o *SceneTree) SetGroupFlags(callFlags gdnative.Int, group gdnative.String, property gdnative.String, value gdnative.Variant) {
@@ -1082,7 +1142,7 @@ func (o *SceneTree) SetGroupFlags(callFlags gdnative.Int, group gdnative.String,
 }
 
 /*
-
+        Marks the most recent [InputEvent] as handled.
 	Args: [], Returns: void
 */
 func (o *SceneTree) SetInputAsHandled() {
@@ -1093,6 +1153,48 @@ func (o *SceneTree) SetInputAsHandled() {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("SceneTree", "set_input_as_handled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false multiplayer MultiplayerAPI}], Returns: void
+*/
+func (o *SceneTree) SetMultiplayer(multiplayer MultiplayerAPIImplementer) {
+	//log.Println("Calling SceneTree.SetMultiplayer()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(multiplayer.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SceneTree", "set_multiplayer")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enabled bool}], Returns: void
+*/
+func (o *SceneTree) SetMultiplayerPollEnabled(enabled gdnative.Bool) {
+	//log.Println("Calling SceneTree.SetMultiplayerPollEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SceneTree", "set_multiplayer_poll_enabled")
 
 	// Call the parent method.
 	// void
@@ -1144,7 +1246,7 @@ func (o *SceneTree) SetPause(enable gdnative.Bool) {
 }
 
 /*
-
+        If [code]true[/code], the application quits automatically on going back (e.g. on Android). Defaults to [code]true[/code].
 	Args: [{ false enabled bool}], Returns: void
 */
 func (o *SceneTree) SetQuitOnGoBack(enabled gdnative.Bool) {
@@ -1186,7 +1288,7 @@ func (o *SceneTree) SetRefuseNewNetworkConnections(refuse gdnative.Bool) {
 }
 
 /*
-
+        Configures screen stretching to the given [enum StretchMode], [enum StretchAspect], minimum size and [code]shrink[/code] ratio.
 	Args: [{ false mode int} { false aspect int} { false minsize Vector2} {1 true shrink float}], Returns: void
 */
 func (o *SceneTree) SetScreenStretch(mode gdnative.Int, aspect gdnative.Int, minsize gdnative.Vector2, shrink gdnative.Real) {
@@ -1234,7 +1336,7 @@ func (o *SceneTree) SetUseFontOversampling(enable gdnative.Bool) {
 // of the SceneTree class.
 type SceneTreeImplementer interface {
 	MainLoopImplementer
-	X_ChangeScene(arg0 ObjectImplementer)
+	X_ChangeScene(arg0 NodeImplementer)
 	X_ConnectedToServer()
 	X_ConnectionFailed()
 	X_NetworkPeerConnected(arg0 gdnative.Int)
@@ -1246,6 +1348,7 @@ type SceneTreeImplementer interface {
 	GetCurrentScene() NodeImplementer
 	GetEditedSceneRoot() NodeImplementer
 	GetFrame() gdnative.Int
+	GetMultiplayer() MultiplayerAPIImplementer
 	GetNetworkConnectedPeers() gdnative.PoolIntArray
 	GetNetworkPeer() NetworkedMultiplayerPeerImplementer
 	GetNetworkUniqueId() gdnative.Int
@@ -1258,6 +1361,7 @@ type SceneTreeImplementer interface {
 	IsDebuggingCollisionsHint() gdnative.Bool
 	IsDebuggingNavigationHint() gdnative.Bool
 	IsInputHandled() gdnative.Bool
+	IsMultiplayerPollEnabled() gdnative.Bool
 	IsNetworkServer() gdnative.Bool
 	IsPaused() gdnative.Bool
 	IsRefusingNewNetworkConnections() gdnative.Bool
@@ -1267,13 +1371,15 @@ type SceneTreeImplementer interface {
 	QueueDelete(obj ObjectImplementer)
 	Quit()
 	SetAutoAcceptQuit(enabled gdnative.Bool)
-	SetCurrentScene(childNode ObjectImplementer)
+	SetCurrentScene(childNode NodeImplementer)
 	SetDebugCollisionsHint(enable gdnative.Bool)
 	SetDebugNavigationHint(enable gdnative.Bool)
-	SetEditedSceneRoot(scene ObjectImplementer)
+	SetEditedSceneRoot(scene NodeImplementer)
 	SetGroup(group gdnative.String, property gdnative.String, value gdnative.Variant)
 	SetGroupFlags(callFlags gdnative.Int, group gdnative.String, property gdnative.String, value gdnative.Variant)
 	SetInputAsHandled()
+	SetMultiplayer(multiplayer MultiplayerAPIImplementer)
+	SetMultiplayerPollEnabled(enabled gdnative.Bool)
 	SetNetworkPeer(peer NetworkedMultiplayerPeerImplementer)
 	SetPause(enable gdnative.Bool)
 	SetQuitOnGoBack(enabled gdnative.Bool)

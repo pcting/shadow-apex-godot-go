@@ -188,6 +188,27 @@ func (o *GDNativeLibrary) IsSingleton() gdnative.Bool {
 
 /*
         Undocumented
+	Args: [{ false config_file ConfigFile}], Returns: void
+*/
+func (o *GDNativeLibrary) SetConfigFile(configFile ConfigFileImplementer) {
+	//log.Println("Calling GDNativeLibrary.SetConfigFile()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(configFile.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("GDNativeLibrary", "set_config_file")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false load_once bool}], Returns: void
 */
 func (o *GDNativeLibrary) SetLoadOnce(loadOnce gdnative.Bool) {
@@ -303,6 +324,7 @@ type GDNativeLibraryImplementer interface {
 	GetSymbolPrefix() gdnative.String
 	IsReloadable() gdnative.Bool
 	IsSingleton() gdnative.Bool
+	SetConfigFile(configFile ConfigFileImplementer)
 	SetLoadOnce(loadOnce gdnative.Bool)
 	SetReloadable(reloadable gdnative.Bool)
 	SetSingleton(singleton gdnative.Bool)

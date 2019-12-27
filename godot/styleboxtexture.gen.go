@@ -139,9 +139,9 @@ func (o *StyleBoxTexture) GetModulate() gdnative.Color {
 
 /*
         Undocumented
-	Args: [], Returns: Resource
+	Args: [], Returns: Texture
 */
-func (o *StyleBoxTexture) GetNormalMap() ResourceImplementer {
+func (o *StyleBoxTexture) GetNormalMap() TextureImplementer {
 	//log.Println("Calling StyleBoxTexture.GetNormalMap()")
 
 	// Build out the method's arguments
@@ -151,24 +151,24 @@ func (o *StyleBoxTexture) GetNormalMap() ResourceImplementer {
 	methodBind := gdnative.NewMethodBind("StyleBoxTexture", "get_normal_map")
 
 	// Call the parent method.
-	// Resource
+	// Texture
 	retPtr := gdnative.NewEmptyObject()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
 	// If we have a return type, convert it from a pointer into its actual object.
-	ret := newResourceFromPointer(retPtr)
+	ret := newTextureFromPointer(retPtr)
 
 	// Check to see if we already have an instance of this object in our Go instance registry.
 	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
-		return instance.(ResourceImplementer)
+		return instance.(TextureImplementer)
 	}
 
 	// Check to see what kind of class this is and create it. This is generally used with
 	// GetNode().
 	className := ret.GetClass()
-	if className != "Resource" {
+	if className != "Texture" {
 		actualRet := getActualClass(className, ret.GetBaseObject())
-		return actualRet.(ResourceImplementer)
+		return actualRet.(TextureImplementer)
 	}
 
 	return &ret
@@ -199,9 +199,9 @@ func (o *StyleBoxTexture) GetRegionRect() gdnative.Rect2 {
 
 /*
         Undocumented
-	Args: [], Returns: Resource
+	Args: [], Returns: Texture
 */
-func (o *StyleBoxTexture) GetTexture() ResourceImplementer {
+func (o *StyleBoxTexture) GetTexture() TextureImplementer {
 	//log.Println("Calling StyleBoxTexture.GetTexture()")
 
 	// Build out the method's arguments
@@ -211,24 +211,24 @@ func (o *StyleBoxTexture) GetTexture() ResourceImplementer {
 	methodBind := gdnative.NewMethodBind("StyleBoxTexture", "get_texture")
 
 	// Call the parent method.
-	// Resource
+	// Texture
 	retPtr := gdnative.NewEmptyObject()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
 	// If we have a return type, convert it from a pointer into its actual object.
-	ret := newResourceFromPointer(retPtr)
+	ret := newTextureFromPointer(retPtr)
 
 	// Check to see if we already have an instance of this object in our Go instance registry.
 	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
-		return instance.(ResourceImplementer)
+		return instance.(TextureImplementer)
 	}
 
 	// Check to see what kind of class this is and create it. This is generally used with
 	// GetNode().
 	className := ret.GetClass()
-	if className != "Resource" {
+	if className != "Texture" {
 		actualRet := getActualClass(className, ret.GetBaseObject())
-		return actualRet.(ResourceImplementer)
+		return actualRet.(TextureImplementer)
 	}
 
 	return &ret
@@ -434,9 +434,9 @@ func (o *StyleBoxTexture) SetModulate(color gdnative.Color) {
 
 /*
         Undocumented
-	Args: [{ false normal_map Resource}], Returns: void
+	Args: [{ false normal_map Texture}], Returns: void
 */
-func (o *StyleBoxTexture) SetNormalMap(normalMap ResourceImplementer) {
+func (o *StyleBoxTexture) SetNormalMap(normalMap TextureImplementer) {
 	//log.Println("Calling StyleBoxTexture.SetNormalMap()")
 
 	// Build out the method's arguments
@@ -476,9 +476,9 @@ func (o *StyleBoxTexture) SetRegionRect(region gdnative.Rect2) {
 
 /*
         Undocumented
-	Args: [{ false texture Resource}], Returns: void
+	Args: [{ false texture Texture}], Returns: void
 */
-func (o *StyleBoxTexture) SetTexture(texture ResourceImplementer) {
+func (o *StyleBoxTexture) SetTexture(texture TextureImplementer) {
 	//log.Println("Calling StyleBoxTexture.SetTexture()")
 
 	// Build out the method's arguments
@@ -523,9 +523,9 @@ type StyleBoxTextureImplementer interface {
 	GetExpandMarginSize(margin gdnative.Int) gdnative.Real
 	GetMarginSize(margin gdnative.Int) gdnative.Real
 	GetModulate() gdnative.Color
-	GetNormalMap() ResourceImplementer
+	GetNormalMap() TextureImplementer
 	GetRegionRect() gdnative.Rect2
-	GetTexture() ResourceImplementer
+	GetTexture() TextureImplementer
 	IsDrawCenterEnabled() gdnative.Bool
 	SetDrawCenter(enable gdnative.Bool)
 	SetExpandMarginAll(size gdnative.Real)
@@ -534,8 +534,8 @@ type StyleBoxTextureImplementer interface {
 	SetHAxisStretchMode(mode gdnative.Int)
 	SetMarginSize(margin gdnative.Int, size gdnative.Real)
 	SetModulate(color gdnative.Color)
-	SetNormalMap(normalMap ResourceImplementer)
+	SetNormalMap(normalMap TextureImplementer)
 	SetRegionRect(region gdnative.Rect2)
-	SetTexture(texture ResourceImplementer)
+	SetTexture(texture TextureImplementer)
 	SetVAxisStretchMode(mode gdnative.Int)
 }

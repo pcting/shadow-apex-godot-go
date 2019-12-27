@@ -79,7 +79,7 @@ func (o *Translation) X_SetMessages(arg0 gdnative.PoolStringArray) {
 }
 
 /*
-        Add a message for translation.
+        Adds a message if nonexistent, followed by its translation.
 	Args: [{ false src_message String} { false xlated_message String}], Returns: void
 */
 func (o *Translation) AddMessage(srcMessage gdnative.String, xlatedMessage gdnative.String) {
@@ -101,7 +101,7 @@ func (o *Translation) AddMessage(srcMessage gdnative.String, xlatedMessage gdnat
 }
 
 /*
-        Erase a message.
+        Erases a message.
 	Args: [{ false src_message String}], Returns: void
 */
 func (o *Translation) EraseMessage(srcMessage gdnative.String) {
@@ -145,7 +145,7 @@ func (o *Translation) GetLocale() gdnative.String {
 }
 
 /*
-        Return a message for translation.
+        Returns a message's translation.
 	Args: [{ false src_message String}], Returns: String
 */
 func (o *Translation) GetMessage(srcMessage gdnative.String) gdnative.String {
@@ -169,7 +169,7 @@ func (o *Translation) GetMessage(srcMessage gdnative.String) gdnative.String {
 }
 
 /*
-
+        Returns the number of existing messages.
 	Args: [], Returns: int
 */
 func (o *Translation) GetMessageCount() gdnative.Int {
@@ -192,7 +192,7 @@ func (o *Translation) GetMessageCount() gdnative.Int {
 }
 
 /*
-        Return all the messages (keys).
+        Returns all the messages (keys).
 	Args: [], Returns: PoolStringArray
 */
 func (o *Translation) GetMessageList() gdnative.PoolStringArray {

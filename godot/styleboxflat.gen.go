@@ -23,7 +23,7 @@ func newStyleBoxFlatFromPointer(ptr gdnative.Pointer) StyleBoxFlat {
 }
 
 /*
-This stylebox can be used to achieve all kinds of looks without the need of a texture. Those properties are customizable: - Color - Border width (individual width for each border) - Rounded corners (individual radius for each corner) - Shadow About corner radius: Setting corner radius to high values is allowed. As soon as corners would overlap the stylebox will switch to a relative system. Example: [codeblock] height = 30 corner_radius_top_left = 50 corner_radius_bottom_left = 100 [/codeblock] The relative system now would take the 1:2 ratio of the two left corners to calculate the actual corner width. Both corners added will [b]never[/b] be more than the height. Result: [codeblock] corner_radius_top_left: 10 corner_radius_bottom_left: 20 [/codeblock]
+This stylebox can be used to achieve all kinds of looks without the need of a texture. Those properties are customizable: - Color - Border width (individual width for each border) - Rounded corners (individual radius for each corner) - Shadow Setting corner radius to high values is allowed. As soon as corners would overlap the stylebox will switch to a relative system. Example: [codeblock] height = 30 corner_radius_top_left = 50 corner_radius_bottom_left = 100 [/codeblock] The relative system now would take the 1:2 ratio of the two left corners to calculate the actual corner width. Both corners added will [b]never[/b] be more than the height. Result: [codeblock] corner_radius_top_left: 10 corner_radius_bottom_left: 20 [/codeblock]
 */
 type StyleBoxFlat struct {
 	StyleBox
@@ -264,6 +264,29 @@ func (o *StyleBoxFlat) GetShadowColor() gdnative.Color {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Vector2
+*/
+func (o *StyleBoxFlat) GetShadowOffset() gdnative.Vector2 {
+	//log.Println("Calling StyleBoxFlat.GetShadowOffset()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("StyleBoxFlat", "get_shadow_offset")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
 	return ret
 }
 
@@ -683,6 +706,27 @@ func (o *StyleBoxFlat) SetShadowColor(color gdnative.Color) {
 
 /*
         Undocumented
+	Args: [{ false offset Vector2}], Returns: void
+*/
+func (o *StyleBoxFlat) SetShadowOffset(offset gdnative.Vector2) {
+	//log.Println("Calling StyleBoxFlat.SetShadowOffset()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(offset)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("StyleBoxFlat", "set_shadow_offset")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false size int}], Returns: void
 */
 func (o *StyleBoxFlat) SetShadowSize(size gdnative.Int) {
@@ -716,6 +760,7 @@ type StyleBoxFlatImplementer interface {
 	GetCornerRadius(corner gdnative.Int) gdnative.Int
 	GetExpandMargin(margin gdnative.Int) gdnative.Real
 	GetShadowColor() gdnative.Color
+	GetShadowOffset() gdnative.Vector2
 	GetShadowSize() gdnative.Int
 	IsAntiAliased() gdnative.Bool
 	IsDrawCenterEnabled() gdnative.Bool
@@ -735,5 +780,6 @@ type StyleBoxFlatImplementer interface {
 	SetExpandMarginAll(size gdnative.Real)
 	SetExpandMarginIndividual(sizeLeft gdnative.Real, sizeTop gdnative.Real, sizeRight gdnative.Real, sizeBottom gdnative.Real)
 	SetShadowColor(color gdnative.Color)
+	SetShadowOffset(offset gdnative.Vector2)
 	SetShadowSize(size gdnative.Int)
 }

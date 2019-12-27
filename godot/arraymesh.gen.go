@@ -54,8 +54,8 @@ func newArrayMeshFromPointer(ptr gdnative.Pointer) ArrayMesh {
 }
 
 /*
-
- */
+The [code]ArrayMesh[/code] is used to construct a [Mesh] by specifying the attributes as arrays. The most basic example is the creation of a single triangle [codeblock] var vertices = PoolVector3Array() vertices.push_back(Vector3(0, 1, 0)) vertices.push_back(Vector3(1, 0, 0)) vertices.push_back(Vector3(0, 0, 1)) # Initialize the ArrayMesh. var arr_mesh = ArrayMesh.new() var arrays = [] arrays.resize(ArrayMesh.ARRAY_MAX) arrays[ArrayMesh.ARRAY_VERTEX] = vertices # Create the Mesh. arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays) var m = MeshInstance.new() m.mesh = arr_mesh [/codeblock] The [code]MeshInstance[/code] is ready to be added to the SceneTree to be shown.
+*/
 type ArrayMesh struct {
 	Mesh
 	owner gdnative.Object
@@ -66,7 +66,7 @@ func (o *ArrayMesh) BaseClass() string {
 }
 
 /*
-
+        Add name for a blend shape that will be added with [method add_surface_from_arrays]. Must be called before surface is added.
 	Args: [{ false name String}], Returns: void
 */
 func (o *ArrayMesh) AddBlendShape(name gdnative.String) {
@@ -87,8 +87,8 @@ func (o *ArrayMesh) AddBlendShape(name gdnative.String) {
 }
 
 /*
-        Create a new surface ([method get_surface_count] that will become surf_idx for this. Surfaces are created to be rendered using a "primitive", which may be PRIMITIVE_POINTS, PRIMITIVE_LINES, PRIMITIVE_LINE_STRIP, PRIMITIVE_LINE_LOOP, PRIMITIVE_TRIANGLES, PRIMITIVE_TRIANGLE_STRIP, PRIMITIVE_TRIANGLE_FAN. (As a note, when using indices, it is recommended to only use just points, lines or triangles).
-	Args: [{ false primitive int} { false arrays Array} {[] true blend_shapes Array} {97792 true compress_flags int}], Returns: void
+        Creates a new surface. Surfaces are created to be rendered using a "primitive", which may be PRIMITIVE_POINTS, PRIMITIVE_LINES, PRIMITIVE_LINE_STRIP, PRIMITIVE_LINE_LOOP, PRIMITIVE_TRIANGLES, PRIMITIVE_TRIANGLE_STRIP, PRIMITIVE_TRIANGLE_FAN. See [Mesh] for details. (As a note, when using indices, it is recommended to only use points, lines or triangles). [method Mesh.get_surface_count] will become the [code]surf_idx[/code] for this new surface. The [code]arrays[/code] argument is an array of arrays. See [enum ArrayType] for the values used in this array. For example, [code]arrays[0][/code] is the array of vertices. That first vertex sub-array is always required; the others are optional. Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data and the index array defines the vertex order. All sub-arrays must have the same length as the vertex array or be empty, except for [constant ARRAY_INDEX] if it is used. Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data, and the index array defines the order of the vertices. Godot uses clockwise winding order for front faces of triangle primitive modes.
+	Args: [{ false primitive int} { false arrays Array} {[] true blend_shapes Array} {97280 true compress_flags int}], Returns: void
 */
 func (o *ArrayMesh) AddSurfaceFromArrays(primitive gdnative.Int, arrays gdnative.Array, blendShapes gdnative.Array, compressFlags gdnative.Int) {
 	//log.Println("Calling ArrayMesh.AddSurfaceFromArrays()")
@@ -111,27 +111,7 @@ func (o *ArrayMesh) AddSurfaceFromArrays(primitive gdnative.Int, arrays gdnative
 }
 
 /*
-
-	Args: [], Returns: void
-*/
-func (o *ArrayMesh) CenterGeometry() {
-	//log.Println("Calling ArrayMesh.CenterGeometry()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("ArrayMesh", "center_geometry")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-
+        Remove all blend shapes from this [code]ArrayMesh[/code].
 	Args: [], Returns: void
 */
 func (o *ArrayMesh) ClearBlendShapes() {
@@ -151,7 +131,7 @@ func (o *ArrayMesh) ClearBlendShapes() {
 }
 
 /*
-
+        Returns the number of blend shapes that the [code]ArrayMesh[/code] holds.
 	Args: [], Returns: int
 */
 func (o *ArrayMesh) GetBlendShapeCount() gdnative.Int {
@@ -197,7 +177,7 @@ func (o *ArrayMesh) GetBlendShapeMode() MeshBlendShapeMode {
 }
 
 /*
-
+        Returns the name of the blend shape at this index.
 	Args: [{ false index int}], Returns: String
 */
 func (o *ArrayMesh) GetBlendShapeName(index gdnative.Int) gdnative.String {
@@ -244,39 +224,16 @@ func (o *ArrayMesh) GetCustomAabb() gdnative.Aabb {
 }
 
 /*
-        Return the amount of surfaces that the [code]ArrayMesh[/code] holds.
-	Args: [], Returns: int
+        Will perform a UV unwrap on the [code]ArrayMesh[/code] to prepare the mesh for lightmapping.
+	Args: [{ false transform Transform} { false texel_size float}], Returns: enum.Error
 */
-func (o *ArrayMesh) GetSurfaceCount() gdnative.Int {
-	//log.Println("Calling ArrayMesh.GetSurfaceCount()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("ArrayMesh", "get_surface_count")
-
-	// Call the parent method.
-	// int
-	retPtr := gdnative.NewEmptyInt()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := gdnative.NewIntFromPointer(retPtr)
-	return ret
-}
-
-/*
-
-	Args: [{ false arg0 Transform} { false arg1 float}], Returns: enum.Error
-*/
-func (o *ArrayMesh) LightmapUnwrap(arg0 gdnative.Transform, arg1 gdnative.Real) gdnative.Error {
+func (o *ArrayMesh) LightmapUnwrap(transform gdnative.Transform, texelSize gdnative.Real) gdnative.Error {
 	//log.Println("Calling ArrayMesh.LightmapUnwrap()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromTransform(arg0)
-	ptrArguments[1] = gdnative.NewPointerFromReal(arg1)
+	ptrArguments[0] = gdnative.NewPointerFromTransform(transform)
+	ptrArguments[1] = gdnative.NewPointerFromReal(texelSize)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ArrayMesh", "lightmap_unwrap")
@@ -292,7 +249,7 @@ func (o *ArrayMesh) LightmapUnwrap(arg0 gdnative.Transform, arg1 gdnative.Real) 
 }
 
 /*
-
+        Will regenerate normal maps for the [code]ArrayMesh[/code].
 	Args: [], Returns: void
 */
 func (o *ArrayMesh) RegenNormalmaps() {
@@ -354,7 +311,31 @@ func (o *ArrayMesh) SetCustomAabb(aabb gdnative.Aabb) {
 }
 
 /*
-        Return the length in indices of the index array in the requested surface (see [method add_surface]).
+        Returns the index of the first surface with this name held within this [code]ArrayMesh[/code]. If none are found -1 is returned.
+	Args: [{ false name String}], Returns: int
+*/
+func (o *ArrayMesh) SurfaceFindByName(name gdnative.String) gdnative.Int {
+	//log.Println("Calling ArrayMesh.SurfaceFindByName()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(name)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ArrayMesh", "surface_find_by_name")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the length in indices of the index array in the requested surface (see [method add_surface_from_arrays]).
 	Args: [{ false surf_idx int}], Returns: int
 */
 func (o *ArrayMesh) SurfaceGetArrayIndexLen(surfIdx gdnative.Int) gdnative.Int {
@@ -378,7 +359,7 @@ func (o *ArrayMesh) SurfaceGetArrayIndexLen(surfIdx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Return the length in vertices of the vertex array in the requested surface (see [method add_surface]).
+        Returns the length in vertices of the vertex array in the requested surface (see [method add_surface_from_arrays]).
 	Args: [{ false surf_idx int}], Returns: int
 */
 func (o *ArrayMesh) SurfaceGetArrayLen(surfIdx gdnative.Int) gdnative.Int {
@@ -402,55 +383,7 @@ func (o *ArrayMesh) SurfaceGetArrayLen(surfIdx gdnative.Int) gdnative.Int {
 }
 
 /*
-
-	Args: [{ false surf_idx int}], Returns: Array
-*/
-func (o *ArrayMesh) SurfaceGetArrays(surfIdx gdnative.Int) gdnative.Array {
-	//log.Println("Calling ArrayMesh.SurfaceGetArrays()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(surfIdx)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("ArrayMesh", "surface_get_arrays")
-
-	// Call the parent method.
-	// Array
-	retPtr := gdnative.NewEmptyArray()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := gdnative.NewArrayFromPointer(retPtr)
-	return ret
-}
-
-/*
-
-	Args: [{ false surf_idx int}], Returns: Array
-*/
-func (o *ArrayMesh) SurfaceGetBlendShapeArrays(surfIdx gdnative.Int) gdnative.Array {
-	//log.Println("Calling ArrayMesh.SurfaceGetBlendShapeArrays()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(surfIdx)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("ArrayMesh", "surface_get_blend_shape_arrays")
-
-	// Call the parent method.
-	// Array
-	retPtr := gdnative.NewEmptyArray()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := gdnative.NewArrayFromPointer(retPtr)
-	return ret
-}
-
-/*
-        Return the format mask of the requested surface (see [method add_surface]).
+        Returns the format mask of the requested surface (see [method add_surface_from_arrays]).
 	Args: [{ false surf_idx int}], Returns: int
 */
 func (o *ArrayMesh) SurfaceGetFormat(surfIdx gdnative.Int) gdnative.Int {
@@ -474,45 +407,7 @@ func (o *ArrayMesh) SurfaceGetFormat(surfIdx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Return a [Material] in a given surface. Surface is rendered using this material.
-	Args: [{ false surf_idx int}], Returns: Material
-*/
-func (o *ArrayMesh) SurfaceGetMaterial(surfIdx gdnative.Int) MaterialImplementer {
-	//log.Println("Calling ArrayMesh.SurfaceGetMaterial()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(surfIdx)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("ArrayMesh", "surface_get_material")
-
-	// Call the parent method.
-	// Material
-	retPtr := gdnative.NewEmptyObject()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := newMaterialFromPointer(retPtr)
-
-	// Check to see if we already have an instance of this object in our Go instance registry.
-	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
-		return instance.(MaterialImplementer)
-	}
-
-	// Check to see what kind of class this is and create it. This is generally used with
-	// GetNode().
-	className := ret.GetClass()
-	if className != "Material" {
-		actualRet := getActualClass(className, ret.GetBaseObject())
-		return actualRet.(MaterialImplementer)
-	}
-
-	return &ret
-}
-
-/*
-
+        Get the name assigned to this surface.
 	Args: [{ false surf_idx int}], Returns: String
 */
 func (o *ArrayMesh) SurfaceGetName(surfIdx gdnative.Int) gdnative.String {
@@ -536,7 +431,7 @@ func (o *ArrayMesh) SurfaceGetName(surfIdx gdnative.Int) gdnative.String {
 }
 
 /*
-        Return the primitive type of the requested surface (see [method add_surface]).
+        Returns the primitive type of the requested surface (see [method add_surface_from_arrays]).
 	Args: [{ false surf_idx int}], Returns: enum.Mesh::PrimitiveType
 */
 func (o *ArrayMesh) SurfaceGetPrimitiveType(surfIdx gdnative.Int) MeshPrimitiveType {
@@ -581,29 +476,7 @@ func (o *ArrayMesh) SurfaceRemove(surfIdx gdnative.Int) {
 }
 
 /*
-
-	Args: [{ false surf_idx int} { false material Material}], Returns: void
-*/
-func (o *ArrayMesh) SurfaceSetMaterial(surfIdx gdnative.Int, material MaterialImplementer) {
-	//log.Println("Calling ArrayMesh.SurfaceSetMaterial()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromInt(surfIdx)
-	ptrArguments[1] = gdnative.NewPointerFromObject(material.GetBaseObject())
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("ArrayMesh", "surface_set_material")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-        Set a [Material] for a given surface. Surface will be rendered using this material.
+        Set a name for a given surface.
 	Args: [{ false surf_idx int} { false name String}], Returns: void
 */
 func (o *ArrayMesh) SurfaceSetName(surfIdx gdnative.Int, name gdnative.String) {
@@ -625,7 +498,7 @@ func (o *ArrayMesh) SurfaceSetName(surfIdx gdnative.Int, name gdnative.String) {
 }
 
 /*
-
+        Updates a specified region of mesh arrays on GPU. Warning: only use if you know what you are doing. You can easily cause crashes by calling this function with improper arguments.
 	Args: [{ false surf_idx int} { false offset int} { false data PoolByteArray}], Returns: void
 */
 func (o *ArrayMesh) SurfaceUpdateRegion(surfIdx gdnative.Int, offset gdnative.Int, data gdnative.PoolByteArray) {
@@ -653,24 +526,19 @@ type ArrayMeshImplementer interface {
 	MeshImplementer
 	AddBlendShape(name gdnative.String)
 	AddSurfaceFromArrays(primitive gdnative.Int, arrays gdnative.Array, blendShapes gdnative.Array, compressFlags gdnative.Int)
-	CenterGeometry()
 	ClearBlendShapes()
 	GetBlendShapeCount() gdnative.Int
 	GetBlendShapeName(index gdnative.Int) gdnative.String
 	GetCustomAabb() gdnative.Aabb
-	GetSurfaceCount() gdnative.Int
 	RegenNormalmaps()
 	SetBlendShapeMode(mode gdnative.Int)
 	SetCustomAabb(aabb gdnative.Aabb)
+	SurfaceFindByName(name gdnative.String) gdnative.Int
 	SurfaceGetArrayIndexLen(surfIdx gdnative.Int) gdnative.Int
 	SurfaceGetArrayLen(surfIdx gdnative.Int) gdnative.Int
-	SurfaceGetArrays(surfIdx gdnative.Int) gdnative.Array
-	SurfaceGetBlendShapeArrays(surfIdx gdnative.Int) gdnative.Array
 	SurfaceGetFormat(surfIdx gdnative.Int) gdnative.Int
-	SurfaceGetMaterial(surfIdx gdnative.Int) MaterialImplementer
 	SurfaceGetName(surfIdx gdnative.Int) gdnative.String
 	SurfaceRemove(surfIdx gdnative.Int)
-	SurfaceSetMaterial(surfIdx gdnative.Int, material MaterialImplementer)
 	SurfaceSetName(surfIdx gdnative.Int, name gdnative.String)
 	SurfaceUpdateRegion(surfIdx gdnative.Int, offset gdnative.Int, data gdnative.PoolByteArray)
 }

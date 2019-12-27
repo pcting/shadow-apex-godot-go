@@ -17,6 +17,7 @@ import (
 type AudioStreamPlayer3DAttenuationModel int
 
 const (
+	AudioStreamPlayer3DAttenuationDisabled              AudioStreamPlayer3DAttenuationModel = 3
 	AudioStreamPlayer3DAttenuationInverseDistance       AudioStreamPlayer3DAttenuationModel = 0
 	AudioStreamPlayer3DAttenuationInverseSquareDistance AudioStreamPlayer3DAttenuationModel = 1
 	AudioStreamPlayer3DAttenuationLogarithmic           AudioStreamPlayer3DAttenuationModel = 2
@@ -378,6 +379,29 @@ func (o *AudioStreamPlayer3D) GetOutOfRangeMode() AudioStreamPlayer3DOutOfRangeM
 }
 
 /*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *AudioStreamPlayer3D) GetPitchScale() gdnative.Real {
+	//log.Println("Calling AudioStreamPlayer3D.GetPitchScale()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioStreamPlayer3D", "get_pitch_scale")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns the position in the [AudioStream].
 	Args: [], Returns: float
 */
@@ -432,6 +456,66 @@ func (o *AudioStreamPlayer3D) GetStream() AudioStreamImplementer {
 	if className != "AudioStream" {
 		actualRet := getActualClass(className, ret.GetBaseObject())
 		return actualRet.(AudioStreamImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *AudioStreamPlayer3D) GetStreamPaused() gdnative.Bool {
+	//log.Println("Calling AudioStreamPlayer3D.GetStreamPaused()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioStreamPlayer3D", "get_stream_paused")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [], Returns: AudioStreamPlayback
+*/
+func (o *AudioStreamPlayer3D) GetStreamPlayback() AudioStreamPlaybackImplementer {
+	//log.Println("Calling AudioStreamPlayer3D.GetStreamPlayback()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioStreamPlayer3D", "get_stream_playback")
+
+	// Call the parent method.
+	// AudioStreamPlayback
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newAudioStreamPlaybackFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(AudioStreamPlaybackImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "AudioStreamPlayback" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(AudioStreamPlaybackImplementer)
 	}
 
 	return &ret
@@ -869,6 +953,27 @@ func (o *AudioStreamPlayer3D) SetOutOfRangeMode(mode gdnative.Int) {
 
 /*
         Undocumented
+	Args: [{ false pitch_scale float}], Returns: void
+*/
+func (o *AudioStreamPlayer3D) SetPitchScale(pitchScale gdnative.Real) {
+	//log.Println("Calling AudioStreamPlayer3D.SetPitchScale()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(pitchScale)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioStreamPlayer3D", "set_pitch_scale")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false stream AudioStream}], Returns: void
 */
 func (o *AudioStreamPlayer3D) SetStream(stream AudioStreamImplementer) {
@@ -880,6 +985,27 @@ func (o *AudioStreamPlayer3D) SetStream(stream AudioStreamImplementer) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("AudioStreamPlayer3D", "set_stream")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false pause bool}], Returns: void
+*/
+func (o *AudioStreamPlayer3D) SetStreamPaused(pause gdnative.Bool) {
+	//log.Println("Calling AudioStreamPlayer3D.SetStreamPaused()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(pause)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioStreamPlayer3D", "set_stream_paused")
 
 	// Call the parent method.
 	// void
@@ -965,8 +1091,11 @@ type AudioStreamPlayer3DImplementer interface {
 	GetEmissionAngleFilterAttenuationDb() gdnative.Real
 	GetMaxDb() gdnative.Real
 	GetMaxDistance() gdnative.Real
+	GetPitchScale() gdnative.Real
 	GetPlaybackPosition() gdnative.Real
 	GetStream() AudioStreamImplementer
+	GetStreamPaused() gdnative.Bool
+	GetStreamPlayback() AudioStreamPlaybackImplementer
 	GetUnitDb() gdnative.Real
 	GetUnitSize() gdnative.Real
 	IsAutoplayEnabled() gdnative.Bool
@@ -987,7 +1116,9 @@ type AudioStreamPlayer3DImplementer interface {
 	SetMaxDb(maxDb gdnative.Real)
 	SetMaxDistance(metres gdnative.Real)
 	SetOutOfRangeMode(mode gdnative.Int)
+	SetPitchScale(pitchScale gdnative.Real)
 	SetStream(stream AudioStreamImplementer)
+	SetStreamPaused(pause gdnative.Bool)
 	SetUnitDb(unitDb gdnative.Real)
 	SetUnitSize(unitSize gdnative.Real)
 	Stop()

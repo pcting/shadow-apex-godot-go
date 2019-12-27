@@ -23,7 +23,7 @@ func newRayCast2DFromPointer(ptr gdnative.Pointer) RayCast2D {
 }
 
 /*
-A RayCast represents a line from its origin to its destination position, [code]cast_to[/code]. It is used to query the 2D space in order to find the closest object along the path of the ray. RayCast2D can ignore some objects by adding them to the exception list via [code]add_exception[/code], by setting proper filtering with collision layers, or by filtering object types with type masks. Only enabled raycasts will be able to query the space and report collisions. RayCast2D calculates intersection every physics frame (see [Node]), and the result is cached so it can be used later until the next frame. If multiple queries are required between physics frames (or during the same frame) use [method force_raycast_update] after adjusting the raycast.
+A RayCast represents a line from its origin to its destination position, [code]cast_to[/code]. It is used to query the 2D space in order to find the closest object along the path of the ray. RayCast2D can ignore some objects by adding them to the exception list via [code]add_exception[/code], by setting proper filtering with collision layers, or by filtering object types with type masks. RayCast2D can be configured to report collisions with [Area2D]s ([member collide_with_areas]) and/or [PhysicsBody2D]s ([member collide_with_bodies]). Only enabled raycasts will be able to query the space and report collisions. RayCast2D calculates intersection every physics frame (see [Node]), and the result is cached so it can be used later until the next frame. If multiple queries are required between physics frames (or during the same frame) use [method force_raycast_update] after adjusting the raycast.
 */
 type RayCast2D struct {
 	Node2D
@@ -140,7 +140,7 @@ func (o *RayCast2D) GetCastTo() gdnative.Vector2 {
 }
 
 /*
-        Returns the closest object the ray is pointing to. Note that this does not consider the length of the ray, so you must also use [method is_colliding] to check if the object returned is actually colliding with the ray. Example: [codeblock] if RayCast2D.is_colliding(): var collider = RayCast2D.get_collider() [/codeblock]
+        Returns the first object that the ray intersects, or [code]null[/code] if no object is intersecting the ray (i.e. [method is_colliding] returns [code]false[/code]).
 	Args: [], Returns: Object
 */
 func (o *RayCast2D) GetCollider() ObjectImplementer {
@@ -177,7 +177,7 @@ func (o *RayCast2D) GetCollider() ObjectImplementer {
 }
 
 /*
-        Returns the collision shape of the closest object the ray is pointing to. Note that this does not consider the length of the ray, so you must also use [method is_colliding] to check if the object returned is actually colliding with the ray. Example: [codeblock] if RayCast2D.is_colliding(): var shape = RayCast2D.get_collider_shape() [/codeblock]
+        Returns the shape ID of the first object that the ray intersects, or [code]0[/code] if no object is intersecting the ray (i.e. [method is_colliding] returns [code]false[/code]).
 	Args: [], Returns: int
 */
 func (o *RayCast2D) GetColliderShape() gdnative.Int {
@@ -223,7 +223,7 @@ func (o *RayCast2D) GetCollisionMask() gdnative.Int {
 }
 
 /*
-        Return an individual bit on the collision mask.
+        Returns an individual bit on the collision mask.
 	Args: [{ false bit int}], Returns: bool
 */
 func (o *RayCast2D) GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool {
@@ -316,7 +316,53 @@ func (o *RayCast2D) GetExcludeParentBody() gdnative.Bool {
 }
 
 /*
-        Return whether the closest object the ray is pointing to is colliding with the vector (considering the vector length).
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *RayCast2D) IsCollideWithAreasEnabled() gdnative.Bool {
+	//log.Println("Calling RayCast2D.IsCollideWithAreasEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RayCast2D", "is_collide_with_areas_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *RayCast2D) IsCollideWithBodiesEnabled() gdnative.Bool {
+	//log.Println("Calling RayCast2D.IsCollideWithBodiesEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RayCast2D", "is_collide_with_bodies_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns whether any object is intersecting with the ray's vector (considering the vector length).
 	Args: [], Returns: bool
 */
 func (o *RayCast2D) IsColliding() gdnative.Bool {
@@ -426,6 +472,48 @@ func (o *RayCast2D) SetCastTo(localPoint gdnative.Vector2) {
 
 /*
         Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *RayCast2D) SetCollideWithAreas(enable gdnative.Bool) {
+	//log.Println("Calling RayCast2D.SetCollideWithAreas()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RayCast2D", "set_collide_with_areas")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *RayCast2D) SetCollideWithBodies(enable gdnative.Bool) {
+	//log.Println("Calling RayCast2D.SetCollideWithBodies()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RayCast2D", "set_collide_with_bodies")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false mask int}], Returns: void
 */
 func (o *RayCast2D) SetCollisionMask(mask gdnative.Int) {
@@ -525,11 +613,15 @@ type RayCast2DImplementer interface {
 	GetCollisionNormal() gdnative.Vector2
 	GetCollisionPoint() gdnative.Vector2
 	GetExcludeParentBody() gdnative.Bool
+	IsCollideWithAreasEnabled() gdnative.Bool
+	IsCollideWithBodiesEnabled() gdnative.Bool
 	IsColliding() gdnative.Bool
 	IsEnabled() gdnative.Bool
 	RemoveException(node ObjectImplementer)
 	RemoveExceptionRid(rid gdnative.Rid)
 	SetCastTo(localPoint gdnative.Vector2)
+	SetCollideWithAreas(enable gdnative.Bool)
+	SetCollideWithBodies(enable gdnative.Bool)
 	SetCollisionMask(mask gdnative.Int)
 	SetCollisionMaskBit(bit gdnative.Int, value gdnative.Bool)
 	SetEnabled(enabled gdnative.Bool)

@@ -242,9 +242,9 @@ func (o *Tree) Clear() {
 
 /*
         Create an item in the tree and add it as the last child of [code]parent[/code]. If parent is not given, it will be added as the root's last child, or it'll the be the root itself if the tree is empty.
-	Args: [{Null true parent Object} {-1 true idx int}], Returns: Object
+	Args: [{Null true parent Object} {-1 true idx int}], Returns: TreeItem
 */
-func (o *Tree) CreateItem(parent ObjectImplementer, idx gdnative.Int) ObjectImplementer {
+func (o *Tree) CreateItem(parent ObjectImplementer, idx gdnative.Int) TreeItemImplementer {
 	//log.Println("Calling Tree.CreateItem()")
 
 	// Build out the method's arguments
@@ -256,24 +256,24 @@ func (o *Tree) CreateItem(parent ObjectImplementer, idx gdnative.Int) ObjectImpl
 	methodBind := gdnative.NewMethodBind("Tree", "create_item")
 
 	// Call the parent method.
-	// Object
+	// TreeItem
 	retPtr := gdnative.NewEmptyObject()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
 	// If we have a return type, convert it from a pointer into its actual object.
-	ret := newObjectFromPointer(retPtr)
+	ret := newTreeItemFromPointer(retPtr)
 
 	// Check to see if we already have an instance of this object in our Go instance registry.
 	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
-		return instance.(ObjectImplementer)
+		return instance.(TreeItemImplementer)
 	}
 
 	// Check to see what kind of class this is and create it. This is generally used with
 	// GetNode().
 	className := ret.GetClass()
-	if className != "Object" {
+	if className != "TreeItem" {
 		actualRet := getActualClass(className, ret.GetBaseObject())
-		return actualRet.(ObjectImplementer)
+		return actualRet.(TreeItemImplementer)
 	}
 
 	return &ret
@@ -487,7 +487,7 @@ func (o *Tree) GetDropModeFlags() gdnative.Int {
 }
 
 /*
-
+        If [member drop_mode_flags] includes [constant DROP_MODE_INBETWEEN], returns -1 if [code]position[/code] is the upper part of a tree item at that position, 1 for the lower part, and additionally 0 for the middle part if [member drop_mode_flags] includes [constant DROP_MODE_ON_ITEM]. Otherwise, returns 0. If there are no tree item at [code]position[/code], returns -100.
 	Args: [{ false position Vector2}], Returns: int
 */
 func (o *Tree) GetDropSectionAtPosition(position gdnative.Vector2) gdnative.Int {
@@ -926,7 +926,7 @@ func (o *Tree) SetAllowRmbSelect(allow gdnative.Bool) {
 }
 
 /*
-        If [code]true[/code] the column will have the "Expand" flag of [Control].
+        If [code]true[/code], the column will have the "Expand" flag of [Control]. Columns that have the "Expand" flag will use their "min_width" in a similar fashion to [member Control.size_flags_stretch_ratio].
 	Args: [{ false column int} { false expand bool}], Returns: void
 */
 func (o *Tree) SetColumnExpand(column gdnative.Int, expand gdnative.Bool) {
@@ -948,7 +948,7 @@ func (o *Tree) SetColumnExpand(column gdnative.Int, expand gdnative.Bool) {
 }
 
 /*
-        Set the minimum width of a column.
+        Sets the minimum width of a column. Columns that have the "Expand" flag will use their "min_width" in a similar fashion to [member Control.size_flags_stretch_ratio].
 	Args: [{ false column int} { false min_width int}], Returns: void
 */
 func (o *Tree) SetColumnMinWidth(column gdnative.Int, minWidth gdnative.Int) {
@@ -992,7 +992,7 @@ func (o *Tree) SetColumnTitle(column gdnative.Int, title gdnative.String) {
 }
 
 /*
-        If [code]true[/code] column titles are visible.
+        If [code]true[/code], column titles are visible.
 	Args: [{ false visible bool}], Returns: void
 */
 func (o *Tree) SetColumnTitlesVisible(visible gdnative.Bool) {
@@ -1129,7 +1129,7 @@ type TreeImplementer interface {
 	X_ValueEditorChanged(arg0 gdnative.Real)
 	AreColumnTitlesVisible() gdnative.Bool
 	Clear()
-	CreateItem(parent ObjectImplementer, idx gdnative.Int) ObjectImplementer
+	CreateItem(parent ObjectImplementer, idx gdnative.Int) TreeItemImplementer
 	EnsureCursorIsVisible()
 	GetAllowReselect() gdnative.Bool
 	GetAllowRmbSelect() gdnative.Bool

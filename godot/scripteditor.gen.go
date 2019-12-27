@@ -101,6 +101,27 @@ func (o *ScriptEditor) X_Breaked(arg0 gdnative.Bool, arg1 gdnative.Bool) {
 
 /*
         Undocumented
+	Args: [{ false arg0 Reference}], Returns: void
+*/
+func (o *ScriptEditor) X_ClearExecution(arg0 ReferenceImplementer) {
+	//log.Println("Calling ScriptEditor.X_ClearExecution()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(arg0.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_clear_execution")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [], Returns: void
 */
 func (o *ScriptEditor) X_CloseAllTabs() {
@@ -323,9 +344,51 @@ func (o *ScriptEditor) X_FileDialogAction(arg0 gdnative.String) {
 
 /*
         Undocumented
-	Args: [{ false arg0 String} { false arg1 Object}], Returns: String
+	Args: [{ false arg0 String}], Returns: void
 */
-func (o *ScriptEditor) X_GetDebugTooltip(arg0 gdnative.String, arg1 ObjectImplementer) gdnative.String {
+func (o *ScriptEditor) X_FilterMethodsTextChanged(arg0 gdnative.String) {
+	//log.Println("Calling ScriptEditor.X_FilterMethodsTextChanged()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_filter_methods_text_changed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 String}], Returns: void
+*/
+func (o *ScriptEditor) X_FilterScriptsTextChanged(arg0 gdnative.String) {
+	//log.Println("Calling ScriptEditor.X_FilterScriptsTextChanged()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_filter_scripts_text_changed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 String} { false arg1 Node}], Returns: String
+*/
+func (o *ScriptEditor) X_GetDebugTooltip(arg0 gdnative.String, arg1 NodeImplementer) gdnative.String {
 	//log.Println("Calling ScriptEditor.X_GetDebugTooltip()")
 
 	// Build out the method's arguments
@@ -423,27 +486,6 @@ func (o *ScriptEditor) X_HelpClassOpen(arg0 gdnative.String) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ScriptEditor", "_help_class_open")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-        Undocumented
-	Args: [{ false arg0 String}], Returns: void
-*/
-func (o *ScriptEditor) X_HelpIndex(arg0 gdnative.String) {
-	//log.Println("Calling ScriptEditor.X_HelpIndex()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromString(arg0)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("ScriptEditor", "_help_index")
 
 	// Call the parent method.
 	// void
@@ -588,6 +630,72 @@ func (o *ScriptEditor) X_MenuOption(arg0 gdnative.Int) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ScriptEditor", "_menu_option")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 PoolStringArray}], Returns: void
+*/
+func (o *ScriptEditor) X_OnFindInFilesModifiedFiles(arg0 gdnative.PoolStringArray) {
+	//log.Println("Calling ScriptEditor.X_OnFindInFilesModifiedFiles()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromPoolStringArray(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_on_find_in_files_modified_files")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 String}], Returns: void
+*/
+func (o *ScriptEditor) X_OnFindInFilesRequested(arg0 gdnative.String) {
+	//log.Println("Calling ScriptEditor.X_OnFindInFilesRequested()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_on_find_in_files_requested")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 String} { false arg1 int} { false arg2 int} { false arg3 int}], Returns: void
+*/
+func (o *ScriptEditor) X_OnFindInFilesResultSelected(arg0 gdnative.String, arg1 gdnative.Int, arg2 gdnative.Int, arg3 gdnative.Int) {
+	//log.Println("Calling ScriptEditor.X_OnFindInFilesResultSelected()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
+	ptrArguments[0] = gdnative.NewPointerFromString(arg0)
+	ptrArguments[1] = gdnative.NewPointerFromInt(arg1)
+	ptrArguments[2] = gdnative.NewPointerFromInt(arg2)
+	ptrArguments[3] = gdnative.NewPointerFromInt(arg3)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_on_find_in_files_result_selected")
 
 	// Call the parent method.
 	// void
@@ -826,6 +934,28 @@ func (o *ScriptEditor) X_ScriptSplitDragged(arg0 gdnative.Real) {
 
 /*
         Undocumented
+	Args: [{ false arg0 Reference} { false arg1 int}], Returns: void
+*/
+func (o *ScriptEditor) X_SetExecution(arg0 ReferenceImplementer, arg1 gdnative.Int) {
+	//log.Println("Calling ScriptEditor.X_SetExecution()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromObject(arg0.GetBaseObject())
+	ptrArguments[1] = gdnative.NewPointerFromInt(arg1)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_set_execution")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false arg0 bool}], Returns: void
 */
 func (o *ScriptEditor) X_ShowDebugger(arg0 gdnative.Bool) {
@@ -847,6 +977,27 @@ func (o *ScriptEditor) X_ShowDebugger(arg0 gdnative.Bool) {
 
 /*
         Undocumented
+	Args: [{ false arg0 bool}], Returns: void
+*/
+func (o *ScriptEditor) X_StartFindInFiles(arg0 gdnative.Bool) {
+	//log.Println("Calling ScriptEditor.X_StartFindInFiles()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_start_find_in_files")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false arg0 int}], Returns: void
 */
 func (o *ScriptEditor) X_TabChanged(arg0 gdnative.Int) {
@@ -858,6 +1009,48 @@ func (o *ScriptEditor) X_TabChanged(arg0 gdnative.Int) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ScriptEditor", "_tab_changed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 int}], Returns: void
+*/
+func (o *ScriptEditor) X_ThemeOption(arg0 gdnative.Int) {
+	//log.Println("Calling ScriptEditor.X_ThemeOption()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_theme_option")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 bool}], Returns: void
+*/
+func (o *ScriptEditor) X_ToggleMembersOverviewAlphaSort(arg0 gdnative.Bool) {
+	//log.Println("Calling ScriptEditor.X_ToggleMembersOverviewAlphaSort()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_toggle_members_overview_alpha_sort")
 
 	// Call the parent method.
 	// void
@@ -911,6 +1104,46 @@ func (o *ScriptEditor) X_UnhandledInput(arg0 InputEventImplementer) {
         Undocumented
 	Args: [], Returns: void
 */
+func (o *ScriptEditor) X_UpdateAutosaveTimer() {
+	//log.Println("Calling ScriptEditor.X_UpdateAutosaveTimer()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_update_autosave_timer")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *ScriptEditor) X_UpdateMembersOverview() {
+	//log.Println("Calling ScriptEditor.X_UpdateMembersOverview()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_update_members_overview")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
 func (o *ScriptEditor) X_UpdateRecentScripts() {
 	//log.Println("Calling ScriptEditor.X_UpdateRecentScripts()")
 
@@ -919,6 +1152,26 @@ func (o *ScriptEditor) X_UpdateRecentScripts() {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ScriptEditor", "_update_recent_scripts")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *ScriptEditor) X_UpdateScriptConnections() {
+	//log.Println("Calling ScriptEditor.X_UpdateScriptConnections()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "_update_script_connections")
 
 	// Call the parent method.
 	// void
@@ -949,9 +1202,9 @@ func (o *ScriptEditor) X_UpdateScriptNames() {
 
 /*
 
-	Args: [{ false point Vector2} { false data Variant} { false from Object}], Returns: bool
+	Args: [{ false point Vector2} { false data Variant} { false from Control}], Returns: bool
 */
-func (o *ScriptEditor) CanDropDataFw(point gdnative.Vector2, data gdnative.Variant, from ObjectImplementer) gdnative.Bool {
+func (o *ScriptEditor) CanDropDataFw(point gdnative.Vector2, data gdnative.Variant, from ControlImplementer) gdnative.Bool {
 	//log.Println("Calling ScriptEditor.CanDropDataFw()")
 
 	// Build out the method's arguments
@@ -975,9 +1228,9 @@ func (o *ScriptEditor) CanDropDataFw(point gdnative.Vector2, data gdnative.Varia
 
 /*
 
-	Args: [{ false point Vector2} { false data Variant} { false from Object}], Returns: void
+	Args: [{ false point Vector2} { false data Variant} { false from Control}], Returns: void
 */
-func (o *ScriptEditor) DropDataFw(point gdnative.Vector2, data gdnative.Variant, from ObjectImplementer) {
+func (o *ScriptEditor) DropDataFw(point gdnative.Vector2, data gdnative.Variant, from ControlImplementer) {
 	//log.Println("Calling ScriptEditor.DropDataFw()")
 
 	// Build out the method's arguments
@@ -1035,9 +1288,9 @@ func (o *ScriptEditor) GetCurrentScript() ScriptImplementer {
 
 /*
 
-	Args: [{ false point Vector2} { false from Object}], Returns: Variant
+	Args: [{ false point Vector2} { false from Control}], Returns: Variant
 */
-func (o *ScriptEditor) GetDragDataFw(point gdnative.Vector2, from ObjectImplementer) gdnative.Variant {
+func (o *ScriptEditor) GetDragDataFw(point gdnative.Vector2, from ControlImplementer) gdnative.Variant {
 	//log.Println("Calling ScriptEditor.GetDragDataFw()")
 
 	// Build out the method's arguments
@@ -1082,6 +1335,27 @@ func (o *ScriptEditor) GetOpenScripts() gdnative.Array {
 }
 
 /*
+        Undocumented
+	Args: [{ false line_number int}], Returns: void
+*/
+func (o *ScriptEditor) GotoLine(lineNumber gdnative.Int) {
+	//log.Println("Calling ScriptEditor.GotoLine()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(lineNumber)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScriptEditor", "goto_line")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
 
 	Args: [{ false base_name String} { false base_path String}], Returns: void
 */
@@ -1110,6 +1384,7 @@ type ScriptEditorImplementer interface {
 	X_AddCallback(arg0 ObjectImplementer, arg1 gdnative.String, arg2 gdnative.PoolStringArray)
 	X_AutosaveScripts()
 	X_Breaked(arg0 gdnative.Bool, arg1 gdnative.Bool)
+	X_ClearExecution(arg0 ReferenceImplementer)
 	X_CloseAllTabs()
 	X_CloseCurrentTab()
 	X_CloseDiscardCurrentTab(arg0 gdnative.String)
@@ -1121,12 +1396,13 @@ type ScriptEditorImplementer interface {
 	X_EditorSettingsChanged()
 	X_EditorStop()
 	X_FileDialogAction(arg0 gdnative.String)
-	X_GetDebugTooltip(arg0 gdnative.String, arg1 ObjectImplementer) gdnative.String
+	X_FilterMethodsTextChanged(arg0 gdnative.String)
+	X_FilterScriptsTextChanged(arg0 gdnative.String)
+	X_GetDebugTooltip(arg0 gdnative.String, arg1 NodeImplementer) gdnative.String
 	X_GotoScriptLine(arg0 ReferenceImplementer, arg1 gdnative.Int)
 	X_GotoScriptLine2(arg0 gdnative.Int)
 	X_HelpClassGoto(arg0 gdnative.String)
 	X_HelpClassOpen(arg0 gdnative.String)
-	X_HelpIndex(arg0 gdnative.String)
 	X_HelpOverviewSelected(arg0 gdnative.Int)
 	X_HelpSearch(arg0 gdnative.String)
 	X_HistoryBack()
@@ -1134,6 +1410,9 @@ type ScriptEditorImplementer interface {
 	X_LiveAutoReloadRunningScripts()
 	X_MembersOverviewSelected(arg0 gdnative.Int)
 	X_MenuOption(arg0 gdnative.Int)
+	X_OnFindInFilesModifiedFiles(arg0 gdnative.PoolStringArray)
+	X_OnFindInFilesRequested(arg0 gdnative.String)
+	X_OnFindInFilesResultSelected(arg0 gdnative.String, arg1 gdnative.Int, arg2 gdnative.Int, arg3 gdnative.Int)
 	X_OpenRecentScript(arg0 gdnative.Int)
 	X_ReloadScripts()
 	X_RequestHelp(arg0 gdnative.String)
@@ -1145,15 +1424,23 @@ type ScriptEditorImplementer interface {
 	X_ScriptListGuiInput(arg0 InputEventImplementer)
 	X_ScriptSelected(arg0 gdnative.Int)
 	X_ScriptSplitDragged(arg0 gdnative.Real)
+	X_SetExecution(arg0 ReferenceImplementer, arg1 gdnative.Int)
 	X_ShowDebugger(arg0 gdnative.Bool)
+	X_StartFindInFiles(arg0 gdnative.Bool)
 	X_TabChanged(arg0 gdnative.Int)
+	X_ThemeOption(arg0 gdnative.Int)
+	X_ToggleMembersOverviewAlphaSort(arg0 gdnative.Bool)
 	X_TreeChanged()
+	X_UpdateAutosaveTimer()
+	X_UpdateMembersOverview()
 	X_UpdateRecentScripts()
+	X_UpdateScriptConnections()
 	X_UpdateScriptNames()
-	CanDropDataFw(point gdnative.Vector2, data gdnative.Variant, from ObjectImplementer) gdnative.Bool
-	DropDataFw(point gdnative.Vector2, data gdnative.Variant, from ObjectImplementer)
+	CanDropDataFw(point gdnative.Vector2, data gdnative.Variant, from ControlImplementer) gdnative.Bool
+	DropDataFw(point gdnative.Vector2, data gdnative.Variant, from ControlImplementer)
 	GetCurrentScript() ScriptImplementer
-	GetDragDataFw(point gdnative.Vector2, from ObjectImplementer) gdnative.Variant
+	GetDragDataFw(point gdnative.Vector2, from ControlImplementer) gdnative.Variant
 	GetOpenScripts() gdnative.Array
+	GotoLine(lineNumber gdnative.Int)
 	OpenScriptCreateDialog(baseName gdnative.String, basePath gdnative.String)
 }

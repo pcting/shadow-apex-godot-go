@@ -19,7 +19,7 @@ type VisualServerArrayFormat int
 const (
 	VisualServerArrayCompressBones     VisualServerArrayFormat = 32768
 	VisualServerArrayCompressColor     VisualServerArrayFormat = 4096
-	VisualServerArrayCompressDefault   VisualServerArrayFormat = 97792
+	VisualServerArrayCompressDefault   VisualServerArrayFormat = 97280
 	VisualServerArrayCompressIndex     VisualServerArrayFormat = 131072
 	VisualServerArrayCompressNormal    VisualServerArrayFormat = 1024
 	VisualServerArrayCompressTangent   VisualServerArrayFormat = 2048
@@ -116,7 +116,7 @@ const (
 	VisualServerEnvBgColor      VisualServerEnvironmentBG = 1
 	VisualServerEnvBgColorSky   VisualServerEnvironmentBG = 3
 	VisualServerEnvBgKeep       VisualServerEnvironmentBG = 5
-	VisualServerEnvBgMax        VisualServerEnvironmentBG = 6
+	VisualServerEnvBgMax        VisualServerEnvironmentBG = 7
 	VisualServerEnvBgSky        VisualServerEnvironmentBG = 2
 )
 
@@ -162,10 +162,10 @@ const (
 type VisualServerEnvironmentToneMapper int
 
 const (
-	VisualServerEnvToneMapperAces      VisualServerEnvironmentToneMapper = 3
-	VisualServerEnvToneMapperFilmic    VisualServerEnvironmentToneMapper = 2
-	VisualServerEnvToneMapperLinear    VisualServerEnvironmentToneMapper = 0
-	VisualServerEnvToneMapperReinhardt VisualServerEnvironmentToneMapper = 1
+	VisualServerEnvToneMapperAces     VisualServerEnvironmentToneMapper = 3
+	VisualServerEnvToneMapperFilmic   VisualServerEnvironmentToneMapper = 2
+	VisualServerEnvToneMapperLinear   VisualServerEnvironmentToneMapper = 0
+	VisualServerEnvToneMapperReinhard VisualServerEnvironmentToneMapper = 1
 )
 
 // VisualServerFeatures is an enum for Features values.
@@ -180,8 +180,9 @@ const (
 type VisualServerInstanceFlags int
 
 const (
-	VisualServerInstanceFlagMax           VisualServerInstanceFlags = 1
-	VisualServerInstanceFlagUseBakedLight VisualServerInstanceFlags = 0
+	VisualServerInstanceFlagDrawNextFrameIfVisible VisualServerInstanceFlags = 1
+	VisualServerInstanceFlagMax                    VisualServerInstanceFlags = 2
+	VisualServerInstanceFlagUseBakedLight          VisualServerInstanceFlags = 0
 )
 
 // VisualServerInstanceType is an enum for InstanceType values.
@@ -271,6 +272,15 @@ const (
 	VisualServerMultimeshColor8Bit  VisualServerMultimeshColorFormat = 1
 	VisualServerMultimeshColorFloat VisualServerMultimeshColorFormat = 2
 	VisualServerMultimeshColorNone  VisualServerMultimeshColorFormat = 0
+)
+
+// VisualServerMultimeshCustomDataFormat is an enum for MultimeshCustomDataFormat values.
+type VisualServerMultimeshCustomDataFormat int
+
+const (
+	VisualServerMultimeshCustomData8Bit  VisualServerMultimeshCustomDataFormat = 1
+	VisualServerMultimeshCustomDataFloat VisualServerMultimeshCustomDataFormat = 2
+	VisualServerMultimeshCustomDataNone  VisualServerMultimeshCustomDataFormat = 0
 )
 
 // VisualServerMultimeshTransformFormat is an enum for MultimeshTransformFormat values.
@@ -374,12 +384,21 @@ const (
 	VisualServerTextureFlagsDefault          VisualServerTextureFlags = 7
 	VisualServerTextureFlagAnisotropicFilter VisualServerTextureFlags = 8
 	VisualServerTextureFlagConvertToLinear   VisualServerTextureFlags = 16
-	VisualServerTextureFlagCubemap           VisualServerTextureFlags = 2048
 	VisualServerTextureFlagFilter            VisualServerTextureFlags = 4
 	VisualServerTextureFlagMipmaps           VisualServerTextureFlags = 1
 	VisualServerTextureFlagMirroredRepeat    VisualServerTextureFlags = 32
 	VisualServerTextureFlagRepeat            VisualServerTextureFlags = 2
-	VisualServerTextureFlagUsedForStreaming  VisualServerTextureFlags = 4096
+	VisualServerTextureFlagUsedForStreaming  VisualServerTextureFlags = 2048
+)
+
+// VisualServerTextureType is an enum for TextureType values.
+type VisualServerTextureType int
+
+const (
+	VisualServerTextureType2D      VisualServerTextureType = 0
+	VisualServerTextureType2DArray VisualServerTextureType = 2
+	VisualServerTextureType3D      VisualServerTextureType = 3
+	VisualServerTextureTypeCubemap VisualServerTextureType = 1
 )
 
 // VisualServerViewportClearMode is an enum for ViewportClearMode values.
@@ -410,6 +429,8 @@ const (
 	VisualServerViewportMsaa4X       VisualServerViewportMSAA = 2
 	VisualServerViewportMsaa8X       VisualServerViewportMSAA = 3
 	VisualServerViewportMsaaDisabled VisualServerViewportMSAA = 0
+	VisualServerViewportMsaaExt2X    VisualServerViewportMSAA = 5
+	VisualServerViewportMsaaExt4X    VisualServerViewportMSAA = 6
 )
 
 // VisualServerViewportRenderInfo is an enum for ViewportRenderInfo values.
@@ -600,6 +621,32 @@ func (o *visualServer) CameraSetEnvironment(camera gdnative.Rid, env gdnative.Ri
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "camera_set_environment")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false camera RID} { false size float} { false offset Vector2} { false z_near float} { false z_far float}], Returns: void
+*/
+func (o *visualServer) CameraSetFrustum(camera gdnative.Rid, size gdnative.Real, offset gdnative.Vector2, zNear gdnative.Real, zFar gdnative.Real) {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.CameraSetFrustum()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 5, 5)
+	ptrArguments[0] = gdnative.NewPointerFromRid(camera)
+	ptrArguments[1] = gdnative.NewPointerFromReal(size)
+	ptrArguments[2] = gdnative.NewPointerFromVector2(offset)
+	ptrArguments[3] = gdnative.NewPointerFromReal(zNear)
+	ptrArguments[4] = gdnative.NewPointerFromReal(zFar)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "camera_set_frustum")
 
 	// Call the parent method.
 	// void
@@ -805,17 +852,20 @@ func (o *visualServer) CanvasItemAddLine(item gdnative.Rid, from gdnative.Vector
 
 /*
         Adds a [Mesh] to the [CanvasItem]'s draw commands. Only affects its aabb at the moment.
-	Args: [{ false item RID} { false mesh RID} {[RID] true skeleton RID}], Returns: void
+	Args: [{ false item RID} { false mesh RID} {((1, 0), (0, 1), (0, 0)) true transform Transform2D} {1,1,1,1 true modulate Color} {[RID] true texture RID} {[RID] true normal_map RID}], Returns: void
 */
-func (o *visualServer) CanvasItemAddMesh(item gdnative.Rid, mesh gdnative.Rid, skeleton gdnative.Rid) {
+func (o *visualServer) CanvasItemAddMesh(item gdnative.Rid, mesh gdnative.Rid, transform gdnative.Transform2D, modulate gdnative.Color, texture gdnative.Rid, normalMap gdnative.Rid) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.CanvasItemAddMesh()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 6, 6)
 	ptrArguments[0] = gdnative.NewPointerFromRid(item)
 	ptrArguments[1] = gdnative.NewPointerFromRid(mesh)
-	ptrArguments[2] = gdnative.NewPointerFromRid(skeleton)
+	ptrArguments[2] = gdnative.NewPointerFromTransform2D(transform)
+	ptrArguments[3] = gdnative.NewPointerFromColor(modulate)
+	ptrArguments[4] = gdnative.NewPointerFromRid(texture)
+	ptrArguments[5] = gdnative.NewPointerFromRid(normalMap)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "canvas_item_add_mesh")
@@ -829,17 +879,18 @@ func (o *visualServer) CanvasItemAddMesh(item gdnative.Rid, mesh gdnative.Rid, s
 
 /*
         Adds a [MultiMesh] to the [CanvasItem]'s draw commands. Only affects its aabb at the moment.
-	Args: [{ false item RID} { false mesh RID} {[RID] true skeleton RID}], Returns: void
+	Args: [{ false item RID} { false mesh RID} { false texture RID} {[RID] true normal_map RID}], Returns: void
 */
-func (o *visualServer) CanvasItemAddMultimesh(item gdnative.Rid, mesh gdnative.Rid, skeleton gdnative.Rid) {
+func (o *visualServer) CanvasItemAddMultimesh(item gdnative.Rid, mesh gdnative.Rid, texture gdnative.Rid, normalMap gdnative.Rid) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.CanvasItemAddMultimesh()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromRid(item)
 	ptrArguments[1] = gdnative.NewPointerFromRid(mesh)
-	ptrArguments[2] = gdnative.NewPointerFromRid(skeleton)
+	ptrArguments[2] = gdnative.NewPointerFromRid(texture)
+	ptrArguments[3] = gdnative.NewPointerFromRid(normalMap)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "canvas_item_add_multimesh")
@@ -885,20 +936,18 @@ func (o *visualServer) CanvasItemAddNinePatch(item gdnative.Rid, rect gdnative.R
 
 /*
         Adds a particles system to the [CanvasItem]'s draw commands.
-	Args: [{ false item RID} { false particles RID} { false texture RID} { false normal_map RID} { false h_frames int} { false v_frames int}], Returns: void
+	Args: [{ false item RID} { false particles RID} { false texture RID} { false normal_map RID}], Returns: void
 */
-func (o *visualServer) CanvasItemAddParticles(item gdnative.Rid, particles gdnative.Rid, texture gdnative.Rid, normalMap gdnative.Rid, hFrames gdnative.Int, vFrames gdnative.Int) {
+func (o *visualServer) CanvasItemAddParticles(item gdnative.Rid, particles gdnative.Rid, texture gdnative.Rid, normalMap gdnative.Rid) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.CanvasItemAddParticles()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 6, 6)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromRid(item)
 	ptrArguments[1] = gdnative.NewPointerFromRid(particles)
 	ptrArguments[2] = gdnative.NewPointerFromRid(texture)
 	ptrArguments[3] = gdnative.NewPointerFromRid(normalMap)
-	ptrArguments[4] = gdnative.NewPointerFromInt(hFrames)
-	ptrArguments[5] = gdnative.NewPointerFromInt(vFrames)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "canvas_item_add_particles")
@@ -1017,7 +1066,7 @@ func (o *visualServer) CanvasItemAddRect(item gdnative.Rid, rect gdnative.Rect2,
 }
 
 /*
-        Adds a [Transform2D] command to the [CanvasItem]'s draw commands. This sets the extra_matrix uniform when executed. This affects the later command's of the canvas item.
+        Adds a [Transform2D] command to the [CanvasItem]'s draw commands. This sets the extra_matrix uniform when executed. This affects the later commands of the canvas item.
 	Args: [{ false item RID} { false transform Transform2D}], Returns: void
 */
 func (o *visualServer) CanvasItemAddSetTransform(item gdnative.Rid, transform gdnative.Transform2D) {
@@ -1097,23 +1146,26 @@ func (o *visualServer) CanvasItemAddTextureRectRegion(item gdnative.Rid, rect gd
 }
 
 /*
-        Adds a triangle array to the [CanvasItem]'s draw commands.
-	Args: [{ false item RID} { false indices PoolIntArray} { false points PoolVector2Array} { false colors PoolColorArray} {[] true uvs PoolVector2Array} {[RID] true texture RID} {-1 true count int} {[RID] true normal_map RID}], Returns: void
+
+	Args: [{ false item RID} { false indices PoolIntArray} { false points PoolVector2Array} { false colors PoolColorArray} {[] true uvs PoolVector2Array} {[] true bones PoolIntArray} {[] true weights PoolRealArray} {[RID] true texture RID} {-1 true count int} {[RID] true normal_map RID} {False true antialiased bool}], Returns: void
 */
-func (o *visualServer) CanvasItemAddTriangleArray(item gdnative.Rid, indices gdnative.PoolIntArray, points gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uvs gdnative.PoolVector2Array, texture gdnative.Rid, count gdnative.Int, normalMap gdnative.Rid) {
+func (o *visualServer) CanvasItemAddTriangleArray(item gdnative.Rid, indices gdnative.PoolIntArray, points gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uvs gdnative.PoolVector2Array, bones gdnative.PoolIntArray, weights gdnative.PoolRealArray, texture gdnative.Rid, count gdnative.Int, normalMap gdnative.Rid, antialiased gdnative.Bool) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.CanvasItemAddTriangleArray()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 8, 8)
+	ptrArguments := make([]gdnative.Pointer, 11, 11)
 	ptrArguments[0] = gdnative.NewPointerFromRid(item)
 	ptrArguments[1] = gdnative.NewPointerFromPoolIntArray(indices)
 	ptrArguments[2] = gdnative.NewPointerFromPoolVector2Array(points)
 	ptrArguments[3] = gdnative.NewPointerFromPoolColorArray(colors)
 	ptrArguments[4] = gdnative.NewPointerFromPoolVector2Array(uvs)
-	ptrArguments[5] = gdnative.NewPointerFromRid(texture)
-	ptrArguments[6] = gdnative.NewPointerFromInt(count)
-	ptrArguments[7] = gdnative.NewPointerFromRid(normalMap)
+	ptrArguments[5] = gdnative.NewPointerFromPoolIntArray(bones)
+	ptrArguments[6] = gdnative.NewPointerFromPoolRealArray(weights)
+	ptrArguments[7] = gdnative.NewPointerFromRid(texture)
+	ptrArguments[8] = gdnative.NewPointerFromInt(count)
+	ptrArguments[9] = gdnative.NewPointerFromRid(normalMap)
+	ptrArguments[10] = gdnative.NewPointerFromBool(antialiased)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "canvas_item_add_triangle_array")
@@ -2355,16 +2407,17 @@ func (o *visualServer) DirectionalLightCreate() gdnative.Rid {
 }
 
 /*
-        Draws a frame.
-	Args: [{True true swap_buffers bool}], Returns: void
+
+	Args: [{True true swap_buffers bool} {0 true frame_step float}], Returns: void
 */
-func (o *visualServer) Draw(swapBuffers gdnative.Bool) {
+func (o *visualServer) Draw(swapBuffers gdnative.Bool, frameStep gdnative.Real) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.Draw()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromBool(swapBuffers)
+	ptrArguments[1] = gdnative.NewPointerFromReal(frameStep)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "draw")
@@ -2626,20 +2679,21 @@ func (o *visualServer) EnvironmentSetFog(env gdnative.Rid, enable gdnative.Bool,
 
 /*
 
-	Args: [{ false env RID} { false enable bool} { false depth_begin float} { false depth_curve float} { false transmit bool} { false transmit_curve float}], Returns: void
+	Args: [{ false env RID} { false enable bool} { false depth_begin float} { false depth_end float} { false depth_curve float} { false transmit bool} { false transmit_curve float}], Returns: void
 */
-func (o *visualServer) EnvironmentSetFogDepth(env gdnative.Rid, enable gdnative.Bool, depthBegin gdnative.Real, depthCurve gdnative.Real, transmit gdnative.Bool, transmitCurve gdnative.Real) {
+func (o *visualServer) EnvironmentSetFogDepth(env gdnative.Rid, enable gdnative.Bool, depthBegin gdnative.Real, depthEnd gdnative.Real, depthCurve gdnative.Real, transmit gdnative.Bool, transmitCurve gdnative.Real) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.EnvironmentSetFogDepth()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 6, 6)
+	ptrArguments := make([]gdnative.Pointer, 7, 7)
 	ptrArguments[0] = gdnative.NewPointerFromRid(env)
 	ptrArguments[1] = gdnative.NewPointerFromBool(enable)
 	ptrArguments[2] = gdnative.NewPointerFromReal(depthBegin)
-	ptrArguments[3] = gdnative.NewPointerFromReal(depthCurve)
-	ptrArguments[4] = gdnative.NewPointerFromBool(transmit)
-	ptrArguments[5] = gdnative.NewPointerFromReal(transmitCurve)
+	ptrArguments[3] = gdnative.NewPointerFromReal(depthEnd)
+	ptrArguments[4] = gdnative.NewPointerFromReal(depthCurve)
+	ptrArguments[5] = gdnative.NewPointerFromBool(transmit)
+	ptrArguments[6] = gdnative.NewPointerFromReal(transmitCurve)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "environment_set_fog_depth")
@@ -2679,14 +2733,14 @@ func (o *visualServer) EnvironmentSetFogHeight(env gdnative.Rid, enable gdnative
 
 /*
 
-	Args: [{ false env RID} { false enable bool} { false level_flags int} { false intensity float} { false strength float} { false bloom_threshold float} { false blend_mode int} { false hdr_bleed_threshold float} { false hdr_bleed_scale float} { false bicubic_upscale bool}], Returns: void
+	Args: [{ false env RID} { false enable bool} { false level_flags int} { false intensity float} { false strength float} { false bloom_threshold float} { false blend_mode int} { false hdr_bleed_threshold float} { false hdr_bleed_scale float} { false hdr_luminance_cap float} { false bicubic_upscale bool}], Returns: void
 */
-func (o *visualServer) EnvironmentSetGlow(env gdnative.Rid, enable gdnative.Bool, levelFlags gdnative.Int, intensity gdnative.Real, strength gdnative.Real, bloomThreshold gdnative.Real, blendMode gdnative.Int, hdrBleedThreshold gdnative.Real, hdrBleedScale gdnative.Real, bicubicUpscale gdnative.Bool) {
+func (o *visualServer) EnvironmentSetGlow(env gdnative.Rid, enable gdnative.Bool, levelFlags gdnative.Int, intensity gdnative.Real, strength gdnative.Real, bloomThreshold gdnative.Real, blendMode gdnative.Int, hdrBleedThreshold gdnative.Real, hdrBleedScale gdnative.Real, hdrLuminanceCap gdnative.Real, bicubicUpscale gdnative.Bool) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.EnvironmentSetGlow()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 10, 10)
+	ptrArguments := make([]gdnative.Pointer, 11, 11)
 	ptrArguments[0] = gdnative.NewPointerFromRid(env)
 	ptrArguments[1] = gdnative.NewPointerFromBool(enable)
 	ptrArguments[2] = gdnative.NewPointerFromInt(levelFlags)
@@ -2696,7 +2750,8 @@ func (o *visualServer) EnvironmentSetGlow(env gdnative.Rid, enable gdnative.Bool
 	ptrArguments[6] = gdnative.NewPointerFromInt(blendMode)
 	ptrArguments[7] = gdnative.NewPointerFromReal(hdrBleedThreshold)
 	ptrArguments[8] = gdnative.NewPointerFromReal(hdrBleedScale)
-	ptrArguments[9] = gdnative.NewPointerFromBool(bicubicUpscale)
+	ptrArguments[9] = gdnative.NewPointerFromReal(hdrLuminanceCap)
+	ptrArguments[10] = gdnative.NewPointerFromBool(bicubicUpscale)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "environment_set_glow")
@@ -2756,14 +2811,37 @@ func (o *visualServer) EnvironmentSetSkyCustomFov(env gdnative.Rid, scale gdnati
 
 /*
 
-	Args: [{ false env RID} { false enable bool} { false radius float} { false intensity float} { false radius2 float} { false intensity2 float} { false bias float} { false light_affect float} { false color Color} { false quality int} { false blur int} { false bilateral_sharpness float}], Returns: void
+	Args: [{ false env RID} { false orientation Basis}], Returns: void
 */
-func (o *visualServer) EnvironmentSetSsao(env gdnative.Rid, enable gdnative.Bool, radius gdnative.Real, intensity gdnative.Real, radius2 gdnative.Real, intensity2 gdnative.Real, bias gdnative.Real, lightAffect gdnative.Real, color gdnative.Color, quality gdnative.Int, blur gdnative.Int, bilateralSharpness gdnative.Real) {
+func (o *visualServer) EnvironmentSetSkyOrientation(env gdnative.Rid, orientation gdnative.Basis) {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.EnvironmentSetSkyOrientation()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(env)
+	ptrArguments[1] = gdnative.NewPointerFromBasis(orientation)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "environment_set_sky_orientation")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false env RID} { false enable bool} { false radius float} { false intensity float} { false radius2 float} { false intensity2 float} { false bias float} { false light_affect float} { false ao_channel_affect float} { false color Color} { false quality int} { false blur int} { false bilateral_sharpness float}], Returns: void
+*/
+func (o *visualServer) EnvironmentSetSsao(env gdnative.Rid, enable gdnative.Bool, radius gdnative.Real, intensity gdnative.Real, radius2 gdnative.Real, intensity2 gdnative.Real, bias gdnative.Real, lightAffect gdnative.Real, aoChannelAffect gdnative.Real, color gdnative.Color, quality gdnative.Int, blur gdnative.Int, bilateralSharpness gdnative.Real) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.EnvironmentSetSsao()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 12, 12)
+	ptrArguments := make([]gdnative.Pointer, 13, 13)
 	ptrArguments[0] = gdnative.NewPointerFromRid(env)
 	ptrArguments[1] = gdnative.NewPointerFromBool(enable)
 	ptrArguments[2] = gdnative.NewPointerFromReal(radius)
@@ -2772,10 +2850,11 @@ func (o *visualServer) EnvironmentSetSsao(env gdnative.Rid, enable gdnative.Bool
 	ptrArguments[5] = gdnative.NewPointerFromReal(intensity2)
 	ptrArguments[6] = gdnative.NewPointerFromReal(bias)
 	ptrArguments[7] = gdnative.NewPointerFromReal(lightAffect)
-	ptrArguments[8] = gdnative.NewPointerFromColor(color)
-	ptrArguments[9] = gdnative.NewPointerFromInt(quality)
-	ptrArguments[10] = gdnative.NewPointerFromInt(blur)
-	ptrArguments[11] = gdnative.NewPointerFromReal(bilateralSharpness)
+	ptrArguments[8] = gdnative.NewPointerFromReal(aoChannelAffect)
+	ptrArguments[9] = gdnative.NewPointerFromColor(color)
+	ptrArguments[10] = gdnative.NewPointerFromInt(quality)
+	ptrArguments[11] = gdnative.NewPointerFromInt(blur)
+	ptrArguments[12] = gdnative.NewPointerFromReal(bilateralSharpness)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "environment_set_ssao")
@@ -2867,16 +2946,17 @@ func (o *visualServer) Finish() {
 }
 
 /*
-        Draws a frame. Same as [method draw].
-	Args: [{True true swap_buffers bool}], Returns: void
+
+	Args: [{True true swap_buffers bool} {0 true frame_step float}], Returns: void
 */
-func (o *visualServer) ForceDraw(swapBuffers gdnative.Bool) {
+func (o *visualServer) ForceDraw(swapBuffers gdnative.Bool, frameStep gdnative.Real) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.ForceDraw()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromBool(swapBuffers)
+	ptrArguments[1] = gdnative.NewPointerFromReal(frameStep)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "force_draw")
@@ -3054,15 +3134,15 @@ func (o *visualServer) GiProbeCreate() gdnative.Rid {
 
 /*
 
-	Args: [{ false arg0 RID}], Returns: float
+	Args: [{ false probe RID}], Returns: float
 */
-func (o *visualServer) GiProbeGetBias(arg0 gdnative.Rid) gdnative.Real {
+func (o *visualServer) GiProbeGetBias(probe gdnative.Rid) gdnative.Real {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeGetBias()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromRid(arg0)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_get_bias")
@@ -3129,15 +3209,15 @@ func (o *visualServer) GiProbeGetCellSize(probe gdnative.Rid) gdnative.Real {
 
 /*
 
-	Args: [{ false arg0 RID}], Returns: PoolIntArray
+	Args: [{ false probe RID}], Returns: PoolIntArray
 */
-func (o *visualServer) GiProbeGetDynamicData(arg0 gdnative.Rid) gdnative.PoolIntArray {
+func (o *visualServer) GiProbeGetDynamicData(probe gdnative.Rid) gdnative.PoolIntArray {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeGetDynamicData()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromRid(arg0)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_get_dynamic_data")
@@ -3154,15 +3234,15 @@ func (o *visualServer) GiProbeGetDynamicData(arg0 gdnative.Rid) gdnative.PoolInt
 
 /*
 
-	Args: [{ false arg0 RID}], Returns: int
+	Args: [{ false probe RID}], Returns: int
 */
-func (o *visualServer) GiProbeGetDynamicRange(arg0 gdnative.Rid) gdnative.Int {
+func (o *visualServer) GiProbeGetDynamicRange(probe gdnative.Rid) gdnative.Int {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeGetDynamicRange()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromRid(arg0)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_get_dynamic_range")
@@ -3179,15 +3259,15 @@ func (o *visualServer) GiProbeGetDynamicRange(arg0 gdnative.Rid) gdnative.Int {
 
 /*
 
-	Args: [{ false arg0 RID}], Returns: float
+	Args: [{ false probe RID}], Returns: float
 */
-func (o *visualServer) GiProbeGetEnergy(arg0 gdnative.Rid) gdnative.Real {
+func (o *visualServer) GiProbeGetEnergy(probe gdnative.Rid) gdnative.Real {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeGetEnergy()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromRid(arg0)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_get_energy")
@@ -3204,15 +3284,15 @@ func (o *visualServer) GiProbeGetEnergy(arg0 gdnative.Rid) gdnative.Real {
 
 /*
 
-	Args: [{ false arg0 RID}], Returns: float
+	Args: [{ false probe RID}], Returns: float
 */
-func (o *visualServer) GiProbeGetNormalBias(arg0 gdnative.Rid) gdnative.Real {
+func (o *visualServer) GiProbeGetNormalBias(probe gdnative.Rid) gdnative.Real {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeGetNormalBias()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromRid(arg0)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_get_normal_bias")
@@ -3229,15 +3309,15 @@ func (o *visualServer) GiProbeGetNormalBias(arg0 gdnative.Rid) gdnative.Real {
 
 /*
 
-	Args: [{ false arg0 RID}], Returns: float
+	Args: [{ false probe RID}], Returns: float
 */
-func (o *visualServer) GiProbeGetPropagation(arg0 gdnative.Rid) gdnative.Real {
+func (o *visualServer) GiProbeGetPropagation(probe gdnative.Rid) gdnative.Real {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeGetPropagation()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromRid(arg0)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_get_propagation")
@@ -3254,15 +3334,15 @@ func (o *visualServer) GiProbeGetPropagation(arg0 gdnative.Rid) gdnative.Real {
 
 /*
 
-	Args: [{ false arg0 RID}], Returns: Transform
+	Args: [{ false probe RID}], Returns: Transform
 */
-func (o *visualServer) GiProbeGetToCellXform(arg0 gdnative.Rid) gdnative.Transform {
+func (o *visualServer) GiProbeGetToCellXform(probe gdnative.Rid) gdnative.Transform {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeGetToCellXform()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromRid(arg0)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_get_to_cell_xform")
@@ -3279,15 +3359,15 @@ func (o *visualServer) GiProbeGetToCellXform(arg0 gdnative.Rid) gdnative.Transfo
 
 /*
 
-	Args: [{ false arg0 RID}], Returns: bool
+	Args: [{ false probe RID}], Returns: bool
 */
-func (o *visualServer) GiProbeIsCompressed(arg0 gdnative.Rid) gdnative.Bool {
+func (o *visualServer) GiProbeIsCompressed(probe gdnative.Rid) gdnative.Bool {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeIsCompressed()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromRid(arg0)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_is_compressed")
@@ -3304,15 +3384,15 @@ func (o *visualServer) GiProbeIsCompressed(arg0 gdnative.Rid) gdnative.Bool {
 
 /*
 
-	Args: [{ false arg0 RID}], Returns: bool
+	Args: [{ false probe RID}], Returns: bool
 */
-func (o *visualServer) GiProbeIsInterior(arg0 gdnative.Rid) gdnative.Bool {
+func (o *visualServer) GiProbeIsInterior(probe gdnative.Rid) gdnative.Bool {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeIsInterior()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromRid(arg0)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_is_interior")
@@ -3329,16 +3409,16 @@ func (o *visualServer) GiProbeIsInterior(arg0 gdnative.Rid) gdnative.Bool {
 
 /*
 
-	Args: [{ false bias RID} { false arg1 float}], Returns: void
+	Args: [{ false probe RID} { false bias float}], Returns: void
 */
-func (o *visualServer) GiProbeSetBias(bias gdnative.Rid, arg1 gdnative.Real) {
+func (o *visualServer) GiProbeSetBias(probe gdnative.Rid, bias gdnative.Real) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeSetBias()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromRid(bias)
-	ptrArguments[1] = gdnative.NewPointerFromReal(arg1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
+	ptrArguments[1] = gdnative.NewPointerFromReal(bias)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_set_bias")
@@ -3398,16 +3478,16 @@ func (o *visualServer) GiProbeSetCellSize(probe gdnative.Rid, rng gdnative.Real)
 
 /*
 
-	Args: [{ false enable RID} { false arg1 bool}], Returns: void
+	Args: [{ false probe RID} { false enable bool}], Returns: void
 */
-func (o *visualServer) GiProbeSetCompress(enable gdnative.Rid, arg1 gdnative.Bool) {
+func (o *visualServer) GiProbeSetCompress(probe gdnative.Rid, enable gdnative.Bool) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeSetCompress()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromRid(enable)
-	ptrArguments[1] = gdnative.NewPointerFromBool(arg1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
+	ptrArguments[1] = gdnative.NewPointerFromBool(enable)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_set_compress")
@@ -3421,16 +3501,16 @@ func (o *visualServer) GiProbeSetCompress(enable gdnative.Rid, arg1 gdnative.Boo
 
 /*
 
-	Args: [{ false data RID} { false arg1 PoolIntArray}], Returns: void
+	Args: [{ false probe RID} { false data PoolIntArray}], Returns: void
 */
-func (o *visualServer) GiProbeSetDynamicData(data gdnative.Rid, arg1 gdnative.PoolIntArray) {
+func (o *visualServer) GiProbeSetDynamicData(probe gdnative.Rid, data gdnative.PoolIntArray) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeSetDynamicData()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromRid(data)
-	ptrArguments[1] = gdnative.NewPointerFromPoolIntArray(arg1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
+	ptrArguments[1] = gdnative.NewPointerFromPoolIntArray(data)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_set_dynamic_data")
@@ -3444,16 +3524,16 @@ func (o *visualServer) GiProbeSetDynamicData(data gdnative.Rid, arg1 gdnative.Po
 
 /*
 
-	Args: [{ false range RID} { false arg1 int}], Returns: void
+	Args: [{ false probe RID} { false range int}], Returns: void
 */
-func (o *visualServer) GiProbeSetDynamicRange(rng gdnative.Rid, arg1 gdnative.Int) {
+func (o *visualServer) GiProbeSetDynamicRange(probe gdnative.Rid, rng gdnative.Int) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeSetDynamicRange()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromRid(rng)
-	ptrArguments[1] = gdnative.NewPointerFromInt(arg1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
+	ptrArguments[1] = gdnative.NewPointerFromInt(rng)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_set_dynamic_range")
@@ -3467,16 +3547,16 @@ func (o *visualServer) GiProbeSetDynamicRange(rng gdnative.Rid, arg1 gdnative.In
 
 /*
 
-	Args: [{ false energy RID} { false arg1 float}], Returns: void
+	Args: [{ false probe RID} { false energy float}], Returns: void
 */
-func (o *visualServer) GiProbeSetEnergy(energy gdnative.Rid, arg1 gdnative.Real) {
+func (o *visualServer) GiProbeSetEnergy(probe gdnative.Rid, energy gdnative.Real) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeSetEnergy()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromRid(energy)
-	ptrArguments[1] = gdnative.NewPointerFromReal(arg1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
+	ptrArguments[1] = gdnative.NewPointerFromReal(energy)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_set_energy")
@@ -3490,16 +3570,16 @@ func (o *visualServer) GiProbeSetEnergy(energy gdnative.Rid, arg1 gdnative.Real)
 
 /*
 
-	Args: [{ false enable RID} { false arg1 bool}], Returns: void
+	Args: [{ false probe RID} { false enable bool}], Returns: void
 */
-func (o *visualServer) GiProbeSetInterior(enable gdnative.Rid, arg1 gdnative.Bool) {
+func (o *visualServer) GiProbeSetInterior(probe gdnative.Rid, enable gdnative.Bool) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeSetInterior()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromRid(enable)
-	ptrArguments[1] = gdnative.NewPointerFromBool(arg1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
+	ptrArguments[1] = gdnative.NewPointerFromBool(enable)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_set_interior")
@@ -3513,16 +3593,16 @@ func (o *visualServer) GiProbeSetInterior(enable gdnative.Rid, arg1 gdnative.Boo
 
 /*
 
-	Args: [{ false bias RID} { false arg1 float}], Returns: void
+	Args: [{ false probe RID} { false bias float}], Returns: void
 */
-func (o *visualServer) GiProbeSetNormalBias(bias gdnative.Rid, arg1 gdnative.Real) {
+func (o *visualServer) GiProbeSetNormalBias(probe gdnative.Rid, bias gdnative.Real) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeSetNormalBias()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromRid(bias)
-	ptrArguments[1] = gdnative.NewPointerFromReal(arg1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
+	ptrArguments[1] = gdnative.NewPointerFromReal(bias)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_set_normal_bias")
@@ -3536,16 +3616,16 @@ func (o *visualServer) GiProbeSetNormalBias(bias gdnative.Rid, arg1 gdnative.Rea
 
 /*
 
-	Args: [{ false propagation RID} { false arg1 float}], Returns: void
+	Args: [{ false probe RID} { false propagation float}], Returns: void
 */
-func (o *visualServer) GiProbeSetPropagation(propagation gdnative.Rid, arg1 gdnative.Real) {
+func (o *visualServer) GiProbeSetPropagation(probe gdnative.Rid, propagation gdnative.Real) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeSetPropagation()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromRid(propagation)
-	ptrArguments[1] = gdnative.NewPointerFromReal(arg1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
+	ptrArguments[1] = gdnative.NewPointerFromReal(propagation)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_set_propagation")
@@ -3559,16 +3639,16 @@ func (o *visualServer) GiProbeSetPropagation(propagation gdnative.Rid, arg1 gdna
 
 /*
 
-	Args: [{ false xform RID} { false arg1 Transform}], Returns: void
+	Args: [{ false probe RID} { false xform Transform}], Returns: void
 */
-func (o *visualServer) GiProbeSetToCellXform(xform gdnative.Rid, arg1 gdnative.Transform) {
+func (o *visualServer) GiProbeSetToCellXform(probe gdnative.Rid, xform gdnative.Transform) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.GiProbeSetToCellXform()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromRid(xform)
-	ptrArguments[1] = gdnative.NewPointerFromTransform(arg1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(probe)
+	ptrArguments[1] = gdnative.NewPointerFromTransform(xform)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "gi_probe_set_to_cell_xform")
@@ -3630,7 +3710,7 @@ func (o *visualServer) HasFeature(feature gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Returns true, if the OS supports a certain feature. Features might be s3tc, etc, etc2 and pvrtc,
+        Returns [code]true[/code] if the OS supports a certain feature. Features might be s3tc, etc, etc2 and pvrtc,
 	Args: [{ false feature String}], Returns: bool
 */
 func (o *visualServer) HasOsFeature(feature gdnative.String) gdnative.Bool {
@@ -4500,7 +4580,7 @@ func (o *visualServer) InstancesCullConvex(convex gdnative.Array, scenario gdnat
 }
 
 /*
-
+        Returns an array of object IDs intersecting with the provided 3D ray. Only visual 3D nodes are considered, such as [MeshInstance] or [DirectionalLight]. Use [method @GDScript.instance_from_id] to obtain the actual nodes. A scenario RID must be provided, which is available in the [World] you want to query. Warning: this function is primarily intended for editor usage. For in-game use cases, prefer physics collision.
 	Args: [{ false from Vector3} { false to Vector3} {[RID] true scenario RID}], Returns: Array
 */
 func (o *visualServer) InstancesCullRay(from gdnative.Vector3, to gdnative.Vector3, scenario gdnative.Rid) gdnative.Array {
@@ -4818,6 +4898,29 @@ func (o *visualServer) LightSetShadowColor(light gdnative.Rid, color gdnative.Co
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "light_set_shadow_color")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false light RID} { false enabled bool}], Returns: void
+*/
+func (o *visualServer) LightSetUseGi(light gdnative.Rid, enabled gdnative.Bool) {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.LightSetUseGi()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(light)
+	ptrArguments[1] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "light_set_use_gi")
 
 	// Call the parent method.
 	// void
@@ -5168,6 +5271,32 @@ func (o *visualServer) MaterialGetParam(material gdnative.Rid, parameter gdnativ
 }
 
 /*
+
+	Args: [{ false material RID} { false parameter String}], Returns: Variant
+*/
+func (o *visualServer) MaterialGetParamDefault(material gdnative.Rid, parameter gdnative.String) gdnative.Variant {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.MaterialGetParamDefault()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(material)
+	ptrArguments[1] = gdnative.NewPointerFromString(parameter)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "material_get_param_default")
+
+	// Call the parent method.
+	// Variant
+	retPtr := gdnative.NewEmptyVariant()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVariantFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns the shader of a certain material's shader. Returns an empty RID if the material doesn't have a shader.
 	Args: [{ false shader_material RID}], Returns: RID
 */
@@ -5310,16 +5439,16 @@ func (o *visualServer) MaterialSetShader(shaderMaterial gdnative.Rid, shader gdn
 
 /*
         Adds a surface generated from the Arrays to a mesh. See PRIMITIVE_TYPE_* constants for types.
-	Args: [{ false mesh RID} { false primtive int} { false arrays Array} {[] true blend_shapes Array} {97792 true compress_format int}], Returns: void
+	Args: [{ false mesh RID} { false primitive int} { false arrays Array} {[] true blend_shapes Array} {97280 true compress_format int}], Returns: void
 */
-func (o *visualServer) MeshAddSurfaceFromArrays(mesh gdnative.Rid, primtive gdnative.Int, arrays gdnative.Array, blendShapes gdnative.Array, compressFormat gdnative.Int) {
+func (o *visualServer) MeshAddSurfaceFromArrays(mesh gdnative.Rid, primitive gdnative.Int, arrays gdnative.Array, blendShapes gdnative.Array, compressFormat gdnative.Int) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.MeshAddSurfaceFromArrays()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 5, 5)
 	ptrArguments[0] = gdnative.NewPointerFromRid(mesh)
-	ptrArguments[1] = gdnative.NewPointerFromInt(primtive)
+	ptrArguments[1] = gdnative.NewPointerFromInt(primitive)
 	ptrArguments[2] = gdnative.NewPointerFromArray(arrays)
 	ptrArguments[3] = gdnative.NewPointerFromArray(blendShapes)
 	ptrArguments[4] = gdnative.NewPointerFromInt(compressFormat)
@@ -5755,6 +5884,61 @@ func (o *visualServer) MeshSurfaceGetFormat(mesh gdnative.Rid, surface gdnative.
 }
 
 /*
+
+	Args: [{ false format int} { false vertex_len int} { false index_len int} { false array_index int}], Returns: int
+*/
+func (o *visualServer) MeshSurfaceGetFormatOffset(format gdnative.Int, vertexLen gdnative.Int, indexLen gdnative.Int, arrayIndex gdnative.Int) gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.MeshSurfaceGetFormatOffset()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
+	ptrArguments[0] = gdnative.NewPointerFromInt(format)
+	ptrArguments[1] = gdnative.NewPointerFromInt(vertexLen)
+	ptrArguments[2] = gdnative.NewPointerFromInt(indexLen)
+	ptrArguments[3] = gdnative.NewPointerFromInt(arrayIndex)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "mesh_surface_get_format_offset")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false format int} { false vertex_len int} { false index_len int}], Returns: int
+*/
+func (o *visualServer) MeshSurfaceGetFormatStride(format gdnative.Int, vertexLen gdnative.Int, indexLen gdnative.Int) gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.MeshSurfaceGetFormatStride()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(format)
+	ptrArguments[1] = gdnative.NewPointerFromInt(vertexLen)
+	ptrArguments[2] = gdnative.NewPointerFromInt(indexLen)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "mesh_surface_get_format_stride")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns a mesh's surface's index buffer.
 	Args: [{ false mesh RID} { false surface int}], Returns: PoolByteArray
 */
@@ -5884,18 +6068,44 @@ func (o *visualServer) MeshSurfaceSetMaterial(mesh gdnative.Rid, surface gdnativ
 
 /*
 
-	Args: [{ false multimesh RID} { false instances int} { false transform_format int} { false color_format int}], Returns: void
+	Args: [{ false mesh RID} { false surface int} { false offset int} { false data PoolByteArray}], Returns: void
 */
-func (o *visualServer) MultimeshAllocate(multimesh gdnative.Rid, instances gdnative.Int, transformFormat gdnative.Int, colorFormat gdnative.Int) {
+func (o *visualServer) MeshSurfaceUpdateRegion(mesh gdnative.Rid, surface gdnative.Int, offset gdnative.Int, data gdnative.PoolByteArray) {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.MeshSurfaceUpdateRegion()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
+	ptrArguments[0] = gdnative.NewPointerFromRid(mesh)
+	ptrArguments[1] = gdnative.NewPointerFromInt(surface)
+	ptrArguments[2] = gdnative.NewPointerFromInt(offset)
+	ptrArguments[3] = gdnative.NewPointerFromPoolByteArray(data)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "mesh_surface_update_region")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false multimesh RID} { false instances int} { false transform_format int} { false color_format int} {0 true custom_data_format int}], Returns: void
+*/
+func (o *visualServer) MultimeshAllocate(multimesh gdnative.Rid, instances gdnative.Int, transformFormat gdnative.Int, colorFormat gdnative.Int, customDataFormat gdnative.Int) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.MultimeshAllocate()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 4, 4)
+	ptrArguments := make([]gdnative.Pointer, 5, 5)
 	ptrArguments[0] = gdnative.NewPointerFromRid(multimesh)
 	ptrArguments[1] = gdnative.NewPointerFromInt(instances)
 	ptrArguments[2] = gdnative.NewPointerFromInt(transformFormat)
 	ptrArguments[3] = gdnative.NewPointerFromInt(colorFormat)
+	ptrArguments[4] = gdnative.NewPointerFromInt(customDataFormat)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "multimesh_allocate")
@@ -5905,6 +6115,30 @@ func (o *visualServer) MultimeshAllocate(multimesh gdnative.Rid, instances gdnat
 	retPtr := gdnative.NewEmptyVoid()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+}
+
+/*
+        Undocumented
+	Args: [], Returns: RID
+*/
+func (o *visualServer) MultimeshCreate() gdnative.Rid {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.MultimeshCreate()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "multimesh_create")
+
+	// Call the parent method.
+	// RID
+	retPtr := gdnative.NewEmptyRid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRidFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -6035,6 +6269,32 @@ func (o *visualServer) MultimeshInstanceGetColor(multimesh gdnative.Rid, index g
 
 /*
 
+	Args: [{ false multimesh RID} { false index int}], Returns: Color
+*/
+func (o *visualServer) MultimeshInstanceGetCustomData(multimesh gdnative.Rid, index gdnative.Int) gdnative.Color {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.MultimeshInstanceGetCustomData()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(multimesh)
+	ptrArguments[1] = gdnative.NewPointerFromInt(index)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "multimesh_instance_get_custom_data")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+
 	Args: [{ false multimesh RID} { false index int}], Returns: Transform
 */
 func (o *visualServer) MultimeshInstanceGetTransform(multimesh gdnative.Rid, index gdnative.Int) gdnative.Transform {
@@ -6111,6 +6371,30 @@ func (o *visualServer) MultimeshInstanceSetColor(multimesh gdnative.Rid, index g
 
 /*
 
+	Args: [{ false multimesh RID} { false index int} { false custom_data Color}], Returns: void
+*/
+func (o *visualServer) MultimeshInstanceSetCustomData(multimesh gdnative.Rid, index gdnative.Int, customData gdnative.Color) {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.MultimeshInstanceSetCustomData()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromRid(multimesh)
+	ptrArguments[1] = gdnative.NewPointerFromInt(index)
+	ptrArguments[2] = gdnative.NewPointerFromColor(customData)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "multimesh_instance_set_custom_data")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
 	Args: [{ false multimesh RID} { false index int} { false transform Transform}], Returns: void
 */
 func (o *visualServer) MultimeshInstanceSetTransform(multimesh gdnative.Rid, index gdnative.Int, transform gdnative.Transform) {
@@ -6149,6 +6433,29 @@ func (o *visualServer) MultimeshInstanceSetTransform2D(multimesh gdnative.Rid, i
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "multimesh_instance_set_transform_2d")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false multimesh RID} { false array PoolRealArray}], Returns: void
+*/
+func (o *visualServer) MultimeshSetAsBulkArray(multimesh gdnative.Rid, array gdnative.PoolRealArray) {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.MultimeshSetAsBulkArray()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(multimesh)
+	ptrArguments[1] = gdnative.NewPointerFromPoolRealArray(array)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "multimesh_set_as_bulk_array")
 
 	// Call the parent method.
 	// void
@@ -6299,6 +6606,53 @@ func (o *visualServer) ParticlesGetEmitting(particles gdnative.Rid) gdnative.Boo
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewBoolFromPointer(retPtr)
 	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false particles RID}], Returns: bool
+*/
+func (o *visualServer) ParticlesIsInactive(particles gdnative.Rid) gdnative.Bool {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.ParticlesIsInactive()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(particles)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "particles_is_inactive")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false particles RID}], Returns: void
+*/
+func (o *visualServer) ParticlesRequestProcess(particles gdnative.Rid) {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.ParticlesRequestProcess()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(particles)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "particles_request_process")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
 }
 
 /*
@@ -7134,16 +7488,16 @@ func (o *visualServer) ScenarioSetFallbackEnvironment(scenario gdnative.Rid, env
 
 /*
 
-	Args: [{ false scenario RID} { false p_size int} { false subdiv int}], Returns: void
+	Args: [{ false scenario RID} { false size int} { false subdiv int}], Returns: void
 */
-func (o *visualServer) ScenarioSetReflectionAtlasSize(scenario gdnative.Rid, pSize gdnative.Int, subdiv gdnative.Int) {
+func (o *visualServer) ScenarioSetReflectionAtlasSize(scenario gdnative.Rid, size gdnative.Int, subdiv gdnative.Int) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.ScenarioSetReflectionAtlasSize()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 3, 3)
 	ptrArguments[0] = gdnative.NewPointerFromRid(scenario)
-	ptrArguments[1] = gdnative.NewPointerFromInt(pSize)
+	ptrArguments[1] = gdnative.NewPointerFromInt(size)
 	ptrArguments[2] = gdnative.NewPointerFromInt(subdiv)
 
 	// Get the method bind
@@ -7157,18 +7511,19 @@ func (o *visualServer) ScenarioSetReflectionAtlasSize(scenario gdnative.Rid, pSi
 }
 
 /*
-        Sets a boot image. The color defines the background color and if scale is [code]true[/code], the image will be scaled to fit the screen size.
-	Args: [{ false image Image} { false color Color} { false scale bool}], Returns: void
+        Sets a boot image. The color defines the background color and if scale is [code]true[/code] the image will be scaled to fit the screen size.
+	Args: [{ false image Image} { false color Color} { false scale bool} {True true use_filter bool}], Returns: void
 */
-func (o *visualServer) SetBootImage(image ImageImplementer, color gdnative.Color, scale gdnative.Bool) {
+func (o *visualServer) SetBootImage(image ImageImplementer, color gdnative.Color, scale gdnative.Bool, useFilter gdnative.Bool) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.SetBootImage()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromObject(image.GetBaseObject())
 	ptrArguments[1] = gdnative.NewPointerFromColor(color)
 	ptrArguments[2] = gdnative.NewPointerFromBool(scale)
+	ptrArguments[3] = gdnative.NewPointerFromBool(useFilter)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "set_boot_image")
@@ -7638,23 +7993,48 @@ func (o *visualServer) Sync() {
 }
 
 /*
-        Allocates space for a texture's image or video.
-	Args: [{ false texture RID} { false width int} { false height int} { false format int} {7 true flags int}], Returns: void
+
+	Args: [{ false texture RID} { false width int} { false height int} { false depth_3d int} { false format int} { false type int} {7 true flags int}], Returns: void
 */
-func (o *visualServer) TextureAllocate(texture gdnative.Rid, width gdnative.Int, height gdnative.Int, format gdnative.Int, flags gdnative.Int) {
+func (o *visualServer) TextureAllocate(texture gdnative.Rid, width gdnative.Int, height gdnative.Int, depth3D gdnative.Int, format gdnative.Int, aType gdnative.Int, flags gdnative.Int) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.TextureAllocate()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 5, 5)
+	ptrArguments := make([]gdnative.Pointer, 7, 7)
 	ptrArguments[0] = gdnative.NewPointerFromRid(texture)
 	ptrArguments[1] = gdnative.NewPointerFromInt(width)
 	ptrArguments[2] = gdnative.NewPointerFromInt(height)
-	ptrArguments[3] = gdnative.NewPointerFromInt(format)
-	ptrArguments[4] = gdnative.NewPointerFromInt(flags)
+	ptrArguments[3] = gdnative.NewPointerFromInt(depth3D)
+	ptrArguments[4] = gdnative.NewPointerFromInt(format)
+	ptrArguments[5] = gdnative.NewPointerFromInt(aType)
+	ptrArguments[6] = gdnative.NewPointerFromInt(flags)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "texture_allocate")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false texture RID} { false number int}], Returns: void
+*/
+func (o *visualServer) TextureBind(texture gdnative.Rid, number gdnative.Int) {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.TextureBind()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(texture)
+	ptrArguments[1] = gdnative.NewPointerFromInt(number)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "texture_bind")
 
 	// Call the parent method.
 	// void
@@ -7775,6 +8155,31 @@ func (o *visualServer) TextureGetData(texture gdnative.Rid, cubeSide gdnative.In
 	}
 
 	return &ret
+}
+
+/*
+
+	Args: [{ false texture RID}], Returns: int
+*/
+func (o *visualServer) TextureGetDepth(texture gdnative.Rid) gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.TextureGetDepth()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(texture)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "texture_get_depth")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -7903,6 +8308,31 @@ func (o *visualServer) TextureGetTexid(texture gdnative.Rid) gdnative.Int {
 }
 
 /*
+
+	Args: [{ false texture RID}], Returns: enum.VisualServer::TextureType
+*/
+func (o *visualServer) TextureGetType(texture gdnative.Rid) VisualServerTextureType {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.TextureGetType()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromRid(texture)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "texture_get_type")
+
+	// Call the parent method.
+	// enum.VisualServer::TextureType
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return VisualServerTextureType(ret)
+}
+
+/*
         Returns the texture's width.
 	Args: [{ false texture RID}], Returns: int
 */
@@ -7929,9 +8359,9 @@ func (o *visualServer) TextureGetWidth(texture gdnative.Rid) gdnative.Int {
 
 /*
         Sets the texture's image data. If it's a CubeMap, it sets the image data at a cube side.
-	Args: [{ false texture RID} { false image Image} {0 true cube_side int}], Returns: void
+	Args: [{ false texture RID} { false image Image} {0 true layer int}], Returns: void
 */
-func (o *visualServer) TextureSetData(texture gdnative.Rid, image ImageImplementer, cubeSide gdnative.Int) {
+func (o *visualServer) TextureSetData(texture gdnative.Rid, image ImageImplementer, layer gdnative.Int) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.TextureSetData()")
 
@@ -7939,10 +8369,41 @@ func (o *visualServer) TextureSetData(texture gdnative.Rid, image ImageImplement
 	ptrArguments := make([]gdnative.Pointer, 3, 3)
 	ptrArguments[0] = gdnative.NewPointerFromRid(texture)
 	ptrArguments[1] = gdnative.NewPointerFromObject(image.GetBaseObject())
-	ptrArguments[2] = gdnative.NewPointerFromInt(cubeSide)
+	ptrArguments[2] = gdnative.NewPointerFromInt(layer)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "texture_set_data")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false texture RID} { false image Image} { false src_x int} { false src_y int} { false src_w int} { false src_h int} { false dst_x int} { false dst_y int} { false dst_mip int} {0 true layer int}], Returns: void
+*/
+func (o *visualServer) TextureSetDataPartial(texture gdnative.Rid, image ImageImplementer, srcX gdnative.Int, srcY gdnative.Int, srcW gdnative.Int, srcH gdnative.Int, dstX gdnative.Int, dstY gdnative.Int, dstMip gdnative.Int, layer gdnative.Int) {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.TextureSetDataPartial()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 10, 10)
+	ptrArguments[0] = gdnative.NewPointerFromRid(texture)
+	ptrArguments[1] = gdnative.NewPointerFromObject(image.GetBaseObject())
+	ptrArguments[2] = gdnative.NewPointerFromInt(srcX)
+	ptrArguments[3] = gdnative.NewPointerFromInt(srcY)
+	ptrArguments[4] = gdnative.NewPointerFromInt(srcW)
+	ptrArguments[5] = gdnative.NewPointerFromInt(srcH)
+	ptrArguments[6] = gdnative.NewPointerFromInt(dstX)
+	ptrArguments[7] = gdnative.NewPointerFromInt(dstY)
+	ptrArguments[8] = gdnative.NewPointerFromInt(dstMip)
+	ptrArguments[9] = gdnative.NewPointerFromInt(layer)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "texture_set_data_partial")
 
 	// Call the parent method.
 	// void
@@ -8020,18 +8481,19 @@ func (o *visualServer) TextureSetShrinkAllX2OnSetData(shrink gdnative.Bool) {
 }
 
 /*
-        Overwrites the texture's width and height.
-	Args: [{ false texture RID} { false width int} { false height int}], Returns: void
+
+	Args: [{ false texture RID} { false width int} { false height int} { false depth int}], Returns: void
 */
-func (o *visualServer) TextureSetSizeOverride(texture gdnative.Rid, width gdnative.Int, height gdnative.Int) {
+func (o *visualServer) TextureSetSizeOverride(texture gdnative.Rid, width gdnative.Int, height gdnative.Int, depth gdnative.Int) {
 	o.ensureSingleton()
 	//log.Println("Calling VisualServer.TextureSetSizeOverride()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromRid(texture)
 	ptrArguments[1] = gdnative.NewPointerFromInt(width)
 	ptrArguments[2] = gdnative.NewPointerFromInt(height)
+	ptrArguments[3] = gdnative.NewPointerFromInt(depth)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "texture_set_size_override")
@@ -8279,21 +8741,22 @@ func (o *visualServer) ViewportSetActive(viewport gdnative.Rid, active gdnative.
 }
 
 /*
-        Sets the renderlayer for a viewport's canvas.
-	Args: [{ false viewport RID} { false canvas RID} { false layer int}], Returns: void
+        Sets the stacking order for a viewport's canvas. [code]layer[/code] is the actual canvas layer, while [code]sublayer[/code] specifies the stacking order of the canvas among those in the same layer.
+	Args: [{ false viewport RID} { false canvas RID} { false layer int} { false sublayer int}], Returns: void
 */
-func (o *visualServer) ViewportSetCanvasLayer(viewport gdnative.Rid, canvas gdnative.Rid, layer gdnative.Int) {
+func (o *visualServer) ViewportSetCanvasStacking(viewport gdnative.Rid, canvas gdnative.Rid, layer gdnative.Int, sublayer gdnative.Int) {
 	o.ensureSingleton()
-	//log.Println("Calling VisualServer.ViewportSetCanvasLayer()")
+	//log.Println("Calling VisualServer.ViewportSetCanvasStacking()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromRid(viewport)
 	ptrArguments[1] = gdnative.NewPointerFromRid(canvas)
 	ptrArguments[2] = gdnative.NewPointerFromInt(layer)
+	ptrArguments[3] = gdnative.NewPointerFromInt(sublayer)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("VisualServer", "viewport_set_canvas_layer")
+	methodBind := gdnative.NewMethodBind("VisualServer", "viewport_set_canvas_stacking")
 
 	// Call the parent method.
 	// void
@@ -8327,7 +8790,7 @@ func (o *visualServer) ViewportSetCanvasTransform(viewport gdnative.Rid, canvas 
 }
 
 /*
-        Sets the clear mode of a viewport. See VIEWPORT_CLEAR_MODE_* constants for options.
+        Sets the clear mode of a viewport. See [enum VisualServer.ViewportClearMode] for options.
 	Args: [{ false viewport RID} { false clear_mode int}], Returns: void
 */
 func (o *visualServer) ViewportSetClearMode(viewport gdnative.Rid, clearMode gdnative.Int) {
@@ -8350,7 +8813,7 @@ func (o *visualServer) ViewportSetClearMode(viewport gdnative.Rid, clearMode gdn
 }
 
 /*
-        Sets the debug draw mode of a viewport. See VIEWPORT_DEBUG_DRAW_* constants for options.
+        Sets the debug draw mode of a viewport. See [enum VisualServer.ViewportDebugDraw] for options.
 	Args: [{ false viewport RID} { false draw int}], Returns: void
 */
 func (o *visualServer) ViewportSetDebugDraw(viewport gdnative.Rid, draw gdnative.Int) {
@@ -8373,7 +8836,7 @@ func (o *visualServer) ViewportSetDebugDraw(viewport gdnative.Rid, draw gdnative
 }
 
 /*
-        If [code]true[/code] a viewport's 3D rendering should be disabled.
+        If [code]true[/code], a viewport's 3D rendering is disabled.
 	Args: [{ false viewport RID} { false disabled bool}], Returns: void
 */
 func (o *visualServer) ViewportSetDisable3D(viewport gdnative.Rid, disabled gdnative.Bool) {
@@ -8396,7 +8859,7 @@ func (o *visualServer) ViewportSetDisable3D(viewport gdnative.Rid, disabled gdna
 }
 
 /*
-        If [code]true[/code] rendering of a viewport's environment should be disabled.
+        If [code]true[/code], rendering of a viewport's environment is disabled.
 	Args: [{ false viewport RID} { false disabled bool}], Returns: void
 */
 func (o *visualServer) ViewportSetDisableEnvironment(viewport gdnative.Rid, disabled gdnative.Bool) {
@@ -8442,7 +8905,7 @@ func (o *visualServer) ViewportSetGlobalCanvasTransform(viewport gdnative.Rid, t
 }
 
 /*
-        If [code]true[/code] the viewport should render to hdr.
+        If [code]true[/code], the viewport renders to hdr.
 	Args: [{ false viewport RID} { false enabled bool}], Returns: void
 */
 func (o *visualServer) ViewportSetHdr(viewport gdnative.Rid, enabled gdnative.Bool) {
@@ -8465,7 +8928,7 @@ func (o *visualServer) ViewportSetHdr(viewport gdnative.Rid, enabled gdnative.Bo
 }
 
 /*
-        If [code]true[/code] the viewport's canvas should not be rendered.
+        If [code]true[/code], the viewport's canvas is not rendered.
 	Args: [{ false viewport RID} { false hidden bool}], Returns: void
 */
 func (o *visualServer) ViewportSetHideCanvas(viewport gdnative.Rid, hidden gdnative.Bool) {
@@ -8548,6 +9011,29 @@ func (o *visualServer) ViewportSetParentViewport(viewport gdnative.Rid, parentVi
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualServer", "viewport_set_parent_viewport")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false viewport RID} { false enabled bool}], Returns: void
+*/
+func (o *visualServer) ViewportSetRenderDirectToScreen(viewport gdnative.Rid, enabled gdnative.Bool) {
+	o.ensureSingleton()
+	//log.Println("Calling VisualServer.ViewportSetRenderDirectToScreen()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromRid(viewport)
+	ptrArguments[1] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("VisualServer", "viewport_set_render_direct_to_screen")
 
 	// Call the parent method.
 	// void
@@ -8651,7 +9137,7 @@ func (o *visualServer) ViewportSetSize(viewport gdnative.Rid, width gdnative.Int
 }
 
 /*
-        If [code]true[/code] the viewport should render its background as transparent.
+        If [code]true[/code], the viewport renders its background as transparent.
 	Args: [{ false viewport RID} { false enabled bool}], Returns: void
 */
 func (o *visualServer) ViewportSetTransparentBackground(viewport gdnative.Rid, enabled gdnative.Bool) {
@@ -8674,7 +9160,7 @@ func (o *visualServer) ViewportSetTransparentBackground(viewport gdnative.Rid, e
 }
 
 /*
-        Sets when the viewport should be updated. See VIEWPORT_UPDATE_MODE_* constants for options.
+        Sets when the viewport should be updated. See [enum ViewportUpdateMode] constants for options.
 	Args: [{ false viewport RID} { false update_mode int}], Returns: void
 */
 func (o *visualServer) ViewportSetUpdateMode(viewport gdnative.Rid, updateMode gdnative.Int) {
@@ -8697,7 +9183,7 @@ func (o *visualServer) ViewportSetUpdateMode(viewport gdnative.Rid, updateMode g
 }
 
 /*
-        Sets what should be rendered in the viewport. See VIEWPORT_USAGE_* constants for options.
+        Sets the viewport's 2D/3D mode. See [enum ViewportUsage] constants for options.
 	Args: [{ false viewport RID} { false usage int}], Returns: void
 */
 func (o *visualServer) ViewportSetUsage(viewport gdnative.Rid, usage gdnative.Int) {
@@ -8720,7 +9206,7 @@ func (o *visualServer) ViewportSetUsage(viewport gdnative.Rid, usage gdnative.In
 }
 
 /*
-        If [code]true[/code] the viewport should use augmented or virtual reality technologies. See [ARVRInterface].
+        If [code]true[/code], the viewport uses augmented or virtual reality technologies. See [ARVRInterface].
 	Args: [{ false viewport RID} { false use_arvr bool}], Returns: void
 */
 func (o *visualServer) ViewportSetUseArvr(viewport gdnative.Rid, useArvr gdnative.Bool) {
@@ -8743,7 +9229,7 @@ func (o *visualServer) ViewportSetUseArvr(viewport gdnative.Rid, useArvr gdnativ
 }
 
 /*
-        If [code]true[/code] the viewport's rendering should be flipped vertically.
+        If [code]true[/code], the viewport's rendering is flipped vertically.
 	Args: [{ false viewport RID} { false enabled bool}], Returns: void
 */
 func (o *visualServer) ViewportSetVflip(viewport gdnative.Rid, enabled gdnative.Bool) {
@@ -8774,6 +9260,7 @@ type VisualServerImplementer interface {
 	CameraCreate() gdnative.Rid
 	CameraSetCullMask(camera gdnative.Rid, layers gdnative.Int)
 	CameraSetEnvironment(camera gdnative.Rid, env gdnative.Rid)
+	CameraSetFrustum(camera gdnative.Rid, size gdnative.Real, offset gdnative.Vector2, zNear gdnative.Real, zFar gdnative.Real)
 	CameraSetOrthogonal(camera gdnative.Rid, size gdnative.Real, zNear gdnative.Real, zFar gdnative.Real)
 	CameraSetPerspective(camera gdnative.Rid, fovyDegrees gdnative.Real, zNear gdnative.Real, zFar gdnative.Real)
 	CameraSetTransform(camera gdnative.Rid, transform gdnative.Transform)
@@ -8782,10 +9269,10 @@ type VisualServerImplementer interface {
 	CanvasItemAddCircle(item gdnative.Rid, pos gdnative.Vector2, radius gdnative.Real, color gdnative.Color)
 	CanvasItemAddClipIgnore(item gdnative.Rid, ignore gdnative.Bool)
 	CanvasItemAddLine(item gdnative.Rid, from gdnative.Vector2, to gdnative.Vector2, color gdnative.Color, width gdnative.Real, antialiased gdnative.Bool)
-	CanvasItemAddMesh(item gdnative.Rid, mesh gdnative.Rid, skeleton gdnative.Rid)
-	CanvasItemAddMultimesh(item gdnative.Rid, mesh gdnative.Rid, skeleton gdnative.Rid)
+	CanvasItemAddMesh(item gdnative.Rid, mesh gdnative.Rid, transform gdnative.Transform2D, modulate gdnative.Color, texture gdnative.Rid, normalMap gdnative.Rid)
+	CanvasItemAddMultimesh(item gdnative.Rid, mesh gdnative.Rid, texture gdnative.Rid, normalMap gdnative.Rid)
 	CanvasItemAddNinePatch(item gdnative.Rid, rect gdnative.Rect2, source gdnative.Rect2, texture gdnative.Rid, topleft gdnative.Vector2, bottomright gdnative.Vector2, xAxisMode gdnative.Int, yAxisMode gdnative.Int, drawCenter gdnative.Bool, modulate gdnative.Color, normalMap gdnative.Rid)
-	CanvasItemAddParticles(item gdnative.Rid, particles gdnative.Rid, texture gdnative.Rid, normalMap gdnative.Rid, hFrames gdnative.Int, vFrames gdnative.Int)
+	CanvasItemAddParticles(item gdnative.Rid, particles gdnative.Rid, texture gdnative.Rid, normalMap gdnative.Rid)
 	CanvasItemAddPolygon(item gdnative.Rid, points gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uvs gdnative.PoolVector2Array, texture gdnative.Rid, normalMap gdnative.Rid, antialiased gdnative.Bool)
 	CanvasItemAddPolyline(item gdnative.Rid, points gdnative.PoolVector2Array, colors gdnative.PoolColorArray, width gdnative.Real, antialiased gdnative.Bool)
 	CanvasItemAddPrimitive(item gdnative.Rid, points gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uvs gdnative.PoolVector2Array, texture gdnative.Rid, width gdnative.Real, normalMap gdnative.Rid)
@@ -8793,7 +9280,7 @@ type VisualServerImplementer interface {
 	CanvasItemAddSetTransform(item gdnative.Rid, transform gdnative.Transform2D)
 	CanvasItemAddTextureRect(item gdnative.Rid, rect gdnative.Rect2, texture gdnative.Rid, tile gdnative.Bool, modulate gdnative.Color, transpose gdnative.Bool, normalMap gdnative.Rid)
 	CanvasItemAddTextureRectRegion(item gdnative.Rid, rect gdnative.Rect2, texture gdnative.Rid, srcRect gdnative.Rect2, modulate gdnative.Color, transpose gdnative.Bool, normalMap gdnative.Rid, clipUv gdnative.Bool)
-	CanvasItemAddTriangleArray(item gdnative.Rid, indices gdnative.PoolIntArray, points gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uvs gdnative.PoolVector2Array, texture gdnative.Rid, count gdnative.Int, normalMap gdnative.Rid)
+	CanvasItemAddTriangleArray(item gdnative.Rid, indices gdnative.PoolIntArray, points gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uvs gdnative.PoolVector2Array, bones gdnative.PoolIntArray, weights gdnative.PoolRealArray, texture gdnative.Rid, count gdnative.Int, normalMap gdnative.Rid, antialiased gdnative.Bool)
 	CanvasItemClear(item gdnative.Rid)
 	CanvasItemCreate() gdnative.Rid
 	CanvasItemSetClip(item gdnative.Rid, clip gdnative.Bool)
@@ -8847,7 +9334,7 @@ type VisualServerImplementer interface {
 	CanvasSetItemMirroring(canvas gdnative.Rid, item gdnative.Rid, mirroring gdnative.Vector2)
 	CanvasSetModulate(canvas gdnative.Rid, color gdnative.Color)
 	DirectionalLightCreate() gdnative.Rid
-	Draw(swapBuffers gdnative.Bool)
+	Draw(swapBuffers gdnative.Bool, frameStep gdnative.Real)
 	EnvironmentCreate() gdnative.Rid
 	EnvironmentSetAdjustment(env gdnative.Rid, enable gdnative.Bool, brightness gdnative.Real, contrast gdnative.Real, saturation gdnative.Real, ramp gdnative.Rid)
 	EnvironmentSetAmbientLight(env gdnative.Rid, color gdnative.Color, energy gdnative.Real, skyContibution gdnative.Real)
@@ -8858,16 +9345,17 @@ type VisualServerImplementer interface {
 	EnvironmentSetDofBlurFar(env gdnative.Rid, enable gdnative.Bool, distance gdnative.Real, transition gdnative.Real, farAmount gdnative.Real, quality gdnative.Int)
 	EnvironmentSetDofBlurNear(env gdnative.Rid, enable gdnative.Bool, distance gdnative.Real, transition gdnative.Real, farAmount gdnative.Real, quality gdnative.Int)
 	EnvironmentSetFog(env gdnative.Rid, enable gdnative.Bool, color gdnative.Color, sunColor gdnative.Color, sunAmount gdnative.Real)
-	EnvironmentSetFogDepth(env gdnative.Rid, enable gdnative.Bool, depthBegin gdnative.Real, depthCurve gdnative.Real, transmit gdnative.Bool, transmitCurve gdnative.Real)
+	EnvironmentSetFogDepth(env gdnative.Rid, enable gdnative.Bool, depthBegin gdnative.Real, depthEnd gdnative.Real, depthCurve gdnative.Real, transmit gdnative.Bool, transmitCurve gdnative.Real)
 	EnvironmentSetFogHeight(env gdnative.Rid, enable gdnative.Bool, minHeight gdnative.Real, maxHeight gdnative.Real, heightCurve gdnative.Real)
-	EnvironmentSetGlow(env gdnative.Rid, enable gdnative.Bool, levelFlags gdnative.Int, intensity gdnative.Real, strength gdnative.Real, bloomThreshold gdnative.Real, blendMode gdnative.Int, hdrBleedThreshold gdnative.Real, hdrBleedScale gdnative.Real, bicubicUpscale gdnative.Bool)
+	EnvironmentSetGlow(env gdnative.Rid, enable gdnative.Bool, levelFlags gdnative.Int, intensity gdnative.Real, strength gdnative.Real, bloomThreshold gdnative.Real, blendMode gdnative.Int, hdrBleedThreshold gdnative.Real, hdrBleedScale gdnative.Real, hdrLuminanceCap gdnative.Real, bicubicUpscale gdnative.Bool)
 	EnvironmentSetSky(env gdnative.Rid, sky gdnative.Rid)
 	EnvironmentSetSkyCustomFov(env gdnative.Rid, scale gdnative.Real)
-	EnvironmentSetSsao(env gdnative.Rid, enable gdnative.Bool, radius gdnative.Real, intensity gdnative.Real, radius2 gdnative.Real, intensity2 gdnative.Real, bias gdnative.Real, lightAffect gdnative.Real, color gdnative.Color, quality gdnative.Int, blur gdnative.Int, bilateralSharpness gdnative.Real)
+	EnvironmentSetSkyOrientation(env gdnative.Rid, orientation gdnative.Basis)
+	EnvironmentSetSsao(env gdnative.Rid, enable gdnative.Bool, radius gdnative.Real, intensity gdnative.Real, radius2 gdnative.Real, intensity2 gdnative.Real, bias gdnative.Real, lightAffect gdnative.Real, aoChannelAffect gdnative.Real, color gdnative.Color, quality gdnative.Int, blur gdnative.Int, bilateralSharpness gdnative.Real)
 	EnvironmentSetSsr(env gdnative.Rid, enable gdnative.Bool, maxSteps gdnative.Int, fadeIn gdnative.Real, fadeOut gdnative.Real, depthTolerance gdnative.Real, roughness gdnative.Bool)
 	EnvironmentSetTonemap(env gdnative.Rid, toneMapper gdnative.Int, exposure gdnative.Real, white gdnative.Real, autoExposure gdnative.Bool, minLuminance gdnative.Real, maxLuminance gdnative.Real, autoExpSpeed gdnative.Real, autoExpGrey gdnative.Real)
 	Finish()
-	ForceDraw(swapBuffers gdnative.Bool)
+	ForceDraw(swapBuffers gdnative.Bool, frameStep gdnative.Real)
 	ForceSync()
 	FreeRid(rid gdnative.Rid)
 	GetRenderInfo(info gdnative.Int) gdnative.Int
@@ -8875,28 +9363,28 @@ type VisualServerImplementer interface {
 	GetTestTexture() gdnative.Rid
 	GetWhiteTexture() gdnative.Rid
 	GiProbeCreate() gdnative.Rid
-	GiProbeGetBias(arg0 gdnative.Rid) gdnative.Real
+	GiProbeGetBias(probe gdnative.Rid) gdnative.Real
 	GiProbeGetBounds(probe gdnative.Rid) gdnative.Aabb
 	GiProbeGetCellSize(probe gdnative.Rid) gdnative.Real
-	GiProbeGetDynamicData(arg0 gdnative.Rid) gdnative.PoolIntArray
-	GiProbeGetDynamicRange(arg0 gdnative.Rid) gdnative.Int
-	GiProbeGetEnergy(arg0 gdnative.Rid) gdnative.Real
-	GiProbeGetNormalBias(arg0 gdnative.Rid) gdnative.Real
-	GiProbeGetPropagation(arg0 gdnative.Rid) gdnative.Real
-	GiProbeGetToCellXform(arg0 gdnative.Rid) gdnative.Transform
-	GiProbeIsCompressed(arg0 gdnative.Rid) gdnative.Bool
-	GiProbeIsInterior(arg0 gdnative.Rid) gdnative.Bool
-	GiProbeSetBias(bias gdnative.Rid, arg1 gdnative.Real)
+	GiProbeGetDynamicData(probe gdnative.Rid) gdnative.PoolIntArray
+	GiProbeGetDynamicRange(probe gdnative.Rid) gdnative.Int
+	GiProbeGetEnergy(probe gdnative.Rid) gdnative.Real
+	GiProbeGetNormalBias(probe gdnative.Rid) gdnative.Real
+	GiProbeGetPropagation(probe gdnative.Rid) gdnative.Real
+	GiProbeGetToCellXform(probe gdnative.Rid) gdnative.Transform
+	GiProbeIsCompressed(probe gdnative.Rid) gdnative.Bool
+	GiProbeIsInterior(probe gdnative.Rid) gdnative.Bool
+	GiProbeSetBias(probe gdnative.Rid, bias gdnative.Real)
 	GiProbeSetBounds(probe gdnative.Rid, bounds gdnative.Aabb)
 	GiProbeSetCellSize(probe gdnative.Rid, rng gdnative.Real)
-	GiProbeSetCompress(enable gdnative.Rid, arg1 gdnative.Bool)
-	GiProbeSetDynamicData(data gdnative.Rid, arg1 gdnative.PoolIntArray)
-	GiProbeSetDynamicRange(rng gdnative.Rid, arg1 gdnative.Int)
-	GiProbeSetEnergy(energy gdnative.Rid, arg1 gdnative.Real)
-	GiProbeSetInterior(enable gdnative.Rid, arg1 gdnative.Bool)
-	GiProbeSetNormalBias(bias gdnative.Rid, arg1 gdnative.Real)
-	GiProbeSetPropagation(propagation gdnative.Rid, arg1 gdnative.Real)
-	GiProbeSetToCellXform(xform gdnative.Rid, arg1 gdnative.Transform)
+	GiProbeSetCompress(probe gdnative.Rid, enable gdnative.Bool)
+	GiProbeSetDynamicData(probe gdnative.Rid, data gdnative.PoolIntArray)
+	GiProbeSetDynamicRange(probe gdnative.Rid, rng gdnative.Int)
+	GiProbeSetEnergy(probe gdnative.Rid, energy gdnative.Real)
+	GiProbeSetInterior(probe gdnative.Rid, enable gdnative.Bool)
+	GiProbeSetNormalBias(probe gdnative.Rid, bias gdnative.Real)
+	GiProbeSetPropagation(probe gdnative.Rid, propagation gdnative.Real)
+	GiProbeSetToCellXform(probe gdnative.Rid, xform gdnative.Transform)
 	HasChanged() gdnative.Bool
 	HasFeature(feature gdnative.Int) gdnative.Bool
 	HasOsFeature(feature gdnative.String) gdnative.Bool
@@ -8950,6 +9438,7 @@ type VisualServerImplementer interface {
 	LightSetReverseCullFaceMode(light gdnative.Rid, enabled gdnative.Bool)
 	LightSetShadow(light gdnative.Rid, enabled gdnative.Bool)
 	LightSetShadowColor(light gdnative.Rid, color gdnative.Color)
+	LightSetUseGi(light gdnative.Rid, enabled gdnative.Bool)
 	LightmapCaptureCreate() gdnative.Rid
 	LightmapCaptureGetBounds(capture gdnative.Rid) gdnative.Aabb
 	LightmapCaptureGetEnergy(capture gdnative.Rid) gdnative.Real
@@ -8964,13 +9453,14 @@ type VisualServerImplementer interface {
 	MakeSphereMesh(latitudes gdnative.Int, longitudes gdnative.Int, radius gdnative.Real) gdnative.Rid
 	MaterialCreate() gdnative.Rid
 	MaterialGetParam(material gdnative.Rid, parameter gdnative.String) gdnative.Variant
+	MaterialGetParamDefault(material gdnative.Rid, parameter gdnative.String) gdnative.Variant
 	MaterialGetShader(shaderMaterial gdnative.Rid) gdnative.Rid
 	MaterialSetLineWidth(material gdnative.Rid, width gdnative.Real)
 	MaterialSetNextPass(material gdnative.Rid, nextMaterial gdnative.Rid)
 	MaterialSetParam(material gdnative.Rid, parameter gdnative.String, value gdnative.Variant)
 	MaterialSetRenderPriority(material gdnative.Rid, priority gdnative.Int)
 	MaterialSetShader(shaderMaterial gdnative.Rid, shader gdnative.Rid)
-	MeshAddSurfaceFromArrays(mesh gdnative.Rid, primtive gdnative.Int, arrays gdnative.Array, blendShapes gdnative.Array, compressFormat gdnative.Int)
+	MeshAddSurfaceFromArrays(mesh gdnative.Rid, primitive gdnative.Int, arrays gdnative.Array, blendShapes gdnative.Array, compressFormat gdnative.Int)
 	MeshClear(mesh gdnative.Rid)
 	MeshCreate() gdnative.Rid
 	MeshGetBlendShapeCount(mesh gdnative.Rid) gdnative.Int
@@ -8987,27 +9477,36 @@ type VisualServerImplementer interface {
 	MeshSurfaceGetArrays(mesh gdnative.Rid, surface gdnative.Int) gdnative.Array
 	MeshSurfaceGetBlendShapeArrays(mesh gdnative.Rid, surface gdnative.Int) gdnative.Array
 	MeshSurfaceGetFormat(mesh gdnative.Rid, surface gdnative.Int) gdnative.Int
+	MeshSurfaceGetFormatOffset(format gdnative.Int, vertexLen gdnative.Int, indexLen gdnative.Int, arrayIndex gdnative.Int) gdnative.Int
+	MeshSurfaceGetFormatStride(format gdnative.Int, vertexLen gdnative.Int, indexLen gdnative.Int) gdnative.Int
 	MeshSurfaceGetIndexArray(mesh gdnative.Rid, surface gdnative.Int) gdnative.PoolByteArray
 	MeshSurfaceGetMaterial(mesh gdnative.Rid, surface gdnative.Int) gdnative.Rid
 	MeshSurfaceGetSkeletonAabb(mesh gdnative.Rid, surface gdnative.Int) gdnative.Array
 	MeshSurfaceSetMaterial(mesh gdnative.Rid, surface gdnative.Int, material gdnative.Rid)
-	MultimeshAllocate(multimesh gdnative.Rid, instances gdnative.Int, transformFormat gdnative.Int, colorFormat gdnative.Int)
+	MeshSurfaceUpdateRegion(mesh gdnative.Rid, surface gdnative.Int, offset gdnative.Int, data gdnative.PoolByteArray)
+	MultimeshAllocate(multimesh gdnative.Rid, instances gdnative.Int, transformFormat gdnative.Int, colorFormat gdnative.Int, customDataFormat gdnative.Int)
+	MultimeshCreate() gdnative.Rid
 	MultimeshGetAabb(multimesh gdnative.Rid) gdnative.Aabb
 	MultimeshGetInstanceCount(multimesh gdnative.Rid) gdnative.Int
 	MultimeshGetMesh(multimesh gdnative.Rid) gdnative.Rid
 	MultimeshGetVisibleInstances(multimesh gdnative.Rid) gdnative.Int
 	MultimeshInstanceGetColor(multimesh gdnative.Rid, index gdnative.Int) gdnative.Color
+	MultimeshInstanceGetCustomData(multimesh gdnative.Rid, index gdnative.Int) gdnative.Color
 	MultimeshInstanceGetTransform(multimesh gdnative.Rid, index gdnative.Int) gdnative.Transform
 	MultimeshInstanceGetTransform2D(multimesh gdnative.Rid, index gdnative.Int) gdnative.Transform2D
 	MultimeshInstanceSetColor(multimesh gdnative.Rid, index gdnative.Int, color gdnative.Color)
+	MultimeshInstanceSetCustomData(multimesh gdnative.Rid, index gdnative.Int, customData gdnative.Color)
 	MultimeshInstanceSetTransform(multimesh gdnative.Rid, index gdnative.Int, transform gdnative.Transform)
 	MultimeshInstanceSetTransform2D(multimesh gdnative.Rid, index gdnative.Int, transform gdnative.Transform2D)
+	MultimeshSetAsBulkArray(multimesh gdnative.Rid, array gdnative.PoolRealArray)
 	MultimeshSetMesh(multimesh gdnative.Rid, mesh gdnative.Rid)
 	MultimeshSetVisibleInstances(multimesh gdnative.Rid, visible gdnative.Int)
 	OmniLightCreate() gdnative.Rid
 	ParticlesCreate() gdnative.Rid
 	ParticlesGetCurrentAabb(particles gdnative.Rid) gdnative.Aabb
 	ParticlesGetEmitting(particles gdnative.Rid) gdnative.Bool
+	ParticlesIsInactive(particles gdnative.Rid) gdnative.Bool
+	ParticlesRequestProcess(particles gdnative.Rid)
 	ParticlesRestart(particles gdnative.Rid)
 	ParticlesSetAmount(particles gdnative.Rid, amount gdnative.Int)
 	ParticlesSetCustomAabb(particles gdnative.Rid, aabb gdnative.Aabb)
@@ -9044,8 +9543,8 @@ type VisualServerImplementer interface {
 	ScenarioSetDebug(scenario gdnative.Rid, debugMode gdnative.Int)
 	ScenarioSetEnvironment(scenario gdnative.Rid, environment gdnative.Rid)
 	ScenarioSetFallbackEnvironment(scenario gdnative.Rid, environment gdnative.Rid)
-	ScenarioSetReflectionAtlasSize(scenario gdnative.Rid, pSize gdnative.Int, subdiv gdnative.Int)
-	SetBootImage(image ImageImplementer, color gdnative.Color, scale gdnative.Bool)
+	ScenarioSetReflectionAtlasSize(scenario gdnative.Rid, size gdnative.Int, subdiv gdnative.Int)
+	SetBootImage(image ImageImplementer, color gdnative.Color, scale gdnative.Bool, useFilter gdnative.Bool)
 	SetDebugGenerateWireframes(generate gdnative.Bool)
 	SetDefaultClearColor(color gdnative.Color)
 	ShaderCreate() gdnative.Rid
@@ -9065,21 +9564,24 @@ type VisualServerImplementer interface {
 	SkySetTexture(sky gdnative.Rid, cubeMap gdnative.Rid, radianceSize gdnative.Int)
 	SpotLightCreate() gdnative.Rid
 	Sync()
-	TextureAllocate(texture gdnative.Rid, width gdnative.Int, height gdnative.Int, format gdnative.Int, flags gdnative.Int)
+	TextureAllocate(texture gdnative.Rid, width gdnative.Int, height gdnative.Int, depth3D gdnative.Int, format gdnative.Int, aType gdnative.Int, flags gdnative.Int)
+	TextureBind(texture gdnative.Rid, number gdnative.Int)
 	TextureCreate() gdnative.Rid
 	TextureCreateFromImage(image ImageImplementer, flags gdnative.Int) gdnative.Rid
 	TextureDebugUsage() gdnative.Array
 	TextureGetData(texture gdnative.Rid, cubeSide gdnative.Int) ImageImplementer
+	TextureGetDepth(texture gdnative.Rid) gdnative.Int
 	TextureGetFlags(texture gdnative.Rid) gdnative.Int
 	TextureGetHeight(texture gdnative.Rid) gdnative.Int
 	TextureGetPath(texture gdnative.Rid) gdnative.String
 	TextureGetTexid(texture gdnative.Rid) gdnative.Int
 	TextureGetWidth(texture gdnative.Rid) gdnative.Int
-	TextureSetData(texture gdnative.Rid, image ImageImplementer, cubeSide gdnative.Int)
+	TextureSetData(texture gdnative.Rid, image ImageImplementer, layer gdnative.Int)
+	TextureSetDataPartial(texture gdnative.Rid, image ImageImplementer, srcX gdnative.Int, srcY gdnative.Int, srcW gdnative.Int, srcH gdnative.Int, dstX gdnative.Int, dstY gdnative.Int, dstMip gdnative.Int, layer gdnative.Int)
 	TextureSetFlags(texture gdnative.Rid, flags gdnative.Int)
 	TextureSetPath(texture gdnative.Rid, path gdnative.String)
 	TextureSetShrinkAllX2OnSetData(shrink gdnative.Bool)
-	TextureSetSizeOverride(texture gdnative.Rid, width gdnative.Int, height gdnative.Int)
+	TextureSetSizeOverride(texture gdnative.Rid, width gdnative.Int, height gdnative.Int, depth gdnative.Int)
 	TexturesKeepOriginal(enable gdnative.Bool)
 	ViewportAttachCamera(viewport gdnative.Rid, camera gdnative.Rid)
 	ViewportAttachCanvas(viewport gdnative.Rid, canvas gdnative.Rid)
@@ -9090,7 +9592,7 @@ type VisualServerImplementer interface {
 	ViewportGetTexture(viewport gdnative.Rid) gdnative.Rid
 	ViewportRemoveCanvas(viewport gdnative.Rid, canvas gdnative.Rid)
 	ViewportSetActive(viewport gdnative.Rid, active gdnative.Bool)
-	ViewportSetCanvasLayer(viewport gdnative.Rid, canvas gdnative.Rid, layer gdnative.Int)
+	ViewportSetCanvasStacking(viewport gdnative.Rid, canvas gdnative.Rid, layer gdnative.Int, sublayer gdnative.Int)
 	ViewportSetCanvasTransform(viewport gdnative.Rid, canvas gdnative.Rid, offset gdnative.Transform2D)
 	ViewportSetClearMode(viewport gdnative.Rid, clearMode gdnative.Int)
 	ViewportSetDebugDraw(viewport gdnative.Rid, draw gdnative.Int)
@@ -9102,6 +9604,7 @@ type VisualServerImplementer interface {
 	ViewportSetHideScenario(viewport gdnative.Rid, hidden gdnative.Bool)
 	ViewportSetMsaa(viewport gdnative.Rid, msaa gdnative.Int)
 	ViewportSetParentViewport(viewport gdnative.Rid, parentViewport gdnative.Rid)
+	ViewportSetRenderDirectToScreen(viewport gdnative.Rid, enabled gdnative.Bool)
 	ViewportSetScenario(viewport gdnative.Rid, scenario gdnative.Rid)
 	ViewportSetShadowAtlasQuadrantSubdivision(viewport gdnative.Rid, quadrant gdnative.Int, subdivision gdnative.Int)
 	ViewportSetShadowAtlasSize(viewport gdnative.Rid, size gdnative.Int)

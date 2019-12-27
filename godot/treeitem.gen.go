@@ -26,12 +26,11 @@ const (
 type TreeItemTreeCellMode int
 
 const (
-	TreeItemCellModeCheck           TreeItemTreeCellMode = 1
-	TreeItemCellModeCustom          TreeItemTreeCellMode = 5
-	TreeItemCellModeIcon            TreeItemTreeCellMode = 4
-	TreeItemCellModeRange           TreeItemTreeCellMode = 2
-	TreeItemCellModeRangeExpression TreeItemTreeCellMode = 3
-	TreeItemCellModeString          TreeItemTreeCellMode = 0
+	TreeItemCellModeCheck  TreeItemTreeCellMode = 1
+	TreeItemCellModeCustom TreeItemTreeCellMode = 4
+	TreeItemCellModeIcon   TreeItemTreeCellMode = 3
+	TreeItemCellModeRange  TreeItemTreeCellMode = 2
+	TreeItemCellModeString TreeItemTreeCellMode = 0
 )
 
 //func NewTreeItemFromPointer(ptr gdnative.Pointer) TreeItem {
@@ -56,7 +55,7 @@ func (o *TreeItem) BaseClass() string {
 }
 
 /*
-        Adds a button with [Texture] [code]button[/code] at column [code]column[/code]. The [code]button_idx[/code] index is used to identify the button when calling other methods. If not specified, the next available index is used, which may be retrieved by calling [code]get_buton_count()[/code] immediately after this method. Optionally, the button can be [code]disabled[/code] and have a [code]tooltip[/code].
+        Adds a button with [Texture] [code]button[/code] at column [code]column[/code]. The [code]button_idx[/code] index is used to identify the button when calling other methods. If not specified, the next available index is used, which may be retrieved by calling [method get_button_count] immediately after this method. Optionally, the button can be [code]disabled[/code] and have a [code]tooltip[/code].
 	Args: [{ false column int} { false button Texture} {-1 true button_idx int} {False true disabled bool} { true tooltip String}], Returns: void
 */
 func (o *TreeItem) AddButton(column gdnative.Int, button TextureImplementer, buttonIdx gdnative.Int, disabled gdnative.Bool, tooltip gdnative.String) {
@@ -78,6 +77,30 @@ func (o *TreeItem) AddButton(column gdnative.Int, button TextureImplementer, but
 	retPtr := gdnative.NewEmptyVoid()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+}
+
+/*
+        Undocumented
+	Args: [{ false method String}], Returns: Variant
+*/
+func (o *TreeItem) CallRecursive(method gdnative.String) gdnative.Variant {
+	//log.Println("Calling TreeItem.CallRecursive()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(method)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TreeItem", "call_recursive")
+
+	// Call the parent method.
+	// Variant
+	retPtr := gdnative.NewEmptyVariant()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVariantFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -229,6 +252,31 @@ func (o *TreeItem) GetButtonCount(column gdnative.Int) gdnative.Int {
 }
 
 /*
+        Undocumented
+	Args: [{ false column int} { false button_idx int}], Returns: String
+*/
+func (o *TreeItem) GetButtonTooltip(column gdnative.Int, buttonIdx gdnative.Int) gdnative.String {
+	//log.Println("Calling TreeItem.GetButtonTooltip()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(column)
+	ptrArguments[1] = gdnative.NewPointerFromInt(buttonIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TreeItem", "get_button_tooltip")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns the column's cell mode. See [code]CELL_MODE_*[/code] constants.
 	Args: [{ false column int}], Returns: enum.TreeItem::TreeCellMode
 */
@@ -302,6 +350,30 @@ func (o *TreeItem) GetCustomBgColor(column gdnative.Int) gdnative.Color {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TreeItem", "get_custom_bg_color")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false column int}], Returns: Color
+*/
+func (o *TreeItem) GetCustomColor(column gdnative.Int) gdnative.Color {
+	//log.Println("Calling TreeItem.GetCustomColor()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(column)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TreeItem", "get_custom_color")
 
 	// Call the parent method.
 	// Color
@@ -423,6 +495,30 @@ func (o *TreeItem) GetIconMaxWidth(column gdnative.Int) gdnative.Int {
 }
 
 /*
+        Undocumented
+	Args: [{ false column int}], Returns: Color
+*/
+func (o *TreeItem) GetIconModulate(column gdnative.Int) gdnative.Color {
+	//log.Println("Calling TreeItem.GetIconModulate()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(column)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TreeItem", "get_icon_modulate")
+
+	// Call the parent method.
+	// Color
+	retPtr := gdnative.NewEmptyColor()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewColorFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns the icon [Texture] region as [Rect2].
 	Args: [{ false column int}], Returns: Rect2
 */
@@ -509,13 +605,14 @@ func (o *TreeItem) GetNext() TreeItemImplementer {
 
 /*
         Returns the next visible TreeItem in the tree.
-	Args: [], Returns: TreeItem
+	Args: [{False true wrap bool}], Returns: TreeItem
 */
-func (o *TreeItem) GetNextVisible() TreeItemImplementer {
+func (o *TreeItem) GetNextVisible(wrap gdnative.Bool) TreeItemImplementer {
 	//log.Println("Calling TreeItem.GetNextVisible()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(wrap)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TreeItem", "get_next_visible")
@@ -620,13 +717,14 @@ func (o *TreeItem) GetPrev() TreeItemImplementer {
 
 /*
         Returns the previous visible TreeItem in the tree.
-	Args: [], Returns: TreeItem
+	Args: [{False true wrap bool}], Returns: TreeItem
 */
-func (o *TreeItem) GetPrevVisible() TreeItemImplementer {
+func (o *TreeItem) GetPrevVisible(wrap gdnative.Bool) TreeItemImplementer {
 	//log.Println("Calling TreeItem.GetPrevVisible()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(wrap)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TreeItem", "get_prev_visible")
@@ -1007,7 +1105,7 @@ func (o *TreeItem) MoveToTop() {
 }
 
 /*
-        Removes the child TreeItem at index [code]index[/code].
+        Removes the given child TreeItem.
 	Args: [{ false child Object}], Returns: void
 */
 func (o *TreeItem) RemoveChild(child ObjectImplementer) {
@@ -1072,6 +1170,29 @@ func (o *TreeItem) SetButton(column gdnative.Int, buttonIdx gdnative.Int, button
 }
 
 /*
+        Undocumented
+	Args: [{ false column int} { false button_idx int} { false disabled bool}], Returns: void
+*/
+func (o *TreeItem) SetButtonDisabled(column gdnative.Int, buttonIdx gdnative.Int, disabled gdnative.Bool) {
+	//log.Println("Calling TreeItem.SetButtonDisabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromInt(column)
+	ptrArguments[1] = gdnative.NewPointerFromInt(buttonIdx)
+	ptrArguments[2] = gdnative.NewPointerFromBool(disabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TreeItem", "set_button_disabled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Sets the given column's cell mode to [code]mode[/code]. See [code]CELL_MODE_*[/code] constants.
 	Args: [{ false column int} { false mode int}], Returns: void
 */
@@ -1094,7 +1215,7 @@ func (o *TreeItem) SetCellMode(column gdnative.Int, mode gdnative.Int) {
 }
 
 /*
-        If [code]true[/code] the column [code]column[/code] is checked.
+        If [code]true[/code], the column [code]column[/code] is checked.
 	Args: [{ false column int} { false checked bool}], Returns: void
 */
 func (o *TreeItem) SetChecked(column gdnative.Int, checked gdnative.Bool) {
@@ -1204,7 +1325,7 @@ func (o *TreeItem) SetCustomColor(column gdnative.Int, color gdnative.Color) {
 }
 
 /*
-        Sets the given column's custom draw callback to [code]callback[/code] method on [code]object[/code].
+        Sets the given column's custom draw callback to [code]callback[/code] method on [code]object[/code]. The [code]callback[/code] should accept two arguments: the [TreeItem] that is drawn and its position and size as a [Rect2].
 	Args: [{ false column int} { false object Object} { false callback String}], Returns: void
 */
 func (o *TreeItem) SetCustomDraw(column gdnative.Int, object ObjectImplementer, callback gdnative.String) {
@@ -1269,7 +1390,7 @@ func (o *TreeItem) SetDisableFolding(disable gdnative.Bool) {
 }
 
 /*
-        If [code]true[/code] column [code]column[/code] is editable.
+        If [code]true[/code], column [code]column[/code] is editable.
 	Args: [{ false column int} { false enabled bool}], Returns: void
 */
 func (o *TreeItem) SetEditable(column gdnative.Int, enabled gdnative.Bool) {
@@ -1291,7 +1412,7 @@ func (o *TreeItem) SetEditable(column gdnative.Int, enabled gdnative.Bool) {
 }
 
 /*
-        If [code]true[/code] column [code]column[/code] is expanded to the right.
+        If [code]true[/code], column [code]column[/code] is expanded to the right.
 	Args: [{ false column int} { false enable bool}], Returns: void
 */
 func (o *TreeItem) SetExpandRight(column gdnative.Int, enable gdnative.Bool) {
@@ -1348,6 +1469,28 @@ func (o *TreeItem) SetIconMaxWidth(column gdnative.Int, width gdnative.Int) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TreeItem", "set_icon_max_width")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false column int} { false modulate Color}], Returns: void
+*/
+func (o *TreeItem) SetIconModulate(column gdnative.Int, modulate gdnative.Color) {
+	//log.Println("Calling TreeItem.SetIconModulate()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(column)
+	ptrArguments[1] = gdnative.NewPointerFromColor(modulate)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TreeItem", "set_icon_modulate")
 
 	// Call the parent method.
 	// void
@@ -1448,7 +1591,7 @@ func (o *TreeItem) SetRangeConfig(column gdnative.Int, min gdnative.Real, max gd
 }
 
 /*
-        If [code]true[/code] the given column is selectable.
+        If [code]true[/code], the given column is selectable.
 	Args: [{ false column int} { false selectable bool}], Returns: void
 */
 func (o *TreeItem) SetSelectable(column gdnative.Int, selectable gdnative.Bool) {
@@ -1540,25 +1683,29 @@ func (o *TreeItem) SetTooltip(column gdnative.Int, tooltip gdnative.String) {
 type TreeItemImplementer interface {
 	ObjectImplementer
 	AddButton(column gdnative.Int, button TextureImplementer, buttonIdx gdnative.Int, disabled gdnative.Bool, tooltip gdnative.String)
+	CallRecursive(method gdnative.String) gdnative.Variant
 	ClearCustomBgColor(column gdnative.Int)
 	ClearCustomColor(column gdnative.Int)
 	Deselect(column gdnative.Int)
 	EraseButton(column gdnative.Int, buttonIdx gdnative.Int)
 	GetButton(column gdnative.Int, buttonIdx gdnative.Int) TextureImplementer
 	GetButtonCount(column gdnative.Int) gdnative.Int
+	GetButtonTooltip(column gdnative.Int, buttonIdx gdnative.Int) gdnative.String
 	GetChildren() TreeItemImplementer
 	GetCustomBgColor(column gdnative.Int) gdnative.Color
+	GetCustomColor(column gdnative.Int) gdnative.Color
 	GetCustomMinimumHeight() gdnative.Int
 	GetExpandRight(column gdnative.Int) gdnative.Bool
 	GetIcon(column gdnative.Int) TextureImplementer
 	GetIconMaxWidth(column gdnative.Int) gdnative.Int
+	GetIconModulate(column gdnative.Int) gdnative.Color
 	GetIconRegion(column gdnative.Int) gdnative.Rect2
 	GetMetadata(column gdnative.Int) gdnative.Variant
 	GetNext() TreeItemImplementer
-	GetNextVisible() TreeItemImplementer
+	GetNextVisible(wrap gdnative.Bool) TreeItemImplementer
 	GetParent() TreeItemImplementer
 	GetPrev() TreeItemImplementer
-	GetPrevVisible() TreeItemImplementer
+	GetPrevVisible(wrap gdnative.Bool) TreeItemImplementer
 	GetRange(column gdnative.Int) gdnative.Real
 	GetRangeConfig(column gdnative.Int) gdnative.Dictionary
 	GetText(column gdnative.Int) gdnative.String
@@ -1576,6 +1723,7 @@ type TreeItemImplementer interface {
 	RemoveChild(child ObjectImplementer)
 	Select(column gdnative.Int)
 	SetButton(column gdnative.Int, buttonIdx gdnative.Int, button TextureImplementer)
+	SetButtonDisabled(column gdnative.Int, buttonIdx gdnative.Int, disabled gdnative.Bool)
 	SetCellMode(column gdnative.Int, mode gdnative.Int)
 	SetChecked(column gdnative.Int, checked gdnative.Bool)
 	SetCollapsed(enable gdnative.Bool)
@@ -1589,6 +1737,7 @@ type TreeItemImplementer interface {
 	SetExpandRight(column gdnative.Int, enable gdnative.Bool)
 	SetIcon(column gdnative.Int, texture TextureImplementer)
 	SetIconMaxWidth(column gdnative.Int, width gdnative.Int)
+	SetIconModulate(column gdnative.Int, modulate gdnative.Color)
 	SetIconRegion(column gdnative.Int, region gdnative.Rect2)
 	SetMetadata(column gdnative.Int, meta gdnative.Variant)
 	SetRange(column gdnative.Int, value gdnative.Real)

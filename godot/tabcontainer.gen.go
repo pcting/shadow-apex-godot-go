@@ -35,7 +35,7 @@ func newTabContainerFromPointer(ptr gdnative.Pointer) TabContainer {
 Sets the active tab's [code]visible[/code] property to the value [code]true[/code]. Sets all other children's to [code]false[/code]. Ignores non-[Control] children. Individual tabs are always visible unless you use [method set_tab_disabled] and [method set_tab_title] to hide it. To hide only a tab's content, nest the content inside a child [Control], so it receives the [code]TabContainer[/code]'s visibility setting instead.
 */
 type TabContainer struct {
-	Control
+	Container
 	owner gdnative.Object
 }
 
@@ -76,6 +76,26 @@ func (o *TabContainer) X_GuiInput(arg0 InputEventImplementer) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TabContainer", "_gui_input")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *TabContainer) X_OnMouseExited() {
+	//log.Println("Calling TabContainer.X_OnMouseExited()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TabContainer", "_on_mouse_exited")
 
 	// Call the parent method.
 	// void
@@ -205,6 +225,29 @@ func (o *TabContainer) GetCurrentTabControl() ControlImplementer {
 	}
 
 	return &ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TabContainer) GetDragToRearrangeEnabled() gdnative.Bool {
+	//log.Println("Calling TabContainer.GetDragToRearrangeEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TabContainer", "get_drag_to_rearrange_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -438,6 +481,52 @@ func (o *TabContainer) GetTabTitle(tabIdx gdnative.Int) gdnative.String {
 }
 
 /*
+        Returns the [code]TabContainer[/code] rearrange group id.
+	Args: [], Returns: int
+*/
+func (o *TabContainer) GetTabsRearrangeGroup() gdnative.Int {
+	//log.Println("Calling TabContainer.GetTabsRearrangeGroup()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TabContainer", "get_tabs_rearrange_group")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TabContainer) GetUseHiddenTabsForMinSize() gdnative.Bool {
+	//log.Println("Calling TabContainer.GetUseHiddenTabsForMinSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TabContainer", "get_use_hidden_tabs_for_min_size")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
         Undocumented
 	Args: [{ false tab_idx int}], Returns: void
 */
@@ -459,10 +548,31 @@ func (o *TabContainer) SetCurrentTab(tabIdx gdnative.Int) {
 }
 
 /*
-        If set on a [Popup] node instance, a popup menu icon appears in the top-right corner of the [code]TabContainer[/code]. Clicking it will expand the [Popup] node.
-	Args: [{ false popup Object}], Returns: void
+        Undocumented
+	Args: [{ false enabled bool}], Returns: void
 */
-func (o *TabContainer) SetPopup(popup ObjectImplementer) {
+func (o *TabContainer) SetDragToRearrangeEnabled(enabled gdnative.Bool) {
+	//log.Println("Calling TabContainer.SetDragToRearrangeEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TabContainer", "set_drag_to_rearrange_enabled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        If set on a [Popup] node instance, a popup menu icon appears in the top-right corner of the [code]TabContainer[/code]. Clicking it will expand the [Popup] node.
+	Args: [{ false popup Node}], Returns: void
+*/
+func (o *TabContainer) SetPopup(popup NodeImplementer) {
 	//log.Println("Calling TabContainer.SetPopup()")
 
 	// Build out the method's arguments
@@ -501,7 +611,7 @@ func (o *TabContainer) SetTabAlign(align gdnative.Int) {
 }
 
 /*
-        If [code]disabled[/code] is false, hides the tab at index [code]tab_idx[/code]. Note that its title text will remain, unless also removed with [method set_tab_title].
+        If [code]disabled[/code] is [code]false[/code], hides the tab at index [code]tab_idx[/code]. Note that its title text will remain, unless also removed with [method set_tab_title].
 	Args: [{ false tab_idx int} { false disabled bool}], Returns: void
 */
 func (o *TabContainer) SetTabDisabled(tabIdx gdnative.Int, disabled gdnative.Bool) {
@@ -567,6 +677,27 @@ func (o *TabContainer) SetTabTitle(tabIdx gdnative.Int, title gdnative.String) {
 }
 
 /*
+        Defines rearrange group id, choose for each [code]TabContainer[/code] the same value to enable tab drag between [code]TabContainer[/code]. Enable drag with [code]set_drag_to_rearrange_enabled(true)[/code].
+	Args: [{ false group_id int}], Returns: void
+*/
+func (o *TabContainer) SetTabsRearrangeGroup(groupId gdnative.Int) {
+	//log.Println("Calling TabContainer.SetTabsRearrangeGroup()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(groupId)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TabContainer", "set_tabs_rearrange_group")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Undocumented
 	Args: [{ false visible bool}], Returns: void
 */
@@ -587,16 +718,39 @@ func (o *TabContainer) SetTabsVisible(visible gdnative.Bool) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false enabled bool}], Returns: void
+*/
+func (o *TabContainer) SetUseHiddenTabsForMinSize(enabled gdnative.Bool) {
+	//log.Println("Calling TabContainer.SetUseHiddenTabsForMinSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TabContainer", "set_use_hidden_tabs_for_min_size")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // TabContainerImplementer is an interface that implements the methods
 // of the TabContainer class.
 type TabContainerImplementer interface {
-	ControlImplementer
+	ContainerImplementer
 	X_ChildRenamedCallback()
+	X_OnMouseExited()
 	X_OnThemeChanged()
 	X_UpdateCurrentTab()
 	AreTabsVisible() gdnative.Bool
 	GetCurrentTab() gdnative.Int
 	GetCurrentTabControl() ControlImplementer
+	GetDragToRearrangeEnabled() gdnative.Bool
 	GetPopup() PopupImplementer
 	GetPreviousTab() gdnative.Int
 	GetTabControl(idx gdnative.Int) ControlImplementer
@@ -604,11 +758,16 @@ type TabContainerImplementer interface {
 	GetTabDisabled(tabIdx gdnative.Int) gdnative.Bool
 	GetTabIcon(tabIdx gdnative.Int) TextureImplementer
 	GetTabTitle(tabIdx gdnative.Int) gdnative.String
+	GetTabsRearrangeGroup() gdnative.Int
+	GetUseHiddenTabsForMinSize() gdnative.Bool
 	SetCurrentTab(tabIdx gdnative.Int)
-	SetPopup(popup ObjectImplementer)
+	SetDragToRearrangeEnabled(enabled gdnative.Bool)
+	SetPopup(popup NodeImplementer)
 	SetTabAlign(align gdnative.Int)
 	SetTabDisabled(tabIdx gdnative.Int, disabled gdnative.Bool)
 	SetTabIcon(tabIdx gdnative.Int, icon TextureImplementer)
 	SetTabTitle(tabIdx gdnative.Int, title gdnative.String)
+	SetTabsRearrangeGroup(groupId gdnative.Int)
 	SetTabsVisible(visible gdnative.Bool)
+	SetUseHiddenTabsForMinSize(enabled gdnative.Bool)
 }

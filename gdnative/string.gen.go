@@ -10,8 +10,9 @@ package gdnative
 //----------------------------------------------------------------------------*/
 
 /*
+#cgo LDFLAGS: -I../godot_headers
 #include "gdnative.gen.h"
-#include <gdnative/string.h>
+#include <godot_headers/gdnative/string.h>
 // Include all headers for now. TODO: Look up all the required
 // headers we need to import based on the method arguments and return types.
 #include <gdnative/aabb.h>
@@ -71,7 +72,7 @@ func (s String) getBase() *C.godot_string {
 	return stringAsGodotString(string(s))
 }
 
-// OperatorIndex godot_string_operator_index [[godot_string * p_self] [const godot_int p_idx]] wchar_t *
+// OperatorIndex godot_string_operator_index [[godot_string * p_self] [const godot_int p_idx]] const wchar_t *
 func (gdt *String) OperatorIndex(idx Int) WcharT {
 	arg0 := gdt.getBase()
 	arg1 := idx.getBase()

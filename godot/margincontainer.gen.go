@@ -23,7 +23,7 @@ func newMarginContainerFromPointer(ptr gdnative.Pointer) MarginContainer {
 }
 
 /*
-Simple margin container. Adds a left margin to anything contained.
+Adds a top, left, bottom, and right margin to all [Control] nodes that are direct children of the container. To control the [MarginContainer]'s margin, use the [code]margin_*[/code] theme properties listed below. [b]Note:[/b] Be careful, [Control] margin values are different than the constant margin values. If you want to change the custom margin values of the [MarginContainer] by code you should use the following examples: [codeblock] var margin_value = 100 set("custom_constants/margin_top", margin_value) set("custom_constants/margin_left", margin_value) set("custom_constants/margin_bottom", margin_value) set("custom_constants/margin_right", margin_value) [/codeblock]
 */
 type MarginContainer struct {
 	Container

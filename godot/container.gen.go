@@ -76,9 +76,9 @@ func (o *Container) X_SortChildren() {
 
 /*
         Fit a child control in a given rect. This is mainly a helper for creating custom container classes.
-	Args: [{ false child Object} { false rect Rect2}], Returns: void
+	Args: [{ false child Control} { false rect Rect2}], Returns: void
 */
-func (o *Container) FitChildInRect(child ObjectImplementer, rect gdnative.Rect2) {
+func (o *Container) FitChildInRect(child ControlImplementer, rect gdnative.Rect2) {
 	//log.Println("Calling Container.FitChildInRect()")
 
 	// Build out the method's arguments
@@ -122,6 +122,6 @@ type ContainerImplementer interface {
 	ControlImplementer
 	X_ChildMinsizeChanged()
 	X_SortChildren()
-	FitChildInRect(child ObjectImplementer, rect gdnative.Rect2)
+	FitChildInRect(child ControlImplementer, rect gdnative.Rect2)
 	QueueSort()
 }

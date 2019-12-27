@@ -153,6 +153,29 @@ func (o *Button) GetTextAlign() ButtonTextAlign {
         Undocumented
 	Args: [], Returns: bool
 */
+func (o *Button) IsExpandIcon() gdnative.Bool {
+	//log.Println("Calling Button.IsExpandIcon()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Button", "is_expand_icon")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
 func (o *Button) IsFlat() gdnative.Bool {
 	//log.Println("Calling Button.IsFlat()")
 
@@ -206,6 +229,27 @@ func (o *Button) SetClipText(enabled gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Button", "set_clip_text")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 bool}], Returns: void
+*/
+func (o *Button) SetExpandIcon(arg0 gdnative.Bool) {
+	//log.Println("Calling Button.SetExpandIcon()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Button", "set_expand_icon")
 
 	// Call the parent method.
 	// void
@@ -284,9 +328,11 @@ type ButtonImplementer interface {
 	GetButtonIcon() TextureImplementer
 	GetClipText() gdnative.Bool
 	GetText() gdnative.String
+	IsExpandIcon() gdnative.Bool
 	IsFlat() gdnative.Bool
 	SetButtonIcon(texture TextureImplementer)
 	SetClipText(enabled gdnative.Bool)
+	SetExpandIcon(arg0 gdnative.Bool)
 	SetFlat(enabled gdnative.Bool)
 	SetText(text gdnative.String)
 	SetTextAlign(align gdnative.Int)

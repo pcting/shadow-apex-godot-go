@@ -36,6 +36,29 @@ func (o *InputEventMouseMotion) BaseClass() string {
 
 /*
         Undocumented
+	Args: [], Returns: float
+*/
+func (o *InputEventMouseMotion) GetPressure() gdnative.Real {
+	//log.Println("Calling InputEventMouseMotion.GetPressure()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("InputEventMouseMotion", "get_pressure")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: Vector2
 */
 func (o *InputEventMouseMotion) GetRelative() gdnative.Vector2 {
@@ -82,6 +105,50 @@ func (o *InputEventMouseMotion) GetSpeed() gdnative.Vector2 {
 
 /*
         Undocumented
+	Args: [], Returns: Vector2
+*/
+func (o *InputEventMouseMotion) GetTilt() gdnative.Vector2 {
+	//log.Println("Calling InputEventMouseMotion.GetTilt()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("InputEventMouseMotion", "get_tilt")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false pressure float}], Returns: void
+*/
+func (o *InputEventMouseMotion) SetPressure(pressure gdnative.Real) {
+	//log.Println("Calling InputEventMouseMotion.SetPressure()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(pressure)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("InputEventMouseMotion", "set_pressure")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false relative Vector2}], Returns: void
 */
 func (o *InputEventMouseMotion) SetRelative(relative gdnative.Vector2) {
@@ -122,12 +189,37 @@ func (o *InputEventMouseMotion) SetSpeed(speed gdnative.Vector2) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false tilt Vector2}], Returns: void
+*/
+func (o *InputEventMouseMotion) SetTilt(tilt gdnative.Vector2) {
+	//log.Println("Calling InputEventMouseMotion.SetTilt()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(tilt)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("InputEventMouseMotion", "set_tilt")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // InputEventMouseMotionImplementer is an interface that implements the methods
 // of the InputEventMouseMotion class.
 type InputEventMouseMotionImplementer interface {
 	InputEventMouseImplementer
+	GetPressure() gdnative.Real
 	GetRelative() gdnative.Vector2
 	GetSpeed() gdnative.Vector2
+	GetTilt() gdnative.Vector2
+	SetPressure(pressure gdnative.Real)
 	SetRelative(relative gdnative.Vector2)
 	SetSpeed(speed gdnative.Vector2)
+	SetTilt(tilt gdnative.Vector2)
 }

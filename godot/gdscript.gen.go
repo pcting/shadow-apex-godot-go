@@ -59,9 +59,9 @@ func (o *GDScript) GetAsByteCode() gdnative.PoolByteArray {
 
 /*
         Undocumented
-	Args: [], Returns: Object
+	Args: [], Returns: Variant
 */
-func (o *GDScript) New() ObjectImplementer {
+func (o *GDScript) New() gdnative.Variant {
 	//log.Println("Calling GDScript.New()")
 
 	// Build out the method's arguments
@@ -71,27 +71,13 @@ func (o *GDScript) New() ObjectImplementer {
 	methodBind := gdnative.NewMethodBind("GDScript", "new")
 
 	// Call the parent method.
-	// Object
-	retPtr := gdnative.NewEmptyObject()
+	// Variant
+	retPtr := gdnative.NewEmptyVariant()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
 	// If we have a return type, convert it from a pointer into its actual object.
-	ret := newObjectFromPointer(retPtr)
-
-	// Check to see if we already have an instance of this object in our Go instance registry.
-	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
-		return instance.(ObjectImplementer)
-	}
-
-	// Check to see what kind of class this is and create it. This is generally used with
-	// GetNode().
-	className := ret.GetClass()
-	if className != "Object" {
-		actualRet := getActualClass(className, ret.GetBaseObject())
-		return actualRet.(ObjectImplementer)
-	}
-
-	return &ret
+	ret := gdnative.NewVariantFromPointer(retPtr)
+	return ret
 }
 
 // GDScriptImplementer is an interface that implements the methods
@@ -99,5 +85,5 @@ func (o *GDScript) New() ObjectImplementer {
 type GDScriptImplementer interface {
 	ScriptImplementer
 	GetAsByteCode() gdnative.PoolByteArray
-	New() ObjectImplementer
+	New() gdnative.Variant
 }

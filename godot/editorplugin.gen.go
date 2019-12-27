@@ -17,14 +17,18 @@ import (
 type EditorPluginCustomControlContainer int
 
 const (
-	EditorPluginContainerCanvasEditorBottom   EditorPluginCustomControlContainer = 6
-	EditorPluginContainerCanvasEditorMenu     EditorPluginCustomControlContainer = 4
-	EditorPluginContainerCanvasEditorSide     EditorPluginCustomControlContainer = 5
-	EditorPluginContainerPropertyEditorBottom EditorPluginCustomControlContainer = 7
-	EditorPluginContainerSpatialEditorBottom  EditorPluginCustomControlContainer = 3
-	EditorPluginContainerSpatialEditorMenu    EditorPluginCustomControlContainer = 1
-	EditorPluginContainerSpatialEditorSide    EditorPluginCustomControlContainer = 2
-	EditorPluginContainerToolbar              EditorPluginCustomControlContainer = 0
+	EditorPluginContainerCanvasEditorBottom     EditorPluginCustomControlContainer = 8
+	EditorPluginContainerCanvasEditorMenu       EditorPluginCustomControlContainer = 5
+	EditorPluginContainerCanvasEditorSideLeft   EditorPluginCustomControlContainer = 6
+	EditorPluginContainerCanvasEditorSideRight  EditorPluginCustomControlContainer = 7
+	EditorPluginContainerProjectSettingTabLeft  EditorPluginCustomControlContainer = 10
+	EditorPluginContainerProjectSettingTabRight EditorPluginCustomControlContainer = 11
+	EditorPluginContainerPropertyEditorBottom   EditorPluginCustomControlContainer = 9
+	EditorPluginContainerSpatialEditorBottom    EditorPluginCustomControlContainer = 4
+	EditorPluginContainerSpatialEditorMenu      EditorPluginCustomControlContainer = 1
+	EditorPluginContainerSpatialEditorSideLeft  EditorPluginCustomControlContainer = 2
+	EditorPluginContainerSpatialEditorSideRight EditorPluginCustomControlContainer = 3
+	EditorPluginContainerToolbar                EditorPluginCustomControlContainer = 0
 )
 
 // EditorPluginDockSlot is an enum for DockSlot values.
@@ -52,7 +56,7 @@ func newEditorPluginFromPointer(ptr gdnative.Pointer) EditorPlugin {
 }
 
 /*
-Plugins are used by the editor to extend functionality. The most common types of plugins are those which edit a given node or resource type, import plugins and export plugins.
+Plugins are used by the editor to extend functionality. The most common types of plugins are those which edit a given node or resource type, import plugins and export plugins. Also see [EditorScript] to add functions to the editor.
 */
 type EditorPlugin struct {
 	Node
@@ -64,10 +68,32 @@ func (o *EditorPlugin) BaseClass() string {
 }
 
 /*
-        Add a control to the bottom panel (together with Output, Debug, Animation, etc). Returns a reference to the button added. It's up to you to hide/show the button when needed. If your plugin is being removed, also make sure to remove your control by calling [method remove_control_from_bottom_panel].
-	Args: [{ false control Object} { false title String}], Returns: ToolButton
+        Add a script at [code]path[/code] to the Autoload list as [code]name[/code].
+	Args: [{ false name String} { false path String}], Returns: void
 */
-func (o *EditorPlugin) AddControlToBottomPanel(control ObjectImplementer, title gdnative.String) ToolButtonImplementer {
+func (o *EditorPlugin) AddAutoloadSingleton(name gdnative.String, path gdnative.String) {
+	//log.Println("Calling EditorPlugin.AddAutoloadSingleton()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromString(name)
+	ptrArguments[1] = gdnative.NewPointerFromString(path)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "add_autoload_singleton")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Add a control to the bottom panel (together with Output, Debug, Animation, etc). Returns a reference to the button added. It's up to you to hide/show the button when needed. When your plugin is deactivated, make sure to remove your custom control with [method remove_control_from_bottom_panel] and free it with [code]queue_free()[/code].
+	Args: [{ false control Control} { false title String}], Returns: ToolButton
+*/
+func (o *EditorPlugin) AddControlToBottomPanel(control ControlImplementer, title gdnative.String) ToolButtonImplementer {
 	//log.Println("Calling EditorPlugin.AddControlToBottomPanel()")
 
 	// Build out the method's arguments
@@ -103,10 +129,10 @@ func (o *EditorPlugin) AddControlToBottomPanel(control ObjectImplementer, title 
 }
 
 /*
-        Add a custom control to a container (see CONTAINER_* enum). There are many locations where custom controls can be added in the editor UI. Please remember that you have to manage the visibility of your custom controls yourself (and likely hide it after adding it). If your plugin is being removed, also make sure to remove your custom controls too.
-	Args: [{ false container int} { false control Object}], Returns: void
+        Add a custom control to a container (see CONTAINER_* enum). There are many locations where custom controls can be added in the editor UI. Please remember that you have to manage the visibility of your custom controls yourself (and likely hide it after adding it). When your plugin is deactivated, make sure to remove your custom control with [method remove_control_from_container] and free it with [code]queue_free()[/code].
+	Args: [{ false container int} { false control Control}], Returns: void
 */
-func (o *EditorPlugin) AddControlToContainer(container gdnative.Int, control ObjectImplementer) {
+func (o *EditorPlugin) AddControlToContainer(container gdnative.Int, control ControlImplementer) {
 	//log.Println("Calling EditorPlugin.AddControlToContainer()")
 
 	// Build out the method's arguments
@@ -125,10 +151,10 @@ func (o *EditorPlugin) AddControlToContainer(container gdnative.Int, control Obj
 }
 
 /*
-        Add the control to a specific dock slot (see DOCK_* enum for options). If the dock is repositioned and as long as the plugin is active, the editor will save the dock position on further sessions. If your plugin is being removed, also make sure to remove your control by calling [method remove_control_from_docks].
-	Args: [{ false slot int} { false control Object}], Returns: void
+        Add the control to a specific dock slot (see DOCK_* enum for options). If the dock is repositioned and as long as the plugin is active, the editor will save the dock position on further sessions. When your plugin is deactivated, make sure to remove your custom control with [method remove_control_from_docks] and free it with [code]queue_free()[/code].
+	Args: [{ false slot int} { false control Control}], Returns: void
 */
-func (o *EditorPlugin) AddControlToDock(slot gdnative.Int, control ObjectImplementer) {
+func (o *EditorPlugin) AddControlToDock(slot gdnative.Int, control ControlImplementer) {
 	//log.Println("Calling EditorPlugin.AddControlToDock()")
 
 	// Build out the method's arguments
@@ -147,7 +173,7 @@ func (o *EditorPlugin) AddControlToDock(slot gdnative.Int, control ObjectImpleme
 }
 
 /*
-        Add a custom type, which will appear in the list of nodes or resources. An icon can be optionally passed. When given node or resource is selected, the base type will be instanced (ie, "Spatial", "Control", "Resource"), then the script will be loaded and set to this object. You can use the [method EditorPlugin.handles] to check if your custom object is being edited by checking the script or using 'is' keyword. During run-time, this will be a simple object with a script so this function does not need to be called then.
+        Add a custom type, which will appear in the list of nodes or resources. An icon can be optionally passed. When given node or resource is selected, the base type will be instanced (ie, "Spatial", "Control", "Resource"), then the script will be loaded and set to this object. You can use the virtual method [method handles] to check if your custom object is being edited by checking the script or using 'is' keyword. During run-time, this will be a simple object with a script so this function does not need to be called then.
 	Args: [{ false type String} { false base String} { false script Script} { false icon Texture}], Returns: void
 */
 func (o *EditorPlugin) AddCustomType(aType gdnative.String, base gdnative.String, script ScriptImplementer, icon TextureImplementer) {
@@ -172,14 +198,14 @@ func (o *EditorPlugin) AddCustomType(aType gdnative.String, base gdnative.String
 
 /*
 
-	Args: [{ false exporter EditorExportPlugin}], Returns: void
+	Args: [{ false plugin EditorExportPlugin}], Returns: void
 */
-func (o *EditorPlugin) AddExportPlugin(exporter EditorExportPluginImplementer) {
+func (o *EditorPlugin) AddExportPlugin(plugin EditorExportPluginImplementer) {
 	//log.Println("Calling EditorPlugin.AddExportPlugin()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromObject(exporter.GetBaseObject())
+	ptrArguments[0] = gdnative.NewPointerFromObject(plugin.GetBaseObject())
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorPlugin", "add_export_plugin")
@@ -214,6 +240,27 @@ func (o *EditorPlugin) AddImportPlugin(importer EditorImportPluginImplementer) {
 
 /*
 
+	Args: [{ false plugin EditorInspectorPlugin}], Returns: void
+*/
+func (o *EditorPlugin) AddInspectorPlugin(plugin EditorInspectorPluginImplementer) {
+	//log.Println("Calling EditorPlugin.AddInspectorPlugin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(plugin.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "add_inspector_plugin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
 	Args: [{ false scene_importer EditorSceneImporter}], Returns: void
 */
 func (o *EditorPlugin) AddSceneImportPlugin(sceneImporter EditorSceneImporterImplementer) {
@@ -235,6 +282,51 @@ func (o *EditorPlugin) AddSceneImportPlugin(sceneImporter EditorSceneImporterImp
 
 /*
 
+	Args: [{ false plugin EditorSpatialGizmoPlugin}], Returns: void
+*/
+func (o *EditorPlugin) AddSpatialGizmoPlugin(plugin EditorSpatialGizmoPluginImplementer) {
+	//log.Println("Calling EditorPlugin.AddSpatialGizmoPlugin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(plugin.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "add_spatial_gizmo_plugin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Adds a custom menu item to [b]Project > Tools[/b] as [code]name[/code] that calls [code]callback[/code] on an instance of [code]handler[/code] with a parameter [code]ud[/code] when user activates it.
+	Args: [{ false name String} { false handler Object} { false callback String} {Null true ud Variant}], Returns: void
+*/
+func (o *EditorPlugin) AddToolMenuItem(name gdnative.String, handler ObjectImplementer, callback gdnative.String, ud gdnative.Variant) {
+	//log.Println("Calling EditorPlugin.AddToolMenuItem()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
+	ptrArguments[0] = gdnative.NewPointerFromString(name)
+	ptrArguments[1] = gdnative.NewPointerFromObject(handler.GetBaseObject())
+	ptrArguments[2] = gdnative.NewPointerFromString(callback)
+	ptrArguments[3] = gdnative.NewPointerFromVariant(ud)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "add_tool_menu_item")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Adds a custom submenu under [b]Project > Tools >[/b] [code]name[/code]. [code]submenu[/code] should be an object of class [PopupMenu]. This submenu should be cleaned up using [code]remove_tool_menu_item(name)[/code].
 	Args: [{ false name String} { false submenu Object}], Returns: void
 */
 func (o *EditorPlugin) AddToolSubmenuItem(name gdnative.String, submenu ObjectImplementer) {
@@ -276,6 +368,29 @@ func (o *EditorPlugin) ApplyChanges() {
 }
 
 /*
+
+	Args: [], Returns: bool
+*/
+func (o *EditorPlugin) Build() gdnative.Bool {
+	//log.Println("Calling EditorPlugin.Build()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "build")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
         Clear all the state and reset the object being edited to zero. This ensures your plugin does not keep editing a currently existing node, or a node from the wrong scene.
 	Args: [], Returns: void
 */
@@ -296,41 +411,23 @@ func (o *EditorPlugin) Clear() {
 }
 
 /*
-        This is used for plugins that create gizmos used by the spatial editor. Just check that the node passed in the "for_spatial" argument matches your plugin.
-	Args: [{ false for_spatial Spatial}], Returns: EditorSpatialGizmo
+
+	Args: [], Returns: void
 */
-func (o *EditorPlugin) CreateSpatialGizmo(forSpatial SpatialImplementer) EditorSpatialGizmoImplementer {
-	//log.Println("Calling EditorPlugin.CreateSpatialGizmo()")
+func (o *EditorPlugin) DisablePlugin() {
+	//log.Println("Calling EditorPlugin.DisablePlugin()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromObject(forSpatial.GetBaseObject())
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("EditorPlugin", "create_spatial_gizmo")
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "disable_plugin")
 
 	// Call the parent method.
-	// EditorSpatialGizmo
-	retPtr := gdnative.NewEmptyObject()
+	// void
+	retPtr := gdnative.NewEmptyVoid()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := newEditorSpatialGizmoFromPointer(retPtr)
-
-	// Check to see if we already have an instance of this object in our Go instance registry.
-	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
-		return instance.(EditorSpatialGizmoImplementer)
-	}
-
-	// Check to see what kind of class this is and create it. This is generally used with
-	// GetNode().
-	className := ret.GetClass()
-	if className != "EditorSpatialGizmo" {
-		actualRet := getActualClass(className, ret.GetBaseObject())
-		return actualRet.(EditorSpatialGizmoImplementer)
-	}
-
-	return &ret
 }
 
 /*
@@ -346,6 +443,68 @@ func (o *EditorPlugin) Edit(object ObjectImplementer) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorPlugin", "edit")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [], Returns: void
+*/
+func (o *EditorPlugin) EnablePlugin() {
+	//log.Println("Calling EditorPlugin.EnablePlugin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "enable_plugin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        This method is called when there is an input event in the 2D viewport, e.g. the user clicks with the mouse in the 2D space (canvas GUI). Keep in mind that for this method to be called you have to first declare the virtual method [method handles] so the editor knows that you want to work with the workspace: [codeblock] func handles(object): return true [/codeblock] Also note that the edited scene must have a root node.
+	Args: [{ false overlay Control}], Returns: void
+*/
+func (o *EditorPlugin) ForwardCanvasDrawOverViewport(overlay ControlImplementer) {
+	//log.Println("Calling EditorPlugin.ForwardCanvasDrawOverViewport()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(overlay.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "forward_canvas_draw_over_viewport")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false overlay Control}], Returns: void
+*/
+func (o *EditorPlugin) ForwardCanvasForceDrawOverViewport(overlay ControlImplementer) {
+	//log.Println("Calling EditorPlugin.ForwardCanvasForceDrawOverViewport()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(overlay.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "forward_canvas_force_draw_over_viewport")
 
 	// Call the parent method.
 	// void
@@ -379,49 +538,7 @@ func (o *EditorPlugin) ForwardCanvasGuiInput(event InputEventImplementer) gdnati
 }
 
 /*
-
-	Args: [{ false overlay Control}], Returns: void
-*/
-func (o *EditorPlugin) ForwardDrawOverViewport(overlay ControlImplementer) {
-	//log.Println("Calling EditorPlugin.ForwardDrawOverViewport()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromObject(overlay.GetBaseObject())
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("EditorPlugin", "forward_draw_over_viewport")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-
-	Args: [{ false overlay Control}], Returns: void
-*/
-func (o *EditorPlugin) ForwardForceDrawOverViewport(overlay ControlImplementer) {
-	//log.Println("Calling EditorPlugin.ForwardForceDrawOverViewport()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromObject(overlay.GetBaseObject())
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("EditorPlugin", "forward_force_draw_over_viewport")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-        Implement this function if you are interested in 3D view screen input events. It will be called only if currently selected node is handled by your plugin. If you would like to always gets those input events then additionally use [method set_input_forwarding_always_enabled].
+        This method is called when there is an input event in the 3D viewport, e.g. the user clicks with the mouse in the 3D space (spatial GUI). Keep in mind that for this method to be called you have to first declare the virtual method [method handles] so the editor knows that you want to work with the workspace: [codeblock] func handles(object): return true [/codeblock] Also note that the edited scene must have a root node.
 	Args: [{ false camera Camera} { false event InputEvent}], Returns: bool
 */
 func (o *EditorPlugin) ForwardSpatialGuiInput(camera CameraImplementer, event InputEventImplementer) gdnative.Bool {
@@ -469,7 +586,7 @@ func (o *EditorPlugin) GetBreakpoints() gdnative.PoolStringArray {
 }
 
 /*
-
+        Returns the [EditorInterface] object that gives you control over Godot editor's window and its functionalities.
 	Args: [], Returns: EditorInterface
 */
 func (o *EditorPlugin) GetEditorInterface() EditorInterfaceImplementer {
@@ -566,6 +683,43 @@ func (o *EditorPlugin) GetPluginName() gdnative.String {
 }
 
 /*
+        Gets the Editor's dialogue used for making scripts. Note that users can configure it before use.
+	Args: [], Returns: ScriptCreateDialog
+*/
+func (o *EditorPlugin) GetScriptCreateDialog() ScriptCreateDialogImplementer {
+	//log.Println("Calling EditorPlugin.GetScriptCreateDialog()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "get_script_create_dialog")
+
+	// Call the parent method.
+	// ScriptCreateDialog
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newScriptCreateDialogFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(ScriptCreateDialogImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "ScriptCreateDialog" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(ScriptCreateDialogImplementer)
+	}
+
+	return &ret
+}
+
+/*
         Get the state of your plugin editor. This is used when saving the scene (so state is kept when opening it again) and for switching tabs (so state can be restored when the tab returns).
 	Args: [], Returns: Dictionary
 */
@@ -626,7 +780,7 @@ func (o *EditorPlugin) GetUndoRedo() UndoRedoImplementer {
 }
 
 /*
-        Get the GUI layout of the plugin. This is used to save the project's editor layout when the [method EditorPlugin.queue_save_layout] is called or the editor layout was changed(For example changing the position of a dock).
+        Get the GUI layout of the plugin. This is used to save the project's editor layout when [method queue_save_layout] is called or the editor layout was changed(For example changing the position of a dock).
 	Args: [{ false layout ConfigFile}], Returns: void
 */
 func (o *EditorPlugin) GetWindowLayout(layout ConfigFileImplementer) {
@@ -647,7 +801,7 @@ func (o *EditorPlugin) GetWindowLayout(layout ConfigFileImplementer) {
 }
 
 /*
-        Implement this function if your plugin edits a specific type of object (Resource or Node). If you return true, then you will get the functions [method EditorPlugin.edit] and [method EditorPlugin.make_visible] called when the editor requests them.
+        Implement this function if your plugin edits a specific type of object (Resource or Node). If you return [code]true[/code], then you will get the functions [method EditorPlugin.edit] and [method EditorPlugin.make_visible] called when the editor requests them. If you have declared the methods [method forward_canvas_gui_input] and [method forward_spatial_gui_input] these will be called too.
 	Args: [{ false object Object}], Returns: bool
 */
 func (o *EditorPlugin) Handles(object ObjectImplementer) gdnative.Bool {
@@ -671,7 +825,7 @@ func (o *EditorPlugin) Handles(object ObjectImplementer) gdnative.Bool {
 }
 
 /*
-        Return true if this is a main screen editor plugin (it goes in the main screen selector together with 2D, 3D, Script).
+        Returns [code]true[/code] if this is a main screen editor plugin (it goes in the workspaces selector together with '2D', '3D', and 'Script').
 	Args: [], Returns: bool
 */
 func (o *EditorPlugin) HasMainScreen() gdnative.Bool {
@@ -715,9 +869,9 @@ func (o *EditorPlugin) HideBottomPanel() {
 
 /*
 
-	Args: [{ false item Object}], Returns: void
+	Args: [{ false item Control}], Returns: void
 */
-func (o *EditorPlugin) MakeBottomPanelItemVisible(item ObjectImplementer) {
+func (o *EditorPlugin) MakeBottomPanelItemVisible(item ControlImplementer) {
 	//log.Println("Calling EditorPlugin.MakeBottomPanelItemVisible()")
 
 	// Build out the method's arguments
@@ -776,10 +930,31 @@ func (o *EditorPlugin) QueueSaveLayout() {
 }
 
 /*
-        Remove the control from the bottom panel. Don't forget to call this if you added one, so the editor can remove it cleanly.
-	Args: [{ false control Object}], Returns: void
+        Remove an Autoload [code]name[/code] from the list.
+	Args: [{ false name String}], Returns: void
 */
-func (o *EditorPlugin) RemoveControlFromBottomPanel(control ObjectImplementer) {
+func (o *EditorPlugin) RemoveAutoloadSingleton(name gdnative.String) {
+	//log.Println("Calling EditorPlugin.RemoveAutoloadSingleton()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(name)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "remove_autoload_singleton")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Remove the control from the bottom panel. You have to manually [code]queue_free()[/code] the control.
+	Args: [{ false control Control}], Returns: void
+*/
+func (o *EditorPlugin) RemoveControlFromBottomPanel(control ControlImplementer) {
 	//log.Println("Calling EditorPlugin.RemoveControlFromBottomPanel()")
 
 	// Build out the method's arguments
@@ -797,10 +972,10 @@ func (o *EditorPlugin) RemoveControlFromBottomPanel(control ObjectImplementer) {
 }
 
 /*
-        Remove the control from the specified container. Use it when cleaning up after adding a control with [method add_control_to_container]. Note that you can simply free the control if you won't use it anymore.
-	Args: [{ false container int} { false control Object}], Returns: void
+        Remove the control from the specified container. You have to manually [code]queue_free()[/code] the control.
+	Args: [{ false container int} { false control Control}], Returns: void
 */
-func (o *EditorPlugin) RemoveControlFromContainer(container gdnative.Int, control ObjectImplementer) {
+func (o *EditorPlugin) RemoveControlFromContainer(container gdnative.Int, control ControlImplementer) {
 	//log.Println("Calling EditorPlugin.RemoveControlFromContainer()")
 
 	// Build out the method's arguments
@@ -819,10 +994,10 @@ func (o *EditorPlugin) RemoveControlFromContainer(container gdnative.Int, contro
 }
 
 /*
-        Remove the control from the dock. Don't forget to call this if you added one, so the editor can save the layout and remove it cleanly.
-	Args: [{ false control Object}], Returns: void
+        Remove the control from the dock. You have to manually [code]queue_free()[/code] the control.
+	Args: [{ false control Control}], Returns: void
 */
-func (o *EditorPlugin) RemoveControlFromDocks(control ObjectImplementer) {
+func (o *EditorPlugin) RemoveControlFromDocks(control ControlImplementer) {
 	//log.Println("Calling EditorPlugin.RemoveControlFromDocks()")
 
 	// Build out the method's arguments
@@ -840,7 +1015,7 @@ func (o *EditorPlugin) RemoveControlFromDocks(control ObjectImplementer) {
 }
 
 /*
-        Remove a custom type added by [method EditorPlugin.add_custom_type]
+        Remove a custom type added by [method add_custom_type]
 	Args: [{ false type String}], Returns: void
 */
 func (o *EditorPlugin) RemoveCustomType(aType gdnative.String) {
@@ -862,14 +1037,14 @@ func (o *EditorPlugin) RemoveCustomType(aType gdnative.String) {
 
 /*
 
-	Args: [{ false exporter EditorExportPlugin}], Returns: void
+	Args: [{ false plugin EditorExportPlugin}], Returns: void
 */
-func (o *EditorPlugin) RemoveExportPlugin(exporter EditorExportPluginImplementer) {
+func (o *EditorPlugin) RemoveExportPlugin(plugin EditorExportPluginImplementer) {
 	//log.Println("Calling EditorPlugin.RemoveExportPlugin()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromObject(exporter.GetBaseObject())
+	ptrArguments[0] = gdnative.NewPointerFromObject(plugin.GetBaseObject())
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorPlugin", "remove_export_plugin")
@@ -904,6 +1079,27 @@ func (o *EditorPlugin) RemoveImportPlugin(importer EditorImportPluginImplementer
 
 /*
 
+	Args: [{ false plugin EditorInspectorPlugin}], Returns: void
+*/
+func (o *EditorPlugin) RemoveInspectorPlugin(plugin EditorInspectorPluginImplementer) {
+	//log.Println("Calling EditorPlugin.RemoveInspectorPlugin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(plugin.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "remove_inspector_plugin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
 	Args: [{ false scene_importer EditorSceneImporter}], Returns: void
 */
 func (o *EditorPlugin) RemoveSceneImportPlugin(sceneImporter EditorSceneImporterImplementer) {
@@ -915,6 +1111,48 @@ func (o *EditorPlugin) RemoveSceneImportPlugin(sceneImporter EditorSceneImporter
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorPlugin", "remove_scene_import_plugin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false plugin EditorSpatialGizmoPlugin}], Returns: void
+*/
+func (o *EditorPlugin) RemoveSpatialGizmoPlugin(plugin EditorSpatialGizmoPluginImplementer) {
+	//log.Println("Calling EditorPlugin.RemoveSpatialGizmoPlugin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(plugin.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "remove_spatial_gizmo_plugin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Removes a menu [code]name[/code] from 'Project > Tools'.
+	Args: [{ false name String}], Returns: void
+*/
+func (o *EditorPlugin) RemoveToolMenuItem(name gdnative.String) {
+	//log.Println("Calling EditorPlugin.RemoveToolMenuItem()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(name)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorPlugin", "remove_tool_menu_item")
 
 	// Call the parent method.
 	// void
@@ -1026,7 +1264,7 @@ func (o *EditorPlugin) SetWindowLayout(layout ConfigFileImplementer) {
 }
 
 /*
-
+        Updates the overlays of the editor (2D/3D) viewport.
 	Args: [], Returns: int
 */
 func (o *EditorPlugin) UpdateOverlays() gdnative.Int {
@@ -1052,42 +1290,53 @@ func (o *EditorPlugin) UpdateOverlays() gdnative.Int {
 // of the EditorPlugin class.
 type EditorPluginImplementer interface {
 	NodeImplementer
-	AddControlToBottomPanel(control ObjectImplementer, title gdnative.String) ToolButtonImplementer
-	AddControlToContainer(container gdnative.Int, control ObjectImplementer)
-	AddControlToDock(slot gdnative.Int, control ObjectImplementer)
+	AddAutoloadSingleton(name gdnative.String, path gdnative.String)
+	AddControlToBottomPanel(control ControlImplementer, title gdnative.String) ToolButtonImplementer
+	AddControlToContainer(container gdnative.Int, control ControlImplementer)
+	AddControlToDock(slot gdnative.Int, control ControlImplementer)
 	AddCustomType(aType gdnative.String, base gdnative.String, script ScriptImplementer, icon TextureImplementer)
-	AddExportPlugin(exporter EditorExportPluginImplementer)
+	AddExportPlugin(plugin EditorExportPluginImplementer)
 	AddImportPlugin(importer EditorImportPluginImplementer)
+	AddInspectorPlugin(plugin EditorInspectorPluginImplementer)
 	AddSceneImportPlugin(sceneImporter EditorSceneImporterImplementer)
+	AddSpatialGizmoPlugin(plugin EditorSpatialGizmoPluginImplementer)
+	AddToolMenuItem(name gdnative.String, handler ObjectImplementer, callback gdnative.String, ud gdnative.Variant)
 	AddToolSubmenuItem(name gdnative.String, submenu ObjectImplementer)
 	ApplyChanges()
+	Build() gdnative.Bool
 	Clear()
-	CreateSpatialGizmo(forSpatial SpatialImplementer) EditorSpatialGizmoImplementer
+	DisablePlugin()
 	Edit(object ObjectImplementer)
+	EnablePlugin()
+	ForwardCanvasDrawOverViewport(overlay ControlImplementer)
+	ForwardCanvasForceDrawOverViewport(overlay ControlImplementer)
 	ForwardCanvasGuiInput(event InputEventImplementer) gdnative.Bool
-	ForwardDrawOverViewport(overlay ControlImplementer)
-	ForwardForceDrawOverViewport(overlay ControlImplementer)
 	ForwardSpatialGuiInput(camera CameraImplementer, event InputEventImplementer) gdnative.Bool
 	GetBreakpoints() gdnative.PoolStringArray
 	GetEditorInterface() EditorInterfaceImplementer
 	GetPluginIcon() ObjectImplementer
 	GetPluginName() gdnative.String
+	GetScriptCreateDialog() ScriptCreateDialogImplementer
 	GetState() gdnative.Dictionary
 	GetUndoRedo() UndoRedoImplementer
 	GetWindowLayout(layout ConfigFileImplementer)
 	Handles(object ObjectImplementer) gdnative.Bool
 	HasMainScreen() gdnative.Bool
 	HideBottomPanel()
-	MakeBottomPanelItemVisible(item ObjectImplementer)
+	MakeBottomPanelItemVisible(item ControlImplementer)
 	MakeVisible(visible gdnative.Bool)
 	QueueSaveLayout()
-	RemoveControlFromBottomPanel(control ObjectImplementer)
-	RemoveControlFromContainer(container gdnative.Int, control ObjectImplementer)
-	RemoveControlFromDocks(control ObjectImplementer)
+	RemoveAutoloadSingleton(name gdnative.String)
+	RemoveControlFromBottomPanel(control ControlImplementer)
+	RemoveControlFromContainer(container gdnative.Int, control ControlImplementer)
+	RemoveControlFromDocks(control ControlImplementer)
 	RemoveCustomType(aType gdnative.String)
-	RemoveExportPlugin(exporter EditorExportPluginImplementer)
+	RemoveExportPlugin(plugin EditorExportPluginImplementer)
 	RemoveImportPlugin(importer EditorImportPluginImplementer)
+	RemoveInspectorPlugin(plugin EditorInspectorPluginImplementer)
 	RemoveSceneImportPlugin(sceneImporter EditorSceneImporterImplementer)
+	RemoveSpatialGizmoPlugin(plugin EditorSpatialGizmoPluginImplementer)
+	RemoveToolMenuItem(name gdnative.String)
 	SaveExternalData()
 	SetForceDrawOverForwardingEnabled()
 	SetInputEventForwardingAlwaysEnabled()

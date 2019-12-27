@@ -79,7 +79,7 @@ func (o *Curve2D) X_SetData(arg0 gdnative.Dictionary) {
 }
 
 /*
-        Adds a point to a curve, at "position", with control points "in" and "out". If "at_position" is given, the point is inserted before the point number "at_position", moving that point (and every point after) after the inserted point. If "at_position" is not given, or is an illegal value (at_position <0 or at_position >= [method get_point_count]), the point will be appended at the end of the point list.
+        Adds a point to a curve, at [code]position[/code], with control points [code]in[/code] and [code]out[/code]. If [code]at_position[/code] is given, the point is inserted before the point number [code]at_position[/code], moving that point (and every point after) after the inserted point. If [code]at_position[/code] is not given, or is an illegal value ([code]at_position <0[/code] or [code]at_position >= [method get_point_count][/code]), the point will be appended at the end of the point list.
 	Args: [{ false position Vector2} {(0, 0) true in Vector2} {(0, 0) true out Vector2} {-1 true at_position int}], Returns: void
 */
 func (o *Curve2D) AddPoint(position gdnative.Vector2, in gdnative.Vector2, out gdnative.Vector2, atPosition gdnative.Int) {
@@ -146,7 +146,7 @@ func (o *Curve2D) GetBakeInterval() gdnative.Real {
 }
 
 /*
-        Returns the total length of the curve, based on the cached points. Given enough density (see [method set_bake_interval]), it should be approximate enough.
+        Returns the total length of the curve, based on the cached points. Given enough density (see [member bake_interval]), it should be approximate enough.
 	Args: [], Returns: float
 */
 func (o *Curve2D) GetBakedLength() gdnative.Real {
@@ -192,6 +192,54 @@ func (o *Curve2D) GetBakedPoints() gdnative.PoolVector2Array {
 }
 
 /*
+        Returns the closest offset to [code]to_point[/code]. This offset is meant to be used in [method interpolate_baked]. [code]to_point[/code] must be in this curve's local space.
+	Args: [{ false to_point Vector2}], Returns: float
+*/
+func (o *Curve2D) GetClosestOffset(toPoint gdnative.Vector2) gdnative.Real {
+	//log.Println("Calling Curve2D.GetClosestOffset()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(toPoint)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Curve2D", "get_closest_offset")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the closest point (in curve's local space) to [code]to_point[/code]. [code]to_point[/code] must be in this curve's local space.
+	Args: [{ false to_point Vector2}], Returns: Vector2
+*/
+func (o *Curve2D) GetClosestPoint(toPoint gdnative.Vector2) gdnative.Vector2 {
+	//log.Println("Calling Curve2D.GetClosestPoint()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(toPoint)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Curve2D", "get_closest_point")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns the number of points describing the curve.
 	Args: [], Returns: int
 */
@@ -215,7 +263,7 @@ func (o *Curve2D) GetPointCount() gdnative.Int {
 }
 
 /*
-        Returns the position of the control point leading to the vertex "idx". If the index is out of bounds, the function sends an error to the console, and returns (0, 0).
+        Returns the position of the control point leading to the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console, and returns [code](0, 0)[/code].
 	Args: [{ false idx int}], Returns: Vector2
 */
 func (o *Curve2D) GetPointIn(idx gdnative.Int) gdnative.Vector2 {
@@ -239,7 +287,7 @@ func (o *Curve2D) GetPointIn(idx gdnative.Int) gdnative.Vector2 {
 }
 
 /*
-        Returns the position of the control point leading out of the vertex "idx". If the index is out of bounds, the function sends an error to the console, and returns (0, 0).
+        Returns the position of the control point leading out of the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console, and returns [code](0, 0)[/code].
 	Args: [{ false idx int}], Returns: Vector2
 */
 func (o *Curve2D) GetPointOut(idx gdnative.Int) gdnative.Vector2 {
@@ -263,7 +311,7 @@ func (o *Curve2D) GetPointOut(idx gdnative.Int) gdnative.Vector2 {
 }
 
 /*
-        Returns the position of the vertex "idx". If the index is out of bounds, the function sends an error to the console, and returns (0, 0).
+        Returns the position of the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console, and returns [code](0, 0)[/code].
 	Args: [{ false idx int}], Returns: Vector2
 */
 func (o *Curve2D) GetPointPosition(idx gdnative.Int) gdnative.Vector2 {
@@ -287,7 +335,7 @@ func (o *Curve2D) GetPointPosition(idx gdnative.Int) gdnative.Vector2 {
 }
 
 /*
-        Returns the position between the vertex "idx" and the vertex "idx"+1, where "t" controls if the point is the first vertex (t = 0.0), the last vertex (t = 1.0), or in between. Values of "t" outside the range (0.0 >= t <=1) give strange, but predictable results. If "idx" is out of bounds it is truncated to the first or last vertex, and "t" is ignored. If the curve has no points, the function sends an error to the console, and returns (0, 0).
+        Returns the position between the vertex [code]idx[/code] and the vertex [code]idx + 1[/code], where [code]t[/code] controls if the point is the first vertex ([code]t = 0.0[/code]), the last vertex ([code]t = 1.0[/code]), or in between. Values of [code]t[/code] outside the range ([code]0.0 >= t <=1[/code]) give strange, but predictable results. If [code]idx[/code] is out of bounds it is truncated to the first or last vertex, and [code]t[/code] is ignored. If the curve has no points, the function sends an error to the console, and returns [code](0, 0)[/code].
 	Args: [{ false idx int} { false t float}], Returns: Vector2
 */
 func (o *Curve2D) Interpolate(idx gdnative.Int, t gdnative.Real) gdnative.Vector2 {
@@ -312,7 +360,7 @@ func (o *Curve2D) Interpolate(idx gdnative.Int, t gdnative.Real) gdnative.Vector
 }
 
 /*
-        Returns a point within the curve at position "offset", where "offset" is measured as a pixel distance along the curve. To do that, it finds the two cached points where the "offset" lies between, then interpolates the values. This interpolation is cubic if "cubic" is set to true, or linear if set to false. Cubic interpolation tends to follow the curves better, but linear is faster (and often, precise enough).
+        Returns a point within the curve at position [code]offset[/code], where [code]offset[/code] is measured as a pixel distance along the curve. To do that, it finds the two cached points where the [code]offset[/code] lies between, then interpolates the values. This interpolation is cubic if [code]cubic[/code] is set to [code]true[/code], or linear if set to [code]false[/code]. Cubic interpolation tends to follow the curves better, but linear is faster (and often, precise enough).
 	Args: [{ false offset float} {False true cubic bool}], Returns: Vector2
 */
 func (o *Curve2D) InterpolateBaked(offset gdnative.Real, cubic gdnative.Bool) gdnative.Vector2 {
@@ -337,7 +385,7 @@ func (o *Curve2D) InterpolateBaked(offset gdnative.Real, cubic gdnative.Bool) gd
 }
 
 /*
-        Returns the position at the vertex "fofs". It calls [method interpolate] using the integer part of fofs as "idx", and its fractional part as "t".
+        Returns the position at the vertex [code]fofs[/code]. It calls [method interpolate] using the integer part of [code]fofs[/code] as [code]idx[/code], and its fractional part as [code]t[/code].
 	Args: [{ false fofs float}], Returns: Vector2
 */
 func (o *Curve2D) Interpolatef(fofs gdnative.Real) gdnative.Vector2 {
@@ -361,7 +409,7 @@ func (o *Curve2D) Interpolatef(fofs gdnative.Real) gdnative.Vector2 {
 }
 
 /*
-        Deletes the point "idx" from the curve. Sends an error to the console if "idx" is out of bounds.
+        Deletes the point [code]idx[/code] from the curve. Sends an error to the console if [code]idx[/code] is out of bounds.
 	Args: [{ false idx int}], Returns: void
 */
 func (o *Curve2D) RemovePoint(idx gdnative.Int) {
@@ -403,7 +451,7 @@ func (o *Curve2D) SetBakeInterval(distance gdnative.Real) {
 }
 
 /*
-        Sets the position of the control point leading to the vertex "idx". If the index is out of bounds, the function sends an error to the console.
+        Sets the position of the control point leading to the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console.
 	Args: [{ false idx int} { false position Vector2}], Returns: void
 */
 func (o *Curve2D) SetPointIn(idx gdnative.Int, position gdnative.Vector2) {
@@ -425,7 +473,7 @@ func (o *Curve2D) SetPointIn(idx gdnative.Int, position gdnative.Vector2) {
 }
 
 /*
-        Sets the position of the control point leading out of the vertex "idx". If the index is out of bounds, the function sends an error to the console.
+        Sets the position of the control point leading out of the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console.
 	Args: [{ false idx int} { false position Vector2}], Returns: void
 */
 func (o *Curve2D) SetPointOut(idx gdnative.Int, position gdnative.Vector2) {
@@ -447,7 +495,7 @@ func (o *Curve2D) SetPointOut(idx gdnative.Int, position gdnative.Vector2) {
 }
 
 /*
-        Sets the position for the vertex "idx". If the index is out of bounds, the function sends an error to the console.
+        Sets the position for the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console.
 	Args: [{ false idx int} { false position Vector2}], Returns: void
 */
 func (o *Curve2D) SetPointPosition(idx gdnative.Int, position gdnative.Vector2) {
@@ -469,7 +517,7 @@ func (o *Curve2D) SetPointPosition(idx gdnative.Int, position gdnative.Vector2) 
 }
 
 /*
-        Returns a list of points along the curve, with a curvature controlled point density. That is, the curvier parts will have more points than the straighter parts. This approximation makes straight segments between each point, then subdivides those segments until the resulting shape is similar enough. "max_stages" controls how many subdivisions a curve segment may face before it is considered approximate enough. Each subdivision splits the segment in half, so the default 5 stages may mean up to 32 subdivisions per curve segment. Increase with care! "tolerance_degrees" controls how many degrees the midpoint of a segment may deviate from the real curve, before the segment has to be subdivided.
+        Returns a list of points along the curve, with a curvature controlled point density. That is, the curvier parts will have more points than the straighter parts. This approximation makes straight segments between each point, then subdivides those segments until the resulting shape is similar enough. [code]max_stages[/code] controls how many subdivisions a curve segment may face before it is considered approximate enough. Each subdivision splits the segment in half, so the default 5 stages may mean up to 32 subdivisions per curve segment. Increase with care! [code]tolerance_degrees[/code] controls how many degrees the midpoint of a segment may deviate from the real curve, before the segment has to be subdivided.
 	Args: [{5 true max_stages int} {4 true tolerance_degrees float}], Returns: PoolVector2Array
 */
 func (o *Curve2D) Tessellate(maxStages gdnative.Int, toleranceDegrees gdnative.Real) gdnative.PoolVector2Array {
@@ -504,6 +552,8 @@ type Curve2DImplementer interface {
 	GetBakeInterval() gdnative.Real
 	GetBakedLength() gdnative.Real
 	GetBakedPoints() gdnative.PoolVector2Array
+	GetClosestOffset(toPoint gdnative.Vector2) gdnative.Real
+	GetClosestPoint(toPoint gdnative.Vector2) gdnative.Vector2
 	GetPointCount() gdnative.Int
 	GetPointIn(idx gdnative.Int) gdnative.Vector2
 	GetPointOut(idx gdnative.Int) gdnative.Vector2

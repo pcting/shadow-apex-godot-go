@@ -13,6 +13,18 @@ import (
 //   code.
 //----------------------------------------------------------------------------*/
 
+// AudioEffectPitchShiftFFT_Size is an enum for FFT_Size values.
+type AudioEffectPitchShiftFFT_Size int
+
+const (
+	AudioEffectPitchShiftFftSize1024 AudioEffectPitchShiftFFT_Size = 2
+	AudioEffectPitchShiftFftSize2048 AudioEffectPitchShiftFFT_Size = 3
+	AudioEffectPitchShiftFftSize256  AudioEffectPitchShiftFFT_Size = 0
+	AudioEffectPitchShiftFftSize4096 AudioEffectPitchShiftFFT_Size = 4
+	AudioEffectPitchShiftFftSize512  AudioEffectPitchShiftFFT_Size = 1
+	AudioEffectPitchShiftFftSizeMax  AudioEffectPitchShiftFFT_Size = 5
+)
+
 //func NewAudioEffectPitchShiftFromPointer(ptr gdnative.Pointer) AudioEffectPitchShift {
 func newAudioEffectPitchShiftFromPointer(ptr gdnative.Pointer) AudioEffectPitchShift {
 	owner := gdnative.NewObjectFromPointer(ptr)
@@ -32,6 +44,52 @@ type AudioEffectPitchShift struct {
 
 func (o *AudioEffectPitchShift) BaseClass() string {
 	return "AudioEffectPitchShift"
+}
+
+/*
+        Undocumented
+	Args: [], Returns: enum.AudioEffectPitchShift::FFT_Size
+*/
+func (o *AudioEffectPitchShift) GetFftSize() AudioEffectPitchShiftFFT_Size {
+	//log.Println("Calling AudioEffectPitchShift.GetFftSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioEffectPitchShift", "get_fft_size")
+
+	// Call the parent method.
+	// enum.AudioEffectPitchShift::FFT_Size
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return AudioEffectPitchShiftFFT_Size(ret)
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *AudioEffectPitchShift) GetOversampling() gdnative.Int {
+	//log.Println("Calling AudioEffectPitchShift.GetOversampling()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioEffectPitchShift", "get_oversampling")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -59,6 +117,48 @@ func (o *AudioEffectPitchShift) GetPitchScale() gdnative.Real {
 
 /*
         Undocumented
+	Args: [{ false size int}], Returns: void
+*/
+func (o *AudioEffectPitchShift) SetFftSize(size gdnative.Int) {
+	//log.Println("Calling AudioEffectPitchShift.SetFftSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(size)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioEffectPitchShift", "set_fft_size")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false amount int}], Returns: void
+*/
+func (o *AudioEffectPitchShift) SetOversampling(amount gdnative.Int) {
+	//log.Println("Calling AudioEffectPitchShift.SetOversampling()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(amount)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AudioEffectPitchShift", "set_oversampling")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false rate float}], Returns: void
 */
 func (o *AudioEffectPitchShift) SetPitchScale(rate gdnative.Real) {
@@ -82,6 +182,9 @@ func (o *AudioEffectPitchShift) SetPitchScale(rate gdnative.Real) {
 // of the AudioEffectPitchShift class.
 type AudioEffectPitchShiftImplementer interface {
 	AudioEffectImplementer
+	GetOversampling() gdnative.Int
 	GetPitchScale() gdnative.Real
+	SetFftSize(size gdnative.Int)
+	SetOversampling(amount gdnative.Int)
 	SetPitchScale(rate gdnative.Real)
 }

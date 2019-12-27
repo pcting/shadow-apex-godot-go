@@ -35,7 +35,7 @@ func (o *TCP_Server) BaseClass() string {
 }
 
 /*
-        Return true if a connection is available for taking.
+        Returns [code]true[/code] if a connection is available for taking.
 	Args: [], Returns: bool
 */
 func (o *TCP_Server) IsConnectionAvailable() gdnative.Bool {
@@ -46,6 +46,29 @@ func (o *TCP_Server) IsConnectionAvailable() gdnative.Bool {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TCP_Server", "is_connection_available")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TCP_Server) IsListening() gdnative.Bool {
+	//log.Println("Calling TCP_Server.IsListening()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TCP_Server", "is_listening")
 
 	// Call the parent method.
 	// bool
@@ -144,6 +167,7 @@ func (o *TCP_Server) TakeConnection() StreamPeerTCPImplementer {
 type TCP_ServerImplementer interface {
 	ReferenceImplementer
 	IsConnectionAvailable() gdnative.Bool
+	IsListening() gdnative.Bool
 	Stop()
 	TakeConnection() StreamPeerTCPImplementer
 }

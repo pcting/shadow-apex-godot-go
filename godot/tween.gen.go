@@ -58,7 +58,7 @@ func newTweenFromPointer(ptr gdnative.Pointer) Tween {
 }
 
 /*
-Node useful for animations with unknown start and end points, procedural animations, making one node follow another, and other simple behavior. Because it is easy to get it wrong, here is a quick usage example: [codeblock] var tween = get_node("Tween") tween.interpolate_property(get_node("Node2D_to_move"), "transform/origin", Vector2(0,0), Vector2(100,100), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) tween.start() [/codeblock] Some of the methods of this class require a property name. You can get the property name by hovering over the property in the inspector of the editor. Many of the methods accept [code]trans_type[/code] and [code]ease_type[/code]. The first accepts an TRANS_* constant, and refers to the way the timing of the animation is handled (you might want to see [code]http://easings.net/[/code] for some examples). The second accepts an EASE_* constant, and controls the where [code]trans_type[/code] is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different TRANS_* constants with EASE_IN_OUT, and use the one that looks best.
+Tweens are useful for animations requiring a numerical property to be interpolated over a range of values. The name *tween* comes from *in-betweening*, an animation technique where you specify *keyframes* and the computer interpolates the frames that appear between them. Here is a brief usage example that causes a 2D node to move smoothly between two positions: [codeblock] var tween = get_node("Tween") tween.interpolate_property($Node2D, "position", Vector2(0, 0), Vector2(100, 100), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) tween.start() [/codeblock] Many methods require a property name, such as "position" above. You can find the correct property name by hovering over the property in the Inspector. You can also provide the components of a property directly by using "property:component" (eg. [code]position:x[/code]), where it would only apply to that particular component. Many of the methods accept [code]trans_type[/code] and [code]ease_type[/code]. The first accepts an [enum TransitionType] constant, and refers to the way the timing of the animation is handled (see [code]http://easings.net/[/code] for some examples). The second accepts an [enum EaseType] constant, and controls the where [code]trans_type[/code] is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different [enum TransitionType] constants with [constant EASE_IN_OUT], and use the one that looks best.
 */
 type Tween struct {
 	Node
@@ -71,19 +71,17 @@ func (o *Tween) BaseClass() string {
 
 /*
         Undocumented
-	Args: [{ false object Object} { false key String} { false first_only bool}], Returns: void
+	Args: [{ false uid int}], Returns: void
 */
-func (o *Tween) X_Remove(object ObjectImplementer, key gdnative.String, firstOnly gdnative.Bool) {
-	//log.Println("Calling Tween.X_Remove()")
+func (o *Tween) X_RemoveByUid(uid gdnative.Int) {
+	//log.Println("Calling Tween.X_RemoveByUid()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
-	ptrArguments[0] = gdnative.NewPointerFromObject(object.GetBaseObject())
-	ptrArguments[1] = gdnative.NewPointerFromString(key)
-	ptrArguments[2] = gdnative.NewPointerFromBool(firstOnly)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(uid)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("Tween", "_remove")
+	methodBind := gdnative.NewMethodBind("Tween", "_remove_by_uid")
 
 	// Call the parent method.
 	// void
@@ -93,7 +91,7 @@ func (o *Tween) X_Remove(object ObjectImplementer, key gdnative.String, firstOnl
 }
 
 /*
-        Follow [code]method[/code] of [code]object[/code] and apply the returned value on [code]target_method[/code] of [code]target[/code], beginning from [code]initial_val[/code] for [code]duration[/code] seconds, [code]delay[/code] later. Methods are animated by calling them with consequitive values. [code]trans_type[/code] accepts TRANS_* constants, and is the way the animation is interpolated, while [code]ease_type[/code] accepts EASE_* constants, and controls the place of the interpolation (the beginning, the end, or both). You can read more about them in the class description.
+        Follows [code]method[/code] of [code]object[/code] and applies the returned value on [code]target_method[/code] of [code]target[/code], beginning from [code]initial_val[/code] for [code]duration[/code] seconds, [code]delay[/code] later. Methods are called with consecutive values. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
 	Args: [{ false object Object} { false method String} { false initial_val Variant} { false target Object} { false target_method String} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) FollowMethod(object ObjectImplementer, method gdnative.String, initialVal gdnative.Variant, target ObjectImplementer, targetMethod gdnative.String, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
@@ -125,7 +123,7 @@ func (o *Tween) FollowMethod(object ObjectImplementer, method gdnative.String, i
 }
 
 /*
-        Follow [code]property[/code] of [code]object[/code] and apply it on [code]target_property[/code] of [code]target[/code], beginning from [code]initial_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Note that [code]target:target_property[/code] would equal [code]object:property[/code] at the end of the tween. [code]trans_type[/code] accepts TRANS_* constants, and is the way the animation is interpolated, while [code]ease_type[/code] accepts EASE_* constants, and controls the place of the interpolation (the beginning, the end, or both). You can read more about them in the class description.
+        Follows [code]property[/code] of [code]object[/code] and applies it on [code]target_property[/code] of [code]target[/code], beginning from [code]initial_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
 	Args: [{ false object Object} { false property NodePath} { false initial_val Variant} { false target Object} { false target_property NodePath} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) FollowProperty(object ObjectImplementer, property gdnative.NodePath, initialVal gdnative.Variant, target ObjectImplementer, targetProperty gdnative.NodePath, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
@@ -157,7 +155,7 @@ func (o *Tween) FollowProperty(object ObjectImplementer, property gdnative.NodeP
 }
 
 /*
-        Returns the time needed for all tweens to end in seconds, measured from the start. Thus, if you have two tweens, one ending 10 seconds after the start and the other - 20 seconds, it would return 20 seconds, as by that time all tweens would have finished.
+        Returns the total time needed for all tweens to end. If you have two tweens, one lasting 10 seconds and the other 20 seconds, it would return 20 seconds, as by that time all tweens would have finished.
 	Args: [], Returns: float
 */
 func (o *Tween) GetRuntime() gdnative.Real {
@@ -226,7 +224,7 @@ func (o *Tween) GetTweenProcessMode() TweenTweenProcessMode {
 }
 
 /*
-        Call [code]callback[/code] of [code]object[/code] after [code]duration[/code]. [code]arg1[/code]-[code]arg5[/code] are arguments to be passed to the callback.
+        Calls [code]callback[/code] of [code]object[/code] after [code]duration[/code]. [code]arg1[/code]-[code]arg5[/code] are arguments to be passed to the callback.
 	Args: [{ false object Object} { false duration float} { false callback String} {Null true arg1 Variant} {Null true arg2 Variant} {Null true arg3 Variant} {Null true arg4 Variant} {Null true arg5 Variant}], Returns: bool
 */
 func (o *Tween) InterpolateCallback(object ObjectImplementer, duration gdnative.Real, callback gdnative.String, arg1 gdnative.Variant, arg2 gdnative.Variant, arg3 gdnative.Variant, arg4 gdnative.Variant, arg5 gdnative.Variant) gdnative.Bool {
@@ -257,7 +255,7 @@ func (o *Tween) InterpolateCallback(object ObjectImplementer, duration gdnative.
 }
 
 /*
-        Call [code]callback[/code] of [code]object[/code] after [code]duration[/code] on the main thread (similar to [method Object.call_deferred]). [code]arg1[/code]-[code]arg5[/code] are arguments to be passed to the callback.
+        Calls [code]callback[/code] of [code]object[/code] after [code]duration[/code] on the main thread (similar to [method Object.call_deferred]). [code]arg1[/code]-[code]arg5[/code] are arguments to be passed to the callback.
 	Args: [{ false object Object} { false duration float} { false callback String} {Null true arg1 Variant} {Null true arg2 Variant} {Null true arg3 Variant} {Null true arg4 Variant} {Null true arg5 Variant}], Returns: bool
 */
 func (o *Tween) InterpolateDeferredCallback(object ObjectImplementer, duration gdnative.Real, callback gdnative.String, arg1 gdnative.Variant, arg2 gdnative.Variant, arg3 gdnative.Variant, arg4 gdnative.Variant, arg5 gdnative.Variant) gdnative.Bool {
@@ -288,7 +286,7 @@ func (o *Tween) InterpolateDeferredCallback(object ObjectImplementer, duration g
 }
 
 /*
-        Animate [code]method[/code] of [code]object[/code] from [code]initial_val[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Methods are animated by calling them with consecutive values. [code]trans_type[/code] accepts TRANS_* constants, and is the way the animation is interpolated, while [code]ease_type[/code] accepts EASE_* constants, and controls the place of the interpolation (the beginning, the end, or both). You can read more about them in the class description.
+        Animates [code]method[/code] of [code]object[/code] from [code]initial_val[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Methods are called with consecutive values. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
 	Args: [{ false object Object} { false method String} { false initial_val Variant} { false final_val Variant} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) InterpolateMethod(object ObjectImplementer, method gdnative.String, initialVal gdnative.Variant, finalVal gdnative.Variant, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
@@ -319,7 +317,7 @@ func (o *Tween) InterpolateMethod(object ObjectImplementer, method gdnative.Stri
 }
 
 /*
-        Animate [code]property[/code] of [code]object[/code] from [code]initial_val[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. [code]trans_type[/code] accepts TRANS_* constants, and is the way the animation is interpolated, while [code]ease_type[/code] accepts EASE_* constants, and controls the place of the interpolation (the beginning, the end, or both). You can read more about them in the class description.
+        Animates [code]property[/code] of [code]object[/code] from [code]initial_val[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Setting the initial value to [code]null[/code] uses the current value of the property. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
 	Args: [{ false object Object} { false property NodePath} { false initial_val Variant} { false final_val Variant} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) InterpolateProperty(object ObjectImplementer, property gdnative.NodePath, initialVal gdnative.Variant, finalVal gdnative.Variant, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
@@ -350,7 +348,7 @@ func (o *Tween) InterpolateProperty(object ObjectImplementer, property gdnative.
 }
 
 /*
-        Returns true if any tweens are currently running, and false otherwise. Note that this method doesn't consider tweens that have ended.
+        Returns [code]true[/code] if any tweens are currently running. Note that this method doesn't consider tweens that have ended.
 	Args: [], Returns: bool
 */
 func (o *Tween) IsActive() gdnative.Bool {
@@ -396,7 +394,7 @@ func (o *Tween) IsRepeat() gdnative.Bool {
 }
 
 /*
-        Stop animating and completely remove a tween, given its object and property/method pair. Passing empty String as key will remove all tweens for given object.
+        Stops animation and removes a tween, given its object and property/method pair. By default, all tweens are removed, unless [code]key[/code] is specified.
 	Args: [{ false object Object} { true key String}], Returns: bool
 */
 func (o *Tween) Remove(object ObjectImplementer, key gdnative.String) gdnative.Bool {
@@ -421,7 +419,7 @@ func (o *Tween) Remove(object ObjectImplementer, key gdnative.String) gdnative.B
 }
 
 /*
-        Stop animating and completely remove all tweens.
+        Stops animation and removes all tweens.
 	Args: [], Returns: bool
 */
 func (o *Tween) RemoveAll() gdnative.Bool {
@@ -444,7 +442,7 @@ func (o *Tween) RemoveAll() gdnative.Bool {
 }
 
 /*
-        Resets a tween to the initial value (the one given, not the one before the tween), given its object and property/method pair. Passing empty String as key will reset all tweens for given object.
+        Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are removed, unless [code]key[/code] is specified.
 	Args: [{ false object Object} { true key String}], Returns: bool
 */
 func (o *Tween) Reset(object ObjectImplementer, key gdnative.String) gdnative.Bool {
@@ -492,7 +490,7 @@ func (o *Tween) ResetAll() gdnative.Bool {
 }
 
 /*
-        Continue animating a stopped tween, given its object and property/method pair. Passing empty String as key will resume all tweens for given object.
+        Continues animating a stopped tween, given its object and property/method pair. By default, all tweens are resumed, unless [code]key[/code] is specified.
 	Args: [{ false object Object} { true key String}], Returns: bool
 */
 func (o *Tween) Resume(object ObjectImplementer, key gdnative.String) gdnative.Bool {
@@ -517,7 +515,7 @@ func (o *Tween) Resume(object ObjectImplementer, key gdnative.String) gdnative.B
 }
 
 /*
-        Continue animating all stopped tweens.
+        Continues animating all stopped tweens.
 	Args: [], Returns: bool
 */
 func (o *Tween) ResumeAll() gdnative.Bool {
@@ -540,7 +538,7 @@ func (o *Tween) ResumeAll() gdnative.Bool {
 }
 
 /*
-        Seek the animation to the given [code]time[/code] in seconds.
+        Sets the interpolation to the given [code]time[/code] in seconds.
 	Args: [{ false time float}], Returns: bool
 */
 func (o *Tween) Seek(time gdnative.Real) gdnative.Bool {
@@ -564,7 +562,7 @@ func (o *Tween) Seek(time gdnative.Real) gdnative.Bool {
 }
 
 /*
-        Activate/deactivate the tween. You can use this for pausing animations, though [method stop_all] and [method resume_all] might be more fit for this.
+        Activates/deactivates the tween. See also [method stop_all] and [method resume_all].
 	Args: [{ false active bool}], Returns: void
 */
 func (o *Tween) SetActive(active gdnative.Bool) {
@@ -648,7 +646,7 @@ func (o *Tween) SetTweenProcessMode(mode gdnative.Int) {
 }
 
 /*
-        Start the tween node. You can define tweens both before and after this.
+        Starts the tween. You can define animations both before and after this.
 	Args: [], Returns: bool
 */
 func (o *Tween) Start() gdnative.Bool {
@@ -671,7 +669,7 @@ func (o *Tween) Start() gdnative.Bool {
 }
 
 /*
-        Stop animating a tween, given its object and property/method pair. Passing empty String as key will stop all tweens for given object.
+        Stops a tween, given its object and property/method pair. By default, all tweens are stopped, unless [code]key[/code] is specified.
 	Args: [{ false object Object} { true key String}], Returns: bool
 */
 func (o *Tween) Stop(object ObjectImplementer, key gdnative.String) gdnative.Bool {
@@ -696,7 +694,7 @@ func (o *Tween) Stop(object ObjectImplementer, key gdnative.String) gdnative.Boo
 }
 
 /*
-        Stop animating all tweens.
+        Stops animating all tweens.
 	Args: [], Returns: bool
 */
 func (o *Tween) StopAll() gdnative.Bool {
@@ -719,7 +717,7 @@ func (o *Tween) StopAll() gdnative.Bool {
 }
 
 /*
-        Animate [code]method[/code] of [code]object[/code] from the value returned by [code]initial.initial_method[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Methods are animated by calling them with consecutive values. [code]trans_type[/code] accepts TRANS_* constants, and is the way the animation is interpolated, while [code]ease_type[/code] accepts EASE_* constants, and controls the place of the interpolation (the beginning, the end, or both). You can read more about them in the class description.
+        Animates [code]method[/code] of [code]object[/code] from the value returned by [code]initial_method[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Methods are animated by calling them with consecutive values. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
 	Args: [{ false object Object} { false method String} { false initial Object} { false initial_method String} { false final_val Variant} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) TargetingMethod(object ObjectImplementer, method gdnative.String, initial ObjectImplementer, initialMethod gdnative.String, finalVal gdnative.Variant, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
@@ -751,7 +749,7 @@ func (o *Tween) TargetingMethod(object ObjectImplementer, method gdnative.String
 }
 
 /*
-        Animate [code]property[/code] of [code]object[/code] from the current value of the [code]initial_val[/code] property of [code]initial[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. [code]trans_type[/code] accepts TRANS_* constants, and is the way the animation is interpolated, while [code]ease_type[/code] accepts EASE_* constants, and controls the place of the interpolation (the beginning, the end, or both). You can read more about them in the class description.
+        Animates [code]property[/code] of [code]object[/code] from the current value of the [code]initial_val[/code] property of [code]initial[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
 	Args: [{ false object Object} { false property NodePath} { false initial Object} { false initial_val NodePath} { false final_val Variant} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) TargetingProperty(object ObjectImplementer, property gdnative.NodePath, initial ObjectImplementer, initialVal gdnative.NodePath, finalVal gdnative.Variant, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
@@ -809,7 +807,7 @@ func (o *Tween) Tell() gdnative.Real {
 // of the Tween class.
 type TweenImplementer interface {
 	NodeImplementer
-	X_Remove(object ObjectImplementer, key gdnative.String, firstOnly gdnative.Bool)
+	X_RemoveByUid(uid gdnative.Int)
 	FollowMethod(object ObjectImplementer, method gdnative.String, initialVal gdnative.Variant, target ObjectImplementer, targetMethod gdnative.String, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool
 	FollowProperty(object ObjectImplementer, property gdnative.NodePath, initialVal gdnative.Variant, target ObjectImplementer, targetProperty gdnative.NodePath, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool
 	GetRuntime() gdnative.Real

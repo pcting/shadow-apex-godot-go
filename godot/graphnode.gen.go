@@ -106,7 +106,7 @@ func (o *GraphNode) ClearSlot(idx gdnative.Int) {
 }
 
 /*
-        Return the color of the input connection 'idx'.
+        Returns the color of the input connection 'idx'.
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *GraphNode) GetConnectionInputColor(idx gdnative.Int) gdnative.Color {
@@ -130,7 +130,7 @@ func (o *GraphNode) GetConnectionInputColor(idx gdnative.Int) gdnative.Color {
 }
 
 /*
-        Return the number of enabled input slots (connections) to the GraphNode.
+        Returns the number of enabled input slots (connections) to the GraphNode.
 	Args: [], Returns: int
 */
 func (o *GraphNode) GetConnectionInputCount() gdnative.Int {
@@ -153,7 +153,7 @@ func (o *GraphNode) GetConnectionInputCount() gdnative.Int {
 }
 
 /*
-        Return the position of the input connection 'idx'.
+        Returns the position of the input connection 'idx'.
 	Args: [{ false idx int}], Returns: Vector2
 */
 func (o *GraphNode) GetConnectionInputPosition(idx gdnative.Int) gdnative.Vector2 {
@@ -177,7 +177,7 @@ func (o *GraphNode) GetConnectionInputPosition(idx gdnative.Int) gdnative.Vector
 }
 
 /*
-        Return the type of the input connection 'idx'.
+        Returns the type of the input connection 'idx'.
 	Args: [{ false idx int}], Returns: int
 */
 func (o *GraphNode) GetConnectionInputType(idx gdnative.Int) gdnative.Int {
@@ -201,7 +201,7 @@ func (o *GraphNode) GetConnectionInputType(idx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Return the color of the output connection 'idx'.
+        Returns the color of the output connection 'idx'.
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *GraphNode) GetConnectionOutputColor(idx gdnative.Int) gdnative.Color {
@@ -225,7 +225,7 @@ func (o *GraphNode) GetConnectionOutputColor(idx gdnative.Int) gdnative.Color {
 }
 
 /*
-        Return the number of enabled output slots (connections) of the GraphNode.
+        Returns the number of enabled output slots (connections) of the GraphNode.
 	Args: [], Returns: int
 */
 func (o *GraphNode) GetConnectionOutputCount() gdnative.Int {
@@ -248,7 +248,7 @@ func (o *GraphNode) GetConnectionOutputCount() gdnative.Int {
 }
 
 /*
-        Return the position of the output connection 'idx'.
+        Returns the position of the output connection 'idx'.
 	Args: [{ false idx int}], Returns: Vector2
 */
 func (o *GraphNode) GetConnectionOutputPosition(idx gdnative.Int) gdnative.Vector2 {
@@ -272,7 +272,7 @@ func (o *GraphNode) GetConnectionOutputPosition(idx gdnative.Int) gdnative.Vecto
 }
 
 /*
-        Return the type of the output connection 'idx'.
+        Returns the type of the output connection 'idx'.
 	Args: [{ false idx int}], Returns: int
 */
 func (o *GraphNode) GetConnectionOutputType(idx gdnative.Int) gdnative.Int {
@@ -342,7 +342,7 @@ func (o *GraphNode) GetOverlay() GraphNodeOverlay {
 }
 
 /*
-        Return the color set to 'idx' left (input) slot.
+        Returns the color set to 'idx' left (input) slot.
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *GraphNode) GetSlotColorLeft(idx gdnative.Int) gdnative.Color {
@@ -366,7 +366,7 @@ func (o *GraphNode) GetSlotColorLeft(idx gdnative.Int) gdnative.Color {
 }
 
 /*
-        Return the color set to 'idx' right (output) slot.
+        Returns the color set to 'idx' right (output) slot.
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *GraphNode) GetSlotColorRight(idx gdnative.Int) gdnative.Color {
@@ -390,7 +390,7 @@ func (o *GraphNode) GetSlotColorRight(idx gdnative.Int) gdnative.Color {
 }
 
 /*
-        Return the (integer) type of left (input) 'idx' slot.
+        Returns the (integer) type of left (input) 'idx' slot.
 	Args: [{ false idx int}], Returns: int
 */
 func (o *GraphNode) GetSlotTypeLeft(idx gdnative.Int) gdnative.Int {
@@ -414,7 +414,7 @@ func (o *GraphNode) GetSlotTypeLeft(idx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Return the (integer) type of right (output) 'idx' slot.
+        Returns the (integer) type of right (output) 'idx' slot.
 	Args: [{ false idx int}], Returns: int
 */
 func (o *GraphNode) GetSlotTypeRight(idx gdnative.Int) gdnative.Int {
@@ -553,7 +553,7 @@ func (o *GraphNode) IsSelected() gdnative.Bool {
 }
 
 /*
-        Return true if left (input) slot 'idx' is enabled. False otherwise.
+        Returns [code]true[/code] if left (input) slot 'idx' is enabled, [code]false[/code] otherwise.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *GraphNode) IsSlotEnabledLeft(idx gdnative.Int) gdnative.Bool {
@@ -577,7 +577,7 @@ func (o *GraphNode) IsSlotEnabledLeft(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Return true if right (output) slot 'idx' is enabled. False otherwise.
+        Returns [code]true[/code] if right (output) slot 'idx' is enabled, [code]false[/code] otherwise.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *GraphNode) IsSlotEnabledRight(idx gdnative.Int) gdnative.Bool {

@@ -134,7 +134,7 @@ func (o *EditorFileSystem) GetFilesystemPath(path gdnative.String) EditorFileSys
 }
 
 /*
-        Return the scan progress for 0 to 1 if the FS is being scanned.
+        Returns the scan progress for 0 to 1 if the FS is being scanned.
 	Args: [], Returns: float
 */
 func (o *EditorFileSystem) GetScanningProgress() gdnative.Real {
@@ -157,7 +157,7 @@ func (o *EditorFileSystem) GetScanningProgress() gdnative.Real {
 }
 
 /*
-        Return true of the filesystem is being scanned.
+        Returns [code]true[/code] of the filesystem is being scanned.
 	Args: [], Returns: bool
 */
 func (o *EditorFileSystem) IsScanning() gdnative.Bool {
@@ -240,6 +240,26 @@ func (o *EditorFileSystem) UpdateFile(path gdnative.String) {
 
 }
 
+/*
+
+	Args: [], Returns: void
+*/
+func (o *EditorFileSystem) UpdateScriptClasses() {
+	//log.Println("Calling EditorFileSystem.UpdateScriptClasses()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorFileSystem", "update_script_classes")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // EditorFileSystemImplementer is an interface that implements the methods
 // of the EditorFileSystem class.
 type EditorFileSystemImplementer interface {
@@ -252,4 +272,5 @@ type EditorFileSystemImplementer interface {
 	Scan()
 	ScanSources()
 	UpdateFile(path gdnative.String)
+	UpdateScriptClasses()
 }

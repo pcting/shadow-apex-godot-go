@@ -23,7 +23,7 @@ func newVSliderFromPointer(ptr gdnative.Pointer) VSlider {
 }
 
 /*
-Vertical slider. See [Slider]. This one goes from left (min) to right (max).
+Vertical slider. See [Slider]. This one goes from bottom (min) to top (max).
 */
 type VSlider struct {
 	Slider

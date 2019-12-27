@@ -36,6 +36,26 @@ func (o *Sprite) BaseClass() string {
 
 /*
         Undocumented
+	Args: [], Returns: void
+*/
+func (o *Sprite) X_TextureChanged() {
+	//log.Println("Calling Sprite.X_TextureChanged()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Sprite", "_texture_changed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [], Returns: int
 */
 func (o *Sprite) GetFrame() gdnative.Int {
@@ -54,6 +74,29 @@ func (o *Sprite) GetFrame() gdnative.Int {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Vector2
+*/
+func (o *Sprite) GetFrameCoords() gdnative.Vector2 {
+	//log.Println("Calling Sprite.GetFrameCoords()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Sprite", "get_frame_coords")
+
+	// Call the parent method.
+	// Vector2
+	retPtr := gdnative.NewEmptyVector2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector2FromPointer(retPtr)
 	return ret
 }
 
@@ -137,6 +180,29 @@ func (o *Sprite) GetOffset() gdnative.Vector2 {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewVector2FromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns a [Rect2] representing the Sprite's boundary in local coordinates. Can be used to detect if the Sprite was clicked. Example: [codeblock] func _input(event): if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT: if get_rect().has_point(to_local(event.position)): print("A click!") [/codeblock]
+	Args: [], Returns: Rect2
+*/
+func (o *Sprite) GetRect() gdnative.Rect2 {
+	//log.Println("Calling Sprite.GetRect()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Sprite", "get_rect")
+
+	// Call the parent method.
+	// Rect2
+	retPtr := gdnative.NewEmptyRect2()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRect2FromPointer(retPtr)
 	return ret
 }
 
@@ -293,6 +359,30 @@ func (o *Sprite) IsFlippedV() gdnative.Bool {
 }
 
 /*
+        Returns [code]true[/code], if the pixel at the given position is opaque and [code]false[/code] in other case. Note: It also returns [code]false[/code], if the sprite's texture is null or if the given position is invalid.
+	Args: [{ false pos Vector2}], Returns: bool
+*/
+func (o *Sprite) IsPixelOpaque(pos gdnative.Vector2) gdnative.Bool {
+	//log.Println("Calling Sprite.IsPixelOpaque()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(pos)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Sprite", "is_pixel_opaque")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
         Undocumented
 	Args: [], Returns: bool
 */
@@ -414,6 +504,27 @@ func (o *Sprite) SetFrame(frame gdnative.Int) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Sprite", "set_frame")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false coords Vector2}], Returns: void
+*/
+func (o *Sprite) SetFrameCoords(coords gdnative.Vector2) {
+	//log.Println("Calling Sprite.SetFrameCoords()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(coords)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Sprite", "set_frame_coords")
 
 	// Call the parent method.
 	// void
@@ -594,22 +705,27 @@ func (o *Sprite) SetVframes(vframes gdnative.Int) {
 // of the Sprite class.
 type SpriteImplementer interface {
 	Node2DImplementer
+	X_TextureChanged()
 	GetFrame() gdnative.Int
+	GetFrameCoords() gdnative.Vector2
 	GetHframes() gdnative.Int
 	GetNormalMap() TextureImplementer
 	GetOffset() gdnative.Vector2
+	GetRect() gdnative.Rect2
 	GetRegionRect() gdnative.Rect2
 	GetTexture() TextureImplementer
 	GetVframes() gdnative.Int
 	IsCentered() gdnative.Bool
 	IsFlippedH() gdnative.Bool
 	IsFlippedV() gdnative.Bool
+	IsPixelOpaque(pos gdnative.Vector2) gdnative.Bool
 	IsRegion() gdnative.Bool
 	IsRegionFilterClipEnabled() gdnative.Bool
 	SetCentered(centered gdnative.Bool)
 	SetFlipH(flipH gdnative.Bool)
 	SetFlipV(flipV gdnative.Bool)
 	SetFrame(frame gdnative.Int)
+	SetFrameCoords(coords gdnative.Vector2)
 	SetHframes(hframes gdnative.Int)
 	SetNormalMap(normalMap TextureImplementer)
 	SetOffset(offset gdnative.Vector2)

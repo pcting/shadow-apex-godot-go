@@ -36,18 +36,19 @@ func (o *EditorResourcePreview) BaseClass() string {
 
 /*
         Undocumented
-	Args: [{ false arg0 String} { false arg1 Texture} { false arg2 int} { false arg3 String} { false arg4 Variant}], Returns: void
+	Args: [{ false arg0 String} { false arg1 Texture} { false arg2 Texture} { false arg3 int} { false arg4 String} { false arg5 Variant}], Returns: void
 */
-func (o *EditorResourcePreview) X_PreviewReady(arg0 gdnative.String, arg1 TextureImplementer, arg2 gdnative.Int, arg3 gdnative.String, arg4 gdnative.Variant) {
+func (o *EditorResourcePreview) X_PreviewReady(arg0 gdnative.String, arg1 TextureImplementer, arg2 TextureImplementer, arg3 gdnative.Int, arg4 gdnative.String, arg5 gdnative.Variant) {
 	//log.Println("Calling EditorResourcePreview.X_PreviewReady()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 5, 5)
+	ptrArguments := make([]gdnative.Pointer, 6, 6)
 	ptrArguments[0] = gdnative.NewPointerFromString(arg0)
 	ptrArguments[1] = gdnative.NewPointerFromObject(arg1.GetBaseObject())
-	ptrArguments[2] = gdnative.NewPointerFromInt(arg2)
-	ptrArguments[3] = gdnative.NewPointerFromString(arg3)
-	ptrArguments[4] = gdnative.NewPointerFromVariant(arg4)
+	ptrArguments[2] = gdnative.NewPointerFromObject(arg2.GetBaseObject())
+	ptrArguments[3] = gdnative.NewPointerFromInt(arg3)
+	ptrArguments[4] = gdnative.NewPointerFromString(arg4)
+	ptrArguments[5] = gdnative.NewPointerFromVariant(arg5)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorResourcePreview", "_preview_ready")
@@ -174,7 +175,7 @@ func (o *EditorResourcePreview) RemovePreviewGenerator(generator EditorResourceP
 // of the EditorResourcePreview class.
 type EditorResourcePreviewImplementer interface {
 	NodeImplementer
-	X_PreviewReady(arg0 gdnative.String, arg1 TextureImplementer, arg2 gdnative.Int, arg3 gdnative.String, arg4 gdnative.Variant)
+	X_PreviewReady(arg0 gdnative.String, arg1 TextureImplementer, arg2 TextureImplementer, arg3 gdnative.Int, arg4 gdnative.String, arg5 gdnative.Variant)
 	AddPreviewGenerator(generator EditorResourcePreviewGeneratorImplementer)
 	CheckForInvalidation(path gdnative.String)
 	QueueEditedResourcePreview(resource ResourceImplementer, receiver ObjectImplementer, receiverFunc gdnative.String, userdata gdnative.Variant)

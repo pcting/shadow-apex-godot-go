@@ -108,15 +108,16 @@ func (o *marshalls) Base64ToUtf8(base64Str gdnative.String) gdnative.String {
 
 /*
         Undocumented
-	Args: [{ false base64_str String}], Returns: Variant
+	Args: [{ false base64_str String} {False true allow_objects bool}], Returns: Variant
 */
-func (o *marshalls) Base64ToVariant(base64Str gdnative.String) gdnative.Variant {
+func (o *marshalls) Base64ToVariant(base64Str gdnative.String, allowObjects gdnative.Bool) gdnative.Variant {
 	o.ensureSingleton()
 	//log.Println("Calling _Marshalls.Base64ToVariant()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromString(base64Str)
+	ptrArguments[1] = gdnative.NewPointerFromBool(allowObjects)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("_Marshalls", "base64_to_variant")
@@ -183,15 +184,16 @@ func (o *marshalls) Utf8ToBase64(utf8Str gdnative.String) gdnative.String {
 
 /*
         Undocumented
-	Args: [{ false variant Variant}], Returns: String
+	Args: [{ false variant Variant} {False true full_objects bool}], Returns: String
 */
-func (o *marshalls) VariantToBase64(variant gdnative.Variant) gdnative.String {
+func (o *marshalls) VariantToBase64(variant gdnative.Variant, fullObjects gdnative.Bool) gdnative.String {
 	o.ensureSingleton()
 	//log.Println("Calling _Marshalls.VariantToBase64()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromVariant(variant)
+	ptrArguments[1] = gdnative.NewPointerFromBool(fullObjects)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("_Marshalls", "variant_to_base64")
@@ -212,8 +214,8 @@ type MarshallsImplementer interface {
 	ReferenceImplementer
 	Base64ToRaw(base64Str gdnative.String) gdnative.PoolByteArray
 	Base64ToUtf8(base64Str gdnative.String) gdnative.String
-	Base64ToVariant(base64Str gdnative.String) gdnative.Variant
+	Base64ToVariant(base64Str gdnative.String, allowObjects gdnative.Bool) gdnative.Variant
 	RawToBase64(array gdnative.PoolByteArray) gdnative.String
 	Utf8ToBase64(utf8Str gdnative.String) gdnative.String
-	VariantToBase64(variant gdnative.Variant) gdnative.String
+	VariantToBase64(variant gdnative.Variant, fullObjects gdnative.Bool) gdnative.String
 }

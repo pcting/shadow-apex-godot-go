@@ -60,6 +60,26 @@ func (o *EditorExportPlugin) X_ExportBegin(features gdnative.PoolStringArray, is
 
 /*
 
+	Args: [], Returns: void
+*/
+func (o *EditorExportPlugin) X_ExportEnd() {
+	//log.Println("Calling EditorExportPlugin.X_ExportEnd()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorExportPlugin", "_export_end")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
 	Args: [{ false path String} { false type String} { false features PoolStringArray}], Returns: void
 */
 func (o *EditorExportPlugin) X_ExportFile(path gdnative.String, aType gdnative.String, features gdnative.PoolStringArray) {
@@ -256,6 +276,7 @@ func (o *EditorExportPlugin) Skip() {
 type EditorExportPluginImplementer interface {
 	ReferenceImplementer
 	X_ExportBegin(features gdnative.PoolStringArray, isDebug gdnative.Bool, path gdnative.String, flags gdnative.Int)
+	X_ExportEnd()
 	X_ExportFile(path gdnative.String, aType gdnative.String, features gdnative.PoolStringArray)
 	AddFile(path gdnative.String, file gdnative.PoolByteArray, remap gdnative.Bool)
 	AddIosBundleFile(path gdnative.String)

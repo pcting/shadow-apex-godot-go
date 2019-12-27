@@ -59,6 +59,29 @@ func (o *RayShape) GetLength() gdnative.Real {
 
 /*
         Undocumented
+	Args: [], Returns: bool
+*/
+func (o *RayShape) GetSlipsOnSlope() gdnative.Bool {
+	//log.Println("Calling RayShape.GetSlipsOnSlope()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RayShape", "get_slips_on_slope")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [{ false length float}], Returns: void
 */
 func (o *RayShape) SetLength(length gdnative.Real) {
@@ -78,10 +101,33 @@ func (o *RayShape) SetLength(length gdnative.Real) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false active bool}], Returns: void
+*/
+func (o *RayShape) SetSlipsOnSlope(active gdnative.Bool) {
+	//log.Println("Calling RayShape.SetSlipsOnSlope()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(active)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RayShape", "set_slips_on_slope")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // RayShapeImplementer is an interface that implements the methods
 // of the RayShape class.
 type RayShapeImplementer interface {
 	ShapeImplementer
 	GetLength() gdnative.Real
+	GetSlipsOnSlope() gdnative.Bool
 	SetLength(length gdnative.Real)
+	SetSlipsOnSlope(active gdnative.Bool)
 }

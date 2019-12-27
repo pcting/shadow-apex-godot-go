@@ -38,14 +38,14 @@ func (o *ScrollBar) BaseClass() string {
         Undocumented
 	Args: [], Returns: void
 */
-func (o *ScrollBar) X_DragSlaveExit() {
-	//log.Println("Calling ScrollBar.X_DragSlaveExit()")
+func (o *ScrollBar) X_DragNodeExit() {
+	//log.Println("Calling ScrollBar.X_DragNodeExit()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 0, 0)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("ScrollBar", "_drag_slave_exit")
+	methodBind := gdnative.NewMethodBind("ScrollBar", "_drag_node_exit")
 
 	// Call the parent method.
 	// void
@@ -58,15 +58,15 @@ func (o *ScrollBar) X_DragSlaveExit() {
         Undocumented
 	Args: [{ false arg0 InputEvent}], Returns: void
 */
-func (o *ScrollBar) X_DragSlaveInput(arg0 InputEventImplementer) {
-	//log.Println("Calling ScrollBar.X_DragSlaveInput()")
+func (o *ScrollBar) X_DragNodeInput(arg0 InputEventImplementer) {
+	//log.Println("Calling ScrollBar.X_DragNodeInput()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
 	ptrArguments[0] = gdnative.NewPointerFromObject(arg0.GetBaseObject())
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("ScrollBar", "_drag_slave_input")
+	methodBind := gdnative.NewMethodBind("ScrollBar", "_drag_node_input")
 
 	// Call the parent method.
 	// void
@@ -144,8 +144,8 @@ func (o *ScrollBar) SetCustomStep(step gdnative.Real) {
 // of the ScrollBar class.
 type ScrollBarImplementer interface {
 	RangeImplementer
-	X_DragSlaveExit()
-	X_DragSlaveInput(arg0 InputEventImplementer)
+	X_DragNodeExit()
+	X_DragNodeInput(arg0 InputEventImplementer)
 	GetCustomStep() gdnative.Real
 	SetCustomStep(step gdnative.Real)
 }

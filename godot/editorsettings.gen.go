@@ -77,17 +77,17 @@ func (o *EditorSettings) Erase(property gdnative.String) {
 }
 
 /*
-        Get the list of favorite directories for this project.
+        Get the list of favorite files and directories for this project.
 	Args: [], Returns: PoolStringArray
 */
-func (o *EditorSettings) GetFavoriteDirs() gdnative.PoolStringArray {
-	//log.Println("Calling EditorSettings.GetFavoriteDirs()")
+func (o *EditorSettings) GetFavorites() gdnative.PoolStringArray {
+	//log.Println("Calling EditorSettings.GetFavorites()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 0, 0)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("EditorSettings", "get_favorite_dirs")
+	methodBind := gdnative.NewMethodBind("EditorSettings", "get_favorites")
 
 	// Call the parent method.
 	// PoolStringArray
@@ -96,6 +96,32 @@ func (o *EditorSettings) GetFavoriteDirs() gdnative.PoolStringArray {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewPoolStringArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [{ false section String} { false key String} {Null true default Variant}], Returns: Variant
+*/
+func (o *EditorSettings) GetProjectMetadata(section gdnative.String, key gdnative.String, aDefault gdnative.Variant) gdnative.Variant {
+	//log.Println("Calling EditorSettings.GetProjectMetadata()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromString(section)
+	ptrArguments[1] = gdnative.NewPointerFromString(key)
+	ptrArguments[2] = gdnative.NewPointerFromVariant(aDefault)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorSettings", "get_project_metadata")
+
+	// Call the parent method.
+	// Variant
+	retPtr := gdnative.NewEmptyVariant()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVariantFromPointer(retPtr)
 	return ret
 }
 
@@ -265,18 +291,18 @@ func (o *EditorSettings) PropertyGetRevert(name gdnative.String) gdnative.Varian
 }
 
 /*
-        Set the list of favorite directories for this project.
+        Set the list of favorite files and directories for this project.
 	Args: [{ false dirs PoolStringArray}], Returns: void
 */
-func (o *EditorSettings) SetFavoriteDirs(dirs gdnative.PoolStringArray) {
-	//log.Println("Calling EditorSettings.SetFavoriteDirs()")
+func (o *EditorSettings) SetFavorites(dirs gdnative.PoolStringArray) {
+	//log.Println("Calling EditorSettings.SetFavorites()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
 	ptrArguments[0] = gdnative.NewPointerFromPoolStringArray(dirs)
 
 	// Get the method bind
-	methodBind := gdnative.NewMethodBind("EditorSettings", "set_favorite_dirs")
+	methodBind := gdnative.NewMethodBind("EditorSettings", "set_favorites")
 
 	// Call the parent method.
 	// void
@@ -300,6 +326,29 @@ func (o *EditorSettings) SetInitialValue(name gdnative.String, value gdnative.Va
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorSettings", "set_initial_value")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false section String} { false key String} { false data Variant}], Returns: void
+*/
+func (o *EditorSettings) SetProjectMetadata(section gdnative.String, key gdnative.String, data gdnative.Variant) {
+	//log.Println("Calling EditorSettings.SetProjectMetadata()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromString(section)
+	ptrArguments[1] = gdnative.NewPointerFromString(key)
+	ptrArguments[2] = gdnative.NewPointerFromVariant(data)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorSettings", "set_project_metadata")
 
 	// Call the parent method.
 	// void
@@ -357,7 +406,8 @@ type EditorSettingsImplementer interface {
 	ResourceImplementer
 	AddPropertyInfo(info gdnative.Dictionary)
 	Erase(property gdnative.String)
-	GetFavoriteDirs() gdnative.PoolStringArray
+	GetFavorites() gdnative.PoolStringArray
+	GetProjectMetadata(section gdnative.String, key gdnative.String, aDefault gdnative.Variant) gdnative.Variant
 	GetProjectSettingsDir() gdnative.String
 	GetRecentDirs() gdnative.PoolStringArray
 	GetSetting(name gdnative.String) gdnative.Variant
@@ -365,8 +415,9 @@ type EditorSettingsImplementer interface {
 	HasSetting(name gdnative.String) gdnative.Bool
 	PropertyCanRevert(name gdnative.String) gdnative.Bool
 	PropertyGetRevert(name gdnative.String) gdnative.Variant
-	SetFavoriteDirs(dirs gdnative.PoolStringArray)
+	SetFavorites(dirs gdnative.PoolStringArray)
 	SetInitialValue(name gdnative.String, value gdnative.Variant, updateCurrent gdnative.Bool)
+	SetProjectMetadata(section gdnative.String, key gdnative.String, data gdnative.Variant)
 	SetRecentDirs(dirs gdnative.PoolStringArray)
 	SetSetting(name gdnative.String, value gdnative.Variant)
 }

@@ -23,7 +23,7 @@ func newResourceFromPointer(ptr gdnative.Pointer) Resource {
 }
 
 /*
-Resource is the base class for all resource types. Resources are primarily data containers. They are reference counted and freed when no longer in use. They are also loaded only once from disk, and further attempts to load the resource will return the same reference (all this in contrast to a [Node], which is not reference counted and can be instanced from disk as many times as desired). Resources can be saved externally on disk or bundled into another object, such as a [Node] or another resource.
+Resource is the base class for all Godot-specific resource types, serving primarily as data containers. They are reference counted and freed when no longer in use. They are also cached once loaded from disk, so that any further attempts to load a resource from a given path will return the same reference (all this in contrast to a [Node], which is not reference counted and can be instanced from disk as many times as desired). Resources can be saved externally on disk or bundled into another object, such as a [Node] or another resource.
 */
 type Resource struct {
 	Reference
@@ -35,7 +35,7 @@ func (o *Resource) BaseClass() string {
 }
 
 /*
-
+        Virtual function which can be overridden to customize the behavior value of [method setup_local_to_scene].
 	Args: [], Returns: void
 */
 func (o *Resource) X_SetupLocalToScene() {
@@ -55,7 +55,7 @@ func (o *Resource) X_SetupLocalToScene() {
 }
 
 /*
-
+        Duplicates the resource, returning a new resource. By default, sub-resources are shared between resource copies for efficiency, this can be changed by passing [code]true[/code] to the [code]subresources[/code] argument.
 	Args: [{False true subresources bool}], Returns: Resource
 */
 func (o *Resource) Duplicate(subresources gdnative.Bool) ResourceImplementer {
@@ -93,7 +93,7 @@ func (o *Resource) Duplicate(subresources gdnative.Bool) ResourceImplementer {
 }
 
 /*
-
+        If [member resource_local_to_scene] is enabled and the resource was loaded from a [PackedScene] instantiation, returns the local scene where this resource's unique copy is in use. Otherwise, returns [code]null[/code].
 	Args: [], Returns: Node
 */
 func (o *Resource) GetLocalScene() NodeImplementer {
@@ -176,7 +176,7 @@ func (o *Resource) GetPath() gdnative.String {
 }
 
 /*
-        Return the RID of the resource (or an empty RID). Many resources (such as [Texture], [Mesh], etc) are high level abstractions of resources stored in a server, so this function will return the original RID.
+        Returns the RID of the resource (or an empty RID). Many resources (such as [Texture], [Mesh], etc) are high level abstractions of resources stored in a server, so this function will return the original RID.
 	Args: [], Returns: RID
 */
 func (o *Resource) GetRid() gdnative.Rid {
@@ -285,7 +285,7 @@ func (o *Resource) SetPath(path gdnative.String) {
 }
 
 /*
-
+        This method is called when a resource with [member resource_local_to_scene] enabled is loaded from a [PackedScene] instantiation. Its behavior can be customized by overriding [method _setup_local_to_scene] from script. For most resources, this method performs no base logic. [ViewportTexture] performs custom logic to properly set the proxy texture and flags in the local viewport.
 	Args: [], Returns: void
 */
 func (o *Resource) SetupLocalToScene() {
@@ -305,7 +305,7 @@ func (o *Resource) SetupLocalToScene() {
 }
 
 /*
-        Set the path of the resource. Differs from set_path(), if another [code]Resource[/code] exists with "path" it over-takes it, instead of failing.
+        Sets the path of the resource, potentially overriding an existing cache entry for this path. This differs from setting [member resource_path], as the latter would error out if another resource was already cached for the given path.
 	Args: [{ false path String}], Returns: void
 */
 func (o *Resource) TakeOverPath(path gdnative.String) {

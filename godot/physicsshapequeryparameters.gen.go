@@ -151,6 +151,94 @@ func (o *PhysicsShapeQueryParameters) GetTransform() gdnative.Transform {
 
 /*
         Undocumented
+	Args: [], Returns: bool
+*/
+func (o *PhysicsShapeQueryParameters) IsCollideWithAreasEnabled() gdnative.Bool {
+	//log.Println("Calling PhysicsShapeQueryParameters.IsCollideWithAreasEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicsShapeQueryParameters", "is_collide_with_areas_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *PhysicsShapeQueryParameters) IsCollideWithBodiesEnabled() gdnative.Bool {
+	//log.Println("Calling PhysicsShapeQueryParameters.IsCollideWithBodiesEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicsShapeQueryParameters", "is_collide_with_bodies_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *PhysicsShapeQueryParameters) SetCollideWithAreas(enable gdnative.Bool) {
+	//log.Println("Calling PhysicsShapeQueryParameters.SetCollideWithAreas()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicsShapeQueryParameters", "set_collide_with_areas")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *PhysicsShapeQueryParameters) SetCollideWithBodies(enable gdnative.Bool) {
+	//log.Println("Calling PhysicsShapeQueryParameters.SetCollideWithBodies()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicsShapeQueryParameters", "set_collide_with_bodies")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false collision_mask int}], Returns: void
 */
 func (o *PhysicsShapeQueryParameters) SetCollisionMask(collisionMask gdnative.Int) {
@@ -284,6 +372,10 @@ type PhysicsShapeQueryParametersImplementer interface {
 	GetMargin() gdnative.Real
 	GetShapeRid() gdnative.Rid
 	GetTransform() gdnative.Transform
+	IsCollideWithAreasEnabled() gdnative.Bool
+	IsCollideWithBodiesEnabled() gdnative.Bool
+	SetCollideWithAreas(enable gdnative.Bool)
+	SetCollideWithBodies(enable gdnative.Bool)
 	SetCollisionMask(collisionMask gdnative.Int)
 	SetExclude(exclude gdnative.Array)
 	SetMargin(margin gdnative.Real)

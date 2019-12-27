@@ -13,11 +13,20 @@ import (
 //   code.
 //----------------------------------------------------------------------------*/
 
+// AnimationPlayerAnimationMethodCallMode is an enum for AnimationMethodCallMode values.
+type AnimationPlayerAnimationMethodCallMode int
+
+const (
+	AnimationPlayerAnimationMethodCallDeferred  AnimationPlayerAnimationMethodCallMode = 0
+	AnimationPlayerAnimationMethodCallImmediate AnimationPlayerAnimationMethodCallMode = 1
+)
+
 // AnimationPlayerAnimationProcessMode is an enum for AnimationProcessMode values.
 type AnimationPlayerAnimationProcessMode int
 
 const (
 	AnimationPlayerAnimationProcessIdle    AnimationPlayerAnimationProcessMode = 1
+	AnimationPlayerAnimationProcessManual  AnimationPlayerAnimationProcessMode = 2
 	AnimationPlayerAnimationProcessPhysics AnimationPlayerAnimationProcessMode = 0
 )
 
@@ -64,9 +73,9 @@ func (o *AnimationPlayer) X_AnimationChanged() {
 
 /*
         Undocumented
-	Args: [{ false arg0 Object}], Returns: void
+	Args: [{ false arg0 Node}], Returns: void
 */
-func (o *AnimationPlayer) X_NodeRemoved(arg0 ObjectImplementer) {
+func (o *AnimationPlayer) X_NodeRemoved(arg0 NodeImplementer) {
 	//log.Println("Calling AnimationPlayer.X_NodeRemoved()")
 
 	// Build out the method's arguments
@@ -109,7 +118,7 @@ func (o *AnimationPlayer) AddAnimation(name gdnative.String, animation Animation
 }
 
 /*
-        Shifts position in the animation timeline. Delta is the time in seconds to shift.
+        Shifts position in the animation timeline. Delta is the time in seconds to shift. Events between the current frame and [code]delta[/code] are handled.
 	Args: [{ false delta float}], Returns: void
 */
 func (o *AnimationPlayer) Advance(delta gdnative.Real) {
@@ -488,6 +497,75 @@ func (o *AnimationPlayer) GetDefaultBlendTime() gdnative.Real {
 
 /*
         Undocumented
+	Args: [], Returns: enum.AnimationPlayer::AnimationMethodCallMode
+*/
+func (o *AnimationPlayer) GetMethodCallMode() AnimationPlayerAnimationMethodCallMode {
+	//log.Println("Calling AnimationPlayer.GetMethodCallMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AnimationPlayer", "get_method_call_mode")
+
+	// Call the parent method.
+	// enum.AnimationPlayer::AnimationMethodCallMode
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return AnimationPlayerAnimationMethodCallMode(ret)
+}
+
+/*
+        Get the actual playing speed of current animation or 0 if not playing. This speed is the [code]playback_speed[/code] property multiplied by [code]custom_speed[/code] argument specified when calling the [code]play[/code] method.
+	Args: [], Returns: float
+*/
+func (o *AnimationPlayer) GetPlayingSpeed() gdnative.Real {
+	//log.Println("Calling AnimationPlayer.GetPlayingSpeed()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AnimationPlayer", "get_playing_speed")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [], Returns: PoolStringArray
+*/
+func (o *AnimationPlayer) GetQueue() gdnative.PoolStringArray {
+	//log.Println("Calling AnimationPlayer.GetQueue()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AnimationPlayer", "get_queue")
+
+	// Call the parent method.
+	// PoolStringArray
+	retPtr := gdnative.NewEmptyPoolStringArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewPoolStringArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: NodePath
 */
 func (o *AnimationPlayer) GetRoot() gdnative.NodePath {
@@ -603,7 +681,7 @@ func (o *AnimationPlayer) IsPlaying() gdnative.Bool {
 }
 
 /*
-        Play the animation with key [code]name[/code]. Custom speed and blend times can be set. If custom speed is negative (-1), 'from_end' being true can play the animation backwards.
+        Play the animation with key [code]name[/code]. Custom speed and blend times can be set. If custom speed is negative (-1), 'from_end' being [code]true[/code] can play the animation backwards. If the animation has been paused by [code]stop(true)[/code] it will be resumed. Calling [code]play()[/code] without arguments will also resume the animation.
 	Args: [{ true name String} {-1 true custom_blend float} {1 true custom_speed float} {False true from_end bool}], Returns: void
 */
 func (o *AnimationPlayer) Play(name gdnative.String, customBlend gdnative.Real, customSpeed gdnative.Real, fromEnd gdnative.Bool) {
@@ -627,7 +705,7 @@ func (o *AnimationPlayer) Play(name gdnative.String, customBlend gdnative.Real, 
 }
 
 /*
-        Play the animation with key [code]name[/code] in reverse.
+        Play the animation with key [code]name[/code] in reverse. If the animation has been paused by [code]stop(true)[/code] it will be resumed backwards. Calling [code]play_backwards()[/code] without arguments will also resume the animation backwards.
 	Args: [{ true name String} {-1 true custom_blend float}], Returns: void
 */
 func (o *AnimationPlayer) PlayBackwards(name gdnative.String, customBlend gdnative.Real) {
@@ -713,7 +791,7 @@ func (o *AnimationPlayer) RenameAnimation(name gdnative.String, newname gdnative
 }
 
 /*
-        Seek the animation to the [code]seconds[/code] point in time (in seconds). If [code]update[/code] is [code]true[/code], the animation updates too, otherwise it updates at process time.
+        Seek the animation to the [code]seconds[/code] point in time (in seconds). If [code]update[/code] is [code]true[/code], the animation updates too, otherwise it updates at process time. Events between the current frame and [code]seconds[/code] are skipped.
 	Args: [{ false seconds float} {False true update bool}], Returns: void
 */
 func (o *AnimationPlayer) Seek(seconds gdnative.Real, update gdnative.Bool) {
@@ -885,6 +963,27 @@ func (o *AnimationPlayer) SetDefaultBlendTime(sec gdnative.Real) {
 
 /*
         Undocumented
+	Args: [{ false mode int}], Returns: void
+*/
+func (o *AnimationPlayer) SetMethodCallMode(mode gdnative.Int) {
+	//log.Println("Calling AnimationPlayer.SetMethodCallMode()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(mode)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("AnimationPlayer", "set_method_call_mode")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false path NodePath}], Returns: void
 */
 func (o *AnimationPlayer) SetRoot(path gdnative.NodePath) {
@@ -926,7 +1025,7 @@ func (o *AnimationPlayer) SetSpeedScale(speed gdnative.Real) {
 }
 
 /*
-        Stop the currently playing animation. If [code]reset[/code] is [code]true[/code], the anim position is reset to [code]0[/code].
+        Stop the currently playing animation. If [code]reset[/code] is [code]true[/code], the animation position is reset to [code]0[/code] and the playback speed is reset to [code]1.0[/code]. If [code]reset[/code] is [code]false[/code], then calling [code]play()[/code] without arguments or [code]play("same_as_before")[/code] will resume the animation. Works the same for the [code]play_backwards()[/code] method.
 	Args: [{True true reset bool}], Returns: void
 */
 func (o *AnimationPlayer) Stop(reset gdnative.Bool) {
@@ -951,7 +1050,7 @@ func (o *AnimationPlayer) Stop(reset gdnative.Bool) {
 type AnimationPlayerImplementer interface {
 	NodeImplementer
 	X_AnimationChanged()
-	X_NodeRemoved(arg0 ObjectImplementer)
+	X_NodeRemoved(arg0 NodeImplementer)
 	Advance(delta gdnative.Real)
 	AnimationGetNext(animFrom gdnative.String) gdnative.String
 	AnimationSetNext(animFrom gdnative.String, animTo gdnative.String)
@@ -967,6 +1066,8 @@ type AnimationPlayerImplementer interface {
 	GetCurrentAnimationLength() gdnative.Real
 	GetCurrentAnimationPosition() gdnative.Real
 	GetDefaultBlendTime() gdnative.Real
+	GetPlayingSpeed() gdnative.Real
+	GetQueue() gdnative.PoolStringArray
 	GetRoot() gdnative.NodePath
 	GetSpeedScale() gdnative.Real
 	HasAnimation(name gdnative.String) gdnative.Bool
@@ -985,6 +1086,7 @@ type AnimationPlayerImplementer interface {
 	SetBlendTime(animFrom gdnative.String, animTo gdnative.String, sec gdnative.Real)
 	SetCurrentAnimation(anim gdnative.String)
 	SetDefaultBlendTime(sec gdnative.Real)
+	SetMethodCallMode(mode gdnative.Int)
 	SetRoot(path gdnative.NodePath)
 	SetSpeedScale(speed gdnative.Real)
 	Stop(reset gdnative.Bool)

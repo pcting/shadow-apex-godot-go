@@ -688,10 +688,10 @@ func (o *Area) IsUsingReverbBus() gdnative.Bool {
 }
 
 /*
-        If [code]true[/code] the given area overlaps the Area. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
-	Args: [{ false area Object}], Returns: bool
+        If [code]true[/code], the given area overlaps the Area. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
+	Args: [{ false area Node}], Returns: bool
 */
-func (o *Area) OverlapsArea(area ObjectImplementer) gdnative.Bool {
+func (o *Area) OverlapsArea(area NodeImplementer) gdnative.Bool {
 	//log.Println("Calling Area.OverlapsArea()")
 
 	// Build out the method's arguments
@@ -712,10 +712,10 @@ func (o *Area) OverlapsArea(area ObjectImplementer) gdnative.Bool {
 }
 
 /*
-        If [code]true[/code] the given body overlaps the Area. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
-	Args: [{ false body Object}], Returns: bool
+        If [code]true[/code], the given body overlaps the Area. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
+	Args: [{ false body Node}], Returns: bool
 */
-func (o *Area) OverlapsBody(body ObjectImplementer) gdnative.Bool {
+func (o *Area) OverlapsBody(body NodeImplementer) gdnative.Bool {
 	//log.Println("Calling Area.OverlapsBody()")
 
 	// Build out the method's arguments
@@ -820,7 +820,7 @@ func (o *Area) SetCollisionLayer(collisionLayer gdnative.Int) {
 }
 
 /*
-        Set/clear individual bits on the layer mask. This simplifies editing this [code]Area[code]'s layers.
+        Set/clear individual bits on the layer mask. This simplifies editing this [code]Area[/code]'s layers.
 	Args: [{ false bit int} { false value bool}], Returns: void
 */
 func (o *Area) SetCollisionLayerBit(bit gdnative.Int, value gdnative.Bool) {
@@ -1188,8 +1188,8 @@ type AreaImplementer interface {
 	IsMonitoring() gdnative.Bool
 	IsOverridingAudioBus() gdnative.Bool
 	IsUsingReverbBus() gdnative.Bool
-	OverlapsArea(area ObjectImplementer) gdnative.Bool
-	OverlapsBody(body ObjectImplementer) gdnative.Bool
+	OverlapsArea(area NodeImplementer) gdnative.Bool
+	OverlapsBody(body NodeImplementer) gdnative.Bool
 	SetAngularDamp(angularDamp gdnative.Real)
 	SetAudioBus(name gdnative.String)
 	SetAudioBusOverride(enable gdnative.Bool)

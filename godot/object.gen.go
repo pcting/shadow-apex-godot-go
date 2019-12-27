@@ -17,9 +17,10 @@ import (
 type ObjectConnectFlags int
 
 const (
-	ObjectConnectDeferred ObjectConnectFlags = 1
-	ObjectConnectOneshot  ObjectConnectFlags = 4
-	ObjectConnectPersist  ObjectConnectFlags = 2
+	ObjectConnectDeferred         ObjectConnectFlags = 1
+	ObjectConnectOneshot          ObjectConnectFlags = 4
+	ObjectConnectPersist          ObjectConnectFlags = 2
+	ObjectConnectReferenceCounted ObjectConnectFlags = 8
 )
 
 //func NewObjectFromPointer(ptr gdnative.Pointer) Object {
@@ -32,7 +33,7 @@ func newObjectFromPointer(ptr gdnative.Pointer) Object {
 }
 
 /*
-Base class for all non built-in types. Everything not a built-in type starts the inheritance chain from this class. Objects do not manage memory, if inheriting from one the object will most likely have to be deleted manually (call the [method free] function from the script or delete from C++). Some derivatives add memory management, such as [Reference] (which keeps a reference count and deletes itself automatically when no longer referenced) and [Node], which deletes the children tree when deleted. Objects export properties, which are mainly useful for storage and editing, but not really so much in programming. Properties are exported in [method _get_property_list] and handled in [method _get] and [method _set]. However, scripting languages and C++ have simpler means to export them. Objects also receive notifications ([method _notification]). Notifications are a simple way to notify the object about simple events, so they can all be handled together.
+Every class which is not a built-in type inherits from this class. You can construct Objects from scripting languages, using [code]Object.new()[/code] in GDScript, [code]new Object[/code] in C#, or the "Construct Object" node in VisualScript. Objects do not manage memory. If a class inherits from Object, you will have to delete instances of it manually. To do so, call the [method free] method from your script or delete the instance from C++. Some classes that extend Object add memory management. This is the case of [Reference], which counts references and deletes itself automatically when no longer referenced. [Node], another fundamental type, deletes all its children when freed from memory. Objects export properties, which are mainly useful for storage and editing, but not really so much in programming. Properties are exported in [method _get_property_list] and handled in [method _get] and [method _set]. However, scripting languages and C++ have simpler means to export them. Objects also receive notifications. Notifications are a simple way to notify the object about different events, so they can all be handled together. See [method _notification].
 */
 type Object struct {
 	owner gdnative.Object
@@ -53,10 +54,10 @@ func (o *Object) GetBaseObject() gdnative.Object {
 }
 
 /*
-        Returns the given property. Returns [code]null[/code] if the [code]property[/code] does not exist.
-	Args: [{ false property String}], Returns: void
+        Virtual method which can be overridden to customize the return value of [method get]. Returns the given property. Returns [code]null[/code] if the [code]property[/code] does not exist.
+	Args: [{ false property String}], Returns: Variant
 */
-func (o *Object) X_Get(property gdnative.String) {
+func (o *Object) X_Get(property gdnative.String) gdnative.Variant {
 	//log.Println("Calling Object.X_Get()")
 
 	// Build out the method's arguments
@@ -67,14 +68,17 @@ func (o *Object) X_Get(property gdnative.String) {
 	methodBind := gdnative.NewMethodBind("Object", "_get")
 
 	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
+	// Variant
+	retPtr := gdnative.NewEmptyVariant()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVariantFromPointer(retPtr)
+	return ret
 }
 
 /*
-        Returns the object's property list as an [Array] of dictionaries. Dictionaries must contain: name:String, type:int (see TYPE_* enum in [@GlobalScope]) and optionally: hint:int (see PROPERTY_HINT_* in [@GlobalScope]), hint_string:String, usage:int (see PROPERTY_USAGE_* in [@GlobalScope]).
+        Virtual method which can be overridden to customize the return value of [method get_property_list]. Returns the object's property list as an [Array] of dictionaries. Each property's [Dictionary] must contain at least [code]name: String[/code] and [code]type: int[/code] (see [enum @GlobalScope.Variant.Type]) entries. Optionally, it can also include [code]hint: int[/code] (see [enum @GlobalScope.PropertyHint]), [code]hint_string: String[/code], and [code]usage: int[/code] (see [enum @GlobalScope.PropertyUsageFlags]).
 	Args: [], Returns: Array
 */
 func (o *Object) X_GetPropertyList() gdnative.Array {
@@ -97,7 +101,7 @@ func (o *Object) X_GetPropertyList() gdnative.Array {
 }
 
 /*
-        The virtual method called upon initialization.
+        Called when the object is initialized.
 	Args: [], Returns: void
 */
 func (o *Object) X_Init() {
@@ -117,7 +121,7 @@ func (o *Object) X_Init() {
 }
 
 /*
-        Notify the object internally using an ID.
+        Called whenever the object receives a notification, which is identified in [code]what[/code] by a constant. The base [Object] has two constants [constant NOTIFICATION_POSTINITIALIZE] and [constant NOTIFICATION_PREDELETE], but subclasses such as [Node] define a lot more notifications which are also received by this method.
 	Args: [{ false what int}], Returns: void
 */
 func (o *Object) X_Notification(what gdnative.Int) {
@@ -138,7 +142,7 @@ func (o *Object) X_Notification(what gdnative.Int) {
 }
 
 /*
-        Sets a property. Returns [code]true[/code] if the [code]property[/code] exists.
+        Virtual method which can be overridden to customize the return value of [method set]. Sets a property. Returns [code]true[/code] if the [code]property[/code] exists.
 	Args: [{ false property String} { false value Variant}], Returns: bool
 */
 func (o *Object) X_Set(property gdnative.String, value gdnative.Variant) gdnative.Bool {
@@ -163,7 +167,30 @@ func (o *Object) X_Set(property gdnative.String, value gdnative.Variant) gdnativ
 }
 
 /*
-        Adds a user-defined [code]signal[/code]. Arguments are optional, but can be added as an [Array] of dictionaries, each containing "name" and "type" (from [@GlobalScope] TYPE_*).
+        Undocumented
+	Args: [], Returns: String
+*/
+func (o *Object) X_ToString() gdnative.String {
+	//log.Println("Calling Object.X_ToString()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Object", "_to_string")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Adds a user-defined [code]signal[/code]. Arguments are optional, but can be added as an [Array] of dictionaries, each containing [code]name: String[/code] and [code]type: int[/code] (see [enum @GlobalScope.Variant.Type]) entries.
 	Args: [{ false signal String} {[] true arguments Array}], Returns: void
 */
 func (o *Object) AddUserSignal(signal gdnative.String, arguments gdnative.Array) {
@@ -185,7 +212,7 @@ func (o *Object) AddUserSignal(signal gdnative.String, arguments gdnative.Array)
 }
 
 /*
-        Calls the [code]method[/code] on the object and returns a result. Pass parameters as a comma separated list.
+        Calls the [code]method[/code] on the object and returns the result. This method supports a variable number of arguments, so parameters are passed as a comma separated list. Example: [codeblock] call("set", "position", Vector2(42.0, 0.0)) [/codeblock]
 	Args: [{ false method String}], Returns: Variant
 */
 func (o *Object) Call(method gdnative.String) gdnative.Variant {
@@ -209,7 +236,7 @@ func (o *Object) Call(method gdnative.String) gdnative.Variant {
 }
 
 /*
-        Calls the [code]method[/code] on the object during idle time and returns a result. Pass parameters as a comma separated list.
+        Calls the [code]method[/code] on the object during idle time and returns the result. This method supports a variable number of arguments, so parameters are passed as a comma separated list. Example: [codeblock] call_deferred("set", "position", Vector2(42.0, 0.0)) [/codeblock]
 	Args: [{ false method String}], Returns: Variant
 */
 func (o *Object) CallDeferred(method gdnative.String) gdnative.Variant {
@@ -233,7 +260,7 @@ func (o *Object) CallDeferred(method gdnative.String) gdnative.Variant {
 }
 
 /*
-        Calls the [code]method[/code] on the object and returns a result. Pass parameters as an [Array].
+        Calls the [code]method[/code] on the object and returns the result. Contrarily to [method call], this method does not support a variable number of arguments but expected all parameters passed via a single [Array]. [codeblock] callv("set", [ "position", Vector2(42.0, 0.0) ]) [/codeblock]
 	Args: [{ false method String} { false arg_array Array}], Returns: Variant
 */
 func (o *Object) Callv(method gdnative.String, argArray gdnative.Array) gdnative.Variant {
@@ -258,7 +285,7 @@ func (o *Object) Callv(method gdnative.String, argArray gdnative.Array) gdnative
 }
 
 /*
-        Returns [code]true[/code] if the object can translate strings.
+        Returns [code]true[/code] if the object can translate strings. See [method set_message_translation] and [method tr].
 	Args: [], Returns: bool
 */
 func (o *Object) CanTranslateMessages() gdnative.Bool {
@@ -281,7 +308,7 @@ func (o *Object) CanTranslateMessages() gdnative.Bool {
 }
 
 /*
-        Connects a [code]signal[/code] to a [code]method[/code] on a [code]target[/code] object. Pass optional [code]binds[/code] to the call. Use [code]flags[/code] to set deferred or one shot connections. See [code]CONNECT_*[/code] constants. A [code]signal[/code] can only be connected once to a [code]method[/code]. It will throw an error if already connected. To avoid this, first use [method is_connected] to check for existing connections.
+        Connects a [code]signal[/code] to a [code]method[/code] on a [code]target[/code] object. Pass optional [code]binds[/code] to the call as an [Array] of parameters. Use [code]flags[/code] to set deferred or one shot connections. See [enum ConnectFlags] constants. A [code]signal[/code] can only be connected once to a [code]method[/code]. It will throw an error if already connected, unless the signal was connected with [constant CONNECT_REFERENCE_COUNTED]. To avoid this, first, use [method is_connected] to check for existing connections. If the [code]target[/code] is destroyed in the game's lifecycle, the connection will be lost. Examples: [codeblock] connect("pressed", self, "_on_Button_pressed") # BaseButton signal connect("text_entered", self, "_on_LineEdit_text_entered") # LineEdit signal connect("hit", self, "_on_Player_hit", [ weapon_type, damage ]) # User-defined signal [/codeblock]
 	Args: [{ false signal String} { false target Object} { false method String} {[] true binds Array} {0 true flags int}], Returns: enum.Error
 */
 func (o *Object) Connect(signal gdnative.String, target ObjectImplementer, method gdnative.String, binds gdnative.Array, flags gdnative.Int) gdnative.Error {
@@ -309,7 +336,7 @@ func (o *Object) Connect(signal gdnative.String, target ObjectImplementer, metho
 }
 
 /*
-        Disconnects a [code]signal[/code] from a [code]method[/code] on the given [code]target[/code].
+        Disconnects a [code]signal[/code] from a [code]method[/code] on the given [code]target[/code]. If you try to disconnect a connection that does not exist, the method will throw an error. Use [method is_connected] to ensure that the connection exists.
 	Args: [{ false signal String} { false target Object} { false method String}], Returns: void
 */
 func (o *Object) Disconnect(signal gdnative.String, target ObjectImplementer, method gdnative.String) {
@@ -332,7 +359,7 @@ func (o *Object) Disconnect(signal gdnative.String, target ObjectImplementer, me
 }
 
 /*
-        Emits the given [code]signal[/code].
+        Emits the given [code]signal[/code]. The signal must exist, so it should be a built-in signal of this class or one of its parent classes, or a user-defined signal. This method supports a variable number of arguments, so parameters are passed as a comma separated list. Example: [codeblock] emit_signal("hit", weapon_type, damage) emit_signal("game_over") [/codeblock]
 	Args: [{ false signal String}], Returns: Variant
 */
 func (o *Object) EmitSignal(signal gdnative.String) gdnative.Variant {
@@ -356,7 +383,7 @@ func (o *Object) EmitSignal(signal gdnative.String) gdnative.Variant {
 }
 
 /*
-        Deletes the object from memory.
+        Deletes the object from memory. Any pre-existing reference to the freed object will now return [code]null[/code].
 	Args: [], Returns: void
 */
 func (o *Object) Free() {
@@ -376,7 +403,7 @@ func (o *Object) Free() {
 }
 
 /*
-        Returns a [Variant] for a [code]property[/code].
+        Returns the [Variant] value of the given [code]property[/code].
 	Args: [{ false property String}], Returns: Variant
 */
 func (o *Object) Get(property gdnative.String) gdnative.Variant {
@@ -423,7 +450,7 @@ func (o *Object) GetClass() gdnative.String {
 }
 
 /*
-        Returns an [Array] of dictionaries with information about signals that are connected to the object. Inside each [Dictionary] there are 3 fields: - "source" is a reference to signal emitter. - "signal_name" is name of connected signal. - "method_name" is a name of method to which signal is connected.
+        Returns an [Array] of dictionaries with information about signals that are connected to the object. Each [Dictionary] contains three String entries: - [code]source[/code] is a reference to the signal emitter. - [code]signal_name[/code] is the name of the connected signal. - [code]method_name[/code] is the name of the method to which the signal is connected.
 	Args: [], Returns: Array
 */
 func (o *Object) GetIncomingConnections() gdnative.Array {
@@ -446,7 +473,7 @@ func (o *Object) GetIncomingConnections() gdnative.Array {
 }
 
 /*
-
+        Get the object's property indexed by the given [NodePath]. The node path should be relative to the current object and can use the colon character ([code]:[/code]) to access nested properties. Examples: [code]"position:x"[/code] or [code]"material:next_pass:blend_mode"[/code].
 	Args: [{ false property NodePath}], Returns: Variant
 */
 func (o *Object) GetIndexed(property gdnative.NodePath) gdnative.Variant {
@@ -470,7 +497,7 @@ func (o *Object) GetIndexed(property gdnative.NodePath) gdnative.Variant {
 }
 
 /*
-        Returns the object's unique instance ID.
+        Returns the object's unique instance ID. This ID can be saved in [EncodedObjectAsID], and can be used to retrieve the object instance with [method @GDScript.instance_from_id].
 	Args: [], Returns: int
 */
 func (o *Object) GetInstanceId() gdnative.Int {
@@ -493,7 +520,7 @@ func (o *Object) GetInstanceId() gdnative.Int {
 }
 
 /*
-        Returns the object's metadata for the given [code]name[/code].
+        Returns the object's metadata entry for the given [code]name[/code].
 	Args: [{ false name String}], Returns: Variant
 */
 func (o *Object) GetMeta(name gdnative.String) gdnative.Variant {
@@ -563,7 +590,7 @@ func (o *Object) GetMethodList() gdnative.Array {
 }
 
 /*
-        Returns the list of properties as an [Array] of dictionaries. Dictionaries contain: name:String, type:int (see TYPE_* enum in [@GlobalScope]) and optionally: hint:int (see PROPERTY_HINT_* in [@GlobalScope]), hint_string:String, usage:int (see PROPERTY_USAGE_* in [@GlobalScope]).
+        Returns the object's property list as an [Array] of dictionaries. Each property's [Dictionary] contain at least [code]name: String[/code] and [code]type: int[/code] (see [enum @GlobalScope.Variant.Type]) entries. Optionally, it can also include [code]hint: int[/code] (see [enum @GlobalScope.PropertyHint]), [code]hint_string: String[/code], and [code]usage: int[/code] (see [enum @GlobalScope.PropertyUsageFlags]).
 	Args: [], Returns: Array
 */
 func (o *Object) GetPropertyList() gdnative.Array {
@@ -586,7 +613,7 @@ func (o *Object) GetPropertyList() gdnative.Array {
 }
 
 /*
-        Returns the object's [Script] or [code]null[/code] if one doesn't exist.
+        Returns the object's [Script] instance, or [code]null[/code] if none is assigned.
 	Args: [], Returns: Reference
 */
 func (o *Object) GetScript() ReferenceImplementer {
@@ -670,7 +697,7 @@ func (o *Object) GetSignalList() gdnative.Array {
 }
 
 /*
-        Returns [code]true[/code] if a metadata is found with the given [code]name[/code].
+        Returns [code]true[/code] if a metadata entry is found with the given [code]name[/code].
 	Args: [{ false name String}], Returns: bool
 */
 func (o *Object) HasMeta(name gdnative.String) gdnative.Bool {
@@ -765,15 +792,15 @@ func (o *Object) IsBlockingSignals() gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if the object inherits from the given [code]type[/code].
-	Args: [{ false type String}], Returns: bool
+        Returns [code]true[/code] if the object inherits from the given [code]class[/code].
+	Args: [{ false class String}], Returns: bool
 */
-func (o *Object) IsClass(aType gdnative.String) gdnative.Bool {
+func (o *Object) IsClass(class gdnative.String) gdnative.Bool {
 	//log.Println("Calling Object.IsClass()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromString(aType)
+	ptrArguments[0] = gdnative.NewPointerFromString(class)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Object", "is_class")
@@ -815,7 +842,7 @@ func (o *Object) IsConnected(signal gdnative.String, target ObjectImplementer, m
 }
 
 /*
-        Returns [code]true[/code] if the [code]queue_free[/code] method was called for the object.
+        Returns [code]true[/code] if the [method Node.queue_free] method was called for the object.
 	Args: [], Returns: bool
 */
 func (o *Object) IsQueuedForDeletion() gdnative.Bool {
@@ -838,7 +865,7 @@ func (o *Object) IsQueuedForDeletion() gdnative.Bool {
 }
 
 /*
-        Notify the object of something.
+        Send a given notification to the object, which will also trigger a call to the [method _notification] method of all classes that the object inherits from. If [code]reversed[/code] is [code]true[/code], [method _notification] is called first on the object's own class, and then up to its successive parent classes. If [code]reversed[/code] is [code]false[/code], [method _notification] is called first on the highest ancestor ([Object] itself), and then down to its successive inheriting classes.
 	Args: [{ false what int} {False true reversed bool}], Returns: void
 */
 func (o *Object) Notification(what gdnative.Int, reversed gdnative.Bool) {
@@ -860,7 +887,7 @@ func (o *Object) Notification(what gdnative.Int, reversed gdnative.Bool) {
 }
 
 /*
-
+        Notify the editor that the property list has changed, so that editor plugins can take the new values into account. Does nothing on export builds.
 	Args: [], Returns: void
 */
 func (o *Object) PropertyListChangedNotify() {
@@ -880,7 +907,28 @@ func (o *Object) PropertyListChangedNotify() {
 }
 
 /*
-        Set property into the object.
+        Undocumented
+	Args: [{ false name String}], Returns: void
+*/
+func (o *Object) RemoveMeta(name gdnative.String) {
+	//log.Println("Calling Object.RemoveMeta()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(name)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Object", "remove_meta")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Assigns a new value to the given property. If the [code]property[/code] does not exist, nothing will happen.
 	Args: [{ false property String} { false value Variant}], Returns: void
 */
 func (o *Object) Set(property gdnative.String, value gdnative.Variant) {
@@ -902,7 +950,7 @@ func (o *Object) Set(property gdnative.String, value gdnative.Variant) {
 }
 
 /*
-        If set to true, signal emission is blocked.
+        If set to [code]true[/code], signal emission is blocked.
 	Args: [{ false enable bool}], Returns: void
 */
 func (o *Object) SetBlockSignals(enable gdnative.Bool) {
@@ -923,7 +971,29 @@ func (o *Object) SetBlockSignals(enable gdnative.Bool) {
 }
 
 /*
+        Assigns a new value to the given property, after the current frame's physics step. This is equivalent to calling [method set] via [method call_deferred], i.e. [code]call_deferred("set", property, value)[/code].
+	Args: [{ false property String} { false value Variant}], Returns: void
+*/
+func (o *Object) SetDeferred(property gdnative.String, value gdnative.Variant) {
+	//log.Println("Calling Object.SetDeferred()")
 
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromString(property)
+	ptrArguments[1] = gdnative.NewPointerFromVariant(value)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Object", "set_deferred")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Assigns a new value to the property identified by the [NodePath]. The node path should be relative to the current object and can use the colon character ([code]:[/code]) to access nested properties. Example: [codeblock] set_indexed("position", Vector2(42, 0)) set_indexed("position:y", -10) print(position) # (42, -10) [/codeblock]
 	Args: [{ false property NodePath} { false value Variant}], Returns: void
 */
 func (o *Object) SetIndexed(property gdnative.NodePath, value gdnative.Variant) {
@@ -945,7 +1015,7 @@ func (o *Object) SetIndexed(property gdnative.NodePath, value gdnative.Variant) 
 }
 
 /*
-        Define whether the object can translate strings (with calls to [method tr]). Default is true.
+        Defines whether the object can translate strings (with calls to [method tr]). Default is [code]true[/code].
 	Args: [{ false enable bool}], Returns: void
 */
 func (o *Object) SetMessageTranslation(enable gdnative.Bool) {
@@ -966,7 +1036,7 @@ func (o *Object) SetMessageTranslation(enable gdnative.Bool) {
 }
 
 /*
-        Set a metadata into the object. Metadata is serialized. Metadata can be [i]anything[/i].
+        Adds or changes a given entry in the object's metadata. Metadata are serialized, and can take any [Variant] value.
 	Args: [{ false name String} { false value Variant}], Returns: void
 */
 func (o *Object) SetMeta(name gdnative.String, value gdnative.Variant) {
@@ -988,7 +1058,7 @@ func (o *Object) SetMeta(name gdnative.String, value gdnative.Variant) {
 }
 
 /*
-        Set a script into the object, scripts extend the object functionality.
+        Assigns a script to the object. Each object can have a single script assigned to it, which are used to extend its functionality.
 	Args: [{ false script Reference}], Returns: void
 */
 func (o *Object) SetScript(script ReferenceImplementer) {
@@ -1009,7 +1079,30 @@ func (o *Object) SetScript(script ReferenceImplementer) {
 }
 
 /*
-        Translate a message. Only works if message translation is enabled (which it is by default). See [method set_message_translation].
+        Undocumented
+	Args: [], Returns: String
+*/
+func (o *Object) ToString() gdnative.String {
+	//log.Println("Calling Object.ToString()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Object", "to_string")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Translates a message using translation catalogs configured in the Project Settings. Only works if message translation is enabled (which it is by default), otherwise it returns the [code]message[/code] unchanged. See [method set_message_translation].
 	Args: [{ false message String}], Returns: String
 */
 func (o *Object) Tr(message gdnative.String) gdnative.String {
@@ -1036,11 +1129,12 @@ func (o *Object) Tr(message gdnative.String) gdnative.String {
 // of the Object class.
 type ObjectImplementer interface {
 	Class
-	X_Get(property gdnative.String)
+	X_Get(property gdnative.String) gdnative.Variant
 	X_GetPropertyList() gdnative.Array
 	X_Init()
 	X_Notification(what gdnative.Int)
 	X_Set(property gdnative.String, value gdnative.Variant) gdnative.Bool
+	X_ToString() gdnative.String
 	AddUserSignal(signal gdnative.String, arguments gdnative.Array)
 	Call(method gdnative.String) gdnative.Variant
 	CallDeferred(method gdnative.String) gdnative.Variant
@@ -1065,16 +1159,19 @@ type ObjectImplementer interface {
 	HasMethod(method gdnative.String) gdnative.Bool
 	HasUserSignal(signal gdnative.String) gdnative.Bool
 	IsBlockingSignals() gdnative.Bool
-	IsClass(aType gdnative.String) gdnative.Bool
+	IsClass(class gdnative.String) gdnative.Bool
 	IsConnected(signal gdnative.String, target ObjectImplementer, method gdnative.String) gdnative.Bool
 	IsQueuedForDeletion() gdnative.Bool
 	Notification(what gdnative.Int, reversed gdnative.Bool)
 	PropertyListChangedNotify()
+	RemoveMeta(name gdnative.String)
 	Set(property gdnative.String, value gdnative.Variant)
 	SetBlockSignals(enable gdnative.Bool)
+	SetDeferred(property gdnative.String, value gdnative.Variant)
 	SetIndexed(property gdnative.NodePath, value gdnative.Variant)
 	SetMessageTranslation(enable gdnative.Bool)
 	SetMeta(name gdnative.String, value gdnative.Variant)
 	SetScript(script ReferenceImplementer)
+	ToString() gdnative.String
 	Tr(message gdnative.String) gdnative.String
 }

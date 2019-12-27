@@ -103,7 +103,29 @@ func (o *inputMap) ActionEraseEvent(action gdnative.String, event InputEventImpl
 }
 
 /*
-        Returns [true] if an action has an [InputEvent] associated with it.
+        Removes all events from an action.
+	Args: [{ false action String}], Returns: void
+*/
+func (o *inputMap) ActionEraseEvents(action gdnative.String) {
+	o.ensureSingleton()
+	//log.Println("Calling InputMap.ActionEraseEvents()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(action)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("InputMap", "action_erase_events")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Returns [code]true[/code] if the action has the given [InputEvent] associated with it.
 	Args: [{ false action String} { false event InputEvent}], Returns: bool
 */
 func (o *inputMap) ActionHasEvent(action gdnative.String, event InputEventImplementer) gdnative.Bool {
@@ -129,16 +151,40 @@ func (o *inputMap) ActionHasEvent(action gdnative.String, event InputEventImplem
 }
 
 /*
-        Adds an (empty) action to the [code]InputMap[/code]. An [InputEvent] can then be added to this action with [method action_add_event].
-	Args: [{ false action String}], Returns: void
+
+	Args: [{ false action String} { false deadzone float}], Returns: void
 */
-func (o *inputMap) AddAction(action gdnative.String) {
+func (o *inputMap) ActionSetDeadzone(action gdnative.String, deadzone gdnative.Real) {
+	o.ensureSingleton()
+	//log.Println("Calling InputMap.ActionSetDeadzone()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromString(action)
+	ptrArguments[1] = gdnative.NewPointerFromReal(deadzone)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("InputMap", "action_set_deadzone")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Adds an empty action to the [code]InputMap[/code] with a configurable [code]deadzone[/code]. An [InputEvent] can then be added to this action with [method action_add_event].
+	Args: [{ false action String} {0.5 true deadzone float}], Returns: void
+*/
+func (o *inputMap) AddAction(action gdnative.String, deadzone gdnative.Real) {
 	o.ensureSingleton()
 	//log.Println("Calling InputMap.AddAction()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromString(action)
+	ptrArguments[1] = gdnative.NewPointerFromReal(deadzone)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("InputMap", "add_action")
@@ -173,7 +219,7 @@ func (o *inputMap) EraseAction(action gdnative.String) {
 }
 
 /*
-        Returns [true] if the given event is part of an existing action. This method ignores keyboard modifiers if the given [InputEvent] is not pressed (for proper release detection). See [method action_has_event] if you don't want this behavior.
+        Returns [code]true[/code] if the given event is part of an existing action. This method ignores keyboard modifiers if the given [InputEvent] is not pressed (for proper release detection). See [method action_has_event] if you don't want this behavior.
 	Args: [{ false event InputEvent} { false action String}], Returns: bool
 */
 func (o *inputMap) EventIsAction(event InputEventImplementer, action gdnative.String) gdnative.Bool {
@@ -299,8 +345,10 @@ type InputMapImplementer interface {
 	ObjectImplementer
 	ActionAddEvent(action gdnative.String, event InputEventImplementer)
 	ActionEraseEvent(action gdnative.String, event InputEventImplementer)
+	ActionEraseEvents(action gdnative.String)
 	ActionHasEvent(action gdnative.String, event InputEventImplementer) gdnative.Bool
-	AddAction(action gdnative.String)
+	ActionSetDeadzone(action gdnative.String, deadzone gdnative.Real)
+	AddAction(action gdnative.String, deadzone gdnative.Real)
 	EraseAction(action gdnative.String)
 	EventIsAction(event InputEventImplementer, action gdnative.String) gdnative.Bool
 	GetActionList(action gdnative.String) gdnative.Array

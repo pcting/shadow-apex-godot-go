@@ -10,8 +10,9 @@ package gdnative
 //----------------------------------------------------------------------------*/
 
 /*
+#cgo LDFLAGS: -I../godot_headers
 #include "gdnative.gen.h"
-#include <arvr/godot_arvr.h>
+#include <godot_headers/arvr/godot_arvr.h>
 // Include all headers for now. TODO: Look up all the required
 // headers we need to import based on the method arguments and return types.
 #include <gdnative/aabb.h>
@@ -61,6 +62,8 @@ func NewArvrInterfaceGdnativeFromPointer(ptr Pointer) ArvrInterfaceGdnative {
 
 type ArvrInterfaceGdnative struct {
 	base *C.godot_arvr_interface_gdnative
+
+	Version GdnativeApiVersion
 }
 
 func (gdt ArvrInterfaceGdnative) getBase() *C.godot_arvr_interface_gdnative {

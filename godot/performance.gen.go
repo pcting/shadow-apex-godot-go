@@ -17,31 +17,33 @@ import (
 type PerformanceMonitor int
 
 const (
+	PerformanceAudioOutputLatency           PerformanceMonitor = 28
 	PerformanceMemoryDynamic                PerformanceMonitor = 4
 	PerformanceMemoryDynamicMax             PerformanceMonitor = 6
 	PerformanceMemoryMessageBufferMax       PerformanceMonitor = 7
 	PerformanceMemoryStatic                 PerformanceMonitor = 3
 	PerformanceMemoryStaticMax              PerformanceMonitor = 5
-	PerformanceMonitorMax                   PerformanceMonitor = 27
+	PerformanceMonitorMax                   PerformanceMonitor = 29
 	PerformanceObjectCount                  PerformanceMonitor = 8
 	PerformanceObjectNodeCount              PerformanceMonitor = 10
+	PerformanceObjectOrphanNodeCount        PerformanceMonitor = 11
 	PerformanceObjectResourceCount          PerformanceMonitor = 9
-	PerformancePhysics2DActiveObjects       PerformanceMonitor = 21
-	PerformancePhysics2DCollisionPairs      PerformanceMonitor = 22
-	PerformancePhysics2DIslandCount         PerformanceMonitor = 23
-	PerformancePhysics3DActiveObjects       PerformanceMonitor = 24
-	PerformancePhysics3DCollisionPairs      PerformanceMonitor = 25
-	PerformancePhysics3DIslandCount         PerformanceMonitor = 26
-	PerformanceRenderDrawCallsInFrame       PerformanceMonitor = 16
-	PerformanceRenderMaterialChangesInFrame PerformanceMonitor = 13
-	PerformanceRenderObjectsInFrame         PerformanceMonitor = 11
-	PerformanceRenderShaderChangesInFrame   PerformanceMonitor = 14
-	PerformanceRenderSurfaceChangesInFrame  PerformanceMonitor = 15
-	PerformanceRenderTextureMemUsed         PerformanceMonitor = 18
-	PerformanceRenderUsageVideoMemTotal     PerformanceMonitor = 20
-	PerformanceRenderVertexMemUsed          PerformanceMonitor = 19
-	PerformanceRenderVerticesInFrame        PerformanceMonitor = 12
-	PerformanceRenderVideoMemUsed           PerformanceMonitor = 17
+	PerformancePhysics2DActiveObjects       PerformanceMonitor = 22
+	PerformancePhysics2DCollisionPairs      PerformanceMonitor = 23
+	PerformancePhysics2DIslandCount         PerformanceMonitor = 24
+	PerformancePhysics3DActiveObjects       PerformanceMonitor = 25
+	PerformancePhysics3DCollisionPairs      PerformanceMonitor = 26
+	PerformancePhysics3DIslandCount         PerformanceMonitor = 27
+	PerformanceRenderDrawCallsInFrame       PerformanceMonitor = 17
+	PerformanceRenderMaterialChangesInFrame PerformanceMonitor = 14
+	PerformanceRenderObjectsInFrame         PerformanceMonitor = 12
+	PerformanceRenderShaderChangesInFrame   PerformanceMonitor = 15
+	PerformanceRenderSurfaceChangesInFrame  PerformanceMonitor = 16
+	PerformanceRenderTextureMemUsed         PerformanceMonitor = 19
+	PerformanceRenderUsageVideoMemTotal     PerformanceMonitor = 21
+	PerformanceRenderVertexMemUsed          PerformanceMonitor = 20
+	PerformanceRenderVerticesInFrame        PerformanceMonitor = 13
+	PerformanceRenderVideoMemUsed           PerformanceMonitor = 18
 	PerformanceTimeFps                      PerformanceMonitor = 0
 	PerformanceTimePhysicsProcess           PerformanceMonitor = 2
 	PerformanceTimeProcess                  PerformanceMonitor = 1
@@ -91,7 +93,7 @@ func (o *performance) BaseClass() string {
 }
 
 /*
-        Returns the value of one of the available monitors. You should provide one of this class's constants as the argument, like this: [codeblock] print(Performance.get_monitor(Performance.TIME_FPS)) # Prints the FPS to the console [/codeblock]
+        Returns the value of one of the available monitors. You should provide one of the [enum Monitor] constants as the argument, like this: [codeblock] print(Performance.get_monitor(Performance.TIME_FPS)) # Prints the FPS to the console [/codeblock]
 	Args: [{ false monitor int}], Returns: float
 */
 func (o *performance) GetMonitor(monitor gdnative.Int) gdnative.Real {

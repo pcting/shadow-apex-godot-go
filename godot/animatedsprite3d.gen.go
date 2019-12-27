@@ -182,7 +182,7 @@ func (o *AnimatedSprite3D) GetSpriteFrames() SpriteFramesImplementer {
 }
 
 /*
-        Return true if an animation if currently being played.
+        Returns [code]true[/code] if an animation if currently being played.
 	Args: [], Returns: bool
 */
 func (o *AnimatedSprite3D) IsPlaying() gdnative.Bool {

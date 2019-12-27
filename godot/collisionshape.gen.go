@@ -23,7 +23,7 @@ func newCollisionShapeFromPointer(ptr gdnative.Pointer) CollisionShape {
 }
 
 /*
-Editor facility for creating and editing collision shapes in 3D space. You can use this node to represent all sorts of collision shapes, for example, add this to an [Area] to give it a detection shape, or add it to a [PhysicsBody] to give create solid object. [b]IMPORTANT[/b]: this is an Editor-only helper to create shapes, use [method get_shape] to get the actual shape.
+Editor facility for creating and editing collision shapes in 3D space. You can use this node to represent all sorts of collision shapes, for example, add this to an [Area] to give it a detection shape, or add it to a [PhysicsBody] to create a solid object. [b]IMPORTANT[/b]: this is an Editor-only helper to create shapes, use [method CollisionObject.shape_owner_get_shape] to get the actual shape.
 */
 type CollisionShape struct {
 	Spatial
@@ -32,6 +32,46 @@ type CollisionShape struct {
 
 func (o *CollisionShape) BaseClass() string {
 	return "CollisionShape"
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *CollisionShape) X_ShapeChanged() {
+	//log.Println("Calling CollisionShape.X_ShapeChanged()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CollisionShape", "_shape_changed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *CollisionShape) X_UpdateDebugShape() {
+	//log.Println("Calling CollisionShape.X_UpdateDebugShape()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CollisionShape", "_update_debug_shape")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
 }
 
 /*
@@ -181,6 +221,8 @@ func (o *CollisionShape) SetShape(shape ShapeImplementer) {
 // of the CollisionShape class.
 type CollisionShapeImplementer interface {
 	SpatialImplementer
+	X_ShapeChanged()
+	X_UpdateDebugShape()
 	GetShape() ShapeImplementer
 	IsDisabled() gdnative.Bool
 	MakeConvexFromBrothers()

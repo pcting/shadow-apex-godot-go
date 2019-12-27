@@ -542,7 +542,7 @@ godot_rect2 go_godot_transform2d_xform_inv_rect2(godot_gdnative_core_api_struct 
 godot_variant_type go_godot_variant_get_type(godot_gdnative_core_api_struct * p_api, const godot_variant * p_v);
 void go_godot_variant_new_copy(godot_gdnative_core_api_struct * p_api, godot_variant * r_dest, const godot_variant * p_src);
 void go_godot_variant_new_nil(godot_gdnative_core_api_struct * p_api, godot_variant * r_dest);
-void go_godot_variant_new_bool(godot_gdnative_core_api_struct * p_api, godot_variant * p_v, const godot_bool p_b);
+void go_godot_variant_new_bool(godot_gdnative_core_api_struct * p_api, godot_variant * r_dest, const godot_bool p_b);
 void go_godot_variant_new_uint(godot_gdnative_core_api_struct * p_api, godot_variant * r_dest, const uint64_t p_i);
 void go_godot_variant_new_int(godot_gdnative_core_api_struct * p_api, godot_variant * r_dest, const int64_t p_i);
 void go_godot_variant_new_real(godot_gdnative_core_api_struct * p_api, godot_variant * r_dest, const double p_r);
@@ -609,7 +609,7 @@ void go_godot_char_string_destroy(godot_gdnative_core_api_struct * p_api, godot_
 void go_godot_string_new(godot_gdnative_core_api_struct * p_api, godot_string * r_dest);
 void go_godot_string_new_copy(godot_gdnative_core_api_struct * p_api, godot_string * r_dest, const godot_string * p_src);
 void go_godot_string_new_with_wide_string(godot_gdnative_core_api_struct * p_api, godot_string * r_dest, const wchar_t * p_contents, const int p_size);
-wchar_t * go_godot_string_operator_index(godot_gdnative_core_api_struct * p_api, godot_string * p_self, const godot_int p_idx);
+const wchar_t * go_godot_string_operator_index(godot_gdnative_core_api_struct * p_api, godot_string * p_self, const godot_int p_idx);
 wchar_t go_godot_string_operator_index_const(godot_gdnative_core_api_struct * p_api, const godot_string * p_self, const godot_int p_idx);
 const wchar_t * go_godot_string_wide_str(godot_gdnative_core_api_struct * p_api, const godot_string * p_self);
 godot_bool go_godot_string_operator_equal(godot_gdnative_core_api_struct * p_api, const godot_string * p_self, const godot_string * p_b);

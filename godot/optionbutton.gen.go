@@ -36,6 +36,27 @@ func (o *OptionButton) BaseClass() string {
 
 /*
         Undocumented
+	Args: [{ false arg0 int}], Returns: void
+*/
+func (o *OptionButton) X_Focused(arg0 gdnative.Int) {
+	//log.Println("Calling OptionButton.X_Focused()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("OptionButton", "_focused")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [], Returns: Array
 */
 func (o *OptionButton) X_GetItems() gdnative.Array {
@@ -122,7 +143,7 @@ func (o *OptionButton) X_SetItems(arg0 gdnative.Array) {
 
 /*
         Add an item, with a "texture" icon, text "label" and (optionally) id. If no "id" is passed, "id" becomes the item index. New items are appended at the end.
-	Args: [{ false texture Texture} { false label String} { false id int}], Returns: void
+	Args: [{ false texture Texture} { false label String} {-1 true id int}], Returns: void
 */
 func (o *OptionButton) AddIconItem(texture TextureImplementer, label gdnative.String, id gdnative.Int) {
 	//log.Println("Calling OptionButton.AddIconItem()")
@@ -206,7 +227,7 @@ func (o *OptionButton) Clear() {
 }
 
 /*
-        Return the amount of items in the OptionButton.
+        Returns the amount of items in the OptionButton.
 	Args: [], Returns: int
 */
 func (o *OptionButton) GetItemCount() gdnative.Int {
@@ -229,7 +250,7 @@ func (o *OptionButton) GetItemCount() gdnative.Int {
 }
 
 /*
-        Return the icon of the item at index "idx".
+        Returns the icon of the item at index "idx".
 	Args: [{ false idx int}], Returns: Texture
 */
 func (o *OptionButton) GetItemIcon(idx gdnative.Int) TextureImplementer {
@@ -267,7 +288,7 @@ func (o *OptionButton) GetItemIcon(idx gdnative.Int) TextureImplementer {
 }
 
 /*
-        Return the ID of the item at index "idx".
+        Returns the ID of the item at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: int
 */
 func (o *OptionButton) GetItemId(idx gdnative.Int) gdnative.Int {
@@ -279,6 +300,30 @@ func (o *OptionButton) GetItemId(idx gdnative.Int) gdnative.Int {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("OptionButton", "get_item_id")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the index of the item with the given [code]id[/code].
+	Args: [{ false id int}], Returns: int
+*/
+func (o *OptionButton) GetItemIndex(id gdnative.Int) gdnative.Int {
+	//log.Println("Calling OptionButton.GetItemIndex()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(id)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("OptionButton", "get_item_index")
 
 	// Call the parent method.
 	// int
@@ -315,7 +360,7 @@ func (o *OptionButton) GetItemMetadata(idx gdnative.Int) gdnative.Variant {
 }
 
 /*
-        Return the text of the item at index "idx".
+        Returns the text of the item at index "idx".
 	Args: [{ false idx int}], Returns: String
 */
 func (o *OptionButton) GetItemText(idx gdnative.Int) gdnative.String {
@@ -339,7 +384,7 @@ func (o *OptionButton) GetItemText(idx gdnative.Int) gdnative.String {
 }
 
 /*
-        Return the [PopupMenu] contained in this button.
+        Returns the [PopupMenu] contained in this button.
 	Args: [], Returns: PopupMenu
 */
 func (o *OptionButton) GetPopup() PopupMenuImplementer {
@@ -624,6 +669,7 @@ func (o *OptionButton) SetItemText(idx gdnative.Int, text gdnative.String) {
 // of the OptionButton class.
 type OptionButtonImplementer interface {
 	ButtonImplementer
+	X_Focused(arg0 gdnative.Int)
 	X_GetItems() gdnative.Array
 	X_SelectInt(arg0 gdnative.Int)
 	X_Selected(arg0 gdnative.Int)
@@ -635,6 +681,7 @@ type OptionButtonImplementer interface {
 	GetItemCount() gdnative.Int
 	GetItemIcon(idx gdnative.Int) TextureImplementer
 	GetItemId(idx gdnative.Int) gdnative.Int
+	GetItemIndex(id gdnative.Int) gdnative.Int
 	GetItemMetadata(idx gdnative.Int) gdnative.Variant
 	GetItemText(idx gdnative.Int) gdnative.String
 	GetPopup() PopupMenuImplementer

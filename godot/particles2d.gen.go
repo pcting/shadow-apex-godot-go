@@ -43,7 +43,7 @@ func (o *Particles2D) BaseClass() string {
 }
 
 /*
-
+        Returns a rectangle containing the positions of all existing particles.
 	Args: [], Returns: Rect2
 */
 func (o *Particles2D) CaptureRect() gdnative.Rect2 {
@@ -177,29 +177,6 @@ func (o *Particles2D) GetFractionalDelta() gdnative.Bool {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewBoolFromPointer(retPtr)
-	return ret
-}
-
-/*
-        Undocumented
-	Args: [], Returns: int
-*/
-func (o *Particles2D) GetHFrames() gdnative.Int {
-	//log.Println("Calling Particles2D.GetHFrames()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("Particles2D", "get_h_frames")
-
-	// Call the parent method.
-	// int
-	retPtr := gdnative.NewEmptyInt()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
 }
 
@@ -454,29 +431,6 @@ func (o *Particles2D) GetUseLocalCoordinates() gdnative.Bool {
 
 /*
         Undocumented
-	Args: [], Returns: int
-*/
-func (o *Particles2D) GetVFrames() gdnative.Int {
-	//log.Println("Calling Particles2D.GetVFrames()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("Particles2D", "get_v_frames")
-
-	// Call the parent method.
-	// int
-	retPtr := gdnative.NewEmptyInt()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := gdnative.NewIntFromPointer(retPtr)
-	return ret
-}
-
-/*
-        Undocumented
 	Args: [], Returns: Rect2
 */
 func (o *Particles2D) GetVisibilityRect() gdnative.Rect2 {
@@ -522,7 +476,7 @@ func (o *Particles2D) IsEmitting() gdnative.Bool {
 }
 
 /*
-
+        Restarts all the existing particles.
 	Args: [], Returns: void
 */
 func (o *Particles2D) Restart() {
@@ -659,27 +613,6 @@ func (o *Particles2D) SetFractionalDelta(enable gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Particles2D", "set_fractional_delta")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-        Undocumented
-	Args: [{ false frames int}], Returns: void
-*/
-func (o *Particles2D) SetHFrames(frames gdnative.Int) {
-	//log.Println("Calling Particles2D.SetHFrames()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(frames)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("Particles2D", "set_h_frames")
 
 	// Call the parent method.
 	// void
@@ -879,35 +812,14 @@ func (o *Particles2D) SetUseLocalCoordinates(enable gdnative.Bool) {
 
 /*
         Undocumented
-	Args: [{ false frames int}], Returns: void
+	Args: [{ false visibility_rect Rect2}], Returns: void
 */
-func (o *Particles2D) SetVFrames(frames gdnative.Int) {
-	//log.Println("Calling Particles2D.SetVFrames()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromInt(frames)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("Particles2D", "set_v_frames")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-        Undocumented
-	Args: [{ false aabb Rect2}], Returns: void
-*/
-func (o *Particles2D) SetVisibilityRect(aabb gdnative.Rect2) {
+func (o *Particles2D) SetVisibilityRect(visibilityRect gdnative.Rect2) {
 	//log.Println("Calling Particles2D.SetVisibilityRect()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromRect2(aabb)
+	ptrArguments[0] = gdnative.NewPointerFromRect2(visibilityRect)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Particles2D", "set_visibility_rect")
@@ -928,7 +840,6 @@ type Particles2DImplementer interface {
 	GetExplosivenessRatio() gdnative.Real
 	GetFixedFps() gdnative.Int
 	GetFractionalDelta() gdnative.Bool
-	GetHFrames() gdnative.Int
 	GetLifetime() gdnative.Real
 	GetNormalMap() TextureImplementer
 	GetOneShot() gdnative.Bool
@@ -938,7 +849,6 @@ type Particles2DImplementer interface {
 	GetSpeedScale() gdnative.Real
 	GetTexture() TextureImplementer
 	GetUseLocalCoordinates() gdnative.Bool
-	GetVFrames() gdnative.Int
 	GetVisibilityRect() gdnative.Rect2
 	IsEmitting() gdnative.Bool
 	Restart()
@@ -948,7 +858,6 @@ type Particles2DImplementer interface {
 	SetExplosivenessRatio(ratio gdnative.Real)
 	SetFixedFps(fps gdnative.Int)
 	SetFractionalDelta(enable gdnative.Bool)
-	SetHFrames(frames gdnative.Int)
 	SetLifetime(secs gdnative.Real)
 	SetNormalMap(texture TextureImplementer)
 	SetOneShot(secs gdnative.Bool)
@@ -958,6 +867,5 @@ type Particles2DImplementer interface {
 	SetSpeedScale(scale gdnative.Real)
 	SetTexture(texture TextureImplementer)
 	SetUseLocalCoordinates(enable gdnative.Bool)
-	SetVFrames(frames gdnative.Int)
-	SetVisibilityRect(aabb gdnative.Rect2)
+	SetVisibilityRect(visibilityRect gdnative.Rect2)
 }

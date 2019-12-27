@@ -23,7 +23,7 @@ func newResourceInteractiveLoaderFromPointer(ptr gdnative.Pointer) ResourceInter
 }
 
 /*
-Interactive Resource Loader. This object is returned by ResourceLoader when performing an interactive load. It allows to load with high granularity, so this is mainly useful for displaying load bars/percentages.
+Interactive [Resource] loader. This object is returned by [ResourceLoader] when performing an interactive load. It allows to load with high granularity, so this is mainly useful for displaying loading bars/percentages.
 */
 type ResourceInteractiveLoader struct {
 	Reference
@@ -35,7 +35,7 @@ func (o *ResourceInteractiveLoader) BaseClass() string {
 }
 
 /*
-        Return the loaded resource (only if loaded). Otherwise, returns null.
+        Returns the loaded resource if the load operation completed successfully, [code]null[/code] otherwise.
 	Args: [], Returns: Resource
 */
 func (o *ResourceInteractiveLoader) GetResource() ResourceImplementer {
@@ -72,7 +72,7 @@ func (o *ResourceInteractiveLoader) GetResource() ResourceImplementer {
 }
 
 /*
-        Return the load stage. The total amount of stages can be queried with [method get_stage_count]
+        Returns the load stage. The total amount of stages can be queried with [method get_stage_count].
 	Args: [], Returns: int
 */
 func (o *ResourceInteractiveLoader) GetStage() gdnative.Int {
@@ -95,7 +95,7 @@ func (o *ResourceInteractiveLoader) GetStage() gdnative.Int {
 }
 
 /*
-        Return the total amount of stages (calls to [method poll]) needed to completely load this resource.
+        Returns the total amount of stages (calls to [method poll]) needed to completely load this resource.
 	Args: [], Returns: int
 */
 func (o *ResourceInteractiveLoader) GetStageCount() gdnative.Int {
@@ -118,7 +118,7 @@ func (o *ResourceInteractiveLoader) GetStageCount() gdnative.Int {
 }
 
 /*
-        Poll the load. If OK is returned, this means poll will have to be called again. If ERR_FILE_EOF is returned, them the load has finished and the resource can be obtained by calling [method get_resource].
+        Polls the loading operation, i.e. loads a data chunk up to the next stage. Returns [constant @GlobalScope.OK] if the poll is successful but the load operation has not finished yet (intermediate stage). This means [method poll] will have to be called again until the last stage is completed. Returns [constant @GlobalScope.ERR_FILE_EOF] if the load operation has completed successfully. The loaded resource can be obtained by calling [method get_resource]. Returns another [enum @GlobalScope.Error] code if the poll has failed.
 	Args: [], Returns: enum.Error
 */
 func (o *ResourceInteractiveLoader) Poll() gdnative.Error {
@@ -141,7 +141,7 @@ func (o *ResourceInteractiveLoader) Poll() gdnative.Error {
 }
 
 /*
-
+        Polls the loading operation successively until the resource is completely loaded or a [method poll] fails. Returns [constant @GlobalScope.ERR_FILE_EOF] if the load operation has completed successfully. The loaded resource can be obtained by calling [method get_resource]. Returns another [enum @GlobalScope.Error] code if a poll has failed, aborting the operation.
 	Args: [], Returns: enum.Error
 */
 func (o *ResourceInteractiveLoader) Wait() gdnative.Error {

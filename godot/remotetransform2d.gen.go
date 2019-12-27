@@ -23,7 +23,7 @@ func newRemoteTransform2DFromPointer(ptr gdnative.Pointer) RemoteTransform2D {
 }
 
 /*
-RemoteTransform2D leads the [Transform2D] of another [CanvasItem] derived Node (called the remote node) in the scene. It can be set to track another Node's position, rotation and/or scale. It can update using either global or local coordinates.
+RemoteTransform2D pushes its own [Transform2D] to another [CanvasItem] derived Node (called the remote node) in the scene. It can be set to update another Node's position, rotation and/or scale. It can use either global or local coordinates.
 */
 type RemoteTransform2D struct {
 	Node2D
@@ -32,6 +32,26 @@ type RemoteTransform2D struct {
 
 func (o *RemoteTransform2D) BaseClass() string {
 	return "RemoteTransform2D"
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *RemoteTransform2D) ForceUpdateCache() {
+	//log.Println("Calling RemoteTransform2D.ForceUpdateCache()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("RemoteTransform2D", "force_update_cache")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
 }
 
 /*
@@ -258,6 +278,7 @@ func (o *RemoteTransform2D) SetUseGlobalCoordinates(useGlobalCoordinates gdnativ
 // of the RemoteTransform2D class.
 type RemoteTransform2DImplementer interface {
 	Node2DImplementer
+	ForceUpdateCache()
 	GetRemoteNode() gdnative.NodePath
 	GetUpdatePosition() gdnative.Bool
 	GetUpdateRotation() gdnative.Bool

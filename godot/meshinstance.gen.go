@@ -175,6 +175,43 @@ func (o *MeshInstance) GetSkeletonPath() gdnative.NodePath {
 }
 
 /*
+        Undocumented
+	Args: [], Returns: Skin
+*/
+func (o *MeshInstance) GetSkin() SkinImplementer {
+	//log.Println("Calling MeshInstance.GetSkin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MeshInstance", "get_skin")
+
+	// Call the parent method.
+	// Skin
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newSkinFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(SkinImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Skin" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(SkinImplementer)
+	}
+
+	return &ret
+}
+
+/*
         Returns the [Material] for a surface of the [Mesh] resource.
 	Args: [{ false surface int}], Returns: Material
 */
@@ -210,6 +247,29 @@ func (o *MeshInstance) GetSurfaceMaterial(surface gdnative.Int) MaterialImplemen
 	}
 
 	return &ret
+}
+
+/*
+        Returns the number of surface materials.
+	Args: [], Returns: int
+*/
+func (o *MeshInstance) GetSurfaceMaterialCount() gdnative.Int {
+	//log.Println("Calling MeshInstance.GetSurfaceMaterialCount()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MeshInstance", "get_surface_material_count")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -255,6 +315,27 @@ func (o *MeshInstance) SetSkeletonPath(skeletonPath gdnative.NodePath) {
 }
 
 /*
+        Undocumented
+	Args: [{ false skin Skin}], Returns: void
+*/
+func (o *MeshInstance) SetSkin(skin SkinImplementer) {
+	//log.Println("Calling MeshInstance.SetSkin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(skin.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("MeshInstance", "set_skin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Sets the [Material] for a surface of the [Mesh] resource.
 	Args: [{ false surface int} { false material Material}], Returns: void
 */
@@ -286,8 +367,11 @@ type MeshInstanceImplementer interface {
 	CreateTrimeshCollision()
 	GetMesh() MeshImplementer
 	GetSkeletonPath() gdnative.NodePath
+	GetSkin() SkinImplementer
 	GetSurfaceMaterial(surface gdnative.Int) MaterialImplementer
+	GetSurfaceMaterialCount() gdnative.Int
 	SetMesh(mesh MeshImplementer)
 	SetSkeletonPath(skeletonPath gdnative.NodePath)
+	SetSkin(skin SkinImplementer)
 	SetSurfaceMaterial(surface gdnative.Int, material MaterialImplementer)
 }

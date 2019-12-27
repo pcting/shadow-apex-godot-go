@@ -35,7 +35,7 @@ func (o *ShortCut) BaseClass() string {
 }
 
 /*
-        Returns the Shortcut's [InputEvent] as a [String].
+        Returns the shortcut's [InputEvent] as a [String].
 	Args: [], Returns: String
 */
 func (o *ShortCut) GetAsText() gdnative.String {
@@ -95,7 +95,7 @@ func (o *ShortCut) GetShortcut() InputEventImplementer {
 }
 
 /*
-        Returns [code]true[/code] if the Shortcut's [InputEvent] equals [code]event[/code].
+        Returns [code]true[/code] if the shortcut's [InputEvent] equals [code]event[/code].
 	Args: [{ false event InputEvent}], Returns: bool
 */
 func (o *ShortCut) IsShortcut(event InputEventImplementer) gdnative.Bool {
@@ -119,7 +119,7 @@ func (o *ShortCut) IsShortcut(event InputEventImplementer) gdnative.Bool {
 }
 
 /*
-        If [code]true[/code] this Shortcut is valid.
+        If [code]true[/code], this shortcut is valid.
 	Args: [], Returns: bool
 */
 func (o *ShortCut) IsValid() gdnative.Bool {

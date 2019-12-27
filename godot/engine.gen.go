@@ -58,6 +58,78 @@ func (o *engine) BaseClass() string {
 
 /*
         Undocumented
+	Args: [], Returns: Dictionary
+*/
+func (o *engine) GetAuthorInfo() gdnative.Dictionary {
+	o.ensureSingleton()
+	//log.Println("Calling _Engine.GetAuthorInfo()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Engine", "get_author_info")
+
+	// Call the parent method.
+	// Dictionary
+	retPtr := gdnative.NewEmptyDictionary()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewDictionaryFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Array
+*/
+func (o *engine) GetCopyrightInfo() gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling _Engine.GetCopyrightInfo()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Engine", "get_copyright_info")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Dictionary
+*/
+func (o *engine) GetDonorInfo() gdnative.Dictionary {
+	o.ensureSingleton()
+	//log.Println("Calling _Engine.GetDonorInfo()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Engine", "get_donor_info")
+
+	// Call the parent method.
+	// Dictionary
+	retPtr := gdnative.NewEmptyDictionary()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewDictionaryFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: int
 */
 func (o *engine) GetFramesDrawn() gdnative.Int {
@@ -130,6 +202,54 @@ func (o *engine) GetIterationsPerSecond() gdnative.Int {
 
 /*
         Undocumented
+	Args: [], Returns: Dictionary
+*/
+func (o *engine) GetLicenseInfo() gdnative.Dictionary {
+	o.ensureSingleton()
+	//log.Println("Calling _Engine.GetLicenseInfo()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Engine", "get_license_info")
+
+	// Call the parent method.
+	// Dictionary
+	retPtr := gdnative.NewEmptyDictionary()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewDictionaryFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: String
+*/
+func (o *engine) GetLicenseText() gdnative.String {
+	o.ensureSingleton()
+	//log.Println("Calling _Engine.GetLicenseText()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Engine", "get_license_text")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: MainLoop
 */
 func (o *engine) GetMainLoop() MainLoopImplementer {
@@ -164,6 +284,54 @@ func (o *engine) GetMainLoop() MainLoopImplementer {
 	}
 
 	return &ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *engine) GetPhysicsInterpolationFraction() gdnative.Real {
+	o.ensureSingleton()
+	//log.Println("Calling _Engine.GetPhysicsInterpolationFraction()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Engine", "get_physics_interpolation_fraction")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *engine) GetPhysicsJitterFix() gdnative.Real {
+	o.ensureSingleton()
+	//log.Println("Calling _Engine.GetPhysicsJitterFix()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Engine", "get_physics_jitter_fix")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -396,6 +564,28 @@ func (o *engine) SetIterationsPerSecond(iterationsPerSecond gdnative.Int) {
 
 /*
         Undocumented
+	Args: [{ false physics_jitter_fix float}], Returns: void
+*/
+func (o *engine) SetPhysicsJitterFix(physicsJitterFix gdnative.Real) {
+	o.ensureSingleton()
+	//log.Println("Calling _Engine.SetPhysicsJitterFix()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(physicsJitterFix)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Engine", "set_physics_jitter_fix")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false target_fps int}], Returns: void
 */
 func (o *engine) SetTargetFps(targetFps gdnative.Int) {
@@ -442,10 +632,17 @@ func (o *engine) SetTimeScale(timeScale gdnative.Real) {
 // of the Engine class.
 type EngineImplementer interface {
 	ObjectImplementer
+	GetAuthorInfo() gdnative.Dictionary
+	GetCopyrightInfo() gdnative.Array
+	GetDonorInfo() gdnative.Dictionary
 	GetFramesDrawn() gdnative.Int
 	GetFramesPerSecond() gdnative.Real
 	GetIterationsPerSecond() gdnative.Int
+	GetLicenseInfo() gdnative.Dictionary
+	GetLicenseText() gdnative.String
 	GetMainLoop() MainLoopImplementer
+	GetPhysicsInterpolationFraction() gdnative.Real
+	GetPhysicsJitterFix() gdnative.Real
 	GetSingleton(name gdnative.String) ObjectImplementer
 	GetTargetFps() gdnative.Int
 	GetTimeScale() gdnative.Real
@@ -455,6 +652,7 @@ type EngineImplementer interface {
 	IsInPhysicsFrame() gdnative.Bool
 	SetEditorHint(enabled gdnative.Bool)
 	SetIterationsPerSecond(iterationsPerSecond gdnative.Int)
+	SetPhysicsJitterFix(physicsJitterFix gdnative.Real)
 	SetTargetFps(targetFps gdnative.Int)
 	SetTimeScale(timeScale gdnative.Real)
 }

@@ -23,7 +23,7 @@ func newPathFromPointer(ptr gdnative.Pointer) Path {
 }
 
 /*
-This class is a container/Node-ification of a [Curve3D], so it can have [Spatial] properties and [Node] info.
+Can have [PathFollow] child nodes moving along the [Curve3D]. See [PathFollow] for more information on the usage. Note that the path is considered as relative to the moved nodes (children of [PathFollow]). As such, the curve should usually start with a zero vector [code](0, 0, 0)[/code].
 */
 type Path struct {
 	Spatial

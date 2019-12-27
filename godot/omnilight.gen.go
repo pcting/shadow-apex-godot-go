@@ -39,7 +39,7 @@ func newOmniLightFromPointer(ptr gdnative.Pointer) OmniLight {
 }
 
 /*
-An OmniDirectional light is a type of [Light] node that emits lights in all directions. The light is attenuated through the distance and this attenuation can be configured by changing the energy, radius and attenuation parameters of [Light].
+An Omnidirectional light is a type of [Light] that emits light in all directions. The light is attenuated by distance and this attenuation can be configured by changing its energy, radius, and attenuation parameters.
 */
 type OmniLight struct {
 	Light

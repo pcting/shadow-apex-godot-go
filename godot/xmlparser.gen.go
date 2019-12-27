@@ -213,7 +213,7 @@ func (o *XMLParser) GetNodeData() gdnative.String {
 }
 
 /*
-        Get the name of the current element node. This will raise an error if the current node type is not [code]NODE_ELEMENT[/code] nor [code]NODE_ELEMENT_END[/code]
+        Get the name of the current element node. This will raise an error if the current node type is not [constant NODE_ELEMENT] nor [constant NODE_ELEMENT_END]
 	Args: [], Returns: String
 */
 func (o *XMLParser) GetNodeName() gdnative.String {

@@ -17,10 +17,11 @@ import (
 type PathFollowRotationMode int
 
 const (
-	PathFollowRotationNone PathFollowRotationMode = 0
-	PathFollowRotationXy   PathFollowRotationMode = 2
-	PathFollowRotationXyz  PathFollowRotationMode = 3
-	PathFollowRotationY    PathFollowRotationMode = 1
+	PathFollowRotationNone     PathFollowRotationMode = 0
+	PathFollowRotationOriented PathFollowRotationMode = 4
+	PathFollowRotationXy       PathFollowRotationMode = 2
+	PathFollowRotationXyz      PathFollowRotationMode = 3
+	PathFollowRotationY        PathFollowRotationMode = 1
 )
 
 //func NewPathFollowFromPointer(ptr gdnative.Pointer) PathFollow {

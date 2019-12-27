@@ -13,6 +13,15 @@ import (
 //   code.
 //----------------------------------------------------------------------------*/
 
+// DynamicFontDataHinting is an enum for Hinting values.
+type DynamicFontDataHinting int
+
+const (
+	DynamicFontDataHintingLight  DynamicFontDataHinting = 1
+	DynamicFontDataHintingNone   DynamicFontDataHinting = 0
+	DynamicFontDataHintingNormal DynamicFontDataHinting = 2
+)
+
 //func NewDynamicFontDataFromPointer(ptr gdnative.Pointer) DynamicFontData {
 func newDynamicFontDataFromPointer(ptr gdnative.Pointer) DynamicFontData {
 	owner := gdnative.NewObjectFromPointer(ptr)
@@ -59,6 +68,73 @@ func (o *DynamicFontData) GetFontPath() gdnative.String {
 
 /*
         Undocumented
+	Args: [], Returns: enum.DynamicFontData::Hinting
+*/
+func (o *DynamicFontData) GetHinting() DynamicFontDataHinting {
+	//log.Println("Calling DynamicFontData.GetHinting()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("DynamicFontData", "get_hinting")
+
+	// Call the parent method.
+	// enum.DynamicFontData::Hinting
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return DynamicFontDataHinting(ret)
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *DynamicFontData) IsAntialiased() gdnative.Bool {
+	//log.Println("Calling DynamicFontData.IsAntialiased()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("DynamicFontData", "is_antialiased")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false antialiased bool}], Returns: void
+*/
+func (o *DynamicFontData) SetAntialiased(antialiased gdnative.Bool) {
+	//log.Println("Calling DynamicFontData.SetAntialiased()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(antialiased)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("DynamicFontData", "set_antialiased")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false path String}], Returns: void
 */
 func (o *DynamicFontData) SetFontPath(path gdnative.String) {
@@ -78,10 +154,34 @@ func (o *DynamicFontData) SetFontPath(path gdnative.String) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false mode int}], Returns: void
+*/
+func (o *DynamicFontData) SetHinting(mode gdnative.Int) {
+	//log.Println("Calling DynamicFontData.SetHinting()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(mode)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("DynamicFontData", "set_hinting")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // DynamicFontDataImplementer is an interface that implements the methods
 // of the DynamicFontData class.
 type DynamicFontDataImplementer interface {
 	ResourceImplementer
 	GetFontPath() gdnative.String
+	IsAntialiased() gdnative.Bool
+	SetAntialiased(antialiased gdnative.Bool)
 	SetFontPath(path gdnative.String)
+	SetHinting(mode gdnative.Int)
 }

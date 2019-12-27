@@ -80,6 +80,43 @@ func (o *StyleBox) GetCenterSize() gdnative.Vector2 {
 }
 
 /*
+
+	Args: [], Returns: CanvasItem
+*/
+func (o *StyleBox) GetCurrentItemDrawn() CanvasItemImplementer {
+	//log.Println("Calling StyleBox.GetCurrentItemDrawn()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("StyleBox", "get_current_item_drawn")
+
+	// Call the parent method.
+	// CanvasItem
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newCanvasItemFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(CanvasItemImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "CanvasItem" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(CanvasItemImplementer)
+	}
+
+	return &ret
+}
+
+/*
         Undocumented
 	Args: [{ false margin int}], Returns: float
 */
@@ -104,7 +141,7 @@ func (o *StyleBox) GetDefaultMargin(margin gdnative.Int) gdnative.Real {
 }
 
 /*
-        Return the offset of margin "margin" (see MARGIN_* enum).
+        Returns the content margin offset for the specified margin Positive values reduce size inwards, unlike [Control]'s margin values.
 	Args: [{ false margin int}], Returns: float
 */
 func (o *StyleBox) GetMargin(margin gdnative.Int) gdnative.Real {
@@ -128,7 +165,7 @@ func (o *StyleBox) GetMargin(margin gdnative.Int) gdnative.Real {
 }
 
 /*
-        Return the minimum size that this stylebox can be shrunk to.
+        Returns the minimum size that this stylebox can be shrunk to.
 	Args: [], Returns: Vector2
 */
 func (o *StyleBox) GetMinimumSize() gdnative.Vector2 {
@@ -151,7 +188,7 @@ func (o *StyleBox) GetMinimumSize() gdnative.Vector2 {
 }
 
 /*
-        Return the "offset" of a stylebox, this is a helper function, like writing [code]Vector2(style.get_margin(MARGIN_LEFT), style.get_margin(MARGIN_TOP))[/code].
+        Returns the "offset" of a stylebox, this is a helper function, like writing [code]Vector2(style.get_margin(MARGIN_LEFT), style.get_margin(MARGIN_TOP))[/code].
 	Args: [], Returns: Vector2
 */
 func (o *StyleBox) GetOffset() gdnative.Vector2 {
@@ -226,6 +263,7 @@ type StyleBoxImplementer interface {
 	ResourceImplementer
 	Draw(canvasItem gdnative.Rid, rect gdnative.Rect2)
 	GetCenterSize() gdnative.Vector2
+	GetCurrentItemDrawn() CanvasItemImplementer
 	GetDefaultMargin(margin gdnative.Int) gdnative.Real
 	GetMargin(margin gdnative.Int) gdnative.Real
 	GetMinimumSize() gdnative.Vector2

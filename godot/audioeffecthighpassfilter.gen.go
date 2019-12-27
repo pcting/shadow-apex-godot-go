@@ -23,7 +23,7 @@ func newAudioEffectHighPassFilterFromPointer(ptr gdnative.Pointer) AudioEffectHi
 }
 
 /*
-Cuts frequencies lower than the [member cutoff_hz] and allows higher frequencies to pass.
+Cuts frequencies lower than the [member AudioEffectFilter.cutoff_hz] and allows higher frequencies to pass.
 */
 type AudioEffectHighPassFilter struct {
 	AudioEffectFilter

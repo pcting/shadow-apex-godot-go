@@ -10,8 +10,9 @@ package gdnative
 //----------------------------------------------------------------------------*/
 
 /*
+#cgo LDFLAGS: -I../godot_headers
 #include "gdnative.gen.h"
-#include <gdnative/variant.h>
+#include <godot_headers/gdnative/variant.h>
 // Include all headers for now. TODO: Look up all the required
 // headers we need to import based on the method arguments and return types.
 #include <gdnative/aabb.h>
@@ -82,7 +83,7 @@ func NewVariantNil() Variant {
 	return Variant{base: &dest}
 }
 
-// NewVariantBool godot_variant_new_bool [[godot_variant * p_v] [const godot_bool p_b]] void
+// NewVariantBool godot_variant_new_bool [[godot_variant * r_dest] [const godot_bool p_b]] void
 func NewVariantBool(b Bool) Variant {
 	var dest C.godot_variant
 	arg1 := b.getBase()
@@ -765,4 +766,70 @@ type VariantCallError struct {
 
 func (gdt VariantCallError) getBase() *C.godot_variant_call_error {
 	return gdt.base
+}
+
+// VariantOperator is a Go wrapper for the C.godot_variant_operator enum type.
+type VariantOperator int
+
+func (e VariantOperator) getBase() C.godot_variant_operator {
+	return C.godot_variant_operator(e)
+}
+
+const (
+	VariantOpEqual        VariantOperator = 0
+	VariantOpNotEqual     VariantOperator = 1
+	VariantOpLess         VariantOperator = 2
+	VariantOpLessEqual    VariantOperator = 3
+	VariantOpGreater      VariantOperator = 4
+	VariantOpGreaterEqual VariantOperator = 5
+	VariantOpAdd          VariantOperator = 6
+	VariantOpSubtract     VariantOperator = 7
+	VariantOpMultiply     VariantOperator = 8
+	VariantOpDivide       VariantOperator = 9
+	VariantOpNegate       VariantOperator = 10
+	VariantOpPositive     VariantOperator = 11
+	VariantOpModule       VariantOperator = 12
+	VariantOpStringConcat VariantOperator = 13
+	VariantOpShiftLeft    VariantOperator = 14
+	VariantOpShiftRight   VariantOperator = 15
+	VariantOpBitAnd       VariantOperator = 16
+	VariantOpBitOr        VariantOperator = 17
+	VariantOpBitXor       VariantOperator = 18
+	VariantOpBitNegate    VariantOperator = 19
+	VariantOpAnd          VariantOperator = 20
+	VariantOpOr           VariantOperator = 21
+	VariantOpXor          VariantOperator = 22
+	VariantOpNot          VariantOperator = 23
+	VariantOpIn           VariantOperator = 24
+	VariantOpMax          VariantOperator = 25
+)
+
+// VariantOperatorLookupMap is a string-based lookup table of constants for VariantOperator.
+var VariantOperatorLookupMap = map[string]VariantOperator{
+	"VariantOpEqual":        VariantOpEqual,
+	"VariantOpNotEqual":     VariantOpNotEqual,
+	"VariantOpLess":         VariantOpLess,
+	"VariantOpLessEqual":    VariantOpLessEqual,
+	"VariantOpGreater":      VariantOpGreater,
+	"VariantOpGreaterEqual": VariantOpGreaterEqual,
+	"VariantOpAdd":          VariantOpAdd,
+	"VariantOpSubtract":     VariantOpSubtract,
+	"VariantOpMultiply":     VariantOpMultiply,
+	"VariantOpDivide":       VariantOpDivide,
+	"VariantOpNegate":       VariantOpNegate,
+	"VariantOpPositive":     VariantOpPositive,
+	"VariantOpModule":       VariantOpModule,
+	"VariantOpStringConcat": VariantOpStringConcat,
+	"VariantOpShiftLeft":    VariantOpShiftLeft,
+	"VariantOpShiftRight":   VariantOpShiftRight,
+	"VariantOpBitAnd":       VariantOpBitAnd,
+	"VariantOpBitOr":        VariantOpBitOr,
+	"VariantOpBitXor":       VariantOpBitXor,
+	"VariantOpBitNegate":    VariantOpBitNegate,
+	"VariantOpAnd":          VariantOpAnd,
+	"VariantOpOr":           VariantOpOr,
+	"VariantOpXor":          VariantOpXor,
+	"VariantOpNot":          VariantOpNot,
+	"VariantOpIn":           VariantOpIn,
+	"VariantOpMax":          VariantOpMax,
 }

@@ -13,6 +13,36 @@ import (
 //   code.
 //----------------------------------------------------------------------------*/
 
+// _GeometryPolyBooleanOperation is an enum for PolyBooleanOperation values.
+type _GeometryPolyBooleanOperation int
+
+const (
+	_GeometryOperationDifference   _GeometryPolyBooleanOperation = 1
+	_GeometryOperationIntersection _GeometryPolyBooleanOperation = 2
+	_GeometryOperationUnion        _GeometryPolyBooleanOperation = 0
+	_GeometryOperationXor          _GeometryPolyBooleanOperation = 3
+)
+
+// _GeometryPolyEndType is an enum for PolyEndType values.
+type _GeometryPolyEndType int
+
+const (
+	_GeometryEndButt    _GeometryPolyEndType = 2
+	_GeometryEndJoined  _GeometryPolyEndType = 1
+	_GeometryEndPolygon _GeometryPolyEndType = 0
+	_GeometryEndRound   _GeometryPolyEndType = 4
+	_GeometryEndSquare  _GeometryPolyEndType = 3
+)
+
+// _GeometryPolyJoinType is an enum for PolyJoinType values.
+type _GeometryPolyJoinType int
+
+const (
+	_GeometryJoinMiter  _GeometryPolyJoinType = 2
+	_GeometryJoinRound  _GeometryPolyJoinType = 1
+	_GeometryJoinSquare _GeometryPolyJoinType = 0
+)
+
 //func NewgeometryFromPointer(ptr gdnative.Pointer) geometry {
 func new_GeometryFromPointer(ptr gdnative.Pointer) geometry {
 	owner := gdnative.NewObjectFromPointer(ptr)
@@ -166,6 +196,58 @@ func (o *geometry) ClipPolygon(points gdnative.PoolVector3Array, plane gdnative.
 
 /*
         Undocumented
+	Args: [{ false polygon_a PoolVector2Array} { false polygon_b PoolVector2Array}], Returns: Array
+*/
+func (o *geometry) ClipPolygons2D(polygonA gdnative.PoolVector2Array, polygonB gdnative.PoolVector2Array) gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.ClipPolygons2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(polygonA)
+	ptrArguments[1] = gdnative.NewPointerFromPoolVector2Array(polygonB)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "clip_polygons_2d")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false polyline PoolVector2Array} { false polygon PoolVector2Array}], Returns: Array
+*/
+func (o *geometry) ClipPolylineWithPolygon2D(polyline gdnative.PoolVector2Array, polygon gdnative.PoolVector2Array) gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.ClipPolylineWithPolygon2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(polyline)
+	ptrArguments[1] = gdnative.NewPointerFromPoolVector2Array(polygon)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "clip_polyline_with_polygon_2d")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [{ false points PoolVector2Array}], Returns: PoolVector2Array
 */
 func (o *geometry) ConvexHull2D(points gdnative.PoolVector2Array) gdnative.PoolVector2Array {
@@ -186,6 +268,32 @@ func (o *geometry) ConvexHull2D(points gdnative.PoolVector2Array) gdnative.PoolV
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewPoolVector2ArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false polygon_a PoolVector2Array} { false polygon_b PoolVector2Array}], Returns: Array
+*/
+func (o *geometry) ExcludePolygons2D(polygonA gdnative.PoolVector2Array, polygonB gdnative.PoolVector2Array) gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.ExcludePolygons2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(polygonA)
+	ptrArguments[1] = gdnative.NewPointerFromPoolVector2Array(polygonB)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "exclude_polygons_2d")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
 	return ret
 }
 
@@ -380,6 +488,164 @@ func (o *geometry) GetUv84NormalBit(normal gdnative.Vector3) gdnative.Int {
 
 /*
         Undocumented
+	Args: [{ false polygon_a PoolVector2Array} { false polygon_b PoolVector2Array}], Returns: Array
+*/
+func (o *geometry) IntersectPolygons2D(polygonA gdnative.PoolVector2Array, polygonB gdnative.PoolVector2Array) gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.IntersectPolygons2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(polygonA)
+	ptrArguments[1] = gdnative.NewPointerFromPoolVector2Array(polygonB)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "intersect_polygons_2d")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false polyline PoolVector2Array} { false polygon PoolVector2Array}], Returns: Array
+*/
+func (o *geometry) IntersectPolylineWithPolygon2D(polyline gdnative.PoolVector2Array, polygon gdnative.PoolVector2Array) gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.IntersectPolylineWithPolygon2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(polyline)
+	ptrArguments[1] = gdnative.NewPointerFromPoolVector2Array(polygon)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "intersect_polyline_with_polygon_2d")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false point Vector2} { false circle_position Vector2} { false circle_radius float}], Returns: bool
+*/
+func (o *geometry) IsPointInCircle(point gdnative.Vector2, circlePosition gdnative.Vector2, circleRadius gdnative.Real) gdnative.Bool {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.IsPointInCircle()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(point)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(circlePosition)
+	ptrArguments[2] = gdnative.NewPointerFromReal(circleRadius)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "is_point_in_circle")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false point Vector2} { false polygon PoolVector2Array}], Returns: bool
+*/
+func (o *geometry) IsPointInPolygon(point gdnative.Vector2, polygon gdnative.PoolVector2Array) gdnative.Bool {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.IsPointInPolygon()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(point)
+	ptrArguments[1] = gdnative.NewPointerFromPoolVector2Array(polygon)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "is_point_in_polygon")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false polygon PoolVector2Array}], Returns: bool
+*/
+func (o *geometry) IsPolygonClockwise(polygon gdnative.PoolVector2Array) gdnative.Bool {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.IsPolygonClockwise()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(polygon)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "is_polygon_clockwise")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false from_a Vector2} { false dir_a Vector2} { false from_b Vector2} { false dir_b Vector2}], Returns: Variant
+*/
+func (o *geometry) LineIntersectsLine2D(fromA gdnative.Vector2, dirA gdnative.Vector2, fromB gdnative.Vector2, dirB gdnative.Vector2) gdnative.Variant {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.LineIntersectsLine2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
+	ptrArguments[0] = gdnative.NewPointerFromVector2(fromA)
+	ptrArguments[1] = gdnative.NewPointerFromVector2(dirA)
+	ptrArguments[2] = gdnative.NewPointerFromVector2(fromB)
+	ptrArguments[3] = gdnative.NewPointerFromVector2(dirB)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "line_intersects_line_2d")
+
+	// Call the parent method.
+	// Variant
+	retPtr := gdnative.NewEmptyVariant()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVariantFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [{ false sizes PoolVector2Array}], Returns: Dictionary
 */
 func (o *geometry) MakeAtlas(sizes gdnative.PoolVector2Array) gdnative.Dictionary {
@@ -400,6 +666,87 @@ func (o *geometry) MakeAtlas(sizes gdnative.PoolVector2Array) gdnative.Dictionar
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewDictionaryFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false polygon_a PoolVector2Array} { false polygon_b PoolVector2Array}], Returns: Array
+*/
+func (o *geometry) MergePolygons2D(polygonA gdnative.PoolVector2Array, polygonB gdnative.PoolVector2Array) gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.MergePolygons2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(polygonA)
+	ptrArguments[1] = gdnative.NewPointerFromPoolVector2Array(polygonB)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "merge_polygons_2d")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false polygon PoolVector2Array} { false delta float} {0 true join_type int}], Returns: Array
+*/
+func (o *geometry) OffsetPolygon2D(polygon gdnative.PoolVector2Array, delta gdnative.Real, joinType gdnative.Int) gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.OffsetPolygon2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(polygon)
+	ptrArguments[1] = gdnative.NewPointerFromReal(delta)
+	ptrArguments[2] = gdnative.NewPointerFromInt(joinType)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "offset_polygon_2d")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false polyline PoolVector2Array} { false delta float} {0 true join_type int} {3 true end_type int}], Returns: Array
+*/
+func (o *geometry) OffsetPolyline2D(polyline gdnative.PoolVector2Array, delta gdnative.Real, joinType gdnative.Int, endType gdnative.Int) gdnative.Array {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.OffsetPolyline2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(polyline)
+	ptrArguments[1] = gdnative.NewPointerFromReal(delta)
+	ptrArguments[2] = gdnative.NewPointerFromInt(joinType)
+	ptrArguments[3] = gdnative.NewPointerFromInt(endType)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "offset_polyline_2d")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
 	return ret
 }
 
@@ -630,6 +977,31 @@ func (o *geometry) SegmentIntersectsTriangle(from gdnative.Vector3, to gdnative.
 
 /*
         Undocumented
+	Args: [{ false points PoolVector2Array}], Returns: PoolIntArray
+*/
+func (o *geometry) TriangulateDelaunay2D(points gdnative.PoolVector2Array) gdnative.PoolIntArray {
+	o.ensureSingleton()
+	//log.Println("Calling _Geometry.TriangulateDelaunay2D()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromPoolVector2Array(points)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Geometry", "triangulate_delaunay_2d")
+
+	// Call the parent method.
+	// PoolIntArray
+	retPtr := gdnative.NewEmptyPoolIntArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewPoolIntArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [{ false polygon PoolVector2Array}], Returns: PoolIntArray
 */
 func (o *geometry) TriangulatePolygon(polygon gdnative.PoolVector2Array) gdnative.PoolIntArray {
@@ -661,7 +1033,10 @@ type GeometryImplementer interface {
 	BuildCapsulePlanes(radius gdnative.Real, height gdnative.Real, sides gdnative.Int, lats gdnative.Int, axis gdnative.Int) gdnative.Array
 	BuildCylinderPlanes(radius gdnative.Real, height gdnative.Real, sides gdnative.Int, axis gdnative.Int) gdnative.Array
 	ClipPolygon(points gdnative.PoolVector3Array, plane gdnative.Plane) gdnative.PoolVector3Array
+	ClipPolygons2D(polygonA gdnative.PoolVector2Array, polygonB gdnative.PoolVector2Array) gdnative.Array
+	ClipPolylineWithPolygon2D(polyline gdnative.PoolVector2Array, polygon gdnative.PoolVector2Array) gdnative.Array
 	ConvexHull2D(points gdnative.PoolVector2Array) gdnative.PoolVector2Array
+	ExcludePolygons2D(polygonA gdnative.PoolVector2Array, polygonB gdnative.PoolVector2Array) gdnative.Array
 	GetClosestPointToSegment(point gdnative.Vector3, s1 gdnative.Vector3, s2 gdnative.Vector3) gdnative.Vector3
 	GetClosestPointToSegment2D(point gdnative.Vector2, s1 gdnative.Vector2, s2 gdnative.Vector2) gdnative.Vector2
 	GetClosestPointToSegmentUncapped(point gdnative.Vector3, s1 gdnative.Vector3, s2 gdnative.Vector3) gdnative.Vector3
@@ -669,7 +1044,16 @@ type GeometryImplementer interface {
 	GetClosestPointsBetweenSegments(p1 gdnative.Vector3, p2 gdnative.Vector3, q1 gdnative.Vector3, q2 gdnative.Vector3) gdnative.PoolVector3Array
 	GetClosestPointsBetweenSegments2D(p1 gdnative.Vector2, q1 gdnative.Vector2, p2 gdnative.Vector2, q2 gdnative.Vector2) gdnative.PoolVector2Array
 	GetUv84NormalBit(normal gdnative.Vector3) gdnative.Int
+	IntersectPolygons2D(polygonA gdnative.PoolVector2Array, polygonB gdnative.PoolVector2Array) gdnative.Array
+	IntersectPolylineWithPolygon2D(polyline gdnative.PoolVector2Array, polygon gdnative.PoolVector2Array) gdnative.Array
+	IsPointInCircle(point gdnative.Vector2, circlePosition gdnative.Vector2, circleRadius gdnative.Real) gdnative.Bool
+	IsPointInPolygon(point gdnative.Vector2, polygon gdnative.PoolVector2Array) gdnative.Bool
+	IsPolygonClockwise(polygon gdnative.PoolVector2Array) gdnative.Bool
+	LineIntersectsLine2D(fromA gdnative.Vector2, dirA gdnative.Vector2, fromB gdnative.Vector2, dirB gdnative.Vector2) gdnative.Variant
 	MakeAtlas(sizes gdnative.PoolVector2Array) gdnative.Dictionary
+	MergePolygons2D(polygonA gdnative.PoolVector2Array, polygonB gdnative.PoolVector2Array) gdnative.Array
+	OffsetPolygon2D(polygon gdnative.PoolVector2Array, delta gdnative.Real, joinType gdnative.Int) gdnative.Array
+	OffsetPolyline2D(polyline gdnative.PoolVector2Array, delta gdnative.Real, joinType gdnative.Int, endType gdnative.Int) gdnative.Array
 	PointIsInsideTriangle(point gdnative.Vector2, a gdnative.Vector2, b gdnative.Vector2, c gdnative.Vector2) gdnative.Bool
 	RayIntersectsTriangle(from gdnative.Vector3, dir gdnative.Vector3, a gdnative.Vector3, b gdnative.Vector3, c gdnative.Vector3) gdnative.Variant
 	SegmentIntersectsCircle(segmentFrom gdnative.Vector2, segmentTo gdnative.Vector2, circlePosition gdnative.Vector2, circleRadius gdnative.Real) gdnative.Real
@@ -678,5 +1062,6 @@ type GeometryImplementer interface {
 	SegmentIntersectsSegment2D(fromA gdnative.Vector2, toA gdnative.Vector2, fromB gdnative.Vector2, toB gdnative.Vector2) gdnative.Variant
 	SegmentIntersectsSphere(from gdnative.Vector3, to gdnative.Vector3, spherePosition gdnative.Vector3, sphereRadius gdnative.Real) gdnative.PoolVector3Array
 	SegmentIntersectsTriangle(from gdnative.Vector3, to gdnative.Vector3, a gdnative.Vector3, b gdnative.Vector3, c gdnative.Vector3) gdnative.Variant
+	TriangulateDelaunay2D(points gdnative.PoolVector2Array) gdnative.PoolIntArray
 	TriangulatePolygon(polygon gdnative.PoolVector2Array) gdnative.PoolIntArray
 }

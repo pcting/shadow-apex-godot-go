@@ -140,6 +140,30 @@ func (o *arvrServer) FindInterface(name gdnative.String) ARVRInterfaceImplemente
 }
 
 /*
+        Returns the primary interface's transformation.
+	Args: [], Returns: Transform
+*/
+func (o *arvrServer) GetHmdTransform() gdnative.Transform {
+	o.ensureSingleton()
+	//log.Println("Calling ARVRServer.GetHmdTransform()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ARVRServer", "get_hmd_transform")
+
+	// Call the parent method.
+	// Transform
+	retPtr := gdnative.NewEmptyTransform()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewTransformFromPointer(retPtr)
+	return ret
+}
+
+/*
         Get the interface registered at a given index in our list of interfaces.
 	Args: [{ false idx int}], Returns: ARVRInterface
 */
@@ -179,7 +203,7 @@ func (o *arvrServer) GetInterface(idx gdnative.Int) ARVRInterfaceImplementer {
 }
 
 /*
-        Get the number of interfaces currently registered with the AR/VR server. If you're game supports multiple AR/VR platforms you can look through the available interface and either present the user with a selection or simply try an initialize each interface and use the first one that returns true.
+        Get the number of interfaces currently registered with the AR/VR server. If your game supports multiple AR/VR platforms, you can look through the available interface, and either present the user with a selection or simply try an initialize each interface and use the first one that returns [code]true[/code].
 	Args: [], Returns: int
 */
 func (o *arvrServer) GetInterfaceCount() gdnative.Int {
@@ -224,6 +248,116 @@ func (o *arvrServer) GetInterfaces() gdnative.Array {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewArrayFromPointer(retPtr)
 	return ret
+}
+
+/*
+
+	Args: [], Returns: int
+*/
+func (o *arvrServer) GetLastCommitUsec() gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling ARVRServer.GetLastCommitUsec()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ARVRServer", "get_last_commit_usec")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [], Returns: int
+*/
+func (o *arvrServer) GetLastFrameUsec() gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling ARVRServer.GetLastFrameUsec()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ARVRServer", "get_last_frame_usec")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+
+	Args: [], Returns: int
+*/
+func (o *arvrServer) GetLastProcessUsec() gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling ARVRServer.GetLastProcessUsec()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ARVRServer", "get_last_process_usec")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: ARVRInterface
+*/
+func (o *arvrServer) GetPrimaryInterface() ARVRInterfaceImplementer {
+	o.ensureSingleton()
+	//log.Println("Calling ARVRServer.GetPrimaryInterface()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ARVRServer", "get_primary_interface")
+
+	// Call the parent method.
+	// ARVRInterface
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newARVRInterfaceFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(ARVRInterfaceImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "ARVRInterface" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(ARVRInterfaceImplementer)
+	}
+
+	return &ret
 }
 
 /*
@@ -338,7 +472,7 @@ func (o *arvrServer) GetWorldScale() gdnative.Real {
 }
 
 /*
-        Changes the primary interface to the specified interface. Again mostly exposed for GDNative interfaces.
+        Undocumented
 	Args: [{ false interface ARVRInterface}], Returns: void
 */
 func (o *arvrServer) SetPrimaryInterface(intrfce ARVRInterfaceImplementer) {
@@ -387,9 +521,14 @@ type ARVRServerImplementer interface {
 	ObjectImplementer
 	CenterOnHmd(rotationMode gdnative.Int, keepHeight gdnative.Bool)
 	FindInterface(name gdnative.String) ARVRInterfaceImplementer
+	GetHmdTransform() gdnative.Transform
 	GetInterface(idx gdnative.Int) ARVRInterfaceImplementer
 	GetInterfaceCount() gdnative.Int
 	GetInterfaces() gdnative.Array
+	GetLastCommitUsec() gdnative.Int
+	GetLastFrameUsec() gdnative.Int
+	GetLastProcessUsec() gdnative.Int
+	GetPrimaryInterface() ARVRInterfaceImplementer
 	GetReferenceFrame() gdnative.Transform
 	GetTracker(idx gdnative.Int) ARVRPositionalTrackerImplementer
 	GetTrackerCount() gdnative.Int

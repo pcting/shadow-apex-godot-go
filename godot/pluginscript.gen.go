@@ -34,8 +34,32 @@ func (o *PluginScript) BaseClass() string {
 	return "PluginScript"
 }
 
+/*
+        Undocumented
+	Args: [], Returns: Variant
+*/
+func (o *PluginScript) New() gdnative.Variant {
+	//log.Println("Calling PluginScript.New()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PluginScript", "new")
+
+	// Call the parent method.
+	// Variant
+	retPtr := gdnative.NewEmptyVariant()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVariantFromPointer(retPtr)
+	return ret
+}
+
 // PluginScriptImplementer is an interface that implements the methods
 // of the PluginScript class.
 type PluginScriptImplementer interface {
 	ScriptImplementer
+	New() gdnative.Variant
 }

@@ -165,6 +165,26 @@ func (o *EditorFileDialog) X_FavoriteMoveUp() {
 
 /*
         Undocumented
+	Args: [], Returns: void
+*/
+func (o *EditorFileDialog) X_FavoritePressed() {
+	//log.Println("Calling EditorFileDialog.X_FavoritePressed()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorFileDialog", "_favorite_pressed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false arg0 int}], Returns: void
 */
 func (o *EditorFileDialog) X_FavoriteSelected(arg0 gdnative.Int) {
@@ -176,27 +196,6 @@ func (o *EditorFileDialog) X_FavoriteSelected(arg0 gdnative.Int) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorFileDialog", "_favorite_selected")
-
-	// Call the parent method.
-	// void
-	retPtr := gdnative.NewEmptyVoid()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-}
-
-/*
-        Undocumented
-	Args: [{ false arg0 bool}], Returns: void
-*/
-func (o *EditorFileDialog) X_FavoriteToggled(arg0 gdnative.Bool) {
-	//log.Println("Calling EditorFileDialog.X_FavoriteToggled()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
-	ptrArguments[0] = gdnative.NewPointerFromBool(arg0)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("EditorFileDialog", "_favorite_toggled")
 
 	// Call the parent method.
 	// void
@@ -559,16 +558,17 @@ func (o *EditorFileDialog) X_SelectDrive(arg0 gdnative.Int) {
 
 /*
         Undocumented
-	Args: [{ false arg0 String} { false arg1 Texture} { false arg2 Variant}], Returns: void
+	Args: [{ false arg0 String} { false arg1 Texture} { false arg2 Texture} { false arg3 Variant}], Returns: void
 */
-func (o *EditorFileDialog) X_ThumbnailDone(arg0 gdnative.String, arg1 TextureImplementer, arg2 gdnative.Variant) {
+func (o *EditorFileDialog) X_ThumbnailDone(arg0 gdnative.String, arg1 TextureImplementer, arg2 TextureImplementer, arg3 gdnative.Variant) {
 	//log.Println("Calling EditorFileDialog.X_ThumbnailDone()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromString(arg0)
 	ptrArguments[1] = gdnative.NewPointerFromObject(arg1.GetBaseObject())
-	ptrArguments[2] = gdnative.NewPointerFromVariant(arg2)
+	ptrArguments[2] = gdnative.NewPointerFromObject(arg2.GetBaseObject())
+	ptrArguments[3] = gdnative.NewPointerFromVariant(arg3)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorFileDialog", "_thumbnail_done")
@@ -582,16 +582,17 @@ func (o *EditorFileDialog) X_ThumbnailDone(arg0 gdnative.String, arg1 TextureImp
 
 /*
         Undocumented
-	Args: [{ false arg0 String} { false arg1 Texture} { false arg2 Variant}], Returns: void
+	Args: [{ false arg0 String} { false arg1 Texture} { false arg2 Texture} { false arg3 Variant}], Returns: void
 */
-func (o *EditorFileDialog) X_ThumbnailResult(arg0 gdnative.String, arg1 TextureImplementer, arg2 gdnative.Variant) {
+func (o *EditorFileDialog) X_ThumbnailResult(arg0 gdnative.String, arg1 TextureImplementer, arg2 TextureImplementer, arg3 gdnative.Variant) {
 	//log.Println("Calling EditorFileDialog.X_ThumbnailResult()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromString(arg0)
 	ptrArguments[1] = gdnative.NewPointerFromObject(arg1.GetBaseObject())
-	ptrArguments[2] = gdnative.NewPointerFromVariant(arg2)
+	ptrArguments[2] = gdnative.NewPointerFromObject(arg2.GetBaseObject())
+	ptrArguments[3] = gdnative.NewPointerFromVariant(arg3)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorFileDialog", "_thumbnail_result")
@@ -656,6 +657,26 @@ func (o *EditorFileDialog) X_UpdateFileList() {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("EditorFileDialog", "_update_file_list")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *EditorFileDialog) X_UpdateFileName() {
+	//log.Println("Calling EditorFileDialog.X_UpdateFileName()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("EditorFileDialog", "_update_file_name")
 
 	// Call the parent method.
 	// void
@@ -1123,8 +1144,8 @@ type EditorFileDialogImplementer interface {
 	X_DirEntered(arg0 gdnative.String)
 	X_FavoriteMoveDown()
 	X_FavoriteMoveUp()
+	X_FavoritePressed()
 	X_FavoriteSelected(arg0 gdnative.Int)
-	X_FavoriteToggled(arg0 gdnative.Bool)
 	X_FileEntered(arg0 gdnative.String)
 	X_FilterSelected(arg0 gdnative.Int)
 	X_GoBack()
@@ -1142,10 +1163,11 @@ type EditorFileDialogImplementer interface {
 	X_RecentSelected(arg0 gdnative.Int)
 	X_SaveConfirmPressed()
 	X_SelectDrive(arg0 gdnative.Int)
-	X_ThumbnailDone(arg0 gdnative.String, arg1 TextureImplementer, arg2 gdnative.Variant)
-	X_ThumbnailResult(arg0 gdnative.String, arg1 TextureImplementer, arg2 gdnative.Variant)
+	X_ThumbnailDone(arg0 gdnative.String, arg1 TextureImplementer, arg2 TextureImplementer, arg3 gdnative.Variant)
+	X_ThumbnailResult(arg0 gdnative.String, arg1 TextureImplementer, arg2 TextureImplementer, arg3 gdnative.Variant)
 	X_UpdateDir()
 	X_UpdateFileList()
+	X_UpdateFileName()
 	AddFilter(filter gdnative.String)
 	ClearFilters()
 	GetCurrentDir() gdnative.String

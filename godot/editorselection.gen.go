@@ -56,9 +56,9 @@ func (o *EditorSelection) X_EmitChange() {
 
 /*
         Undocumented
-	Args: [{ false arg0 Object}], Returns: void
+	Args: [{ false arg0 Node}], Returns: void
 */
-func (o *EditorSelection) X_NodeRemoved(arg0 ObjectImplementer) {
+func (o *EditorSelection) X_NodeRemoved(arg0 NodeImplementer) {
 	//log.Println("Calling EditorSelection.X_NodeRemoved()")
 
 	// Build out the method's arguments
@@ -77,9 +77,9 @@ func (o *EditorSelection) X_NodeRemoved(arg0 ObjectImplementer) {
 
 /*
         Add a node to the selection.
-	Args: [{ false node Object}], Returns: void
+	Args: [{ false node Node}], Returns: void
 */
-func (o *EditorSelection) AddNode(node ObjectImplementer) {
+func (o *EditorSelection) AddNode(node NodeImplementer) {
 	//log.Println("Calling EditorSelection.AddNode()")
 
 	// Build out the method's arguments
@@ -164,9 +164,9 @@ func (o *EditorSelection) GetTransformableSelectedNodes() gdnative.Array {
 
 /*
         Remove a node from the selection.
-	Args: [{ false node Object}], Returns: void
+	Args: [{ false node Node}], Returns: void
 */
-func (o *EditorSelection) RemoveNode(node ObjectImplementer) {
+func (o *EditorSelection) RemoveNode(node NodeImplementer) {
 	//log.Println("Calling EditorSelection.RemoveNode()")
 
 	// Build out the method's arguments
@@ -188,10 +188,10 @@ func (o *EditorSelection) RemoveNode(node ObjectImplementer) {
 type EditorSelectionImplementer interface {
 	ObjectImplementer
 	X_EmitChange()
-	X_NodeRemoved(arg0 ObjectImplementer)
-	AddNode(node ObjectImplementer)
+	X_NodeRemoved(arg0 NodeImplementer)
+	AddNode(node NodeImplementer)
 	Clear()
 	GetSelectedNodes() gdnative.Array
 	GetTransformableSelectedNodes() gdnative.Array
-	RemoveNode(node ObjectImplementer)
+	RemoveNode(node NodeImplementer)
 }

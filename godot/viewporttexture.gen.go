@@ -23,8 +23,8 @@ func newViewportTextureFromPointer(ptr gdnative.Pointer) ViewportTexture {
 }
 
 /*
-
- */
+Displays the content of a [Viewport] node as a dynamic [Texture]. This can be used to mix controls, 2D, and 3D elements in the same scene. To create a ViewportTexture in code, use the [method Viewport.get_texture] method on the target viewport.
+*/
 type ViewportTexture struct {
 	Texture
 	owner gdnative.Object

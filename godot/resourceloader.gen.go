@@ -27,12 +27,12 @@ func newSingletonResourceLoader() *resourceLoader {
 }
 
 /*
-   Resource Loader. This is a static object accessible as [code]ResourceLoader[/code]. GDScript has a simplified load() function, though.
+   Singleton used to load resource files from the filesystem. It uses the many [ResourceFormatLoader] classes registered in the engine (either built-in or from a plugin) to load files into memory and convert them to a format that can be used by the engine. GDScript has a simplified [method @GDScript.load] built-in method which can be used in most situations, leaving the use of [ResourceLoader] for more advanced scenarios.
 */
 var ResourceLoader = newSingletonResourceLoader()
 
 /*
-Resource Loader. This is a static object accessible as [code]ResourceLoader[/code]. GDScript has a simplified load() function, though.
+Singleton used to load resource files from the filesystem. It uses the many [ResourceFormatLoader] classes registered in the engine (either built-in or from a plugin) to load files into memory and convert them to a format that can be used by the engine. GDScript has a simplified [method @GDScript.load] built-in method which can be used in most situations, leaving the use of [ResourceLoader] for more advanced scenarios.
 */
 type resourceLoader struct {
 	Object
@@ -54,6 +54,32 @@ func (o *resourceLoader) ensureSingleton() {
 
 func (o *resourceLoader) BaseClass() string {
 	return "_ResourceLoader"
+}
+
+/*
+        Undocumented
+	Args: [{ false path String} { true type_hint String}], Returns: bool
+*/
+func (o *resourceLoader) Exists(path gdnative.String, typeHint gdnative.String) gdnative.Bool {
+	o.ensureSingleton()
+	//log.Println("Calling _ResourceLoader.Exists()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromString(path)
+	ptrArguments[1] = gdnative.NewPointerFromString(typeHint)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_ResourceLoader", "exists")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -133,9 +159,34 @@ func (o *resourceLoader) Has(path gdnative.String) gdnative.Bool {
 
 /*
         Undocumented
-	Args: [{ false path String} { true type_hint String} {False true p_no_cache bool}], Returns: Resource
+	Args: [{ false path String}], Returns: bool
 */
-func (o *resourceLoader) Load(path gdnative.String, typeHint gdnative.String, pNoCache gdnative.Bool) ResourceImplementer {
+func (o *resourceLoader) HasCached(path gdnative.String) gdnative.Bool {
+	o.ensureSingleton()
+	//log.Println("Calling _ResourceLoader.HasCached()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(path)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_ResourceLoader", "has_cached")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false path String} { true type_hint String} {False true no_cache bool}], Returns: Resource
+*/
+func (o *resourceLoader) Load(path gdnative.String, typeHint gdnative.String, noCache gdnative.Bool) ResourceImplementer {
 	o.ensureSingleton()
 	//log.Println("Calling _ResourceLoader.Load()")
 
@@ -143,7 +194,7 @@ func (o *resourceLoader) Load(path gdnative.String, typeHint gdnative.String, pN
 	ptrArguments := make([]gdnative.Pointer, 3, 3)
 	ptrArguments[0] = gdnative.NewPointerFromString(path)
 	ptrArguments[1] = gdnative.NewPointerFromString(typeHint)
-	ptrArguments[2] = gdnative.NewPointerFromBool(pNoCache)
+	ptrArguments[2] = gdnative.NewPointerFromBool(noCache)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("_ResourceLoader", "load")
@@ -238,10 +289,12 @@ func (o *resourceLoader) SetAbortOnMissingResources(abort gdnative.Bool) {
 // of the ResourceLoader class.
 type ResourceLoaderImplementer interface {
 	ObjectImplementer
+	Exists(path gdnative.String, typeHint gdnative.String) gdnative.Bool
 	GetDependencies(path gdnative.String) gdnative.PoolStringArray
 	GetRecognizedExtensionsForType(aType gdnative.String) gdnative.PoolStringArray
 	Has(path gdnative.String) gdnative.Bool
-	Load(path gdnative.String, typeHint gdnative.String, pNoCache gdnative.Bool) ResourceImplementer
+	HasCached(path gdnative.String) gdnative.Bool
+	Load(path gdnative.String, typeHint gdnative.String, noCache gdnative.Bool) ResourceImplementer
 	LoadInteractive(path gdnative.String, typeHint gdnative.String) ResourceInteractiveLoaderImplementer
 	SetAbortOnMissingResources(abort gdnative.Bool)
 }

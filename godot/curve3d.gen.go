@@ -79,7 +79,7 @@ func (o *Curve3D) X_SetData(arg0 gdnative.Dictionary) {
 }
 
 /*
-        Adds a point to a curve, at "position", with control points "in" and "out". If "at_position" is given, the point is inserted before the point number "at_position", moving that point (and every point after) after the inserted point. If "at_position" is not given, or is an illegal value (at_position <0 or at_position >= [method get_point_count]), the point will be appended at the end of the point list.
+        Adds a point to a curve, at [code]position[/code], with control points [code]in[/code] and [code]out[/code]. If [code]at_position[/code] is given, the point is inserted before the point number [code]at_position[/code], moving that point (and every point after) after the inserted point. If [code]at_position[/code] is not given, or is an illegal value ([code]at_position <0[/code] or [code]at_position >= [method get_point_count][/code]), the point will be appended at the end of the point list.
 	Args: [{ false position Vector3} {(0, 0, 0) true in Vector3} {(0, 0, 0) true out Vector3} {-1 true at_position int}], Returns: void
 */
 func (o *Curve3D) AddPoint(position gdnative.Vector3, in gdnative.Vector3, out gdnative.Vector3, atPosition gdnative.Int) {
@@ -146,7 +146,7 @@ func (o *Curve3D) GetBakeInterval() gdnative.Real {
 }
 
 /*
-        Returns the total length of the curve, based on the cached points. Given enough density (see [method set_bake_interval]), it should be approximate enough.
+        Returns the total length of the curve, based on the cached points. Given enough density (see [member bake_interval]), it should be approximate enough.
 	Args: [], Returns: float
 */
 func (o *Curve3D) GetBakedLength() gdnative.Real {
@@ -192,7 +192,7 @@ func (o *Curve3D) GetBakedPoints() gdnative.PoolVector3Array {
 }
 
 /*
-        Returns the cache of tilts as a [RealArray].
+        Returns the cache of tilts as a [PoolRealArray].
 	Args: [], Returns: PoolRealArray
 */
 func (o *Curve3D) GetBakedTilts() gdnative.PoolRealArray {
@@ -211,6 +211,77 @@ func (o *Curve3D) GetBakedTilts() gdnative.PoolRealArray {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewPoolRealArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the cache of up vectors as a [PoolVector3Array]. If [member up_vector_enabled] is [code]false[/code], the cache will be empty.
+	Args: [], Returns: PoolVector3Array
+*/
+func (o *Curve3D) GetBakedUpVectors() gdnative.PoolVector3Array {
+	//log.Println("Calling Curve3D.GetBakedUpVectors()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Curve3D", "get_baked_up_vectors")
+
+	// Call the parent method.
+	// PoolVector3Array
+	retPtr := gdnative.NewEmptyPoolVector3Array()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewPoolVector3ArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the closest offset to [code]to_point[/code]. This offset is meant to be used in [method interpolate_baked] or [method interpolate_baked_up_vector]. [code]to_point[/code] must be in this curve's local space.
+	Args: [{ false to_point Vector3}], Returns: float
+*/
+func (o *Curve3D) GetClosestOffset(toPoint gdnative.Vector3) gdnative.Real {
+	//log.Println("Calling Curve3D.GetClosestOffset()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(toPoint)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Curve3D", "get_closest_offset")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the closest point (in curve's local space) to [code]to_point[/code]. [code]to_point[/code] must be in this curve's local space.
+	Args: [{ false to_point Vector3}], Returns: Vector3
+*/
+func (o *Curve3D) GetClosestPoint(toPoint gdnative.Vector3) gdnative.Vector3 {
+	//log.Println("Calling Curve3D.GetClosestPoint()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(toPoint)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Curve3D", "get_closest_point")
+
+	// Call the parent method.
+	// Vector3
+	retPtr := gdnative.NewEmptyVector3()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector3FromPointer(retPtr)
 	return ret
 }
 
@@ -238,7 +309,7 @@ func (o *Curve3D) GetPointCount() gdnative.Int {
 }
 
 /*
-        Returns the position of the control point leading to the vertex "idx". If the index is out of bounds, the function sends an error to the console, and returns (0, 0, 0).
+        Returns the position of the control point leading to the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console, and returns [code](0, 0, 0)[/code].
 	Args: [{ false idx int}], Returns: Vector3
 */
 func (o *Curve3D) GetPointIn(idx gdnative.Int) gdnative.Vector3 {
@@ -262,7 +333,7 @@ func (o *Curve3D) GetPointIn(idx gdnative.Int) gdnative.Vector3 {
 }
 
 /*
-        Returns the position of the control point leading out of the vertex "idx". If the index is out of bounds, the function sends an error to the console, and returns (0, 0, 0).
+        Returns the position of the control point leading out of the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console, and returns [code](0, 0, 0)[/code].
 	Args: [{ false idx int}], Returns: Vector3
 */
 func (o *Curve3D) GetPointOut(idx gdnative.Int) gdnative.Vector3 {
@@ -286,7 +357,7 @@ func (o *Curve3D) GetPointOut(idx gdnative.Int) gdnative.Vector3 {
 }
 
 /*
-        Returns the position of the vertex "idx". If the index is out of bounds, the function sends an error to the console, and returns (0, 0, 0).
+        Returns the position of the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console, and returns [code](0, 0, 0)[/code].
 	Args: [{ false idx int}], Returns: Vector3
 */
 func (o *Curve3D) GetPointPosition(idx gdnative.Int) gdnative.Vector3 {
@@ -310,7 +381,7 @@ func (o *Curve3D) GetPointPosition(idx gdnative.Int) gdnative.Vector3 {
 }
 
 /*
-        Returns the tilt angle in radians for the point "idx". If the index is out of bounds, the function sends an error to the console, and returns 0.
+        Returns the tilt angle in radians for the point [code]idx[/code]. If the index is out of bounds, the function sends an error to the console, and returns [code]0[/code].
 	Args: [{ false idx int}], Returns: float
 */
 func (o *Curve3D) GetPointTilt(idx gdnative.Int) gdnative.Real {
@@ -334,7 +405,7 @@ func (o *Curve3D) GetPointTilt(idx gdnative.Int) gdnative.Real {
 }
 
 /*
-        Returns the position between the vertex "idx" and the vertex "idx"+1, where "t" controls if the point is the first vertex (t = 0.0), the last vertex (t = 1.0), or in between. Values of "t" outside the range (0.0 >= t <=1) give strange, but predictable results. If "idx" is out of bounds it is truncated to the first or last vertex, and "t" is ignored. If the curve has no points, the function sends an error to the console, and returns (0, 0, 0).
+        Returns the position between the vertex [code]idx[/code] and the vertex [code]idx + 1[/code], where [code]t[/code] controls if the point is the first vertex ([code]t = 0.0[/code]), the last vertex ([code]t = 1.0[/code]), or in between. Values of [code]t[/code] outside the range ([code]0.0 >= t <=1[/code]) give strange, but predictable results. If [code]idx[/code] is out of bounds it is truncated to the first or last vertex, and [code]t[/code] is ignored. If the curve has no points, the function sends an error to the console, and returns [code](0, 0, 0)[/code].
 	Args: [{ false idx int} { false t float}], Returns: Vector3
 */
 func (o *Curve3D) Interpolate(idx gdnative.Int, t gdnative.Real) gdnative.Vector3 {
@@ -359,7 +430,7 @@ func (o *Curve3D) Interpolate(idx gdnative.Int, t gdnative.Real) gdnative.Vector
 }
 
 /*
-        Returns a point within the curve at position "offset", where "offset" is measured as a distance in 3D units along the curve. To do that, it finds the two cached points where the "offset" lies between, then interpolates the values. This interpolation is cubic if "cubic" is set to true, or linear if set to false. Cubic interpolation tends to follow the curves better, but linear is faster (and often, precise enough).
+        Returns a point within the curve at position [code]offset[/code], where [code]offset[/code] is measured as a pixel distance along the curve. To do that, it finds the two cached points where the [code]offset[/code] lies between, then interpolates the values. This interpolation is cubic if [code]cubic[/code] is set to [code]true[/code], or linear if set to [code]false[/code]. Cubic interpolation tends to follow the curves better, but linear is faster (and often, precise enough).
 	Args: [{ false offset float} {False true cubic bool}], Returns: Vector3
 */
 func (o *Curve3D) InterpolateBaked(offset gdnative.Real, cubic gdnative.Bool) gdnative.Vector3 {
@@ -384,7 +455,32 @@ func (o *Curve3D) InterpolateBaked(offset gdnative.Real, cubic gdnative.Bool) gd
 }
 
 /*
-        Returns the position at the vertex "fofs". It calls [method interpolate] using the integer part of fofs as "idx", and its fractional part as "t".
+        Returns an up vector within the curve at position [code]offset[/code], where [code]offset[/code] is measured as a distance in 3D units along the curve. To do that, it finds the two cached up vectors where the [code]offset[/code] lies between, then interpolates the values. If [code]apply_tilt[/code] is [code]true[/code], an interpolated tilt is applied to the interpolated up vector. If the curve has no up vectors, the function sends an error to the console, and returns [code](0, 1, 0)[/code].
+	Args: [{ false offset float} {False true apply_tilt bool}], Returns: Vector3
+*/
+func (o *Curve3D) InterpolateBakedUpVector(offset gdnative.Real, applyTilt gdnative.Bool) gdnative.Vector3 {
+	//log.Println("Calling Curve3D.InterpolateBakedUpVector()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromReal(offset)
+	ptrArguments[1] = gdnative.NewPointerFromBool(applyTilt)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Curve3D", "interpolate_baked_up_vector")
+
+	// Call the parent method.
+	// Vector3
+	retPtr := gdnative.NewEmptyVector3()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVector3FromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the position at the vertex [code]fofs[/code]. It calls [method interpolate] using the integer part of [code]fofs[/code] as [code]idx[/code], and its fractional part as [code]t[/code].
 	Args: [{ false fofs float}], Returns: Vector3
 */
 func (o *Curve3D) Interpolatef(fofs gdnative.Real) gdnative.Vector3 {
@@ -408,7 +504,30 @@ func (o *Curve3D) Interpolatef(fofs gdnative.Real) gdnative.Vector3 {
 }
 
 /*
-        Deletes the point "idx" from the curve. Sends an error to the console if "idx" is out of bounds.
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *Curve3D) IsUpVectorEnabled() gdnative.Bool {
+	//log.Println("Calling Curve3D.IsUpVectorEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Curve3D", "is_up_vector_enabled")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Deletes the point [code]idx[/code] from the curve. Sends an error to the console if [code]idx[/code] is out of bounds.
 	Args: [{ false idx int}], Returns: void
 */
 func (o *Curve3D) RemovePoint(idx gdnative.Int) {
@@ -450,7 +569,7 @@ func (o *Curve3D) SetBakeInterval(distance gdnative.Real) {
 }
 
 /*
-        Sets the position of the control point leading to the vertex "idx". If the index is out of bounds, the function sends an error to the console.
+        Sets the position of the control point leading to the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console.
 	Args: [{ false idx int} { false position Vector3}], Returns: void
 */
 func (o *Curve3D) SetPointIn(idx gdnative.Int, position gdnative.Vector3) {
@@ -472,7 +591,7 @@ func (o *Curve3D) SetPointIn(idx gdnative.Int, position gdnative.Vector3) {
 }
 
 /*
-        Sets the position of the control point leading out of the vertex "idx". If the index is out of bounds, the function sends an error to the console.
+        Sets the position of the control point leading out of the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console.
 	Args: [{ false idx int} { false position Vector3}], Returns: void
 */
 func (o *Curve3D) SetPointOut(idx gdnative.Int, position gdnative.Vector3) {
@@ -494,7 +613,7 @@ func (o *Curve3D) SetPointOut(idx gdnative.Int, position gdnative.Vector3) {
 }
 
 /*
-        Sets the position for the vertex "idx". If the index is out of bounds, the function sends an error to the console.
+        Sets the position for the vertex [code]idx[/code]. If the index is out of bounds, the function sends an error to the console.
 	Args: [{ false idx int} { false position Vector3}], Returns: void
 */
 func (o *Curve3D) SetPointPosition(idx gdnative.Int, position gdnative.Vector3) {
@@ -516,7 +635,7 @@ func (o *Curve3D) SetPointPosition(idx gdnative.Int, position gdnative.Vector3) 
 }
 
 /*
-        Sets the tilt angle in radians for the point "idx". If the index is out of bounds, the function sends an error to the console. The tilt controls the rotation along the look-at axis an object traveling the path would have. In the case of a curve controlling a [PathFollow], this tilt is an offset over the natural tilt the PathFollow calculates.
+        Sets the tilt angle in radians for the point [code]idx[/code]. If the index is out of bounds, the function sends an error to the console. The tilt controls the rotation along the look-at axis an object traveling the path would have. In the case of a curve controlling a [PathFollow], this tilt is an offset over the natural tilt the [PathFollow] calculates.
 	Args: [{ false idx int} { false tilt float}], Returns: void
 */
 func (o *Curve3D) SetPointTilt(idx gdnative.Int, tilt gdnative.Real) {
@@ -538,7 +657,28 @@ func (o *Curve3D) SetPointTilt(idx gdnative.Int, tilt gdnative.Real) {
 }
 
 /*
-        Returns a list of points along the curve, with a curvature controlled point density. That is, the curvier parts will have more points than the straighter parts. This approximation makes straight segments between each point, then subdivides those segments until the resulting shape is similar enough. "max_stages" controls how many subdivisions a curve segment may face before it is considered approximate enough. Each subdivision splits the segment in half, so the default 5 stages may mean up to 32 subdivisions per curve segment. Increase with care! "tolerance_degrees" controls how many degrees the midpoint of a segment may deviate from the real curve, before the segment has to be subdivided.
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *Curve3D) SetUpVectorEnabled(enable gdnative.Bool) {
+	//log.Println("Calling Curve3D.SetUpVectorEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Curve3D", "set_up_vector_enabled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Returns a list of points along the curve, with a curvature controlled point density. That is, the curvier parts will have more points than the straighter parts. This approximation makes straight segments between each point, then subdivides those segments until the resulting shape is similar enough. [code]max_stages[/code] controls how many subdivisions a curve segment may face before it is considered approximate enough. Each subdivision splits the segment in half, so the default 5 stages may mean up to 32 subdivisions per curve segment. Increase with care! [code]tolerance_degrees[/code] controls how many degrees the midpoint of a segment may deviate from the real curve, before the segment has to be subdivided.
 	Args: [{5 true max_stages int} {4 true tolerance_degrees float}], Returns: PoolVector3Array
 */
 func (o *Curve3D) Tessellate(maxStages gdnative.Int, toleranceDegrees gdnative.Real) gdnative.PoolVector3Array {
@@ -574,6 +714,9 @@ type Curve3DImplementer interface {
 	GetBakedLength() gdnative.Real
 	GetBakedPoints() gdnative.PoolVector3Array
 	GetBakedTilts() gdnative.PoolRealArray
+	GetBakedUpVectors() gdnative.PoolVector3Array
+	GetClosestOffset(toPoint gdnative.Vector3) gdnative.Real
+	GetClosestPoint(toPoint gdnative.Vector3) gdnative.Vector3
 	GetPointCount() gdnative.Int
 	GetPointIn(idx gdnative.Int) gdnative.Vector3
 	GetPointOut(idx gdnative.Int) gdnative.Vector3
@@ -581,12 +724,15 @@ type Curve3DImplementer interface {
 	GetPointTilt(idx gdnative.Int) gdnative.Real
 	Interpolate(idx gdnative.Int, t gdnative.Real) gdnative.Vector3
 	InterpolateBaked(offset gdnative.Real, cubic gdnative.Bool) gdnative.Vector3
+	InterpolateBakedUpVector(offset gdnative.Real, applyTilt gdnative.Bool) gdnative.Vector3
 	Interpolatef(fofs gdnative.Real) gdnative.Vector3
+	IsUpVectorEnabled() gdnative.Bool
 	RemovePoint(idx gdnative.Int)
 	SetBakeInterval(distance gdnative.Real)
 	SetPointIn(idx gdnative.Int, position gdnative.Vector3)
 	SetPointOut(idx gdnative.Int, position gdnative.Vector3)
 	SetPointPosition(idx gdnative.Int, position gdnative.Vector3)
 	SetPointTilt(idx gdnative.Int, tilt gdnative.Real)
+	SetUpVectorEnabled(enable gdnative.Bool)
 	Tessellate(maxStages gdnative.Int, toleranceDegrees gdnative.Real) gdnative.PoolVector3Array
 }

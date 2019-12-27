@@ -23,7 +23,7 @@ func newAudioEffectBandPassFilterFromPointer(ptr gdnative.Pointer) AudioEffectBa
 }
 
 /*
-Attenuates the frequencies inside of a range around the [member cutoff_hz] and cuts frequencies outside of this band.
+Attenuates the frequencies inside of a range around the [member AudioEffectFilter.cutoff_hz] and cuts frequencies outside of this band.
 */
 type AudioEffectBandPassFilter struct {
 	AudioEffectFilter

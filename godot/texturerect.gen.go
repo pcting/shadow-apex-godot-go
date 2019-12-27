@@ -37,7 +37,7 @@ func newTextureRectFromPointer(ptr gdnative.Pointer) TextureRect {
 }
 
 /*
-Use TextureRect to draw icons and sprites in your User Interfaces. To create panels and menu boxes, take a look at [NinePatchFrame]. Its Stretch Mode property controls the texture's scale and placement. It can scale, tile and stay centered inside its bounding rectangle. TextureRect is one of the 5 most common nodes to create game UI.
+Used to draw icons and sprites in a user interface. The texture's placement can be controlled with the [member stretch_mode] property. It can scale, tile, or stay centered inside its bounding rectangle.
 */
 type TextureRect struct {
 	Control
@@ -46,6 +46,26 @@ type TextureRect struct {
 
 func (o *TextureRect) BaseClass() string {
 	return "TextureRect"
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
+func (o *TextureRect) X_TextureChanged() {
+	//log.Println("Calling TextureRect.X_TextureChanged()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureRect", "_texture_changed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
 }
 
 /*
@@ -133,6 +153,52 @@ func (o *TextureRect) HasExpand() gdnative.Bool {
 
 /*
         Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TextureRect) IsFlippedH() gdnative.Bool {
+	//log.Println("Calling TextureRect.IsFlippedH()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureRect", "is_flipped_h")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *TextureRect) IsFlippedV() gdnative.Bool {
+	//log.Println("Calling TextureRect.IsFlippedV()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureRect", "is_flipped_v")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [{ false enable bool}], Returns: void
 */
 func (o *TextureRect) SetExpand(enable gdnative.Bool) {
@@ -144,6 +210,48 @@ func (o *TextureRect) SetExpand(enable gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TextureRect", "set_expand")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *TextureRect) SetFlipH(enable gdnative.Bool) {
+	//log.Println("Calling TextureRect.SetFlipH()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureRect", "set_flip_h")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false enable bool}], Returns: void
+*/
+func (o *TextureRect) SetFlipV(enable gdnative.Bool) {
+	//log.Println("Calling TextureRect.SetFlipV()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enable)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextureRect", "set_flip_v")
 
 	// Call the parent method.
 	// void
@@ -198,9 +306,14 @@ func (o *TextureRect) SetTexture(texture TextureImplementer) {
 // of the TextureRect class.
 type TextureRectImplementer interface {
 	ControlImplementer
+	X_TextureChanged()
 	GetTexture() TextureImplementer
 	HasExpand() gdnative.Bool
+	IsFlippedH() gdnative.Bool
+	IsFlippedV() gdnative.Bool
 	SetExpand(enable gdnative.Bool)
+	SetFlipH(enable gdnative.Bool)
+	SetFlipV(enable gdnative.Bool)
 	SetStretchMode(stretchMode gdnative.Int)
 	SetTexture(texture TextureImplementer)
 }

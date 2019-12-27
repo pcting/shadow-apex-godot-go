@@ -20,7 +20,7 @@ const (
 	MeshArrayCompressBase      MeshArrayFormat = 9
 	MeshArrayCompressBones     MeshArrayFormat = 32768
 	MeshArrayCompressColor     MeshArrayFormat = 4096
-	MeshArrayCompressDefault   MeshArrayFormat = 97792
+	MeshArrayCompressDefault   MeshArrayFormat = 97280
 	MeshArrayCompressIndex     MeshArrayFormat = 131072
 	MeshArrayCompressNormal    MeshArrayFormat = 1024
 	MeshArrayCompressTangent   MeshArrayFormat = 2048
@@ -295,6 +295,29 @@ func (o *Mesh) GetLightmapSizeHint() gdnative.Vector2 {
 }
 
 /*
+        Returns the amount of surfaces that the [code]Mesh[/code] holds.
+	Args: [], Returns: int
+*/
+func (o *Mesh) GetSurfaceCount() gdnative.Int {
+	//log.Println("Calling Mesh.GetSurfaceCount()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Mesh", "get_surface_count")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
         Undocumented
 	Args: [{ false size Vector2}], Returns: void
 */
@@ -315,6 +338,114 @@ func (o *Mesh) SetLightmapSizeHint(size gdnative.Vector2) {
 
 }
 
+/*
+        Returns the arrays for the vertices, normals, uvs, etc. that make up the requested surface (see [method ArrayMesh.add_surface_from_arrays]).
+	Args: [{ false surf_idx int}], Returns: Array
+*/
+func (o *Mesh) SurfaceGetArrays(surfIdx gdnative.Int) gdnative.Array {
+	//log.Println("Calling Mesh.SurfaceGetArrays()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(surfIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Mesh", "surface_get_arrays")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns the blend shape arrays for the requested surface.
+	Args: [{ false surf_idx int}], Returns: Array
+*/
+func (o *Mesh) SurfaceGetBlendShapeArrays(surfIdx gdnative.Int) gdnative.Array {
+	//log.Println("Calling Mesh.SurfaceGetBlendShapeArrays()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(surfIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Mesh", "surface_get_blend_shape_arrays")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Returns a [Material] in a given surface. Surface is rendered using this material.
+	Args: [{ false surf_idx int}], Returns: Material
+*/
+func (o *Mesh) SurfaceGetMaterial(surfIdx gdnative.Int) MaterialImplementer {
+	//log.Println("Calling Mesh.SurfaceGetMaterial()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(surfIdx)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Mesh", "surface_get_material")
+
+	// Call the parent method.
+	// Material
+	retPtr := gdnative.NewEmptyObject()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := newMaterialFromPointer(retPtr)
+
+	// Check to see if we already have an instance of this object in our Go instance registry.
+	if instance, ok := InstanceRegistry.Get(ret.GetBaseObject().ID()); ok {
+		return instance.(MaterialImplementer)
+	}
+
+	// Check to see what kind of class this is and create it. This is generally used with
+	// GetNode().
+	className := ret.GetClass()
+	if className != "Material" {
+		actualRet := getActualClass(className, ret.GetBaseObject())
+		return actualRet.(MaterialImplementer)
+	}
+
+	return &ret
+}
+
+/*
+        Undocumented
+	Args: [{ false surf_idx int} { false material Material}], Returns: void
+*/
+func (o *Mesh) SurfaceSetMaterial(surfIdx gdnative.Int, material MaterialImplementer) {
+	//log.Println("Calling Mesh.SurfaceSetMaterial()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(surfIdx)
+	ptrArguments[1] = gdnative.NewPointerFromObject(material.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Mesh", "surface_set_material")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // MeshImplementer is an interface that implements the methods
 // of the Mesh class.
 type MeshImplementer interface {
@@ -325,5 +456,10 @@ type MeshImplementer interface {
 	GenerateTriangleMesh() TriangleMeshImplementer
 	GetFaces() gdnative.PoolVector3Array
 	GetLightmapSizeHint() gdnative.Vector2
+	GetSurfaceCount() gdnative.Int
 	SetLightmapSizeHint(size gdnative.Vector2)
+	SurfaceGetArrays(surfIdx gdnative.Int) gdnative.Array
+	SurfaceGetBlendShapeArrays(surfIdx gdnative.Int) gdnative.Array
+	SurfaceGetMaterial(surfIdx gdnative.Int) MaterialImplementer
+	SurfaceSetMaterial(surfIdx gdnative.Int, material MaterialImplementer)
 }

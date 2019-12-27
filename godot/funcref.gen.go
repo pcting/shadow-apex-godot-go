@@ -58,6 +58,53 @@ func (o *FuncRef) CallFunc() gdnative.Variant {
 }
 
 /*
+        Undocumented
+	Args: [{ false arg_array Array}], Returns: Variant
+*/
+func (o *FuncRef) CallFuncv(argArray gdnative.Array) gdnative.Variant {
+	//log.Println("Calling FuncRef.CallFuncv()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromArray(argArray)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("FuncRef", "call_funcv")
+
+	// Call the parent method.
+	// Variant
+	retPtr := gdnative.NewEmptyVariant()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVariantFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *FuncRef) IsValid() gdnative.Bool {
+	//log.Println("Calling FuncRef.IsValid()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("FuncRef", "is_valid")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
         The name of the referenced function to call on the object, without parentheses or any parameters.
 	Args: [{ false name String}], Returns: void
 */
@@ -104,6 +151,8 @@ func (o *FuncRef) SetInstance(instance ObjectImplementer) {
 type FuncRefImplementer interface {
 	ReferenceImplementer
 	CallFunc() gdnative.Variant
+	CallFuncv(argArray gdnative.Array) gdnative.Variant
+	IsValid() gdnative.Bool
 	SetFunction(name gdnative.String)
 	SetInstance(instance ObjectImplementer)
 }

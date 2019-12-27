@@ -35,7 +35,7 @@ func (o *CollisionObject2D) BaseClass() string {
 }
 
 /*
-        Accepts unhandled [InputEvent]s. [code]shape_idx[/code] is the child index of the clicked [Shape2D]. Connect to the [code]input_event[/code] signal to easily pick up these events.
+        Accepts unhandled [InputEvent]s. Requires [member input_pickable] to be [code]true[/code]. [code]shape_idx[/code] is the child index of the clicked [Shape2D]. Connect to the [code]input_event[/code] signal to easily pick up these events.
 	Args: [{ false viewport Object} { false event InputEvent} { false shape_idx int}], Returns: void
 */
 func (o *CollisionObject2D) X_InputEvent(viewport ObjectImplementer, event InputEventImplementer, shapeIdx gdnative.Int) {
@@ -105,6 +105,30 @@ func (o *CollisionObject2D) GetRid() gdnative.Rid {
 }
 
 /*
+
+	Args: [{ false owner_id int}], Returns: float
+*/
+func (o *CollisionObject2D) GetShapeOwnerOneWayCollisionMargin(ownerId gdnative.Int) gdnative.Real {
+	//log.Println("Calling CollisionObject2D.GetShapeOwnerOneWayCollisionMargin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(ownerId)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CollisionObject2D", "get_shape_owner_one_way_collision_margin")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns an [Array] of [code]owner_id[/code] identifiers. You can use these ids in other methods that take [code]owner_id[/code] as an argument.
 	Args: [], Returns: Array
 */
@@ -151,7 +175,7 @@ func (o *CollisionObject2D) IsPickable() gdnative.Bool {
 }
 
 /*
-        If [code]true[/code] the shape owner and its shapes are disabled.
+        If [code]true[/code], the shape owner and its shapes are disabled.
 	Args: [{ false owner_id int}], Returns: bool
 */
 func (o *CollisionObject2D) IsShapeOwnerDisabled(ownerId gdnative.Int) gdnative.Bool {
@@ -480,7 +504,7 @@ func (o *CollisionObject2D) ShapeOwnerRemoveShape(ownerId gdnative.Int, shapeId 
 }
 
 /*
-        If [code]true[/code] disables the given shape owner.
+        If [code]true[/code], disables the given shape owner.
 	Args: [{ false owner_id int} { false disabled bool}], Returns: void
 */
 func (o *CollisionObject2D) ShapeOwnerSetDisabled(ownerId gdnative.Int, disabled gdnative.Bool) {
@@ -524,6 +548,28 @@ func (o *CollisionObject2D) ShapeOwnerSetOneWayCollision(ownerId gdnative.Int, e
 }
 
 /*
+
+	Args: [{ false owner_id int} { false margin float}], Returns: void
+*/
+func (o *CollisionObject2D) ShapeOwnerSetOneWayCollisionMargin(ownerId gdnative.Int, margin gdnative.Real) {
+	//log.Println("Calling CollisionObject2D.ShapeOwnerSetOneWayCollisionMargin()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromInt(ownerId)
+	ptrArguments[1] = gdnative.NewPointerFromReal(margin)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("CollisionObject2D", "shape_owner_set_one_way_collision_margin")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Sets the [Transform2D] of the given shape owner.
 	Args: [{ false owner_id int} { false transform Transform2D}], Returns: void
 */
@@ -552,6 +598,7 @@ type CollisionObject2DImplementer interface {
 	X_InputEvent(viewport ObjectImplementer, event InputEventImplementer, shapeIdx gdnative.Int)
 	CreateShapeOwner(owner ObjectImplementer) gdnative.Int
 	GetRid() gdnative.Rid
+	GetShapeOwnerOneWayCollisionMargin(ownerId gdnative.Int) gdnative.Real
 	GetShapeOwners() gdnative.Array
 	IsPickable() gdnative.Bool
 	IsShapeOwnerDisabled(ownerId gdnative.Int) gdnative.Bool
@@ -569,5 +616,6 @@ type CollisionObject2DImplementer interface {
 	ShapeOwnerRemoveShape(ownerId gdnative.Int, shapeId gdnative.Int)
 	ShapeOwnerSetDisabled(ownerId gdnative.Int, disabled gdnative.Bool)
 	ShapeOwnerSetOneWayCollision(ownerId gdnative.Int, enable gdnative.Bool)
+	ShapeOwnerSetOneWayCollisionMargin(ownerId gdnative.Int, margin gdnative.Real)
 	ShapeOwnerSetTransform(ownerId gdnative.Int, transform gdnative.Transform2D)
 }

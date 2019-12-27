@@ -23,7 +23,7 @@ func newPrimitiveMeshFromPointer(ptr gdnative.Pointer) PrimitiveMesh {
 }
 
 /*
-Base class for all primitive meshes. Handles applying a [Material] to a primitive mesh.
+Base class for all primitive meshes. Handles applying a [Material] to a primitive mesh. Examples include [CapsuleMesh], [CubeMesh], [CylinderMesh], [PlaneMesh], [PrismMesh], [QuadMesh], and [SphereMesh].
 */
 type PrimitiveMesh struct {
 	Mesh
@@ -52,6 +52,52 @@ func (o *PrimitiveMesh) X_Update() {
 	retPtr := gdnative.NewEmptyVoid()
 	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
 
+}
+
+/*
+        Undocumented
+	Args: [], Returns: AABB
+*/
+func (o *PrimitiveMesh) GetCustomAabb() gdnative.Aabb {
+	//log.Println("Calling PrimitiveMesh.GetCustomAabb()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PrimitiveMesh", "get_custom_aabb")
+
+	// Call the parent method.
+	// AABB
+	retPtr := gdnative.NewEmptyAabb()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewAabbFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
+func (o *PrimitiveMesh) GetFlipFaces() gdnative.Bool {
+	//log.Println("Calling PrimitiveMesh.GetFlipFaces()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PrimitiveMesh", "get_flip_faces")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -92,7 +138,7 @@ func (o *PrimitiveMesh) GetMaterial() MaterialImplementer {
 }
 
 /*
-
+        Returns mesh arrays used to constitute surface of [Mesh]. Mesh array can be used with [ArrayMesh] to create new surface.
 	Args: [], Returns: Array
 */
 func (o *PrimitiveMesh) GetMeshArrays() gdnative.Array {
@@ -112,6 +158,48 @@ func (o *PrimitiveMesh) GetMeshArrays() gdnative.Array {
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewArrayFromPointer(retPtr)
 	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false aabb AABB}], Returns: void
+*/
+func (o *PrimitiveMesh) SetCustomAabb(aabb gdnative.Aabb) {
+	//log.Println("Calling PrimitiveMesh.SetCustomAabb()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromAabb(aabb)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PrimitiveMesh", "set_custom_aabb")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false flip_faces bool}], Returns: void
+*/
+func (o *PrimitiveMesh) SetFlipFaces(flipFaces gdnative.Bool) {
+	//log.Println("Calling PrimitiveMesh.SetFlipFaces()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(flipFaces)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PrimitiveMesh", "set_flip_faces")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
 }
 
 /*
@@ -140,7 +228,11 @@ func (o *PrimitiveMesh) SetMaterial(material MaterialImplementer) {
 type PrimitiveMeshImplementer interface {
 	MeshImplementer
 	X_Update()
+	GetCustomAabb() gdnative.Aabb
+	GetFlipFaces() gdnative.Bool
 	GetMaterial() MaterialImplementer
 	GetMeshArrays() gdnative.Array
+	SetCustomAabb(aabb gdnative.Aabb)
+	SetFlipFaces(flipFaces gdnative.Bool)
 	SetMaterial(material MaterialImplementer)
 }

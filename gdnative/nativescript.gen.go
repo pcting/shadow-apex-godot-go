@@ -10,8 +10,9 @@ package gdnative
 //----------------------------------------------------------------------------*/
 
 /*
+#cgo LDFLAGS: -I../godot_headers
 #include "gdnative.gen.h"
-#include <nativescript/godot_nativescript.h>
+#include <godot_headers/nativescript/godot_nativescript.h>
 // Include all headers for now. TODO: Look up all the required
 // headers we need to import based on the method arguments and return types.
 #include <gdnative/aabb.h>
@@ -46,20 +47,28 @@ func (e MethodRpcMode) getBase() C.godot_method_rpc_mode {
 }
 
 const (
-	MethodRpcModeDisabled MethodRpcMode = 0
-	MethodRpcModeRemote   MethodRpcMode = 1
-	MethodRpcModeSync     MethodRpcMode = 2
-	MethodRpcModeMaster   MethodRpcMode = 3
-	MethodRpcModeSlave    MethodRpcMode = 4
+	MethodRpcModeDisabled   MethodRpcMode = 0
+	MethodRpcModeRemote     MethodRpcMode = 1
+	MethodRpcModeMaster     MethodRpcMode = 2
+	MethodRpcModePuppet     MethodRpcMode = 3
+	MethodRpcModeSlave      MethodRpcMode = 4
+	MethodRpcModeRemotesync MethodRpcMode = 5
+	MethodRpcModeSync       MethodRpcMode = 6
+	MethodRpcModeMastersync MethodRpcMode = 7
+	MethodRpcModePuppetsync MethodRpcMode = 8
 )
 
 // MethodRpcModeLookupMap is a string-based lookup table of constants for MethodRpcMode.
 var MethodRpcModeLookupMap = map[string]MethodRpcMode{
-	"MethodRpcModeDisabled": MethodRpcModeDisabled,
-	"MethodRpcModeRemote":   MethodRpcModeRemote,
-	"MethodRpcModeSync":     MethodRpcModeSync,
-	"MethodRpcModeMaster":   MethodRpcModeMaster,
-	"MethodRpcModeSlave":    MethodRpcModeSlave,
+	"MethodRpcModeDisabled":   MethodRpcModeDisabled,
+	"MethodRpcModeRemote":     MethodRpcModeRemote,
+	"MethodRpcModeMaster":     MethodRpcModeMaster,
+	"MethodRpcModePuppet":     MethodRpcModePuppet,
+	"MethodRpcModeSlave":      MethodRpcModeSlave,
+	"MethodRpcModeRemotesync": MethodRpcModeRemotesync,
+	"MethodRpcModeSync":       MethodRpcModeSync,
+	"MethodRpcModeMastersync": MethodRpcModeMastersync,
+	"MethodRpcModePuppetsync": MethodRpcModePuppetsync,
 }
 
 // PropertyHint is a Go wrapper for the C.godot_property_hint enum type.
@@ -89,21 +98,22 @@ const (
 	PropertyHintGlobalDir             PropertyHint = 16 // < a directort path must be passed
 	PropertyHintResourceType          PropertyHint = 17 // < a resource object type
 	PropertyHintMultilineText         PropertyHint = 18 // < used for string properties that can contain multiple lines
-	PropertyHintColorNoAlpha          PropertyHint = 19 // < used for ignoring alpha component when editing a color
-	PropertyHintImageCompressLossy    PropertyHint = 20
-	PropertyHintImageCompressLossless PropertyHint = 21
-	PropertyHintObjectId              PropertyHint = 22
-	PropertyHintTypeString            PropertyHint = 23 // < a type string, the hint is the base type to choose
-	PropertyHintNodePathToEditedNode  PropertyHint = 24 // < so something else can provide this (used in scripts)
-	PropertyHintMethodOfVariantType   PropertyHint = 25 // < a method of a type
-	PropertyHintMethodOfBaseType      PropertyHint = 26 // < a method of a base type
-	PropertyHintMethodOfInstance      PropertyHint = 27 // < a method of an instance
-	PropertyHintMethodOfScript        PropertyHint = 28 // < a method of a script & base
-	PropertyHintPropertyOfVariantType PropertyHint = 29 // < a property of a type
-	PropertyHintPropertyOfBaseType    PropertyHint = 30 // < a property of a base type
-	PropertyHintPropertyOfInstance    PropertyHint = 31 // < a property of an instance
-	PropertyHintPropertyOfScript      PropertyHint = 32 // < a property of a script & base
-	PropertyHintMax                   PropertyHint = 33
+	PropertyHintPlaceholderText       PropertyHint = 19 // < used to set a placeholder text for string properties
+	PropertyHintColorNoAlpha          PropertyHint = 20 // < used for ignoring alpha component when editing a color
+	PropertyHintImageCompressLossy    PropertyHint = 21
+	PropertyHintImageCompressLossless PropertyHint = 22
+	PropertyHintObjectId              PropertyHint = 23
+	PropertyHintTypeString            PropertyHint = 24 // < a type string, the hint is the base type to choose
+	PropertyHintNodePathToEditedNode  PropertyHint = 25 // < so something else can provide this (used in scripts)
+	PropertyHintMethodOfVariantType   PropertyHint = 26 // < a method of a type
+	PropertyHintMethodOfBaseType      PropertyHint = 27 // < a method of a base type
+	PropertyHintMethodOfInstance      PropertyHint = 28 // < a method of an instance
+	PropertyHintMethodOfScript        PropertyHint = 29 // < a method of a script & base
+	PropertyHintPropertyOfVariantType PropertyHint = 30 // < a property of a type
+	PropertyHintPropertyOfBaseType    PropertyHint = 31 // < a property of a base type
+	PropertyHintPropertyOfInstance    PropertyHint = 32 // < a property of an instance
+	PropertyHintPropertyOfScript      PropertyHint = 33 // < a property of a script & base
+	PropertyHintMax                   PropertyHint = 34
 )
 
 // PropertyHintLookupMap is a string-based lookup table of constants for PropertyHint.
@@ -127,6 +137,7 @@ var PropertyHintLookupMap = map[string]PropertyHint{
 	"PropertyHintGlobalDir":             PropertyHintGlobalDir,
 	"PropertyHintResourceType":          PropertyHintResourceType,
 	"PropertyHintMultilineText":         PropertyHintMultilineText,
+	"PropertyHintPlaceholderText":       PropertyHintPlaceholderText,
 	"PropertyHintColorNoAlpha":          PropertyHintColorNoAlpha,
 	"PropertyHintImageCompressLossy":    PropertyHintImageCompressLossy,
 	"PropertyHintImageCompressLossless": PropertyHintImageCompressLossless,

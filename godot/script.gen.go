@@ -23,7 +23,7 @@ func newScriptFromPointer(ptr gdnative.Pointer) Script {
 }
 
 /*
-A class stored as a resource. The script exends the functionality of all objects that instance it. The 'new' method of a script subclass creates a new instance. [method Object.set_script] extends an existing object, if that object's class matches one of the script's base classes.
+A class stored as a resource. A script exends the functionality of all objects that instance it. The [code]new[/code] method of a script subclass creates a new instance. [method Object.set_script] extends an existing object, if that object's class matches one of the script's base classes.
 */
 type Script struct {
 	Resource
@@ -35,7 +35,7 @@ func (o *Script) BaseClass() string {
 }
 
 /*
-        Returns true if the script can be instanced.
+        Returns [code]true[/code] if the script can be instanced.
 	Args: [], Returns: bool
 */
 func (o *Script) CanInstance() gdnative.Bool {
@@ -58,7 +58,7 @@ func (o *Script) CanInstance() gdnative.Bool {
 }
 
 /*
-
+        Returns the script directly inherited by this script.
 	Args: [], Returns: Script
 */
 func (o *Script) GetBaseScript() ScriptImplementer {
@@ -95,7 +95,7 @@ func (o *Script) GetBaseScript() ScriptImplementer {
 }
 
 /*
-
+        Returns the script's base type.
 	Args: [], Returns: String
 */
 func (o *Script) GetInstanceBaseType() gdnative.String {
@@ -114,6 +114,122 @@ func (o *Script) GetInstanceBaseType() gdnative.String {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [{ false property String}], Returns: Variant
+*/
+func (o *Script) GetPropertyDefaultValue(property gdnative.String) gdnative.Variant {
+	//log.Println("Calling Script.GetPropertyDefaultValue()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(property)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Script", "get_property_default_value")
+
+	// Call the parent method.
+	// Variant
+	retPtr := gdnative.NewEmptyVariant()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewVariantFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Dictionary
+*/
+func (o *Script) GetScriptConstantMap() gdnative.Dictionary {
+	//log.Println("Calling Script.GetScriptConstantMap()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Script", "get_script_constant_map")
+
+	// Call the parent method.
+	// Dictionary
+	retPtr := gdnative.NewEmptyDictionary()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewDictionaryFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Array
+*/
+func (o *Script) GetScriptMethodList() gdnative.Array {
+	//log.Println("Calling Script.GetScriptMethodList()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Script", "get_script_method_list")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Array
+*/
+func (o *Script) GetScriptPropertyList() gdnative.Array {
+	//log.Println("Calling Script.GetScriptPropertyList()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Script", "get_script_property_list")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: Array
+*/
+func (o *Script) GetScriptSignalList() gdnative.Array {
+	//log.Println("Calling Script.GetScriptSignalList()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Script", "get_script_signal_list")
+
+	// Call the parent method.
+	// Array
+	retPtr := gdnative.NewEmptyArray()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewArrayFromPointer(retPtr)
 	return ret
 }
 
@@ -141,7 +257,7 @@ func (o *Script) GetSourceCode() gdnative.String {
 }
 
 /*
-        Returns true if the script, or a base class, defines a signal with the given name.
+        Returns [code]true[/code] if the script, or a base class, defines a signal with the given name.
 	Args: [{ false signal_name String}], Returns: bool
 */
 func (o *Script) HasScriptSignal(signalName gdnative.String) gdnative.Bool {
@@ -165,7 +281,7 @@ func (o *Script) HasScriptSignal(signalName gdnative.String) gdnative.Bool {
 }
 
 /*
-        Returns true if the script contains non-empty source code.
+        Returns [code]true[/code] if the script contains non-empty source code.
 	Args: [], Returns: bool
 */
 func (o *Script) HasSourceCode() gdnative.Bool {
@@ -188,7 +304,7 @@ func (o *Script) HasSourceCode() gdnative.Bool {
 }
 
 /*
-        Returns true if 'base_object' is an instance of this script.
+        Returns [code]true[/code] if [code]base_object[/code] is an instance of this script.
 	Args: [{ false base_object Object}], Returns: bool
 */
 func (o *Script) InstanceHas(baseObject ObjectImplementer) gdnative.Bool {
@@ -212,7 +328,7 @@ func (o *Script) InstanceHas(baseObject ObjectImplementer) gdnative.Bool {
 }
 
 /*
-        Returns true if the script is a tool script. A tool script can run in the editor.
+        Returns [code]true[/code] if the script is a tool script. A tool script can run in the editor.
 	Args: [], Returns: bool
 */
 func (o *Script) IsTool() gdnative.Bool {
@@ -286,6 +402,11 @@ type ScriptImplementer interface {
 	CanInstance() gdnative.Bool
 	GetBaseScript() ScriptImplementer
 	GetInstanceBaseType() gdnative.String
+	GetPropertyDefaultValue(property gdnative.String) gdnative.Variant
+	GetScriptConstantMap() gdnative.Dictionary
+	GetScriptMethodList() gdnative.Array
+	GetScriptPropertyList() gdnative.Array
+	GetScriptSignalList() gdnative.Array
 	GetSourceCode() gdnative.String
 	HasScriptSignal(signalName gdnative.String) gdnative.Bool
 	HasSourceCode() gdnative.Bool

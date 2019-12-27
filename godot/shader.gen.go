@@ -32,7 +32,7 @@ func newShaderFromPointer(ptr gdnative.Pointer) Shader {
 }
 
 /*
-To be changed, ignore.
+This class allows you to define a custom shader program that can be used for various materials to render objects.
 */
 type Shader struct {
 	Resource
@@ -105,7 +105,7 @@ func (o *Shader) GetDefaultTextureParam(param gdnative.String) TextureImplemente
 }
 
 /*
-
+        Returns the shader mode for the shader, either [constant MODE_CANVAS_ITEM], [constant MODE_SPATIAL] or [constant MODE_PARTICLES]
 	Args: [], Returns: enum.Shader::Mode
 */
 func (o *Shader) GetMode() ShaderMode {

@@ -23,7 +23,7 @@ func newResourcePreloaderFromPointer(ptr gdnative.Pointer) ResourcePreloader {
 }
 
 /*
-Resource Preloader Node. This node is used to preload sub-resources inside a scene, so when the scene is loaded all the resources are ready to use and be retrieved from here.
+This node is used to preload sub-resources inside a scene, so when the scene is loaded, all the resources are ready to use and can be retrieved from the preloader. GDScript has a simplified [method @GDScript.preload] built-in method which can be used in most situations, leaving the use of [ResourcePreloader] for more advanced scenarios.
 */
 type ResourcePreloader struct {
 	Node
@@ -79,7 +79,7 @@ func (o *ResourcePreloader) X_SetResources(arg0 gdnative.Array) {
 }
 
 /*
-
+        Adds a resource to the preloader with the given [code]name[/code]. If a resource with the given [code]name[/code] already exists, the new resource will be renamed to "[code]name[/code] N" where N is an incrementing number starting from 2.
 	Args: [{ false name String} { false resource Resource}], Returns: void
 */
 func (o *ResourcePreloader) AddResource(name gdnative.String, resource ResourceImplementer) {
@@ -101,7 +101,7 @@ func (o *ResourcePreloader) AddResource(name gdnative.String, resource ResourceI
 }
 
 /*
-        Return the resource given a text-id.
+        Returns the resource associated to [code]name[/code].
 	Args: [{ false name String}], Returns: Resource
 */
 func (o *ResourcePreloader) GetResource(name gdnative.String) ResourceImplementer {
@@ -139,7 +139,7 @@ func (o *ResourcePreloader) GetResource(name gdnative.String) ResourceImplemente
 }
 
 /*
-        Return the list of resources inside the preloader.
+        Returns the list of resources inside the preloader.
 	Args: [], Returns: PoolStringArray
 */
 func (o *ResourcePreloader) GetResourceList() gdnative.PoolStringArray {
@@ -162,7 +162,7 @@ func (o *ResourcePreloader) GetResourceList() gdnative.PoolStringArray {
 }
 
 /*
-        Return true if the preloader has a given resource.
+        Returns [code]true[/code] if the preloader contains a resource associated to [code]name[/code].
 	Args: [{ false name String}], Returns: bool
 */
 func (o *ResourcePreloader) HasResource(name gdnative.String) gdnative.Bool {
@@ -186,7 +186,7 @@ func (o *ResourcePreloader) HasResource(name gdnative.String) gdnative.Bool {
 }
 
 /*
-        Remove a resource from the preloader by text id.
+        Removes the resource associated to [code]name[/code] from the preloader.
 	Args: [{ false name String}], Returns: void
 */
 func (o *ResourcePreloader) RemoveResource(name gdnative.String) {
@@ -207,7 +207,7 @@ func (o *ResourcePreloader) RemoveResource(name gdnative.String) {
 }
 
 /*
-        Rename a resource inside the preloader, from a text-id to a new text-id.
+        Renames a resource inside the preloader from [code]name[/code] to [code]newname[/code].
 	Args: [{ false name String} { false newname String}], Returns: void
 */
 func (o *ResourcePreloader) RenameResource(name gdnative.String, newname gdnative.String) {

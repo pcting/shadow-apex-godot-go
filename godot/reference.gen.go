@@ -23,7 +23,7 @@ func newReferenceFromPointer(ptr gdnative.Pointer) Reference {
 }
 
 /*
-Base class for anything that keeps a reference count. Resource and many other helper objects inherit this. References keep an internal reference counter so they are only released when no longer in use.
+Base class for any object that keeps a reference count. [Resource] and many other helper objects inherit this class. References keep an internal reference counter so that they are automatically released when no longer in use, and only then. References therefore do not need to be freed manually with [method Object.free]. In the vast majority of use cases, instantiating and using [Reference]-derived types is all you need to do. The methods provided in this class are only for advanced users, and can cause issues if misused.
 */
 type Reference struct {
 	Object
@@ -35,7 +35,7 @@ func (o *Reference) BaseClass() string {
 }
 
 /*
-
+        Initializes the internal reference counter. Use this only if you really know what you are doing. Returns whether the initialization was successful.
 	Args: [], Returns: bool
 */
 func (o *Reference) InitRef() gdnative.Bool {
@@ -58,7 +58,7 @@ func (o *Reference) InitRef() gdnative.Bool {
 }
 
 /*
-        Increase the internal reference counter. Use this only if you really know what you are doing.
+        Increments the internal reference counter. Use this only if you really know what you are doing. Returns whether the increment was successful.
 	Args: [], Returns: bool
 */
 func (o *Reference) ReferenceMethod() gdnative.Bool {
@@ -81,7 +81,7 @@ func (o *Reference) ReferenceMethod() gdnative.Bool {
 }
 
 /*
-        Decrease the internal reference counter. Use this only if you really know what you are doing.
+        Decrements the internal reference counter. Use this only if you really know what you are doing. Returns whether the decrement was successful.
 	Args: [], Returns: bool
 */
 func (o *Reference) Unreference() gdnative.Bool {
