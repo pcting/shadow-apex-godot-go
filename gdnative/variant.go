@@ -34,4 +34,4 @@ func (gdt *VariantArray) getBase() **C.godot_variant {
 	return variantArray
 }
 
-type VariantOperator int
+//type VariantOperator int

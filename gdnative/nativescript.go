@@ -5,7 +5,6 @@ package gdnative
 
 /*
 #include <nativescript/godot_nativescript.h>
-#include "nativescript.gen.h"
 #include "nativescript.h"
 #include "variant.h"
 */

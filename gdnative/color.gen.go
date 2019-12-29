@@ -10,9 +10,9 @@ package gdnative
 //----------------------------------------------------------------------------*/
 
 /*
-#cgo LDFLAGS: -I../godot_headers
+#cgo CFLAGS: -I../godot_headers
 #include "gdnative.gen.h"
-#include <godot_headers/gdnative/color.h>
+// #include <godot_headers/gdnative/color.h>
 // Include all headers for now. TODO: Look up all the required
 // headers we need to import based on the method arguments and return types.
 #include <gdnative/aabb.h>
