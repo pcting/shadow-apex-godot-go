@@ -196,7 +196,7 @@ func (o *VehicleWheel) GetRollInfluence() gdnative.Real {
 }
 
 /*
-        Undocumented
+        Returns the rotational speed of the wheel in revolutions per minute.
 	Args: [], Returns: float
 */
 func (o *VehicleWheel) GetRpm() gdnative.Real {

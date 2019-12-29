@@ -76,7 +76,7 @@ func (o *EditorSelection) X_NodeRemoved(arg0 NodeImplementer) {
 }
 
 /*
-        Add a node to the selection.
+        Adds a node to the selection.
 	Args: [{ false node Node}], Returns: void
 */
 func (o *EditorSelection) AddNode(node NodeImplementer) {
@@ -117,7 +117,7 @@ func (o *EditorSelection) Clear() {
 }
 
 /*
-        Get the list of selected nodes.
+        Gets the list of selected nodes.
 	Args: [], Returns: Array
 */
 func (o *EditorSelection) GetSelectedNodes() gdnative.Array {
@@ -140,7 +140,7 @@ func (o *EditorSelection) GetSelectedNodes() gdnative.Array {
 }
 
 /*
-        Get the list of selected nodes, optimized for transform operations (ie, moving them, rotating, etc). This list avoids situations where a node is selected and also chid/grandchild.
+        Gets the list of selected nodes, optimized for transform operations (i.e. moving them, rotating, etc). This list avoids situations where a node is selected and also child/grandchild.
 	Args: [], Returns: Array
 */
 func (o *EditorSelection) GetTransformableSelectedNodes() gdnative.Array {
@@ -163,7 +163,7 @@ func (o *EditorSelection) GetTransformableSelectedNodes() gdnative.Array {
 }
 
 /*
-        Remove a node from the selection.
+        Removes a node from the selection.
 	Args: [{ false node Node}], Returns: void
 */
 func (o *EditorSelection) RemoveNode(node NodeImplementer) {

@@ -23,7 +23,7 @@ func newCharFXTransformFromPointer(ptr gdnative.Pointer) CharFXTransform {
 }
 
 /*
-Undocumented
+By setting various properties on this object, you can control how individual characters will be displayed in a [RichTextEffect].
 */
 type CharFXTransform struct {
 	Reference
@@ -192,31 +192,6 @@ func (o *CharFXTransform) GetRelativeIndex() gdnative.Int {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewIntFromPointer(retPtr)
-	return ret
-}
-
-/*
-        Undocumented
-	Args: [{ false key String} { false default_value Variant}], Returns: Variant
-*/
-func (o *CharFXTransform) GetValueOr(key gdnative.String, defaultValue gdnative.Variant) gdnative.Variant {
-	//log.Println("Calling CharFXTransform.GetValueOr()")
-
-	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 2, 2)
-	ptrArguments[0] = gdnative.NewPointerFromString(key)
-	ptrArguments[1] = gdnative.NewPointerFromVariant(defaultValue)
-
-	// Get the method bind
-	methodBind := gdnative.NewMethodBind("CharFXTransform", "get_value_or")
-
-	// Call the parent method.
-	// Variant
-	retPtr := gdnative.NewEmptyVariant()
-	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
-
-	// If we have a return type, convert it from a pointer into its actual object.
-	ret := gdnative.NewVariantFromPointer(retPtr)
 	return ret
 }
 
@@ -422,7 +397,6 @@ type CharFXTransformImplementer interface {
 	GetEnvironment() gdnative.Dictionary
 	GetOffset() gdnative.Vector2
 	GetRelativeIndex() gdnative.Int
-	GetValueOr(key gdnative.String, defaultValue gdnative.Variant) gdnative.Variant
 	IsVisible() gdnative.Bool
 	SetAbsoluteIndex(index gdnative.Int)
 	SetCharacter(character gdnative.Int)

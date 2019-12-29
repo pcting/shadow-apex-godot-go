@@ -32,7 +32,7 @@ func newStyleBoxTextureFromPointer(ptr gdnative.Pointer) StyleBoxTexture {
 }
 
 /*
-Texture Based 3x3 scale style. This stylebox performs a 3x3 scaling of a texture, where only the center cell is fully stretched. This allows for the easy creation of bordered styles.
+Texture-based nine-patch [StyleBox], in a way similar to [NinePatchRect]. This stylebox performs a 3×3 scaling of a texture, where only the center cell is fully stretched. This makes it possible to design bordered styles regardless of the stylebox's size.
 */
 type StyleBoxTexture struct {
 	StyleBox
@@ -44,7 +44,7 @@ func (o *StyleBoxTexture) BaseClass() string {
 }
 
 /*
-        Undocumented
+        Returns the size of the given [code]margin[/code]'s expand margin. See [enum Margin] for possible values.
 	Args: [{ false margin int}], Returns: float
 */
 func (o *StyleBoxTexture) GetExpandMarginSize(margin gdnative.Int) gdnative.Real {
@@ -91,7 +91,7 @@ func (o *StyleBoxTexture) GetHAxisStretchMode() StyleBoxTextureAxisStretchMode {
 }
 
 /*
-        Undocumented
+        Returns the size of the given [code]margin[/code]. See [enum Margin] for possible values.
 	Args: [{ false margin int}], Returns: float
 */
 func (o *StyleBoxTexture) GetMarginSize(margin gdnative.Int) gdnative.Real {
@@ -302,7 +302,7 @@ func (o *StyleBoxTexture) SetDrawCenter(enable gdnative.Bool) {
 }
 
 /*
-
+        Sets the expand margin to [code]size[/code] pixels for all margins.
 	Args: [{ false size float}], Returns: void
 */
 func (o *StyleBoxTexture) SetExpandMarginAll(size gdnative.Real) {
@@ -323,7 +323,7 @@ func (o *StyleBoxTexture) SetExpandMarginAll(size gdnative.Real) {
 }
 
 /*
-
+        Sets the expand margin for each margin to [code]size_left[/code], [code]size_top[/code], [code]size_right[/code], and [code]size_bottom[/code] pixels.
 	Args: [{ false size_left float} { false size_top float} { false size_right float} { false size_bottom float}], Returns: void
 */
 func (o *StyleBoxTexture) SetExpandMarginIndividual(sizeLeft gdnative.Real, sizeTop gdnative.Real, sizeRight gdnative.Real, sizeBottom gdnative.Real) {
@@ -347,7 +347,7 @@ func (o *StyleBoxTexture) SetExpandMarginIndividual(sizeLeft gdnative.Real, size
 }
 
 /*
-        Undocumented
+        Sets the expand margin to [code]size[/code] pixels for the given [code]margin[/code]. See [enum Margin] for possible values.
 	Args: [{ false margin int} { false size float}], Returns: void
 */
 func (o *StyleBoxTexture) SetExpandMarginSize(margin gdnative.Int, size gdnative.Real) {
@@ -390,7 +390,7 @@ func (o *StyleBoxTexture) SetHAxisStretchMode(mode gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Sets the margin to [code]size[/code] pixels for the given [code]margin[/code]. See [enum Margin] for possible values.
 	Args: [{ false margin int} { false size float}], Returns: void
 */
 func (o *StyleBoxTexture) SetMarginSize(margin gdnative.Int, size gdnative.Real) {

@@ -124,7 +124,7 @@ func newControlFromPointer(ptr gdnative.Pointer) Control {
 }
 
 /*
-Base class for all User Interface or [i]UI[/i] related nodes. [code]Control[/code] features a bounding rectangle that defines its extents, an anchor position relative to its parent control or the current viewport, and margins that represent an offset to the anchor. The margins update automatically when the node, any of its parents, or the screen size change. For more information on Godot's UI system, anchors, margins, and containers, see the related tutorials in the manual. To build flexible UIs, you'll need a mix of UI elements that inherit from [code]Control[/code] and [Container] nodes. [b]User Interface nodes and input[/b] Godot sends input events to the scene's root node first, by calling [method Node._input]. [method Node._input] forwards the event down the node tree to the nodes under the mouse cursor, or on keyboard focus. To do so, it calls [method MainLoop._input_event]. Call [method accept_event] so no other node receives the event. Once you accepted an input, it becomes handled so [method Node._unhandled_input] will not process it. Only one [code]Control[/code] node can be in keyboard focus. Only the node in focus will receive keyboard events. To get the focus, call [method grab_focus]. [code]Control[/code] nodes lose focus when another node grabs it, or if you hide the node in focus. Set [member mouse_filter] to [constant MOUSE_FILTER_IGNORE] to tell a [code]Control[/code] node to ignore mouse or touch events. You'll need it if you place an icon on top of a button. [Theme] resources change the Control's appearance. If you change the [Theme] on a [code]Control[/code] node, it affects all of its children. To override some of the theme's parameters, call one of the [code]add_*_override[/code] methods, like [method add_font_override]. You can override the theme with the inspector.
+Base class for all UI-related nodes. [Control] features a bounding rectangle that defines its extents, an anchor position relative to its parent control or the current viewport, and margins that represent an offset to the anchor. The margins update automatically when the node, any of its parents, or the screen size change. For more information on Godot's UI system, anchors, margins, and containers, see the related tutorials in the manual. To build flexible UIs, you'll need a mix of UI elements that inherit from [Control] and [Container] nodes. [b]User Interface nodes and input[/b] Godot sends input events to the scene's root node first, by calling [method Node._input]. [method Node._input] forwards the event down the node tree to the nodes under the mouse cursor, or on keyboard focus. To do so, it calls [method MainLoop._input_event]. Call [method accept_event] so no other node receives the event. Once you accepted an input, it becomes handled so [method Node._unhandled_input] will not process it. Only one [Control] node can be in keyboard focus. Only the node in focus will receive keyboard events. To get the focus, call [method grab_focus]. [Control] nodes lose focus when another node grabs it, or if you hide the node in focus. Sets [member mouse_filter] to [constant MOUSE_FILTER_IGNORE] to tell a [Control] node to ignore mouse or touch events. You'll need it if you place an icon on top of a button. [Theme] resources change the Control's appearance. If you change the [Theme] on a [Control] node, it affects all of its children. To override some of the theme's parameters, call one of the [code]add_*_override[/code] methods, like [method add_font_override]. You can override the theme with the inspector.
 */
 type Control struct {
 	CanvasItem
@@ -136,7 +136,7 @@ func (o *Control) BaseClass() string {
 }
 
 /*
-
+        Virtual method to be implemented by the user. Returns whether [method _gui_input] should not be called for children controls outside this control's rectangle. Input will be clipped to the Rect of this [Control]. Similar to [member rect_clip_content], but doesn't affect visibility. If not overridden, defaults to [code]false[/code].
 	Args: [], Returns: bool
 */
 func (o *Control) X_ClipsInput() gdnative.Bool {
@@ -159,7 +159,7 @@ func (o *Control) X_ClipsInput() gdnative.Bool {
 }
 
 /*
-        Returns the minimum size for this control. See [member rect_min_size].
+        Virtual method to be implemented by the user. Returns the minimum size for this control. Alternative to [member rect_min_size] for controlling minimum size via code. The actual minimum size will be the max value of these two (in each axis separately). If not overridden, defaults to [constant Vector2.ZERO].
 	Args: [], Returns: Vector2
 */
 func (o *Control) X_GetMinimumSize() gdnative.Vector2 {
@@ -205,7 +205,7 @@ func (o *Control) X_GetTooltip() gdnative.String {
 }
 
 /*
-        Use this method to process and accept inputs on UI elements. See [method accept_event]. Replaces Godot 2's [code]_input_event[/code].
+        Virtual method to be implemented by the user. Use this method to process and accept inputs on UI elements. See [method accept_event]. Example: clicking a control. [codeblock] func _gui_input(event): if event is InputEventMouseButton: if event.button_index == BUTTON_LEFT and event.pressed: print("I've been clicked D:") [/codeblock] The event won't trigger if: * clicking outside the control (see [method has_point]); * control has [member mouse_filter] set to [constant MOUSE_FILTER_IGNORE]; * control is obstructed by another [Control] on top of it, which doesn't have [member mouse_filter] set to [constant MOUSE_FILTER_IGNORE]; * control's parent has [member mouse_filter] set to [constant MOUSE_FILTER_STOP] or has accepted the event; * it happens outside parent's rectangle and the parent has either [member rect_clip_content] or [method _clips_input] enabled.
 	Args: [{ false event InputEvent}], Returns: void
 */
 func (o *Control) X_GuiInput(event InputEventImplementer) {
@@ -226,7 +226,7 @@ func (o *Control) X_GuiInput(event InputEventImplementer) {
 }
 
 /*
-
+        Virtual method to be implemented by the user. Returns a [Control] node that should be used as a tooltip instead of the default one. Use [code]for_text[/code] parameter to determine what text the tooltip should contain (likely the contents of [member hint_tooltip]). The returned node must be of type [Control] or Control-derieved. It can have child nodes of any type. It is freed when the tooltip disappears, so make sure you always provide a new instance, not e.g. a node from scene. When [code]null[/code] or non-Control node is returned, the default tooltip will be used instead. [b]Note:[/b] The tooltip is shrunk to minimal size. If you want to ensure it's fully visible, you might want to set its [member rect_min_size] to some non-zero value. Example of usage with custom-constructed node: [codeblock] func _make_custom_tooltip(for_text): var label = Label.new() label.text = for_text return label [/codeblock] Example of usage with custom scene instance: [codeblock] func _make_custom_tooltip(for_text): var tooltip = preload("SomeTooltipScene.tscn").instance() tooltip.get_node("Label").text = for_text return tooltip [/codeblock]
 	Args: [{ false for_text String}], Returns: Object
 */
 func (o *Control) X_MakeCustomTooltip(forText gdnative.String) ObjectImplementer {
@@ -449,7 +449,7 @@ func (o *Control) AcceptEvent() {
 }
 
 /*
-        Overrides the color in the [member theme] resource the node uses.
+        Overrides the [Color] with given [code]name[/code] in the [member theme] resource the control uses. If the [code]color[/code] is empty or invalid, the override is cleared and the color from assigned [Theme] is used.
 	Args: [{ false name String} { false color Color}], Returns: void
 */
 func (o *Control) AddColorOverride(name gdnative.String, color gdnative.Color) {
@@ -471,7 +471,7 @@ func (o *Control) AddColorOverride(name gdnative.String, color gdnative.Color) {
 }
 
 /*
-        Overrides an integer constant in the [member theme] resource the node uses. If the [code]constant[/code] is invalid, Godot clears the override.
+        Overrides an integer constant with given [code]name[/code] in the [member theme] resource the control uses. If the [code]constant[/code] is empty or invalid, the override is cleared and the constant from assigned [Theme] is used.
 	Args: [{ false name String} { false constant int}], Returns: void
 */
 func (o *Control) AddConstantOverride(name gdnative.String, constant gdnative.Int) {
@@ -493,7 +493,7 @@ func (o *Control) AddConstantOverride(name gdnative.String, constant gdnative.In
 }
 
 /*
-        Overrides the [code]name[/code] font in the [member theme] resource the node uses. If [code]font[/code] is empty, Godot clears the override.
+        Overrides the font with given [code]name[/code] in the [member theme] resource the control uses. If [code]font[/code] is empty or invalid, the override is cleared and the font from assigned [Theme] is used.
 	Args: [{ false name String} { false font Font}], Returns: void
 */
 func (o *Control) AddFontOverride(name gdnative.String, font FontImplementer) {
@@ -515,7 +515,7 @@ func (o *Control) AddFontOverride(name gdnative.String, font FontImplementer) {
 }
 
 /*
-        Overrides the [code]name[/code] icon in the [member theme] resource the node uses. If [code]icon[/code] is empty, Godot clears the override.
+        Overrides the icon with given [code]name[/code] in the [member theme] resource the control uses. If [code]icon[/code] is empty or invalid, the override is cleared and the icon from assigned [Theme] is used.
 	Args: [{ false name String} { false texture Texture}], Returns: void
 */
 func (o *Control) AddIconOverride(name gdnative.String, texture TextureImplementer) {
@@ -537,7 +537,7 @@ func (o *Control) AddIconOverride(name gdnative.String, texture TextureImplement
 }
 
 /*
-        Overrides the [code]name[/code] shader in the [member theme] resource the node uses. If [code]shader[/code] is empty, Godot clears the override.
+        Overrides the [Shader] with given [code]name[/code] in the [member theme] resource the control uses. If [code]shader[/code] is empty or invalid, the override is cleared and the shader from assigned [Theme] is used.
 	Args: [{ false name String} { false shader Shader}], Returns: void
 */
 func (o *Control) AddShaderOverride(name gdnative.String, shader ShaderImplementer) {
@@ -559,7 +559,7 @@ func (o *Control) AddShaderOverride(name gdnative.String, shader ShaderImplement
 }
 
 /*
-        Overrides the [code]name[/code] [StyleBox] in the [member theme] resource the node uses. If [code]stylebox[/code] is empty, Godot clears the override.
+        Overrides the [StyleBox] with given [code]name[/code] in the [member theme] resource the control uses. If [code]stylebox[/code] is empty or invalid, the override is cleared and the [StyleBox] from assigned [Theme] is used.
 	Args: [{ false name String} { false stylebox StyleBox}], Returns: void
 */
 func (o *Control) AddStyleboxOverride(name gdnative.String, stylebox StyleBoxImplementer) {
@@ -581,7 +581,7 @@ func (o *Control) AddStyleboxOverride(name gdnative.String, stylebox StyleBoxImp
 }
 
 /*
-        Godot calls this method to test if [code]data[/code] from a control's [method get_drag_data] can be dropped at [code]position[/code]. [code]position[/code] is local to this control. This method should only be used to test the data. Process the data in [method drop_data]. [codeblock] extends Control func can_drop_data(position, data): # check position if it is relevant to you # otherwise just check data return typeof(data) == TYPE_DICTIONARY and data.has('expected') [/codeblock]
+        Godot calls this method to test if [code]data[/code] from a control's [method get_drag_data] can be dropped at [code]position[/code]. [code]position[/code] is local to this control. This method should only be used to test the data. Process the data in [method drop_data]. [codeblock] func can_drop_data(position, data): # Check position if it is relevant to you # Otherwise, just check data return typeof(data) == TYPE_DICTIONARY and data.has("expected") [/codeblock]
 	Args: [{ false position Vector2} { false data Variant}], Returns: bool
 */
 func (o *Control) CanDropData(position gdnative.Vector2, data gdnative.Variant) gdnative.Bool {
@@ -606,7 +606,7 @@ func (o *Control) CanDropData(position gdnative.Vector2, data gdnative.Variant) 
 }
 
 /*
-        Godot calls this method to pass you the [code]data[/code] from a control's [method get_drag_data] result. Godot first calls [method can_drop_data] to test if [code]data[/code] is allowed to drop at [code]position[/code] where [code]position[/code] is local to this control. [codeblock] extends ColorRect func can_drop_data(position, data): return typeof(data) == TYPE_DICTIONARY and data.has('color') func drop_data(position, data): color = data['color'] [/codeblock]
+        Godot calls this method to pass you the [code]data[/code] from a control's [method get_drag_data] result. Godot first calls [method can_drop_data] to test if [code]data[/code] is allowed to drop at [code]position[/code] where [code]position[/code] is local to this control. [codeblock] func can_drop_data(position, data): return typeof(data) == TYPE_DICTIONARY and data.has("color") func drop_data(position, data): color = data["color"] [/codeblock]
 	Args: [{ false position Vector2} { false data Variant}], Returns: void
 */
 func (o *Control) DropData(position gdnative.Vector2, data gdnative.Variant) {
@@ -650,7 +650,7 @@ func (o *Control) ForceDrag(data gdnative.Variant, preview ControlImplementer) {
 }
 
 /*
-        Undocumented
+        Returns the anchor identified by [code]margin[/code] constant from [enum Margin] enum. A getter method for [member anchor_bottom], [member anchor_left], [member anchor_right] and [member anchor_top].
 	Args: [{ false margin int}], Returns: float
 */
 func (o *Control) GetAnchor(margin gdnative.Int) gdnative.Real {
@@ -697,7 +697,7 @@ func (o *Control) GetBegin() gdnative.Vector2 {
 }
 
 /*
-
+        Returns a color from assigned [Theme] with given [code]name[/code] and associated with [Control] of given [code]type[/code]. [codeblock] func _ready(): modulate = get_color("font_color", "Button") #get the color defined for button fonts [/codeblock]
 	Args: [{ false name String} { true type String}], Returns: Color
 */
 func (o *Control) GetColor(name gdnative.String, aType gdnative.String) gdnative.Color {
@@ -722,7 +722,7 @@ func (o *Control) GetColor(name gdnative.String, aType gdnative.String) gdnative
 }
 
 /*
-
+        Returns combined minimum size from [member rect_min_size] and [method get_minimum_size].
 	Args: [], Returns: Vector2
 */
 func (o *Control) GetCombinedMinimumSize() gdnative.Vector2 {
@@ -745,7 +745,7 @@ func (o *Control) GetCombinedMinimumSize() gdnative.Vector2 {
 }
 
 /*
-
+        Returns a constant from assigned [Theme] with given [code]name[/code] and associated with [Control] of given [code]type[/code].
 	Args: [{ false name String} { true type String}], Returns: int
 */
 func (o *Control) GetConstant(name gdnative.String, aType gdnative.String) gdnative.Int {
@@ -840,7 +840,7 @@ func (o *Control) GetDefaultCursorShape() ControlCursorShape {
 }
 
 /*
-        Godot calls this method to get data that can be dragged and dropped onto controls that expect drop data. Returns null if there is no data to drag. Controls that want to receive drop data should implement [method can_drop_data] and [method drop_data]. [code]position[/code] is local to this control. Drag may be forced with [method force_drag]. A preview that will follow the mouse that should represent the data can be set with [method set_drag_preview]. A good time to set the preview is in this method. [codeblock] extends Control func get_drag_data(position): var mydata = make_data() set_drag_preview(make_preview(mydata)) return mydata [/codeblock]
+        Godot calls this method to get data that can be dragged and dropped onto controls that expect drop data. Returns [code]null[/code] if there is no data to drag. Controls that want to receive drop data should implement [method can_drop_data] and [method drop_data]. [code]position[/code] is local to this control. Drag may be forced with [method force_drag]. A preview that will follow the mouse that should represent the data can be set with [method set_drag_preview]. A good time to set the preview is in this method. [codeblock] func get_drag_data(position): var mydata = make_data() set_drag_preview(make_preview(mydata)) return mydata [/codeblock]
 	Args: [{ false position Vector2}], Returns: Variant
 */
 func (o *Control) GetDragData(position gdnative.Vector2) gdnative.Variant {
@@ -910,7 +910,7 @@ func (o *Control) GetFocusMode() ControlFocusMode {
 }
 
 /*
-        Undocumented
+        Returns the focus neighbour identified by [code]margin[/code] constant from [enum Margin] enum. A getter method for [member focus_neighbour_bottom], [member focus_neighbour_left], [member focus_neighbour_right] and [member focus_neighbour_top].
 	Args: [{ false margin int}], Returns: NodePath
 */
 func (o *Control) GetFocusNeighbour(margin gdnative.Int) gdnative.NodePath {
@@ -1017,7 +1017,7 @@ func (o *Control) GetFocusPrevious() gdnative.NodePath {
 }
 
 /*
-
+        Returns a font from assigned [Theme] with given [code]name[/code] and associated with [Control] of given [code]type[/code].
 	Args: [{ false name String} { true type String}], Returns: Font
 */
 func (o *Control) GetFont(name gdnative.String, aType gdnative.String) FontImplementer {
@@ -1148,7 +1148,7 @@ func (o *Control) GetHSizeFlags() gdnative.Int {
 }
 
 /*
-
+        Returns an icon from assigned [Theme] with given [code]name[/code] and associated with [Control] of given [code]type[/code].
 	Args: [{ false name String} { true type String}], Returns: Texture
 */
 func (o *Control) GetIcon(name gdnative.String, aType gdnative.String) TextureImplementer {
@@ -1187,7 +1187,7 @@ func (o *Control) GetIcon(name gdnative.String, aType gdnative.String) TextureIm
 }
 
 /*
-        Undocumented
+        Returns the anchor identified by [code]margin[/code] constant from [enum Margin] enum. A getter method for [member margin_bottom], [member margin_left], [member margin_right] and [member margin_top].
 	Args: [{ false margin int}], Returns: float
 */
 func (o *Control) GetMargin(margin gdnative.Int) gdnative.Real {
@@ -1501,7 +1501,7 @@ func (o *Control) GetStretchRatio() gdnative.Real {
 }
 
 /*
-
+        Returns a [StyleBox] from assigned [Theme] with given [code]name[/code] and associated with [Control] of given [code]type[/code].
 	Args: [{ false name String} { true type String}], Returns: StyleBox
 */
 func (o *Control) GetStylebox(name gdnative.String, aType gdnative.String) StyleBoxImplementer {
@@ -1577,7 +1577,7 @@ func (o *Control) GetTheme() ThemeImplementer {
 }
 
 /*
-        Returns the tooltip, which will appear when the cursor is resting over this control.
+        Returns the tooltip, which will appear when the cursor is resting over this control. See [member hint_tooltip].
 	Args: [{(0, 0) true at_position Vector2}], Returns: String
 */
 func (o *Control) GetTooltip(atPosition gdnative.Vector2) gdnative.String {
@@ -1647,7 +1647,7 @@ func (o *Control) GetVSizeFlags() gdnative.Int {
 }
 
 /*
-
+        Creates an [InputEventMouseButton] that attempts to click the control. If the event is received, the control acquires focus. [codeblock] func _process(delta): grab_click_focus() #when clicking another Control node, this node will be clicked instead [/codeblock]
 	Args: [], Returns: void
 */
 func (o *Control) GrabClickFocus() {
@@ -1687,7 +1687,7 @@ func (o *Control) GrabFocus() {
 }
 
 /*
-
+        Returns [code]true[/code] if [Color] with given [code]name[/code] and associated with [Control] of given [code]type[/code] exists in assigned [Theme].
 	Args: [{ false name String} { true type String}], Returns: bool
 */
 func (o *Control) HasColor(name gdnative.String, aType gdnative.String) gdnative.Bool {
@@ -1712,7 +1712,7 @@ func (o *Control) HasColor(name gdnative.String, aType gdnative.String) gdnative
 }
 
 /*
-
+        Returns [code]true[/code] if [Color] with given [code]name[/code] has a valid override in this [Control] node.
 	Args: [{ false name String}], Returns: bool
 */
 func (o *Control) HasColorOverride(name gdnative.String) gdnative.Bool {
@@ -1736,7 +1736,7 @@ func (o *Control) HasColorOverride(name gdnative.String) gdnative.Bool {
 }
 
 /*
-
+        Returns [code]true[/code] if constant with given [code]name[/code] and associated with [Control] of given [code]type[/code] exists in assigned [Theme].
 	Args: [{ false name String} { true type String}], Returns: bool
 */
 func (o *Control) HasConstant(name gdnative.String, aType gdnative.String) gdnative.Bool {
@@ -1761,7 +1761,7 @@ func (o *Control) HasConstant(name gdnative.String, aType gdnative.String) gdnat
 }
 
 /*
-
+        Returns [code]true[/code] if constant with given [code]name[/code] has a valid override in this [Control] node.
 	Args: [{ false name String}], Returns: bool
 */
 func (o *Control) HasConstantOverride(name gdnative.String) gdnative.Bool {
@@ -1808,7 +1808,7 @@ func (o *Control) HasFocus() gdnative.Bool {
 }
 
 /*
-
+        Returns [code]true[/code] if font with given [code]name[/code] and associated with [Control] of given [code]type[/code] exists in assigned [Theme].
 	Args: [{ false name String} { true type String}], Returns: bool
 */
 func (o *Control) HasFont(name gdnative.String, aType gdnative.String) gdnative.Bool {
@@ -1833,7 +1833,7 @@ func (o *Control) HasFont(name gdnative.String, aType gdnative.String) gdnative.
 }
 
 /*
-
+        Returns [code]true[/code] if font with given [code]name[/code] has a valid override in this [Control] node.
 	Args: [{ false name String}], Returns: bool
 */
 func (o *Control) HasFontOverride(name gdnative.String) gdnative.Bool {
@@ -1857,7 +1857,7 @@ func (o *Control) HasFontOverride(name gdnative.String) gdnative.Bool {
 }
 
 /*
-
+        Returns [code]true[/code] if icon with given [code]name[/code] and associated with [Control] of given [code]type[/code] exists in assigned [Theme].
 	Args: [{ false name String} { true type String}], Returns: bool
 */
 func (o *Control) HasIcon(name gdnative.String, aType gdnative.String) gdnative.Bool {
@@ -1882,7 +1882,7 @@ func (o *Control) HasIcon(name gdnative.String, aType gdnative.String) gdnative.
 }
 
 /*
-
+        Returns [code]true[/code] if icon with given [code]name[/code] has a valid override in this [Control] node.
 	Args: [{ false name String}], Returns: bool
 */
 func (o *Control) HasIconOverride(name gdnative.String) gdnative.Bool {
@@ -1906,7 +1906,7 @@ func (o *Control) HasIconOverride(name gdnative.String) gdnative.Bool {
 }
 
 /*
-
+        Virtual method to be implemented by the user. Returns whether the given [code]point[/code] is inside this control. If not overridden, default behavior is checking if the point is within control's Rect. [b]Note:[/b] If you want to check if a point is inside the control, you can use [code]get_rect().has_point(point)[/code].
 	Args: [{ false point Vector2}], Returns: bool
 */
 func (o *Control) HasPoint(point gdnative.Vector2) gdnative.Bool {
@@ -1930,7 +1930,7 @@ func (o *Control) HasPoint(point gdnative.Vector2) gdnative.Bool {
 }
 
 /*
-
+        Returns [code]true[/code] if [Shader] with given [code]name[/code] has a valid override in this [Control] node.
 	Args: [{ false name String}], Returns: bool
 */
 func (o *Control) HasShaderOverride(name gdnative.String) gdnative.Bool {
@@ -1954,7 +1954,7 @@ func (o *Control) HasShaderOverride(name gdnative.String) gdnative.Bool {
 }
 
 /*
-
+        Returns [code]true[/code] if [StyleBox] with given [code]name[/code] and associated with [Control] of given [code]type[/code] exists in assigned [Theme].
 	Args: [{ false name String} { true type String}], Returns: bool
 */
 func (o *Control) HasStylebox(name gdnative.String, aType gdnative.String) gdnative.Bool {
@@ -1979,7 +1979,7 @@ func (o *Control) HasStylebox(name gdnative.String, aType gdnative.String) gdnat
 }
 
 /*
-
+        Returns [code]true[/code] if [StyleBox] with given [code]name[/code] has a valid override in this [Control] node.
 	Args: [{ false name String}], Returns: bool
 */
 func (o *Control) HasStyleboxOverride(name gdnative.String) gdnative.Bool {
@@ -2026,7 +2026,7 @@ func (o *Control) IsClippingContents() gdnative.Bool {
 }
 
 /*
-
+        Invalidates the size cache in this node and in parent nodes up to toplevel. Intended to be used with [method get_minimum_size] when the return value is changed. Setting [member rect_min_size] directly calls this method automatically.
 	Args: [], Returns: void
 */
 func (o *Control) MinimumSizeChanged() {
@@ -2066,7 +2066,7 @@ func (o *Control) ReleaseFocus() {
 }
 
 /*
-
+        Sets the anchor identified by [code]margin[/code] constant from [enum Margin] enum to value [code]anchor[/code]. A setter method for [member anchor_bottom], [member anchor_left], [member anchor_right] and [member anchor_top]. If [code]keep_margin[/code] is [code]true[/code], margins aren't updated after this operation. If [code]push_opposite_anchor[/code] is [code]true[/code] and the opposite anchor overlaps this anchor, the opposite one will have its value overridden. For example, when setting left anchor to 1 and the right anchor has value of 0.5, the right anchor will also get value of 1. If [code]push_opposite_anchor[/code] was [code]false[/code], the left anchor would get value 0.5.
 	Args: [{ false margin int} { false anchor float} {False true keep_margin bool} {True true push_opposite_anchor bool}], Returns: void
 */
 func (o *Control) SetAnchor(margin gdnative.Int, anchor gdnative.Real, keepMargin gdnative.Bool, pushOppositeAnchor gdnative.Bool) {
@@ -2090,7 +2090,7 @@ func (o *Control) SetAnchor(margin gdnative.Int, anchor gdnative.Real, keepMargi
 }
 
 /*
-
+        Works the same as [method set_anchor], but instead of [code]keep_margin[/code] argument and automatic update of margin, it allows to set the margin offset yourself (see [method set_margin]).
 	Args: [{ false margin int} { false anchor float} { false offset float} {False true push_opposite_anchor bool}], Returns: void
 */
 func (o *Control) SetAnchorAndMargin(margin gdnative.Int, anchor gdnative.Real, offset gdnative.Real, pushOppositeAnchor gdnative.Bool) {
@@ -2114,7 +2114,7 @@ func (o *Control) SetAnchorAndMargin(margin gdnative.Int, anchor gdnative.Real, 
 }
 
 /*
-
+        Sets both anchor preset and margin preset. See [method set_anchors_preset] and [method set_margins_preset].
 	Args: [{ false preset int} {0 true resize_mode int} {0 true margin int}], Returns: void
 */
 func (o *Control) SetAnchorsAndMarginsPreset(preset gdnative.Int, resizeMode gdnative.Int, margin gdnative.Int) {
@@ -2137,7 +2137,7 @@ func (o *Control) SetAnchorsAndMarginsPreset(preset gdnative.Int, resizeMode gdn
 }
 
 /*
-
+        Sets the anchors to a [code]preset[/code] from [enum Control.LayoutPreset] enum. This is code equivalent of using the Layout menu in 2D editor. If [code]keep_margins[/code] is [code]true[/code], control's position will also be updated.
 	Args: [{ false preset int} {False true keep_margins bool}], Returns: void
 */
 func (o *Control) SetAnchorsPreset(preset gdnative.Int, keepMargins gdnative.Bool) {
@@ -2159,7 +2159,7 @@ func (o *Control) SetAnchorsPreset(preset gdnative.Int, keepMargins gdnative.Boo
 }
 
 /*
-        Sets [member margin_left] and [member margin_top] at the same time.
+        Sets [member margin_left] and [member margin_top] at the same time. Equivalent of changing [member rect_position].
 	Args: [{ false position Vector2}], Returns: void
 */
 func (o *Control) SetBegin(position gdnative.Vector2) {
@@ -2264,7 +2264,7 @@ func (o *Control) SetDragForwarding(target ControlImplementer) {
 }
 
 /*
-        Shows the given control at the mouse pointer. A good time to call this method is in [method get_drag_data].
+        Shows the given control at the mouse pointer. A good time to call this method is in [method get_drag_data]. The control must not be in the scene tree. [codeblock] export (Color, RGBA) var color = Color(1, 0, 0, 1) func get_drag_data(position): # Use a control that is not in the tree var cpb = ColorPickerButton.new() cpb.color = color cpb.rect_size = Vector2(50, 50) set_drag_preview(cpb) return color [/codeblock]
 	Args: [{ false control Control}], Returns: void
 */
 func (o *Control) SetDragPreview(control ControlImplementer) {
@@ -2327,7 +2327,7 @@ func (o *Control) SetFocusMode(mode gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Sets the anchor identified by [code]margin[/code] constant from [enum Margin] enum to [Control] at [code]neighbor[/code] node path. A setter method for [member focus_neighbour_bottom], [member focus_neighbour_left], [member focus_neighbour_right] and [member focus_neighbour_top].
 	Args: [{ false margin int} { false neighbour NodePath}], Returns: void
 */
 func (o *Control) SetFocusNeighbour(margin gdnative.Int, neighbour gdnative.NodePath) {
@@ -2391,7 +2391,7 @@ func (o *Control) SetFocusPrevious(previous gdnative.NodePath) {
 }
 
 /*
-        Undocumented
+        Sets the [member rect_global_position] to given [code]position[/code]. If [code]keep_margins[/code] is [code]true[/code], control's anchors will be updated instead of margins.
 	Args: [{ false position Vector2} {False true keep_margins bool}], Returns: void
 */
 func (o *Control) SetGlobalPosition(position gdnative.Vector2, keepMargins gdnative.Bool) {
@@ -2455,7 +2455,7 @@ func (o *Control) SetHSizeFlags(flags gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Sets the margin identified by [code]margin[/code] constant from [enum Margin] enum to given [code]offset[/code]. A setter method for [member margin_bottom], [member margin_left], [member margin_right] and [member margin_top].
 	Args: [{ false margin int} { false offset float}], Returns: void
 */
 func (o *Control) SetMargin(margin gdnative.Int, offset gdnative.Real) {
@@ -2477,7 +2477,7 @@ func (o *Control) SetMargin(margin gdnative.Int, offset gdnative.Real) {
 }
 
 /*
-
+        Sets the margins to a [code]preset[/code] from [enum Control.LayoutPreset] enum. This is code equivalent of using the Layout menu in 2D editor. Use parameter [code]resize_mode[/code] with constants from [enum Control.LayoutPresetMode] to better determine the resulting size of the [Control]. Constant size will be ignored if used with presets that change size, e.g. [code]PRESET_LEFT_WIDE[/code]. Use parameter [code]margin[/code] to determine the gap between the [Control] and the edges.
 	Args: [{ false preset int} {0 true resize_mode int} {0 true margin int}], Returns: void
 */
 func (o *Control) SetMarginsPreset(preset gdnative.Int, resizeMode gdnative.Int, margin gdnative.Int) {
@@ -2542,7 +2542,7 @@ func (o *Control) SetPivotOffset(pivotOffset gdnative.Vector2) {
 }
 
 /*
-        Undocumented
+        Sets the [member rect_position] to given [code]position[/code]. If [code]keep_margins[/code] is [code]true[/code], control's anchors will be updated instead of margins.
 	Args: [{ false position Vector2} {False true keep_margins bool}], Returns: void
 */
 func (o *Control) SetPosition(position gdnative.Vector2, keepMargins gdnative.Bool) {
@@ -2627,7 +2627,7 @@ func (o *Control) SetScale(scale gdnative.Vector2) {
 }
 
 /*
-        Undocumented
+        Sets the size (see [member rect_size]). If [code]keep_margins[/code] is [code]true[/code], control's anchors will be updated instead of margins.
 	Args: [{ false size Vector2} {False true keep_margins bool}], Returns: void
 */
 func (o *Control) SetSize(size gdnative.Vector2, keepMargins gdnative.Bool) {
@@ -2754,7 +2754,7 @@ func (o *Control) SetVSizeFlags(flags gdnative.Int) {
 }
 
 /*
-        Displays a control as modal. Control must be a subwindow. Modal controls capture the input signals until closed or the area outside them is accessed. When a modal control loses focus, or the ESC key is pressed, they automatically hide. Modal controls are used extensively for popup dialogs and menus.
+        Displays a control as modal. Control must be a subwindow. Modal controls capture the input signals until closed or the area outside them is accessed. When a modal control loses focus, or the ESC key is pressed, they automatically hide. Modal controls are used extensively for popup dialogs and menus. If [code]exclusive[/code] is [code]true[/code], other controls will not receive input and clicking outside this control will not close it.
 	Args: [{False true exclusive bool}], Returns: void
 */
 func (o *Control) ShowModal(exclusive gdnative.Bool) {
@@ -2775,7 +2775,7 @@ func (o *Control) ShowModal(exclusive gdnative.Bool) {
 }
 
 /*
-
+        Moves the mouse cursor to [code]to_position[/code], relative to [member rect_position] of this [Control].
 	Args: [{ false to_position Vector2}], Returns: void
 */
 func (o *Control) WarpMouse(toPosition gdnative.Vector2) {

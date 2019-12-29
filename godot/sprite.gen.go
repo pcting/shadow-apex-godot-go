@@ -359,7 +359,7 @@ func (o *Sprite) IsFlippedV() gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code], if the pixel at the given position is opaque and [code]false[/code] in other case. Note: It also returns [code]false[/code], if the sprite's texture is null or if the given position is invalid.
+        Returns [code]true[/code], if the pixel at the given position is opaque and [code]false[/code] in other case. [b]Note:[/b] It also returns [code]false[/code], if the sprite's texture is [code]null[/code] or if the given position is invalid.
 	Args: [{ false pos Vector2}], Returns: bool
 */
 func (o *Sprite) IsPixelOpaque(pos gdnative.Vector2) gdnative.Bool {

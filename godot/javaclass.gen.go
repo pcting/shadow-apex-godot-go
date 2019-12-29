@@ -13,10 +13,10 @@ import (
 //   code.
 //----------------------------------------------------------------------------*/
 
-//func NewVisualShaderNodeIfFromPointer(ptr gdnative.Pointer) VisualShaderNodeIf {
-func newVisualShaderNodeIfFromPointer(ptr gdnative.Pointer) VisualShaderNodeIf {
+//func NewJavaClassFromPointer(ptr gdnative.Pointer) JavaClass {
+func newJavaClassFromPointer(ptr gdnative.Pointer) JavaClass {
 	owner := gdnative.NewObjectFromPointer(ptr)
-	obj := VisualShaderNodeIf{}
+	obj := JavaClass{}
 	obj.SetBaseObject(owner)
 
 	return obj
@@ -25,17 +25,17 @@ func newVisualShaderNodeIfFromPointer(ptr gdnative.Pointer) VisualShaderNodeIf {
 /*
 
  */
-type VisualShaderNodeIf struct {
-	VisualShaderNode
+type JavaClass struct {
+	Reference
 	owner gdnative.Object
 }
 
-func (o *VisualShaderNodeIf) BaseClass() string {
-	return "VisualShaderNodeIf"
+func (o *JavaClass) BaseClass() string {
+	return "JavaClass"
 }
 
-// VisualShaderNodeIfImplementer is an interface that implements the methods
-// of the VisualShaderNodeIf class.
-type VisualShaderNodeIfImplementer interface {
-	VisualShaderNodeImplementer
+// JavaClassImplementer is an interface that implements the methods
+// of the JavaClass class.
+type JavaClassImplementer interface {
+	ReferenceImplementer
 }

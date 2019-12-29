@@ -35,7 +35,7 @@ func (o *RemoteTransform2D) BaseClass() string {
 }
 
 /*
-        Undocumented
+        [RemoteTransform2D] caches the remote node. It may not notice if the remote node disappears; [method force_update_cache] forces it to update the cache again.
 	Args: [], Returns: void
 */
 func (o *RemoteTransform2D) ForceUpdateCache() {

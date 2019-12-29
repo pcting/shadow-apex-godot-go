@@ -23,7 +23,7 @@ func newInputEventJoypadMotionFromPointer(ptr gdnative.Pointer) InputEventJoypad
 }
 
 /*
-Stores information about joystick motions. One [code]InputEventJoypadMotion[/code] represents one axis at a time.
+Stores information about joystick motions. One [InputEventJoypadMotion] represents one axis at a time.
 */
 type InputEventJoypadMotion struct {
 	InputEvent

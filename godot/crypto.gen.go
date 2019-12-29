@@ -23,7 +23,7 @@ func newCryptoFromPointer(ptr gdnative.Pointer) Crypto {
 }
 
 /*
-Undocumented
+The Crypto class allows you to access some more advanced cryptographic functionalities in Godot. For now, this includes generating cryptographically secure random bytes, and RSA keys and self-signed X509 certificates generation. More functionalities are planned for future releases. [codeblock] extends Node var crypto = Crypto.new() var key = CryptoKey.new() var cert = X509Certificate.new() func _ready(): # Generate new RSA key. key = crypto.generate_rsa(4096) # Generate new self-signed certificate with the given key. cert = crypto.generate_self_signed_certificate(key, "CN=mydomain.com,O=My Game Company,C=IT") # Save key and certificate in the user folder. key.save("user://generated.key") cert.save("user://generated.crt") [/codeblock] [b]Note:[/b] Not available in HTML5 exports.
 */
 type Crypto struct {
 	Reference
@@ -35,7 +35,7 @@ func (o *Crypto) BaseClass() string {
 }
 
 /*
-        Undocumented
+        Generates a [PoolByteArray] of cryptographically secure random bytes with given [code]size[/code].
 	Args: [{ false size int}], Returns: PoolByteArray
 */
 func (o *Crypto) GenerateRandomBytes(size gdnative.Int) gdnative.PoolByteArray {
@@ -59,7 +59,7 @@ func (o *Crypto) GenerateRandomBytes(size gdnative.Int) gdnative.PoolByteArray {
 }
 
 /*
-        Undocumented
+        Generates an RSA [CryptoKey] that can be used for creating self-signed certificates and passed to [method StreamPeerSSL.accept_stream].
 	Args: [{ false size int}], Returns: CryptoKey
 */
 func (o *Crypto) GenerateRsa(size gdnative.Int) CryptoKeyImplementer {
@@ -97,7 +97,7 @@ func (o *Crypto) GenerateRsa(size gdnative.Int) CryptoKeyImplementer {
 }
 
 /*
-        Undocumented
+        Generates a self-signed [X509Certificate] from the given [CryptoKey] and [code]issuer_name[/code]. The certificate validity will be defined by [code]not_before[/code] and [code]not_after[/code] (first valid date and last valid date). The [code]issuer_name[/code] must contain at least "CN=" (common name, i.e. the domain name), "O=" (organization, i.e. your company name), "C=" (country, i.e. 2 lettered ISO-3166 code of the country the organization is based in). A small example to generate an RSA key and a X509 self-signed certificate. [codeblock] var crypto = Crypto.new() # Generate 4096 bits RSA key. var key = crypto.generate_rsa(4096) # Generate self-signed certificate using the given key. var cert = crypto.generate_self_signed_certificate(key, "CN=example.com,O=A Game Company,C=IT") [/codeblock]
 	Args: [{ false key CryptoKey} {CN=myserver,O=myorganisation,C=IT true issuer_name String} {20140101000000 true not_before String} {20340101000000 true not_after String}], Returns: X509Certificate
 */
 func (o *Crypto) GenerateSelfSignedCertificate(key CryptoKeyImplementer, issuerName gdnative.String, notBefore gdnative.String, notAfter gdnative.String) X509CertificateImplementer {

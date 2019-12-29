@@ -35,7 +35,7 @@ func (o *StyleBox) BaseClass() string {
 }
 
 /*
-
+        Draws this stylebox using a [CanvasItem] with given [RID]. You can get a [RID] value using [method Object.get_instance_id] on a [CanvasItem]-derived node.
 	Args: [{ false canvas_item RID} { false rect Rect2}], Returns: void
 */
 func (o *StyleBox) Draw(canvasItem gdnative.Rid, rect gdnative.Rect2) {
@@ -57,7 +57,7 @@ func (o *StyleBox) Draw(canvasItem gdnative.Rid, rect gdnative.Rect2) {
 }
 
 /*
-
+        Returns the size of this [StyleBox] without the margins.
 	Args: [], Returns: Vector2
 */
 func (o *StyleBox) GetCenterSize() gdnative.Vector2 {
@@ -80,7 +80,7 @@ func (o *StyleBox) GetCenterSize() gdnative.Vector2 {
 }
 
 /*
-
+        Returns the [CanvasItem] that handles its [constant CanvasItem.NOTIFICATION_DRAW] or [method CanvasItem._draw] callback at this moment.
 	Args: [], Returns: CanvasItem
 */
 func (o *StyleBox) GetCurrentItemDrawn() CanvasItemImplementer {
@@ -117,7 +117,7 @@ func (o *StyleBox) GetCurrentItemDrawn() CanvasItemImplementer {
 }
 
 /*
-        Undocumented
+        Returns the default value of the specified [enum Margin].
 	Args: [{ false margin int}], Returns: float
 */
 func (o *StyleBox) GetDefaultMargin(margin gdnative.Int) gdnative.Real {
@@ -141,7 +141,7 @@ func (o *StyleBox) GetDefaultMargin(margin gdnative.Int) gdnative.Real {
 }
 
 /*
-        Returns the content margin offset for the specified margin Positive values reduce size inwards, unlike [Control]'s margin values.
+        Returns the content margin offset for the specified [enum Margin]. Positive values reduce size inwards, unlike [Control]'s margin values.
 	Args: [{ false margin int}], Returns: float
 */
 func (o *StyleBox) GetMargin(margin gdnative.Int) gdnative.Real {
@@ -188,7 +188,7 @@ func (o *StyleBox) GetMinimumSize() gdnative.Vector2 {
 }
 
 /*
-        Returns the "offset" of a stylebox, this is a helper function, like writing [code]Vector2(style.get_margin(MARGIN_LEFT), style.get_margin(MARGIN_TOP))[/code].
+        Returns the "offset" of a stylebox. This helper function returns a value equivalent to [code]Vector2(style.get_margin(MARGIN_LEFT), style.get_margin(MARGIN_TOP))[/code].
 	Args: [], Returns: Vector2
 */
 func (o *StyleBox) GetOffset() gdnative.Vector2 {
@@ -211,7 +211,7 @@ func (o *StyleBox) GetOffset() gdnative.Vector2 {
 }
 
 /*
-        Undocumented
+        Sets the default value of the specified [enum Margin] to given [code]offset[/code] in pixels.
 	Args: [{ false margin int} { false offset float}], Returns: void
 */
 func (o *StyleBox) SetDefaultMargin(margin gdnative.Int, offset gdnative.Real) {

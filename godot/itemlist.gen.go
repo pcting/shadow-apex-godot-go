@@ -39,7 +39,7 @@ func newItemListFromPointer(ptr gdnative.Pointer) ItemList {
 }
 
 /*
-This control provides a selectable list of items that may be in a single (or multiple columns) with option of text, icons, or both text and icon. Tooltips are supported and may be different for every item in the list. Selectable items in the list may be selected or deselected and multiple selection may be enabled. Selection with right mouse button may also be enabled to allow use of popup context menus. Items may also be 'activated' with a double click (or Enter key).
+This control provides a selectable list of items that may be in a single (or multiple columns) with option of text, icons, or both text and icon. Tooltips are supported and may be different for every item in the list. Selectable items in the list may be selected or deselected and multiple selection may be enabled. Selection with right mouse button may also be enabled to allow use of popup context menus. Items may also be "activated" by double-clicking them or by pressing Enter. Item text only supports single-line strings, newline characters (e.g. [code]\n[/code]) in the string won't produce a newline. Text wrapping is enabled in [constant ICON_MODE_TOP] mode, but column's width is adjusted to fully fit its content by default. You need to set [member fixed_column_width] greater than zero to wrap the text.
 */
 type ItemList struct {
 	Control
@@ -159,7 +159,7 @@ func (o *ItemList) AddIconItem(icon TextureImplementer, selectable gdnative.Bool
 }
 
 /*
-        Adds an item to the item list with specified text. Specify an icon of null for a list item with no icon. If selectable is [code]true[/code] the list item will be selectable.
+        Adds an item to the item list with specified text. Specify an [code]icon[/code], or use [code]null[/code] as the [code]icon[/code] for a list item with no icon. If selectable is [code]true[/code], the list item will be selectable.
 	Args: [{ false text String} {Null true icon Texture} {True true selectable bool}], Returns: void
 */
 func (o *ItemList) AddItem(text gdnative.String, icon TextureImplementer, selectable gdnative.Bool) {
@@ -182,7 +182,7 @@ func (o *ItemList) AddItem(text gdnative.String, icon TextureImplementer, select
 }
 
 /*
-        Remove all items from the list.
+        Removes all items from the list.
 	Args: [], Returns: void
 */
 func (o *ItemList) Clear() {
@@ -360,7 +360,7 @@ func (o *ItemList) GetIconScale() gdnative.Real {
 }
 
 /*
-        Given a position within the control return the item (if any) at that point.
+        Returns the item index at the given [code]position[/code]. When there is no item at that point, -1 will be returned if [code]exact[/code] is [code]true[/code], and the closest item index will be returned otherwise.
 	Args: [{ false position Vector2} {False true exact bool}], Returns: int
 */
 func (o *ItemList) GetItemAtPosition(position gdnative.Vector2, exact gdnative.Bool) gdnative.Int {
@@ -408,7 +408,7 @@ func (o *ItemList) GetItemCount() gdnative.Int {
 }
 
 /*
-        Returns the [Color] set by [method set_item_custom_bg_color]. Default value is [code]Color(0, 0, 0, 0)[/code].
+        Returns the custom background color of the item specified by [code]idx[/code] index.
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *ItemList) GetItemCustomBgColor(idx gdnative.Int) gdnative.Color {
@@ -432,7 +432,7 @@ func (o *ItemList) GetItemCustomBgColor(idx gdnative.Int) gdnative.Color {
 }
 
 /*
-        Returns the [Color] set by [method set_item_custom_fg_color]. Default value is [code]Color(0, 0, 0, 0)[/code].
+        Returns the custom foreground color of the item specified by [code]idx[/code] index.
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *ItemList) GetItemCustomFgColor(idx gdnative.Int) gdnative.Color {
@@ -456,7 +456,7 @@ func (o *ItemList) GetItemCustomFgColor(idx gdnative.Int) gdnative.Color {
 }
 
 /*
-        Returns the icon associated with the specified index. Default value is [code]null[/code].
+        Returns the icon associated with the specified index.
 	Args: [{ false idx int}], Returns: Texture
 */
 func (o *ItemList) GetItemIcon(idx gdnative.Int) TextureImplementer {
@@ -518,7 +518,7 @@ func (o *ItemList) GetItemIconModulate(idx gdnative.Int) gdnative.Color {
 }
 
 /*
-
+        Returns the region of item's icon used. The whole icon will be used if the region has no area.
 	Args: [{ false idx int}], Returns: Rect2
 */
 func (o *ItemList) GetItemIconRegion(idx gdnative.Int) gdnative.Rect2 {
@@ -542,7 +542,7 @@ func (o *ItemList) GetItemIconRegion(idx gdnative.Int) gdnative.Rect2 {
 }
 
 /*
-        Returns the metadata value of the specified index set by [method set_item_metadata].
+        Returns the metadata value of the specified index.
 	Args: [{ false idx int}], Returns: Variant
 */
 func (o *ItemList) GetItemMetadata(idx gdnative.Int) gdnative.Variant {
@@ -789,7 +789,7 @@ func (o *ItemList) IsAnythingSelected() gdnative.Bool {
 }
 
 /*
-        Returns whether or not the item at the specified index is disabled.
+        Returns [code]true[/code] if the item at the specified index is disabled.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *ItemList) IsItemDisabled(idx gdnative.Int) gdnative.Bool {
@@ -813,7 +813,7 @@ func (o *ItemList) IsItemDisabled(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-
+        Returns [code]true[/code] if the item icon will be drawn transposed, i.e. the X and Y axes are swapped.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *ItemList) IsItemIconTransposed(idx gdnative.Int) gdnative.Bool {
@@ -837,7 +837,7 @@ func (o *ItemList) IsItemIconTransposed(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Returns whether or not the item at the specified index is selectable.
+        Returns [code]true[/code] if the item at the specified index is selectable.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *ItemList) IsItemSelectable(idx gdnative.Int) gdnative.Bool {
@@ -861,7 +861,7 @@ func (o *ItemList) IsItemSelectable(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Returns whether the tooltip is enabled for specified item index.
+        Returns [code]true[/code] if the tooltip is enabled for specified item index.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *ItemList) IsItemTooltipEnabled(idx gdnative.Int) gdnative.Bool {
@@ -908,7 +908,7 @@ func (o *ItemList) IsSameColumnWidth() gdnative.Bool {
 }
 
 /*
-        Returns whether or not item at the specified index is currently selected.
+        Returns [code]true[/code] if the item at the specified index is currently selected.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *ItemList) IsSelected(idx gdnative.Int) gdnative.Bool {
@@ -975,7 +975,7 @@ func (o *ItemList) RemoveItem(idx gdnative.Int) {
 }
 
 /*
-        Select the item at the specified index. Note: This method does not trigger the item selection signal.
+        Select the item at the specified index. [b]Note:[/b] This method does not trigger the item selection signal.
 	Args: [{ false idx int} {True true single bool}], Returns: void
 */
 func (o *ItemList) Select(idx gdnative.Int, single gdnative.Bool) {
@@ -1188,7 +1188,7 @@ func (o *ItemList) SetItemCustomFgColor(idx gdnative.Int, customFgColor gdnative
 }
 
 /*
-        Disable (or enable) item at the specified index. Disabled items are not be selectable and do not trigger activation (Enter or double-click) signals.
+        Disables (or enables) the item at the specified index. Disabled items cannot be selected and do not trigger activation signals (when double-clicking or pressing Enter).
 	Args: [{ false idx int} { false disabled bool}], Returns: void
 */
 func (o *ItemList) SetItemDisabled(idx gdnative.Int, disabled gdnative.Bool) {
@@ -1210,7 +1210,7 @@ func (o *ItemList) SetItemDisabled(idx gdnative.Int, disabled gdnative.Bool) {
 }
 
 /*
-        Set (or replace) the icon's [Texture] associated with the specified index.
+        Sets (or replaces) the icon's [Texture] associated with the specified index.
 	Args: [{ false idx int} { false icon Texture}], Returns: void
 */
 func (o *ItemList) SetItemIcon(idx gdnative.Int, icon TextureImplementer) {
@@ -1254,7 +1254,7 @@ func (o *ItemList) SetItemIconModulate(idx gdnative.Int, modulate gdnative.Color
 }
 
 /*
-
+        Sets the region of item's icon used. The whole icon will be used if the region has no area.
 	Args: [{ false idx int} { false rect Rect2}], Returns: void
 */
 func (o *ItemList) SetItemIconRegion(idx gdnative.Int, rect gdnative.Rect2) {
@@ -1276,16 +1276,16 @@ func (o *ItemList) SetItemIconRegion(idx gdnative.Int, rect gdnative.Rect2) {
 }
 
 /*
-
-	Args: [{ false idx int} { false rect bool}], Returns: void
+        Sets whether the item icon will be drawn transposed.
+	Args: [{ false idx int} { false transposed bool}], Returns: void
 */
-func (o *ItemList) SetItemIconTransposed(idx gdnative.Int, rect gdnative.Bool) {
+func (o *ItemList) SetItemIconTransposed(idx gdnative.Int, transposed gdnative.Bool) {
 	//log.Println("Calling ItemList.SetItemIconTransposed()")
 
 	// Build out the method's arguments
 	ptrArguments := make([]gdnative.Pointer, 2, 2)
 	ptrArguments[0] = gdnative.NewPointerFromInt(idx)
-	ptrArguments[1] = gdnative.NewPointerFromBool(rect)
+	ptrArguments[1] = gdnative.NewPointerFromBool(transposed)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ItemList", "set_item_icon_transposed")
@@ -1320,7 +1320,7 @@ func (o *ItemList) SetItemMetadata(idx gdnative.Int, metadata gdnative.Variant) 
 }
 
 /*
-        Allow or disallow selection of the item associated with the specified index.
+        Allows or disallows selection of the item associated with the specified index.
 	Args: [{ false idx int} { false selectable bool}], Returns: void
 */
 func (o *ItemList) SetItemSelectable(idx gdnative.Int, selectable gdnative.Bool) {
@@ -1364,7 +1364,7 @@ func (o *ItemList) SetItemText(idx gdnative.Int, text gdnative.String) {
 }
 
 /*
-        Sets tooltip hint for the item associated with the specified index.
+        Sets the tooltip hint for the item associated with the specified index.
 	Args: [{ false idx int} { false tooltip String}], Returns: void
 */
 func (o *ItemList) SetItemTooltip(idx gdnative.Int, tooltip gdnative.String) {
@@ -1512,7 +1512,7 @@ func (o *ItemList) SortItemsByText() {
 }
 
 /*
-        Ensure the item associated with the specified index is not selected.
+        Ensures the item associated with the specified index is not selected.
 	Args: [{ false idx int}], Returns: void
 */
 func (o *ItemList) Unselect(idx gdnative.Int) {
@@ -1533,7 +1533,7 @@ func (o *ItemList) Unselect(idx gdnative.Int) {
 }
 
 /*
-        Ensure there are no items selected.
+        Ensures there are no items selected.
 	Args: [], Returns: void
 */
 func (o *ItemList) UnselectAll() {
@@ -1606,7 +1606,7 @@ type ItemListImplementer interface {
 	SetItemIcon(idx gdnative.Int, icon TextureImplementer)
 	SetItemIconModulate(idx gdnative.Int, modulate gdnative.Color)
 	SetItemIconRegion(idx gdnative.Int, rect gdnative.Rect2)
-	SetItemIconTransposed(idx gdnative.Int, rect gdnative.Bool)
+	SetItemIconTransposed(idx gdnative.Int, transposed gdnative.Bool)
 	SetItemMetadata(idx gdnative.Int, metadata gdnative.Variant)
 	SetItemSelectable(idx gdnative.Int, selectable gdnative.Bool)
 	SetItemText(idx gdnative.Int, text gdnative.String)

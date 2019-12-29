@@ -32,7 +32,7 @@ func newAudioStreamPlayerFromPointer(ptr gdnative.Pointer) AudioStreamPlayer {
 }
 
 /*
-Plays background audio.
+Plays an audio stream non-positionally.
 */
 type AudioStreamPlayer struct {
 	Node
@@ -260,7 +260,7 @@ func (o *AudioStreamPlayer) GetStreamPaused() gdnative.Bool {
 }
 
 /*
-
+        Returns the [AudioStreamPlayback] object associated with this [AudioStreamPlayer].
 	Args: [], Returns: AudioStreamPlayback
 */
 func (o *AudioStreamPlayer) GetStreamPlayback() AudioStreamPlaybackImplementer {
@@ -366,7 +366,7 @@ func (o *AudioStreamPlayer) IsPlaying() gdnative.Bool {
 }
 
 /*
-        Plays the audio from the given position 'from_position', in seconds.
+        Plays the audio from the given [code]from_position[/code], in seconds.
 	Args: [{0 true from_position float}], Returns: void
 */
 func (o *AudioStreamPlayer) Play(fromPosition gdnative.Real) {

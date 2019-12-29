@@ -23,8 +23,8 @@ func newEditorInspectorPluginFromPointer(ptr gdnative.Pointer) EditorInspectorPl
 }
 
 /*
-
- */
+This plugins allows adding custom property editors to [EditorInspector]. Plugins are registered via [method EditorPlugin.add_inspector_plugin]. When an object is edited, the [method can_handle] function is called and must return [code]true[/code] if the object type is supported. If supported, the function [method parse_begin] will be called, allowing to place custom controls at the beginning of the class. Subsequently, the [method parse_category] and [method parse_property] are called for every category and property. They offer the ability to add custom controls to the inspector too. Finally [method parse_end] will be called. On each of these calls, the "add" functions can be called.
+*/
 type EditorInspectorPlugin struct {
 	Reference
 	owner gdnative.Object
@@ -35,7 +35,7 @@ func (o *EditorInspectorPlugin) BaseClass() string {
 }
 
 /*
-
+        Adds a custom control, not necessarily a property editor.
 	Args: [{ false control Control}], Returns: void
 */
 func (o *EditorInspectorPlugin) AddCustomControl(control ControlImplementer) {
@@ -56,7 +56,7 @@ func (o *EditorInspectorPlugin) AddCustomControl(control ControlImplementer) {
 }
 
 /*
-
+        Adds a property editor, this must inherit [EditorProperty].
 	Args: [{ false property String} { false editor Control}], Returns: void
 */
 func (o *EditorInspectorPlugin) AddPropertyEditor(property gdnative.String, editor ControlImplementer) {
@@ -78,7 +78,7 @@ func (o *EditorInspectorPlugin) AddPropertyEditor(property gdnative.String, edit
 }
 
 /*
-
+        Adds an editor that allows modifying multiple properties, this must inherit [EditorProperty].
 	Args: [{ false label String} { false properties PoolStringArray} { false editor Control}], Returns: void
 */
 func (o *EditorInspectorPlugin) AddPropertyEditorForMultipleProperties(label gdnative.String, properties gdnative.PoolStringArray, editor ControlImplementer) {
@@ -101,7 +101,7 @@ func (o *EditorInspectorPlugin) AddPropertyEditorForMultipleProperties(label gdn
 }
 
 /*
-
+        Returns [code]true[/code] if this object can be handled by this plugin.
 	Args: [{ false object Object}], Returns: bool
 */
 func (o *EditorInspectorPlugin) CanHandle(object ObjectImplementer) gdnative.Bool {
@@ -125,7 +125,7 @@ func (o *EditorInspectorPlugin) CanHandle(object ObjectImplementer) gdnative.Boo
 }
 
 /*
-
+        Called to allow adding controls at the beginning of the list.
 	Args: [{ false object Object}], Returns: void
 */
 func (o *EditorInspectorPlugin) ParseBegin(object ObjectImplementer) {
@@ -146,7 +146,7 @@ func (o *EditorInspectorPlugin) ParseBegin(object ObjectImplementer) {
 }
 
 /*
-
+        Called to allow adding controls at the beginning of the category.
 	Args: [{ false object Object} { false category String}], Returns: void
 */
 func (o *EditorInspectorPlugin) ParseCategory(object ObjectImplementer, category gdnative.String) {
@@ -168,7 +168,7 @@ func (o *EditorInspectorPlugin) ParseCategory(object ObjectImplementer, category
 }
 
 /*
-
+        Called to allow adding controls at the end of the list.
 	Args: [], Returns: void
 */
 func (o *EditorInspectorPlugin) ParseEnd() {
@@ -188,7 +188,7 @@ func (o *EditorInspectorPlugin) ParseEnd() {
 }
 
 /*
-
+        Called to allow adding property specific editors to the inspector. Usually these inherit [EditorProperty]
 	Args: [{ false object Object} { false type int} { false path String} { false hint int} { false hint_text String} { false usage int}], Returns: bool
 */
 func (o *EditorInspectorPlugin) ParseProperty(object ObjectImplementer, aType gdnative.Int, path gdnative.String, hint gdnative.Int, hintText gdnative.String, usage gdnative.Int) gdnative.Bool {

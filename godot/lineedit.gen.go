@@ -47,7 +47,7 @@ func newLineEditFromPointer(ptr gdnative.Pointer) LineEdit {
 }
 
 /*
-LineEdit provides a single-line string editor, used for text fields. It features many built-in shortcuts which will always be available: - Ctrl + C: Copy - Ctrl + X: Cut - Ctrl + V or Ctrl + Y: Paste/"yank" - Ctrl + Z: Undo - Ctrl + Shift + Z: Redo - Ctrl + U: Delete text from the cursor position to the beginning of the line - Ctrl + K: Delete text from the cursor position to the end of the line - Ctrl + A: Select all text - Up/Down arrow: Move the cursor to the beginning/end of the line
+LineEdit provides a single-line string editor, used for text fields. It features many built-in shortcuts which will always be available: (the Ctrl here maps to Command on macOS) - Ctrl + C: Copy - Ctrl + X: Cut - Ctrl + V or Ctrl + Y: Paste/"yank" - Ctrl + Z: Undo - Ctrl + Shift + Z: Redo - Ctrl + U: Delete text from the cursor position to the beginning of the line - Ctrl + K: Delete text from the cursor position to the end of the line - Ctrl + A: Select all text - Up/Down arrow: Move the cursor to the beginning/end of the line On macOS, some extra keyboard shortcuts are available: - Ctrl + F: Like the right arrow key, move the cursor one character right - Ctrl + B: Like the left arrow key, move the cursor one character left - Ctrl + P: Like the up arrow key, move the cursor to the previous line - Ctrl + N: Like the down arrow key, move the cursor to the next line - Ctrl + D: Like the Delete key, delete the character on the right side of cursor - Ctrl + H: Like the Backspace key, delete the character on the left side of the cursor - Command + Left arrow: Like the Home key, move the cursor to the beginning of the line - Command + Right arrow: Like the End key, move the cursor to the end of the line
 */
 type LineEdit struct {
 	Control
@@ -161,7 +161,7 @@ func (o *LineEdit) AppendAtCursor(text gdnative.String) {
 }
 
 /*
-        Erases the [code]LineEdit[/code] text.
+        Erases the [LineEdit] text.
 	Args: [], Returns: void
 */
 func (o *LineEdit) Clear() {
@@ -381,7 +381,7 @@ func (o *LineEdit) GetMaxLength() gdnative.Int {
 }
 
 /*
-        Returns the [PopupMenu] of this [code]LineEdit[/code]. By default, this menu is displayed when right-clicking on the [code]LineEdit[/code].
+        Returns the [PopupMenu] of this [LineEdit]. By default, this menu is displayed when right-clicking on the [LineEdit].
 	Args: [], Returns: PopupMenu
 */
 func (o *LineEdit) GetMenu() PopupMenuImplementer {
@@ -685,7 +685,7 @@ func (o *LineEdit) IsShortcutKeysEnabled() gdnative.Bool {
 }
 
 /*
-        Executes a given action as defined in the MENU_* enum.
+        Executes a given action as defined in the [enum MenuItems] enum.
 	Args: [{ false option int}], Returns: void
 */
 func (o *LineEdit) MenuOption(option gdnative.Int) {
@@ -706,7 +706,7 @@ func (o *LineEdit) MenuOption(option gdnative.Int) {
 }
 
 /*
-        Selects characters inside [code]LineEdit[/code] between [code]from[/code] and [code]to[/code]. By default [code]from[/code] is at the beginning and [code]to[/code] at the end. [codeblock] text = "Welcome" select() # Welcome select(4) # ome select(2, 5) # lco [/codeblock]
+        Selects characters inside [LineEdit] between [code]from[/code] and [code]to[/code]. By default, [code]from[/code] is at the beginning and [code]to[/code] at the end. [codeblock] text = "Welcome" select() # Will select "Welcome" select(4) # Will select "ome" select(2, 5) # Will select "lco" [/codeblock]
 	Args: [{0 true from int} {-1 true to int}], Returns: void
 */
 func (o *LineEdit) Select(from gdnative.Int, to gdnative.Int) {

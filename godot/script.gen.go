@@ -23,7 +23,7 @@ func newScriptFromPointer(ptr gdnative.Pointer) Script {
 }
 
 /*
-A class stored as a resource. A script exends the functionality of all objects that instance it. The [code]new[/code] method of a script subclass creates a new instance. [method Object.set_script] extends an existing object, if that object's class matches one of the script's base classes.
+A class stored as a resource. A script extends the functionality of all objects that instance it. The [code]new[/code] method of a script subclass creates a new instance. [method Object.set_script] extends an existing object, if that object's class matches one of the script's base classes.
 */
 type Script struct {
 	Resource
@@ -118,7 +118,7 @@ func (o *Script) GetInstanceBaseType() gdnative.String {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false property String}], Returns: Variant
 */
 func (o *Script) GetPropertyDefaultValue(property gdnative.String) gdnative.Variant {
@@ -142,7 +142,7 @@ func (o *Script) GetPropertyDefaultValue(property gdnative.String) gdnative.Vari
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: Dictionary
 */
 func (o *Script) GetScriptConstantMap() gdnative.Dictionary {
@@ -165,7 +165,7 @@ func (o *Script) GetScriptConstantMap() gdnative.Dictionary {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: Array
 */
 func (o *Script) GetScriptMethodList() gdnative.Array {
@@ -188,7 +188,7 @@ func (o *Script) GetScriptMethodList() gdnative.Array {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: Array
 */
 func (o *Script) GetScriptPropertyList() gdnative.Array {
@@ -211,7 +211,7 @@ func (o *Script) GetScriptPropertyList() gdnative.Array {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: Array
 */
 func (o *Script) GetScriptSignalList() gdnative.Array {

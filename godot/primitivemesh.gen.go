@@ -138,7 +138,7 @@ func (o *PrimitiveMesh) GetMaterial() MaterialImplementer {
 }
 
 /*
-        Returns mesh arrays used to constitute surface of [Mesh]. Mesh array can be used with [ArrayMesh] to create new surface.
+        Returns mesh arrays used to constitute surface of [Mesh]. Mesh arrays can be used with [ArrayMesh] to create new surfaces.
 	Args: [], Returns: Array
 */
 func (o *PrimitiveMesh) GetMeshArrays() gdnative.Array {

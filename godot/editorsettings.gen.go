@@ -23,7 +23,7 @@ func newEditorSettingsFromPointer(ptr gdnative.Pointer) EditorSettings {
 }
 
 /*
-Object that holds the project-independent editor settings. These settings are generally visible in the Editor Settings menu. Accessing the settings is done by using the regular [Object] API, such as: [codeblock] settings.set(prop,value) settings.get(prop) list_of_settings = settings.get_property_list() [/codeblock]
+Object that holds the project-independent editor settings. These settings are generally visible in the [b]Editor > Editor Settings[/b] menu. Accessing the settings is done by using the regular [Object] API, such as: [codeblock] settings.set(prop,value) settings.get(prop) list_of_settings = settings.get_property_list() [/codeblock]
 */
 type EditorSettings struct {
 	Resource
@@ -35,7 +35,7 @@ func (o *EditorSettings) BaseClass() string {
 }
 
 /*
-        Add a custom property info to a property. The dictionary must contain: name:[String](the name of the property) and type:[int](see TYPE_* in [@GlobalScope]), and optionally hint:[int](see PROPERTY_HINT_* in [@GlobalScope]), hint_string:[String]. Example: [codeblock] editor_settings.set("category/property_name", 0) var property_info = { "name": "category/property_name", "type": TYPE_INT, "hint": PROPERTY_HINT_ENUM, "hint_string": "one,two,three" } editor_settings.add_property_info(property_info) [/codeblock]
+        Adds a custom property info to a property. The dictionary must contain: - [code]name[/code]: [String] (the name of the property) - [code]type[/code]: [int] (see [enum Variant.Type]) - optionally [code]hint[/code]: [int] (see [enum PropertyHint]) and [code]hint_string[/code]: [String] [b]Example:[/b] [codeblock] editor_settings.set("category/property_name", 0) var property_info = { "name": "category/property_name", "type": TYPE_INT, "hint": PROPERTY_HINT_ENUM, "hint_string": "one,two,three" } editor_settings.add_property_info(property_info) [/codeblock]
 	Args: [{ false info Dictionary}], Returns: void
 */
 func (o *EditorSettings) AddPropertyInfo(info gdnative.Dictionary) {
@@ -77,7 +77,7 @@ func (o *EditorSettings) Erase(property gdnative.String) {
 }
 
 /*
-        Get the list of favorite files and directories for this project.
+        Gets the list of favorite files and directories for this project.
 	Args: [], Returns: PoolStringArray
 */
 func (o *EditorSettings) GetFavorites() gdnative.PoolStringArray {
@@ -126,7 +126,7 @@ func (o *EditorSettings) GetProjectMetadata(section gdnative.String, key gdnativ
 }
 
 /*
-        Get the specific project settings path. Projects all have a unique sub-directory inside the settings path where project specific settings are saved.
+        Gets the specific project settings path. Projects all have a unique sub-directory inside the settings path where project specific settings are saved.
 	Args: [], Returns: String
 */
 func (o *EditorSettings) GetProjectSettingsDir() gdnative.String {
@@ -149,7 +149,7 @@ func (o *EditorSettings) GetProjectSettingsDir() gdnative.String {
 }
 
 /*
-        Get the list of recently visited folders in the file dialog for this project.
+        Gets the list of recently visited folders in the file dialog for this project.
 	Args: [], Returns: PoolStringArray
 */
 func (o *EditorSettings) GetRecentDirs() gdnative.PoolStringArray {
@@ -196,7 +196,7 @@ func (o *EditorSettings) GetSetting(name gdnative.String) gdnative.Variant {
 }
 
 /*
-        Get the global settings path for the engine. Inside this path you can find some standard paths such as: settings/tmp - used for temporary storage of files settings/templates - where export templates are located
+        Gets the global settings path for the engine. Inside this path, you can find some standard paths such as: [code]settings/tmp[/code] - Used for temporary storage of files [code]settings/templates[/code] - Where export templates are located
 	Args: [], Returns: String
 */
 func (o *EditorSettings) GetSettingsDir() gdnative.String {
@@ -291,7 +291,7 @@ func (o *EditorSettings) PropertyGetRevert(name gdnative.String) gdnative.Varian
 }
 
 /*
-        Set the list of favorite files and directories for this project.
+        Sets the list of favorite files and directories for this project.
 	Args: [{ false dirs PoolStringArray}], Returns: void
 */
 func (o *EditorSettings) SetFavorites(dirs gdnative.PoolStringArray) {
@@ -358,7 +358,7 @@ func (o *EditorSettings) SetProjectMetadata(section gdnative.String, key gdnativ
 }
 
 /*
-        Set the list of recently visited folders in the file dialog for this project.
+        Sets the list of recently visited folders in the file dialog for this project.
 	Args: [{ false dirs PoolStringArray}], Returns: void
 */
 func (o *EditorSettings) SetRecentDirs(dirs gdnative.PoolStringArray) {

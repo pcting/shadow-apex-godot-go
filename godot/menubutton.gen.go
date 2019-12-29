@@ -23,7 +23,7 @@ func newMenuButtonFromPointer(ptr gdnative.Pointer) MenuButton {
 }
 
 /*
-Special button that brings up a [PopupMenu] when clicked. That's pretty much all it does, as it's just a helper class when building GUIs.
+Special button that brings up a [PopupMenu] when clicked. New items can be created inside this [PopupMenu] using [code]get_popup().add_item("My Item Name")[/code]. You can also create them directly from the editor. To do so, select the MenuButton node, then in the toolbar at the top of the 2D editor, click [b]Items[/b] then click [b]Add[/b] in the popup. You will be able to give each items new properties.
 */
 type MenuButton struct {
 	Button

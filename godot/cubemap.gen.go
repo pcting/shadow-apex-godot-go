@@ -89,7 +89,7 @@ func (o *CubeMap) GetFlags() gdnative.Int {
 }
 
 /*
-        Returns the [code]CubeMap[/code]'s height.
+        Returns the [CubeMap]'s height.
 	Args: [], Returns: int
 */
 func (o *CubeMap) GetHeight() gdnative.Int {
@@ -135,7 +135,7 @@ func (o *CubeMap) GetLossyStorageQuality() gdnative.Real {
 }
 
 /*
-        Returns an [Image] for a side of the [code]CubeMap[/code] using one of the [code]SIDE_*[/code] constants or an integer 0-5.
+        Returns an [Image] for a side of the [CubeMap] using one of the [enum Side] constants.
 	Args: [{ false side int}], Returns: Image
 */
 func (o *CubeMap) GetSide(side gdnative.Int) ImageImplementer {
@@ -196,7 +196,7 @@ func (o *CubeMap) GetStorage() CubeMapStorage {
 }
 
 /*
-        Returns the [code]CubeMap[/code]'s width.
+        Returns the [CubeMap]'s width.
 	Args: [], Returns: int
 */
 func (o *CubeMap) GetWidth() gdnative.Int {
@@ -261,7 +261,7 @@ func (o *CubeMap) SetLossyStorageQuality(quality gdnative.Real) {
 }
 
 /*
-        Sets an [Image] for a side of the [code]CubeMap[/code] using one of the [code]SIDE_*[/code] constants or an integer 0-5.
+        Sets an [Image] for a side of the [CubeMap] using one of the [enum Side] constants.
 	Args: [{ false side int} { false image Image}], Returns: void
 */
 func (o *CubeMap) SetSide(side gdnative.Int, image ImageImplementer) {

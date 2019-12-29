@@ -23,8 +23,8 @@ func newVisualShaderNodeBooleanConstantFromPointer(ptr gdnative.Pointer) VisualS
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeBooleanConstant struct {
 	VisualShaderNode
 	owner gdnative.Object

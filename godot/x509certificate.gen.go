@@ -23,7 +23,7 @@ func newX509CertificateFromPointer(ptr gdnative.Pointer) X509Certificate {
 }
 
 /*
-Undocumented
+The X509Certificate class represents an X509 certificate. Certificates can be loaded and saved like any other [Resource]. They can be used as the server certificate in [method StreamPeerSSL.accept_stream] (along with the proper [CryptoKey]), and to specify the only certificate that should be accepted when connecting to an SSL server via [method StreamPeerSSL.connect_to_stream]. [b]Note:[/b] Not available in HTML5 exports.
 */
 type X509Certificate struct {
 	Resource
@@ -35,7 +35,7 @@ func (o *X509Certificate) BaseClass() string {
 }
 
 /*
-        Undocumented
+        Loads a certificate from [code]path[/code] ("*.crt" file).
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *X509Certificate) Load(path gdnative.String) gdnative.Error {
@@ -59,7 +59,7 @@ func (o *X509Certificate) Load(path gdnative.String) gdnative.Error {
 }
 
 /*
-        Undocumented
+        Saves a certificate to the given [code]path[/code] (should be a "*.crt" file).
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *X509Certificate) Save(path gdnative.String) gdnative.Error {

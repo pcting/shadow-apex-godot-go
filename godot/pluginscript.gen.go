@@ -38,11 +38,15 @@ func (o *PluginScript) BaseClass() string {
         Undocumented
 	Args: [], Returns: Variant
 */
-func (o *PluginScript) New() gdnative.Variant {
+func (o *PluginScript) New(args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling PluginScript.New()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 0+len(args), 0+len(args))
+
+	for i, arg := range args {
+		ptrArguments[i+0] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("PluginScript", "new")
@@ -61,5 +65,5 @@ func (o *PluginScript) New() gdnative.Variant {
 // of the PluginScript class.
 type PluginScriptImplementer interface {
 	ScriptImplementer
-	New() gdnative.Variant
+	New(args ...gdnative.Variant) gdnative.Variant
 }

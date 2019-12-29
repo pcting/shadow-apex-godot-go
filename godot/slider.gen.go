@@ -23,7 +23,7 @@ func newSliderFromPointer(ptr gdnative.Pointer) Slider {
 }
 
 /*
-Base class for GUI Sliders.
+Base class for GUI sliders.
 */
 type Slider struct {
 	Range

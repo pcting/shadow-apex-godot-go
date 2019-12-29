@@ -38,7 +38,7 @@ func newTextureProgressFromPointer(ptr gdnative.Pointer) TextureProgress {
 }
 
 /*
-TextureProgress works like [ProgressBar] but it uses up to 3 textures instead of Godot's [Theme] resource. Works horizontally, vertically, and radially.
+TextureProgress works like [ProgressBar], but uses up to 3 textures instead of Godot's [Theme] resource. It can be used to create horizontal, vertical and radial progress bars.
 */
 type TextureProgress struct {
 	Range
@@ -239,7 +239,7 @@ func (o *TextureProgress) GetRadialInitialAngle() gdnative.Real {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false margin int}], Returns: int
 */
 func (o *TextureProgress) GetStretchMargin(margin gdnative.Int) gdnative.Int {
@@ -516,7 +516,7 @@ func (o *TextureProgress) SetRadialInitialAngle(mode gdnative.Real) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false margin int} { false value int}], Returns: void
 */
 func (o *TextureProgress) SetStretchMargin(margin gdnative.Int, value gdnative.Int) {

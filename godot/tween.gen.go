@@ -58,7 +58,7 @@ func newTweenFromPointer(ptr gdnative.Pointer) Tween {
 }
 
 /*
-Tweens are useful for animations requiring a numerical property to be interpolated over a range of values. The name *tween* comes from *in-betweening*, an animation technique where you specify *keyframes* and the computer interpolates the frames that appear between them. Here is a brief usage example that causes a 2D node to move smoothly between two positions: [codeblock] var tween = get_node("Tween") tween.interpolate_property($Node2D, "position", Vector2(0, 0), Vector2(100, 100), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) tween.start() [/codeblock] Many methods require a property name, such as "position" above. You can find the correct property name by hovering over the property in the Inspector. You can also provide the components of a property directly by using "property:component" (eg. [code]position:x[/code]), where it would only apply to that particular component. Many of the methods accept [code]trans_type[/code] and [code]ease_type[/code]. The first accepts an [enum TransitionType] constant, and refers to the way the timing of the animation is handled (see [code]http://easings.net/[/code] for some examples). The second accepts an [enum EaseType] constant, and controls the where [code]trans_type[/code] is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different [enum TransitionType] constants with [constant EASE_IN_OUT], and use the one that looks best.
+Tweens are useful for animations requiring a numerical property to be interpolated over a range of values. The name [i]tween[/i] comes from [i]in-betweening[/i], an animation technique where you specify [i]keyframes[/i] and the computer interpolates the frames that appear between them. Here is a brief usage example that causes a 2D node to move smoothly between two positions: [codeblock] var tween = get_node("Tween") tween.interpolate_property($Node2D, "position", Vector2(0, 0), Vector2(100, 100), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT) tween.start() [/codeblock] Many methods require a property name, such as [code]"position"[/code] above. You can find the correct property name by hovering over the property in the Inspector. You can also provide the components of a property directly by using [code]"property:component"[/code] (eg. [code]position:x[/code]), where it would only apply to that particular component. Many of the methods accept [code]trans_type[/code] and [code]ease_type[/code]. The first accepts an [enum TransitionType] constant, and refers to the way the timing of the animation is handled (see [code]http://easings.net/[/code] for some examples). The second accepts an [enum EaseType] constant, and controls the where [code]trans_type[/code] is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different [enum TransitionType] constants with [constant EASE_IN_OUT], and use the one that looks best.
 */
 type Tween struct {
 	Node
@@ -91,8 +91,8 @@ func (o *Tween) X_RemoveByUid(uid gdnative.Int) {
 }
 
 /*
-        Follows [code]method[/code] of [code]object[/code] and applies the returned value on [code]target_method[/code] of [code]target[/code], beginning from [code]initial_val[/code] for [code]duration[/code] seconds, [code]delay[/code] later. Methods are called with consecutive values. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	Args: [{ false object Object} { false method String} { false initial_val Variant} { false target Object} { false target_method String} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
+        Follows [code]method[/code] of [code]object[/code] and applies the returned value on [code]target_method[/code] of [code]target[/code], beginning from [code]initial_val[/code] for [code]duration[/code] seconds, [code]delay[/code] later. Methods are called with consecutive values. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information.
+	Args: [{ false object Object} { false method String} { false initial_val Variant} { false target Object} { false target_method String} { false duration float} {0 true trans_type int} {2 true ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) FollowMethod(object ObjectImplementer, method gdnative.String, initialVal gdnative.Variant, target ObjectImplementer, targetMethod gdnative.String, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
 	//log.Println("Calling Tween.FollowMethod()")
@@ -123,8 +123,8 @@ func (o *Tween) FollowMethod(object ObjectImplementer, method gdnative.String, i
 }
 
 /*
-        Follows [code]property[/code] of [code]object[/code] and applies it on [code]target_property[/code] of [code]target[/code], beginning from [code]initial_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	Args: [{ false object Object} { false property NodePath} { false initial_val Variant} { false target Object} { false target_property NodePath} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
+        Follows [code]property[/code] of [code]object[/code] and applies it on [code]target_property[/code] of [code]target[/code], beginning from [code]initial_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information.
+	Args: [{ false object Object} { false property NodePath} { false initial_val Variant} { false target Object} { false target_property NodePath} { false duration float} {0 true trans_type int} {2 true ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) FollowProperty(object ObjectImplementer, property gdnative.NodePath, initialVal gdnative.Variant, target ObjectImplementer, targetProperty gdnative.NodePath, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
 	//log.Println("Calling Tween.FollowProperty()")
@@ -286,8 +286,8 @@ func (o *Tween) InterpolateDeferredCallback(object ObjectImplementer, duration g
 }
 
 /*
-        Animates [code]method[/code] of [code]object[/code] from [code]initial_val[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Methods are called with consecutive values. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	Args: [{ false object Object} { false method String} { false initial_val Variant} { false final_val Variant} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
+        Animates [code]method[/code] of [code]object[/code] from [code]initial_val[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Methods are called with consecutive values. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information.
+	Args: [{ false object Object} { false method String} { false initial_val Variant} { false final_val Variant} { false duration float} {0 true trans_type int} {2 true ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) InterpolateMethod(object ObjectImplementer, method gdnative.String, initialVal gdnative.Variant, finalVal gdnative.Variant, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
 	//log.Println("Calling Tween.InterpolateMethod()")
@@ -317,8 +317,8 @@ func (o *Tween) InterpolateMethod(object ObjectImplementer, method gdnative.Stri
 }
 
 /*
-        Animates [code]property[/code] of [code]object[/code] from [code]initial_val[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Setting the initial value to [code]null[/code] uses the current value of the property. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	Args: [{ false object Object} { false property NodePath} { false initial_val Variant} { false final_val Variant} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
+        Animates [code]property[/code] of [code]object[/code] from [code]initial_val[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Setting the initial value to [code]null[/code] uses the current value of the property. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information.
+	Args: [{ false object Object} { false property NodePath} { false initial_val Variant} { false final_val Variant} { false duration float} {0 true trans_type int} {2 true ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) InterpolateProperty(object ObjectImplementer, property gdnative.NodePath, initialVal gdnative.Variant, finalVal gdnative.Variant, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
 	//log.Println("Calling Tween.InterpolateProperty()")
@@ -348,7 +348,7 @@ func (o *Tween) InterpolateProperty(object ObjectImplementer, property gdnative.
 }
 
 /*
-        Returns [code]true[/code] if any tweens are currently running. Note that this method doesn't consider tweens that have ended.
+        Returns [code]true[/code] if any tweens are currently running. [b]Note:[/b] This method doesn't consider tweens that have ended.
 	Args: [], Returns: bool
 */
 func (o *Tween) IsActive() gdnative.Bool {
@@ -717,8 +717,8 @@ func (o *Tween) StopAll() gdnative.Bool {
 }
 
 /*
-        Animates [code]method[/code] of [code]object[/code] from the value returned by [code]initial_method[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Methods are animated by calling them with consecutive values. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	Args: [{ false object Object} { false method String} { false initial Object} { false initial_method String} { false final_val Variant} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
+        Animates [code]method[/code] of [code]object[/code] from the value returned by [code]initial_method[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Methods are animated by calling them with consecutive values. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information.
+	Args: [{ false object Object} { false method String} { false initial Object} { false initial_method String} { false final_val Variant} { false duration float} {0 true trans_type int} {2 true ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) TargetingMethod(object ObjectImplementer, method gdnative.String, initial ObjectImplementer, initialMethod gdnative.String, finalVal gdnative.Variant, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
 	//log.Println("Calling Tween.TargetingMethod()")
@@ -749,8 +749,8 @@ func (o *Tween) TargetingMethod(object ObjectImplementer, method gdnative.String
 }
 
 /*
-        Animates [code]property[/code] of [code]object[/code] from the current value of the [code]initial_val[/code] property of [code]initial[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information
-	Args: [{ false object Object} { false property NodePath} { false initial Object} { false initial_val NodePath} { false final_val Variant} { false duration float} { false trans_type int} { false ease_type int} {0 true delay float}], Returns: bool
+        Animates [code]property[/code] of [code]object[/code] from the current value of the [code]initial_val[/code] property of [code]initial[/code] to [code]final_val[/code] for [code]duration[/code] seconds, [code]delay[/code] seconds later. Use [enum TransitionType] for [code]trans_type[/code] and [enum EaseType] for [code]ease_type[/code] parameters. These values control the timing and direction of the interpolation. See the class description for more information.
+	Args: [{ false object Object} { false property NodePath} { false initial Object} { false initial_val NodePath} { false final_val Variant} { false duration float} {0 true trans_type int} {2 true ease_type int} {0 true delay float}], Returns: bool
 */
 func (o *Tween) TargetingProperty(object ObjectImplementer, property gdnative.NodePath, initial ObjectImplementer, initialVal gdnative.NodePath, finalVal gdnative.Variant, duration gdnative.Real, transType gdnative.Int, easeType gdnative.Int, delay gdnative.Real) gdnative.Bool {
 	//log.Println("Calling Tween.TargetingProperty()")

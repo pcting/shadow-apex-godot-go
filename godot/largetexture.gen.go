@@ -23,7 +23,7 @@ func newLargeTextureFromPointer(ptr gdnative.Pointer) LargeTexture {
 }
 
 /*
-A Texture capable of storing many smaller Textures with offsets. You can dynamically add pieces([Texture]) to this [code]LargeTexture[/code] using different offsets.
+A [Texture] capable of storing many smaller textures with offsets. You can dynamically add pieces ([Texture]s) to this [LargeTexture] using different offsets.
 */
 type LargeTexture struct {
 	Texture
@@ -79,7 +79,7 @@ func (o *LargeTexture) X_SetData(data gdnative.Array) {
 }
 
 /*
-        Add another [Texture] to this [code]LargeTexture[/code], starting on offset "ofs".
+        Adds [code]texture[/code] to this [LargeTexture], starting on offset [code]ofs[/code].
 	Args: [{ false ofs Vector2} { false texture Texture}], Returns: int
 */
 func (o *LargeTexture) AddPiece(ofs gdnative.Vector2, texture TextureImplementer) gdnative.Int {
@@ -104,7 +104,7 @@ func (o *LargeTexture) AddPiece(ofs gdnative.Vector2, texture TextureImplementer
 }
 
 /*
-        Clears the [code]LargeTexture[/code].
+        Clears the [LargeTexture].
 	Args: [], Returns: void
 */
 func (o *LargeTexture) Clear() {
@@ -124,7 +124,7 @@ func (o *LargeTexture) Clear() {
 }
 
 /*
-        Returns the number of pieces currently in this [code]LargeTexture[/code].
+        Returns the number of pieces currently in this [LargeTexture].
 	Args: [], Returns: int
 */
 func (o *LargeTexture) GetPieceCount() gdnative.Int {
@@ -147,7 +147,7 @@ func (o *LargeTexture) GetPieceCount() gdnative.Int {
 }
 
 /*
-        Returns the offset of the piece with index "idx".
+        Returns the offset of the piece with the index [code]idx[/code].
 	Args: [{ false idx int}], Returns: Vector2
 */
 func (o *LargeTexture) GetPieceOffset(idx gdnative.Int) gdnative.Vector2 {
@@ -171,7 +171,7 @@ func (o *LargeTexture) GetPieceOffset(idx gdnative.Int) gdnative.Vector2 {
 }
 
 /*
-        Returns the [Texture] of the piece with index "idx".
+        Returns the [Texture] of the piece with the index [code]idx[/code].
 	Args: [{ false idx int}], Returns: Texture
 */
 func (o *LargeTexture) GetPieceTexture(idx gdnative.Int) TextureImplementer {
@@ -209,7 +209,7 @@ func (o *LargeTexture) GetPieceTexture(idx gdnative.Int) TextureImplementer {
 }
 
 /*
-        Sets the offset of the piece with index "idx" to "ofs".
+        Sets the offset of the piece with the index [code]idx[/code] to [code]ofs[/code].
 	Args: [{ false idx int} { false ofs Vector2}], Returns: void
 */
 func (o *LargeTexture) SetPieceOffset(idx gdnative.Int, ofs gdnative.Vector2) {
@@ -231,7 +231,7 @@ func (o *LargeTexture) SetPieceOffset(idx gdnative.Int, ofs gdnative.Vector2) {
 }
 
 /*
-        Sets the [Texture] of the piece with index "idx" to "texture".
+        Sets the [Texture] of the piece with index [code]idx[/code] to [code]texture[/code].
 	Args: [{ false idx int} { false texture Texture}], Returns: void
 */
 func (o *LargeTexture) SetPieceTexture(idx gdnative.Int, texture TextureImplementer) {
@@ -253,7 +253,7 @@ func (o *LargeTexture) SetPieceTexture(idx gdnative.Int, texture TextureImplemen
 }
 
 /*
-        Sets the size of this [code]LargeTexture[/code].
+        Sets the size of this [LargeTexture].
 	Args: [{ false size Vector2}], Returns: void
 */
 func (o *LargeTexture) SetSize(size gdnative.Vector2) {

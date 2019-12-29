@@ -23,7 +23,7 @@ func newContainerFromPointer(ptr gdnative.Pointer) Container {
 }
 
 /*
-Base node for containers. A [code]Container[/code] contains other controls and automatically arranges them in a certain way. A Control can inherit this to create custom container classes.
+Base node for containers. A [Container] contains other controls and automatically arranges them in a certain way. A Control can inherit this to create custom container classes.
 */
 type Container struct {
 	Control

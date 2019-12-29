@@ -23,7 +23,7 @@ func newJSONParseResultFromPointer(ptr gdnative.Pointer) JSONParseResult {
 }
 
 /*
-Returned by [method JSON.parse], [code]JSONParseResult[/code] contains decoded JSON or error information if JSON source not successfully parsed. You can check if JSON source was successfully parsed with [code]if json_result.error == OK[/code].
+Returned by [method JSON.parse], [JSONParseResult] contains the decoded JSON or error information if the JSON source wasn't successfully parsed. You can check if the JSON source was successfully parsed with [code]if json_result.error == OK[/code].
 */
 type JSONParseResult struct {
 	Reference

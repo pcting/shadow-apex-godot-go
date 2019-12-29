@@ -54,7 +54,7 @@ func newLightFromPointer(ptr gdnative.Pointer) Light {
 }
 
 /*
-Light is the abstract base class for light nodes, so it shouldn't be used directly (It can't be instanced). Other types of light nodes inherit from it. Light contains the common variables and parameters used for lighting.
+Light is the abstract base class for light nodes, so it shouldn't be used directly (it can't be instanced). Other types of light nodes inherit from it. Light contains the common variables and parameters used for lighting.
 */
 type Light struct {
 	VisualInstance
@@ -135,7 +135,7 @@ func (o *Light) GetCullMask() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns the value of the specified [enum Light.Param] parameter.
 	Args: [{ false param int}], Returns: float
 */
 func (o *Light) GetParam(param gdnative.Int) gdnative.Real {
@@ -379,7 +379,7 @@ func (o *Light) SetNegative(enabled gdnative.Bool) {
 }
 
 /*
-        Undocumented
+        Sets the value of the specified [enum Light.Param] parameter.
 	Args: [{ false param int} { false value float}], Returns: void
 */
 func (o *Light) SetParam(param gdnative.Int, value gdnative.Real) {

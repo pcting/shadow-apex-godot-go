@@ -58,7 +58,7 @@ func (o *RandomNumberGenerator) GetSeed() gdnative.Int {
 }
 
 /*
-        Generates pseudo-random float between '0.0' and '1.0', inclusive.
+        Generates a pseudo-random float between [code]0.0[/code] and [code]1.0[/code] (inclusive).
 	Args: [], Returns: float
 */
 func (o *RandomNumberGenerator) Randf() gdnative.Real {
@@ -81,7 +81,7 @@ func (o *RandomNumberGenerator) Randf() gdnative.Real {
 }
 
 /*
-        Generates pseudo-random float between [code]from[/code] and [code]to[/code], inclusive.
+        Generates a pseudo-random float between [code]from[/code] and [code]to[/code] (inclusive).
 	Args: [{ false from float} { false to float}], Returns: float
 */
 func (o *RandomNumberGenerator) RandfRange(from gdnative.Real, to gdnative.Real) gdnative.Real {
@@ -106,7 +106,7 @@ func (o *RandomNumberGenerator) RandfRange(from gdnative.Real, to gdnative.Real)
 }
 
 /*
-        Generates normally(gaussian) distributed pseudo-random number, using Box-Muller transform with the specified [code]mean[/code] and a standard [code]deviation[/code].
+        Generates a [url=https://en.wikipedia.org/wiki/Normal_distribution]normally-distributed[/url] pseudo-random number, using Box-Muller transform with the specified [code]mean[/code] and a standard [code]deviation[/code]. This is also called Gaussian distribution.
 	Args: [{0 true mean float} {1 true deviation float}], Returns: float
 */
 func (o *RandomNumberGenerator) Randfn(mean gdnative.Real, deviation gdnative.Real) gdnative.Real {
@@ -131,7 +131,7 @@ func (o *RandomNumberGenerator) Randfn(mean gdnative.Real, deviation gdnative.Re
 }
 
 /*
-        Generates pseudo-random 32-bit unsigned integer between '0' and '4294967295', inclusive.
+        Generates a pseudo-random 32-bit unsigned integer between [code]0[/code] and [code]4294967295[/code] (inclusive).
 	Args: [], Returns: int
 */
 func (o *RandomNumberGenerator) Randi() gdnative.Int {
@@ -154,7 +154,7 @@ func (o *RandomNumberGenerator) Randi() gdnative.Int {
 }
 
 /*
-        Generates pseudo-random 32-bit signed integer between [code]from[/code] and [code]to[/code] (inclusive).
+        Generates a pseudo-random 32-bit signed integer between [code]from[/code] and [code]to[/code] (inclusive).
 	Args: [{ false from int} { false to int}], Returns: int
 */
 func (o *RandomNumberGenerator) RandiRange(from gdnative.Int, to gdnative.Int) gdnative.Int {

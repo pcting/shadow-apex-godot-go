@@ -32,7 +32,7 @@ func newLinkButtonFromPointer(ptr gdnative.Pointer) LinkButton {
 }
 
 /*
-This kind of buttons are primarily used when the interaction with the button causes a context change (like linking to a web page).
+This kind of button is primarily used when the interaction with the button causes a context change (like linking to a web page).
 */
 type LinkButton struct {
 	BaseButton

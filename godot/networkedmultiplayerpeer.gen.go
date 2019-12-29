@@ -76,7 +76,7 @@ func (o *NetworkedMultiplayerPeer) GetConnectionStatus() NetworkedMultiplayerPee
 }
 
 /*
-        Returns the ID of the [code]NetworkedMultiplayerPeer[/code] who sent the most recent packet.
+        Returns the ID of the [NetworkedMultiplayerPeer] who sent the most recent packet.
 	Args: [], Returns: int
 */
 func (o *NetworkedMultiplayerPeer) GetPacketPeer() gdnative.Int {
@@ -122,7 +122,7 @@ func (o *NetworkedMultiplayerPeer) GetTransferMode() NetworkedMultiplayerPeerTra
 }
 
 /*
-        Returns the ID of this [code]NetworkedMultiplayerPeer[/code].
+        Returns the ID of this [NetworkedMultiplayerPeer].
 	Args: [], Returns: int
 */
 func (o *NetworkedMultiplayerPeer) GetUniqueId() gdnative.Int {
@@ -209,7 +209,7 @@ func (o *NetworkedMultiplayerPeer) SetRefuseNewConnections(enable gdnative.Bool)
 }
 
 /*
-        Sets the peer to which packets will be sent. The [code]id[/code] can be one of: [constant TARGET_PEER_BROADCAST] to send to all connected peers, [constant TARGET_PEER_SERVER] to send to the peer acting as server, a valid peer ID to send to that specific peer, a negative peer ID to send to all peers except that one. Default: [constant TARGET_PEER_BROADCAST]
+        Sets the peer to which packets will be sent. The [code]id[/code] can be one of: [constant TARGET_PEER_BROADCAST] to send to all connected peers, [constant TARGET_PEER_SERVER] to send to the peer acting as server, a valid peer ID to send to that specific peer, a negative peer ID to send to all peers except that one. By default, the target peer is [constant TARGET_PEER_BROADCAST].
 	Args: [{ false id int}], Returns: void
 */
 func (o *NetworkedMultiplayerPeer) SetTargetPeer(id gdnative.Int) {

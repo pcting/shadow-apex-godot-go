@@ -37,8 +37,8 @@ func newEditorFeatureProfileFromPointer(ptr gdnative.Pointer) EditorFeatureProfi
 }
 
 /*
-Undocumented
-*/
+
+ */
 type EditorFeatureProfile struct {
 	Reference
 	owner gdnative.Object
@@ -49,7 +49,7 @@ func (o *EditorFeatureProfile) BaseClass() string {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false feature int}], Returns: String
 */
 func (o *EditorFeatureProfile) GetFeatureName(feature gdnative.Int) gdnative.String {
@@ -73,7 +73,7 @@ func (o *EditorFeatureProfile) GetFeatureName(feature gdnative.Int) gdnative.Str
 }
 
 /*
-        Undocumented
+
 	Args: [{ false class_name String}], Returns: bool
 */
 func (o *EditorFeatureProfile) IsClassDisabled(className gdnative.String) gdnative.Bool {
@@ -97,7 +97,7 @@ func (o *EditorFeatureProfile) IsClassDisabled(className gdnative.String) gdnati
 }
 
 /*
-        Undocumented
+
 	Args: [{ false class_name String}], Returns: bool
 */
 func (o *EditorFeatureProfile) IsClassEditorDisabled(className gdnative.String) gdnative.Bool {
@@ -121,7 +121,7 @@ func (o *EditorFeatureProfile) IsClassEditorDisabled(className gdnative.String) 
 }
 
 /*
-        Undocumented
+
 	Args: [{ false class_name String} { false property String}], Returns: bool
 */
 func (o *EditorFeatureProfile) IsClassPropertyDisabled(className gdnative.String, property gdnative.String) gdnative.Bool {
@@ -146,7 +146,7 @@ func (o *EditorFeatureProfile) IsClassPropertyDisabled(className gdnative.String
 }
 
 /*
-        Undocumented
+
 	Args: [{ false feature int}], Returns: bool
 */
 func (o *EditorFeatureProfile) IsFeatureDisabled(feature gdnative.Int) gdnative.Bool {
@@ -170,7 +170,7 @@ func (o *EditorFeatureProfile) IsFeatureDisabled(feature gdnative.Int) gdnative.
 }
 
 /*
-        Undocumented
+
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *EditorFeatureProfile) LoadFromFile(path gdnative.String) gdnative.Error {
@@ -194,7 +194,7 @@ func (o *EditorFeatureProfile) LoadFromFile(path gdnative.String) gdnative.Error
 }
 
 /*
-        Undocumented
+
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *EditorFeatureProfile) SaveToFile(path gdnative.String) gdnative.Error {
@@ -218,7 +218,7 @@ func (o *EditorFeatureProfile) SaveToFile(path gdnative.String) gdnative.Error {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false class_name String} { false disable bool}], Returns: void
 */
 func (o *EditorFeatureProfile) SetDisableClass(className gdnative.String, disable gdnative.Bool) {
@@ -240,7 +240,7 @@ func (o *EditorFeatureProfile) SetDisableClass(className gdnative.String, disabl
 }
 
 /*
-        Undocumented
+
 	Args: [{ false class_name String} { false disable bool}], Returns: void
 */
 func (o *EditorFeatureProfile) SetDisableClassEditor(className gdnative.String, disable gdnative.Bool) {
@@ -262,7 +262,7 @@ func (o *EditorFeatureProfile) SetDisableClassEditor(className gdnative.String, 
 }
 
 /*
-        Undocumented
+
 	Args: [{ false class_name String} { false property String} { false disable bool}], Returns: void
 */
 func (o *EditorFeatureProfile) SetDisableClassProperty(className gdnative.String, property gdnative.String, disable gdnative.Bool) {
@@ -285,7 +285,7 @@ func (o *EditorFeatureProfile) SetDisableClassProperty(className gdnative.String
 }
 
 /*
-        Undocumented
+
 	Args: [{ false feature int} { false disable bool}], Returns: void
 */
 func (o *EditorFeatureProfile) SetDisableFeature(feature gdnative.Int, disable gdnative.Bool) {

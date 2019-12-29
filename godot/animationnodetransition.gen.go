@@ -81,7 +81,7 @@ func (o *AnimationNodeTransition) GetEnabledInputs() gdnative.Int {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false input int}], Returns: String
 */
 func (o *AnimationNodeTransition) GetInputCaption(input gdnative.Int) gdnative.String {
@@ -105,7 +105,7 @@ func (o *AnimationNodeTransition) GetInputCaption(input gdnative.Int) gdnative.S
 }
 
 /*
-        Undocumented
+
 	Args: [{ false input int}], Returns: bool
 */
 func (o *AnimationNodeTransition) IsInputSetAsAutoAdvance(input gdnative.Int) gdnative.Bool {
@@ -171,7 +171,7 @@ func (o *AnimationNodeTransition) SetEnabledInputs(amount gdnative.Int) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false input int} { false enable bool}], Returns: void
 */
 func (o *AnimationNodeTransition) SetInputAsAutoAdvance(input gdnative.Int, enable gdnative.Bool) {
@@ -193,7 +193,7 @@ func (o *AnimationNodeTransition) SetInputAsAutoAdvance(input gdnative.Int, enab
 }
 
 /*
-        Undocumented
+
 	Args: [{ false input int} { false caption String}], Returns: void
 */
 func (o *AnimationNodeTransition) SetInputCaption(input gdnative.Int, caption gdnative.String) {

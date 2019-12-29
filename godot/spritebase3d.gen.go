@@ -200,7 +200,7 @@ func (o *SpriteBase3D) GetBillboardMode() SpatialMaterialBillboardMode {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false flag int}], Returns: bool
 */
 func (o *SpriteBase3D) GetDrawFlag(flag gdnative.Int) gdnative.Bool {
@@ -492,7 +492,7 @@ func (o *SpriteBase3D) SetCentered(centered gdnative.Bool) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false flag int} { false enabled bool}], Returns: void
 */
 func (o *SpriteBase3D) SetDrawFlag(flag gdnative.Int, enabled gdnative.Bool) {

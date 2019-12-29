@@ -58,7 +58,7 @@ func (o *Reference) InitRef() gdnative.Bool {
 }
 
 /*
-        Increments the internal reference counter. Use this only if you really know what you are doing. Returns whether the increment was successful.
+        Increments the internal reference counter. Use this only if you really know what you are doing. Returns [code]true[/code] if the increment was successful, [code]false[/code] otherwise.
 	Args: [], Returns: bool
 */
 func (o *Reference) ReferenceMethod() gdnative.Bool {
@@ -81,7 +81,7 @@ func (o *Reference) ReferenceMethod() gdnative.Bool {
 }
 
 /*
-        Decrements the internal reference counter. Use this only if you really know what you are doing. Returns whether the decrement was successful.
+        Decrements the internal reference counter. Use this only if you really know what you are doing. Returns [code]true[/code] if the decrement was successful, [code]false[/code] otherwise.
 	Args: [], Returns: bool
 */
 func (o *Reference) Unreference() gdnative.Bool {

@@ -23,7 +23,7 @@ func newCryptoKeyFromPointer(ptr gdnative.Pointer) CryptoKey {
 }
 
 /*
-Undocumented
+The CryptoKey class represents a cryptographic key. Keys can be loaded and saved like any other [Resource]. They can be used to generate a self-signed [X509Certificate] via [method Crypto.generate_self_signed_certificate] and as private key in [method StreamPeerSSL.accept_stream] along with the appropriate certificate. [b]Note:[/b] Not available in HTML5 exports.
 */
 type CryptoKey struct {
 	Resource
@@ -35,7 +35,7 @@ func (o *CryptoKey) BaseClass() string {
 }
 
 /*
-        Undocumented
+        Loads a key from [code]path[/code] ("*.key" file).
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *CryptoKey) Load(path gdnative.String) gdnative.Error {
@@ -59,7 +59,7 @@ func (o *CryptoKey) Load(path gdnative.String) gdnative.Error {
 }
 
 /*
-        Undocumented
+        Saves a key to the given [code]path[/code] (should be a "*.key" file).
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *CryptoKey) Save(path gdnative.String) gdnative.Error {

@@ -38,7 +38,7 @@ func newMultiplayerAPIFromPointer(ptr gdnative.Pointer) MultiplayerAPI {
 }
 
 /*
-This class implements most of the logic behind the high level multiplayer API. By default, [SceneTree] has a reference to this class that is used to provide multiplayer capabilities (i.e. RPC/RSET) across the whole scene. It is possible to override the MultiplayerAPI instance used by specific Nodes by setting the [member Node.custom_multiplayer] property, effectively allowing to run both client and server in the same scene.
+This class implements most of the logic behind the high-level multiplayer API. By default, [SceneTree] has a reference to this class that is used to provide multiplayer capabilities (i.e. RPC/RSET) across the whole scene. It is possible to override the MultiplayerAPI instance used by specific Nodes by setting the [member Node.custom_multiplayer] property, effectively allowing to run both client and server in the same scene.
 */
 type MultiplayerAPI struct {
 	Reference
@@ -255,7 +255,7 @@ func (o *MultiplayerAPI) GetNetworkUniqueId() gdnative.Int {
 }
 
 /*
-        Returns the sender's peer ID for the RPC currently being executed. NOTE: If not inside an RPC this method will return 0.
+        Returns the sender's peer ID for the RPC currently being executed. [b]Note:[/b] If not inside an RPC this method will return 0.
 	Args: [], Returns: int
 */
 func (o *MultiplayerAPI) GetRpcSenderId() gdnative.Int {
@@ -370,7 +370,7 @@ func (o *MultiplayerAPI) IsRefusingNewNetworkConnections() gdnative.Bool {
 }
 
 /*
-        Method used for polling the MultiplayerAPI. You only need to worry about this if you are using [member Node.custom_multiplayer] override or you set [member SceneTree.multiplayer_poll] to [code]false[/code]. By default [SceneTree] will poll its MultiplayerAPI for you. NOTE: This method results in RPCs and RSETs being called, so they will be executed in the same context of this function (e.g. [code]_process[/code], [code]physics[/code], [Thread]).
+        Method used for polling the MultiplayerAPI. You only need to worry about this if you are using [member Node.custom_multiplayer] override or you set [member SceneTree.multiplayer_poll] to [code]false[/code]. By default, [SceneTree] will poll its MultiplayerAPI for you. [b]Note:[/b] This method results in RPCs and RSETs being called, so they will be executed in the same context of this function (e.g. [code]_process[/code], [code]physics[/code], [Thread]).
 	Args: [], Returns: void
 */
 func (o *MultiplayerAPI) Poll() {

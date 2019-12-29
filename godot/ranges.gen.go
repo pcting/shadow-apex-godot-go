@@ -23,7 +23,7 @@ func newRangeFromPointer(ptr gdnative.Pointer) Range {
 }
 
 /*
-Range is a base class for [Control] nodes that change a floating point [i]value[/i] between a [i]minimum[/i] and a [i]maximum[/i], using [i]step[/i] and [i]page[/i], for example a [ScrollBar].
+Range is a base class for [Control] nodes that change a floating-point [i]value[/i] between a [i]minimum[/i] and a [i]maximum[/i], using [i]step[/i] and [i]page[/i], for example a [ScrollBar].
 */
 type Range struct {
 	Control
@@ -496,7 +496,7 @@ func (o *Range) Share(with NodeImplementer) {
 }
 
 /*
-        Stop range from sharing its member variables with any other.
+        Stops range from sharing its member variables with any other.
 	Args: [], Returns: void
 */
 func (o *Range) Unshare() {

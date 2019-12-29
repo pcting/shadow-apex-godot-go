@@ -23,8 +23,8 @@ func newVisualShaderNodeExpressionFromPointer(ptr gdnative.Pointer) VisualShader
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeExpression struct {
 	VisualShaderNodeGroupBase
 	owner gdnative.Object
@@ -35,7 +35,7 @@ func (o *VisualShaderNodeExpression) BaseClass() string {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: void
 */
 func (o *VisualShaderNodeExpression) Build() {

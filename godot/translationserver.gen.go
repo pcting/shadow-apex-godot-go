@@ -100,7 +100,7 @@ func (o *translationServer) Clear() {
 }
 
 /*
-
+        Returns an Array of all loaded locales of the game.
 	Args: [], Returns: Array
 */
 func (o *translationServer) GetLoadedLocales() gdnative.Array {
@@ -148,7 +148,7 @@ func (o *translationServer) GetLocale() gdnative.String {
 }
 
 /*
-        Returns a locale's language and its variant (e.g. "en_US" would return "English (United States)").
+        Returns a locale's language and its variant (e.g. [code]"en_US"[/code] would return [code]"English (United States)"[/code]).
 	Args: [{ false locale String}], Returns: String
 */
 func (o *translationServer) GetLocaleName(locale gdnative.String) gdnative.String {

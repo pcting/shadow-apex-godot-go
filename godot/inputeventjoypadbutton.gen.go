@@ -23,7 +23,7 @@ func newInputEventJoypadButtonFromPointer(ptr gdnative.Pointer) InputEventJoypad
 }
 
 /*
-Input event type for gamepad buttons. For joysticks see [InputEventJoypadMotion].
+Input event type for gamepad buttons. For gamepad analog sticks and joysticks, see [InputEventJoypadMotion].
 */
 type InputEventJoypadButton struct {
 	InputEvent

@@ -23,7 +23,7 @@ func newCenterContainerFromPointer(ptr gdnative.Pointer) CenterContainer {
 }
 
 /*
-CenterContainer Keeps children controls centered. This container keeps all children to their minimum size, in the center.
+CenterContainer keeps children controls centered. This container keeps all children to their minimum size, in the center.
 */
 type CenterContainer struct {
 	Container

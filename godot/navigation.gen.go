@@ -23,7 +23,7 @@ func newNavigationFromPointer(ptr gdnative.Pointer) Navigation {
 }
 
 /*
-Provides navigation and pathfinding within a collection of [NavigationMesh]es. By default these will be automatically collected from child [NavigationMeshInstance] nodes, but they can also be added on the fly with [method navmesh_add]. In addition to basic pathfinding, this class also assists with aligning navigation agents with the meshes they are navigating on.
+Provides navigation and pathfinding within a collection of [NavigationMesh]es. By default, these will be automatically collected from child [NavigationMeshInstance] nodes, but they can also be added on the fly with [method navmesh_add]. In addition to basic pathfinding, this class also assists with aligning navigation agents with the meshes they are navigating on.
 */
 type Navigation struct {
 	Spatial

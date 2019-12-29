@@ -23,7 +23,7 @@ func newStreamPeerFromPointer(ptr gdnative.Pointer) StreamPeer {
 }
 
 /*
-StreamPeer is an abstraction and base class for stream-based protocols (such as TCP or Unix Sockets). It provides an API for sending and receiving data through streams as raw data or strings.
+StreamPeer is an abstraction and base class for stream-based protocols (such as TCP or UNIX sockets). It provides an API for sending and receiving data through streams as raw data or strings.
 */
 type StreamPeer struct {
 	Reference
@@ -35,7 +35,7 @@ func (o *StreamPeer) BaseClass() string {
 }
 
 /*
-        Get a signed 16 bit value from the stream.
+        Gets a signed 16-bit value from the stream.
 	Args: [], Returns: int
 */
 func (o *StreamPeer) Get16() gdnative.Int {
@@ -58,7 +58,7 @@ func (o *StreamPeer) Get16() gdnative.Int {
 }
 
 /*
-        Get a signed 32 bit value from the stream.
+        Gets a signed 32-bit value from the stream.
 	Args: [], Returns: int
 */
 func (o *StreamPeer) Get32() gdnative.Int {
@@ -81,7 +81,7 @@ func (o *StreamPeer) Get32() gdnative.Int {
 }
 
 /*
-        Get a signed 64 bit value from the stream.
+        Gets a signed 64-bit value from the stream.
 	Args: [], Returns: int
 */
 func (o *StreamPeer) Get64() gdnative.Int {
@@ -104,7 +104,7 @@ func (o *StreamPeer) Get64() gdnative.Int {
 }
 
 /*
-        Get a signed byte from the stream.
+        Gets a signed byte from the stream.
 	Args: [], Returns: int
 */
 func (o *StreamPeer) Get8() gdnative.Int {
@@ -127,7 +127,7 @@ func (o *StreamPeer) Get8() gdnative.Int {
 }
 
 /*
-        Returns the amount of bytes this [code]StreamPeer[/code] has available.
+        Returns the amount of bytes this [StreamPeer] has available.
 	Args: [], Returns: int
 */
 func (o *StreamPeer) GetAvailableBytes() gdnative.Int {
@@ -150,7 +150,7 @@ func (o *StreamPeer) GetAvailableBytes() gdnative.Int {
 }
 
 /*
-        Returns a chunk data with the received bytes. The amount of bytes to be received can be requested in the "bytes" argument. If not enough bytes are available, the function will block until the desired amount is received. This function returns two values, an Error code and a data array.
+        Returns a chunk data with the received bytes. The amount of bytes to be received can be requested in the [code]bytes[/code] argument. If not enough bytes are available, the function will block until the desired amount is received. This function returns two values, an [enum @GlobalScope.Error] code and a data array.
 	Args: [{ false bytes int}], Returns: Array
 */
 func (o *StreamPeer) GetData(bytes gdnative.Int) gdnative.Array {
@@ -174,7 +174,7 @@ func (o *StreamPeer) GetData(bytes gdnative.Int) gdnative.Array {
 }
 
 /*
-        Get a double-precision float from the stream.
+        Gets a double-precision float from the stream.
 	Args: [], Returns: float
 */
 func (o *StreamPeer) GetDouble() gdnative.Real {
@@ -197,7 +197,7 @@ func (o *StreamPeer) GetDouble() gdnative.Real {
 }
 
 /*
-        Get a single-precision float from the stream.
+        Gets a single-precision float from the stream.
 	Args: [], Returns: float
 */
 func (o *StreamPeer) GetFloat() gdnative.Real {
@@ -220,7 +220,7 @@ func (o *StreamPeer) GetFloat() gdnative.Real {
 }
 
 /*
-        Returns a chunk data with the received bytes. The amount of bytes to be received can be requested in the "bytes" argument. If not enough bytes are available, the function will return how many were actually received. This function returns two values, an Error code, and a data array.
+        Returns a chunk data with the received bytes. The amount of bytes to be received can be requested in the "bytes" argument. If not enough bytes are available, the function will return how many were actually received. This function returns two values, an [enum @GlobalScope.Error] code, and a data array.
 	Args: [{ false bytes int}], Returns: Array
 */
 func (o *StreamPeer) GetPartialData(bytes gdnative.Int) gdnative.Array {
@@ -244,7 +244,7 @@ func (o *StreamPeer) GetPartialData(bytes gdnative.Int) gdnative.Array {
 }
 
 /*
-        Get a string with byte-length [code]bytes[/code] from the stream. If [code]bytes[/code] is negative (default) the length will be read from the stream using the reverse process of [method put_string].
+        Gets a string with byte-length [code]bytes[/code] from the stream. If [code]bytes[/code] is negative (default) the length will be read from the stream using the reverse process of [method put_string].
 	Args: [{-1 true bytes int}], Returns: String
 */
 func (o *StreamPeer) GetString(bytes gdnative.Int) gdnative.String {
@@ -268,7 +268,7 @@ func (o *StreamPeer) GetString(bytes gdnative.Int) gdnative.String {
 }
 
 /*
-        Get an unsigned 16 bit value from the stream.
+        Gets an unsigned 16-bit value from the stream.
 	Args: [], Returns: int
 */
 func (o *StreamPeer) GetU16() gdnative.Int {
@@ -291,7 +291,7 @@ func (o *StreamPeer) GetU16() gdnative.Int {
 }
 
 /*
-        Get an unsigned 32 bit value from the stream.
+        Gets an unsigned 32-bit value from the stream.
 	Args: [], Returns: int
 */
 func (o *StreamPeer) GetU32() gdnative.Int {
@@ -314,7 +314,7 @@ func (o *StreamPeer) GetU32() gdnative.Int {
 }
 
 /*
-        Get an unsigned 64 bit value from the stream.
+        Gets an unsigned 64-bit value from the stream.
 	Args: [], Returns: int
 */
 func (o *StreamPeer) GetU64() gdnative.Int {
@@ -337,7 +337,7 @@ func (o *StreamPeer) GetU64() gdnative.Int {
 }
 
 /*
-        Get an unsigned byte from the stream.
+        Gets an unsigned byte from the stream.
 	Args: [], Returns: int
 */
 func (o *StreamPeer) GetU8() gdnative.Int {
@@ -360,7 +360,7 @@ func (o *StreamPeer) GetU8() gdnative.Int {
 }
 
 /*
-        Get a utf8 string with byte-length [code]bytes[/code] from the stream (this decodes the string sent as utf8). If [code]bytes[/code] is negative (default) the length will be read from the stream using the reverse process of [method put_utf8_string].
+        Gets an UTF-8 string with byte-length [code]bytes[/code] from the stream (this decodes the string sent as UTF-8). If [code]bytes[/code] is negative (default) the length will be read from the stream using the reverse process of [method put_utf8_string].
 	Args: [{-1 true bytes int}], Returns: String
 */
 func (o *StreamPeer) GetUtf8String(bytes gdnative.Int) gdnative.String {
@@ -384,7 +384,7 @@ func (o *StreamPeer) GetUtf8String(bytes gdnative.Int) gdnative.String {
 }
 
 /*
-        Get a Variant from the stream. When [code]allow_objects[/code] is [code]true[/code] decoding objects is allowed. [b]WARNING:[/b] Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
+        Gets a Variant from the stream. If [code]allow_objects[/code] is [code]true[/code], decoding objects is allowed. [b]Warning:[/b] Deserialized objects can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats such as remote code execution.
 	Args: [{False true allow_objects bool}], Returns: Variant
 */
 func (o *StreamPeer) GetVar(allowObjects gdnative.Bool) gdnative.Variant {
@@ -431,7 +431,7 @@ func (o *StreamPeer) IsBigEndianEnabled() gdnative.Bool {
 }
 
 /*
-        Put a signed 16 bit value into the stream.
+        Puts a signed 16-bit value into the stream.
 	Args: [{ false value int}], Returns: void
 */
 func (o *StreamPeer) Put16(value gdnative.Int) {
@@ -452,7 +452,7 @@ func (o *StreamPeer) Put16(value gdnative.Int) {
 }
 
 /*
-        Put a signed 32 bit value into the stream.
+        Puts a signed 32-bit value into the stream.
 	Args: [{ false value int}], Returns: void
 */
 func (o *StreamPeer) Put32(value gdnative.Int) {
@@ -473,7 +473,7 @@ func (o *StreamPeer) Put32(value gdnative.Int) {
 }
 
 /*
-        Put a signed 64 bit value into the stream.
+        Puts a signed 64-bit value into the stream.
 	Args: [{ false value int}], Returns: void
 */
 func (o *StreamPeer) Put64(value gdnative.Int) {
@@ -494,7 +494,7 @@ func (o *StreamPeer) Put64(value gdnative.Int) {
 }
 
 /*
-        Put a signed byte into the stream.
+        Puts a signed byte into the stream.
 	Args: [{ false value int}], Returns: void
 */
 func (o *StreamPeer) Put8(value gdnative.Int) {
@@ -515,7 +515,7 @@ func (o *StreamPeer) Put8(value gdnative.Int) {
 }
 
 /*
-        Send a chunk of data through the connection, blocking if necessary until the data is done sending. This function returns an Error code.
+        Sends a chunk of data through the connection, blocking if necessary until the data is done sending. This function returns an [enum @GlobalScope.Error] code.
 	Args: [{ false data PoolByteArray}], Returns: enum.Error
 */
 func (o *StreamPeer) PutData(data gdnative.PoolByteArray) gdnative.Error {
@@ -539,7 +539,7 @@ func (o *StreamPeer) PutData(data gdnative.PoolByteArray) gdnative.Error {
 }
 
 /*
-        Put a double-precision float into the stream.
+        Puts a double-precision float into the stream.
 	Args: [{ false value float}], Returns: void
 */
 func (o *StreamPeer) PutDouble(value gdnative.Real) {
@@ -560,7 +560,7 @@ func (o *StreamPeer) PutDouble(value gdnative.Real) {
 }
 
 /*
-        Put a single-precision float into the stream.
+        Puts a single-precision float into the stream.
 	Args: [{ false value float}], Returns: void
 */
 func (o *StreamPeer) PutFloat(value gdnative.Real) {
@@ -581,7 +581,7 @@ func (o *StreamPeer) PutFloat(value gdnative.Real) {
 }
 
 /*
-        Send a chunk of data through the connection, if all the data could not be sent at once, only part of it will. This function returns two values, an Error code and an integer, describing how much data was actually sent.
+        Sends a chunk of data through the connection. If all the data could not be sent at once, only part of it will. This function returns two values, an [enum @GlobalScope.Error] code and an integer, describing how much data was actually sent.
 	Args: [{ false data PoolByteArray}], Returns: Array
 */
 func (o *StreamPeer) PutPartialData(data gdnative.PoolByteArray) gdnative.Array {
@@ -605,7 +605,7 @@ func (o *StreamPeer) PutPartialData(data gdnative.PoolByteArray) gdnative.Array 
 }
 
 /*
-        Put a zero-terminated ascii string into the stream prepended by a 32 bits unsigned integer representing its size.
+        Puts a zero-terminated ASCII string into the stream prepended by a 32-bit unsigned integer representing its size. Note: To put an ASCII string without prepending its size, you can use [method put_data]: [codeblock] put_data("Hello world".to_ascii()) [/codeblock]
 	Args: [{ false value String}], Returns: void
 */
 func (o *StreamPeer) PutString(value gdnative.String) {
@@ -626,7 +626,7 @@ func (o *StreamPeer) PutString(value gdnative.String) {
 }
 
 /*
-        Put an unsigned 16 bit value into the stream.
+        Puts an unsigned 16-bit value into the stream.
 	Args: [{ false value int}], Returns: void
 */
 func (o *StreamPeer) PutU16(value gdnative.Int) {
@@ -647,7 +647,7 @@ func (o *StreamPeer) PutU16(value gdnative.Int) {
 }
 
 /*
-        Put an unsigned 32 bit value into the stream.
+        Puts an unsigned 32-bit value into the stream.
 	Args: [{ false value int}], Returns: void
 */
 func (o *StreamPeer) PutU32(value gdnative.Int) {
@@ -668,7 +668,7 @@ func (o *StreamPeer) PutU32(value gdnative.Int) {
 }
 
 /*
-        Put an unsigned 64 bit value into the stream.
+        Puts an unsigned 64-bit value into the stream.
 	Args: [{ false value int}], Returns: void
 */
 func (o *StreamPeer) PutU64(value gdnative.Int) {
@@ -689,7 +689,7 @@ func (o *StreamPeer) PutU64(value gdnative.Int) {
 }
 
 /*
-        Put an unsigned byte into the stream.
+        Puts an unsigned byte into the stream.
 	Args: [{ false value int}], Returns: void
 */
 func (o *StreamPeer) PutU8(value gdnative.Int) {
@@ -710,7 +710,7 @@ func (o *StreamPeer) PutU8(value gdnative.Int) {
 }
 
 /*
-        Put a zero-terminated utf8 string into the stream prepended by a 32 bits unsigned integer representing its size.
+        Puts a zero-terminated UTF-8 string into the stream prepended by a 32 bits unsigned integer representing its size. Note: To put an UTF-8 string without prepending its size, you can use [method put_data]: [codeblock] put_data("Hello world".to_utf8()) [/codeblock]
 	Args: [{ false value String}], Returns: void
 */
 func (o *StreamPeer) PutUtf8String(value gdnative.String) {
@@ -731,7 +731,7 @@ func (o *StreamPeer) PutUtf8String(value gdnative.String) {
 }
 
 /*
-        Put a Variant into the stream. When [code]full_objects[/code] is [code]true[/code] encoding objects is allowed (and can potentially include code).
+        Puts a Variant into the stream. If [code]full_objects[/code] is [code]true[/code] encoding objects is allowed (and can potentially include code).
 	Args: [{ false value Variant} {False true full_objects bool}], Returns: void
 */
 func (o *StreamPeer) PutVar(value gdnative.Variant, fullObjects gdnative.Bool) {

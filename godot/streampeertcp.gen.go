@@ -33,7 +33,7 @@ func newStreamPeerTCPFromPointer(ptr gdnative.Pointer) StreamPeerTCP {
 }
 
 /*
-TCP Stream peer. This object can be used to connect to TCP servers, or also is returned by a TCP server.
+TCP stream peer. This object can be used to connect to TCP servers, or also is returned by a TCP server.
 */
 type StreamPeerTCP struct {
 	StreamPeer
@@ -45,7 +45,7 @@ func (o *StreamPeerTCP) BaseClass() string {
 }
 
 /*
-        Connect to the specified host:port pair. A hostname will be resolved if valid. Returns [constant @GlobalScope.OK] on success or [constant @GlobalScope.FAILED] on failure.
+        Connects to the specified [code]host:port[/code] pair. A hostname will be resolved if valid. Returns [constant OK] on success or [constant FAILED] on failure.
 	Args: [{ false host String} { false port int}], Returns: enum.Error
 */
 func (o *StreamPeerTCP) ConnectToHost(host gdnative.String, port gdnative.Int) gdnative.Error {
@@ -70,7 +70,7 @@ func (o *StreamPeerTCP) ConnectToHost(host gdnative.String, port gdnative.Int) g
 }
 
 /*
-        Disconnect from host.
+        Disconnects from host.
 	Args: [], Returns: void
 */
 func (o *StreamPeerTCP) DisconnectFromHost() {
@@ -136,7 +136,7 @@ func (o *StreamPeerTCP) GetConnectedPort() gdnative.Int {
 }
 
 /*
-        Returns the status of the connection, see [enum StreamPeerTCP.Status].
+        Returns the status of the connection, see [enum Status].
 	Args: [], Returns: enum.StreamPeerTCP::Status
 */
 func (o *StreamPeerTCP) GetStatus() StreamPeerTCPStatus {
@@ -182,7 +182,7 @@ func (o *StreamPeerTCP) IsConnectedToHost() gdnative.Bool {
 }
 
 /*
-        Disable Nagle algorithm to improve latency for small packets. Note that for applications that send large packets, or need to transfer a lot of data, this can reduce total bandwidth.
+        Disables Nagle's algorithm to improve latency for small packets. [b]Note:[/b] For applications that send large packets or need to transfer a lot of data, this can decrease the total available bandwidth.
 	Args: [{ false enabled bool}], Returns: void
 */
 func (o *StreamPeerTCP) SetNoDelay(enabled gdnative.Bool) {

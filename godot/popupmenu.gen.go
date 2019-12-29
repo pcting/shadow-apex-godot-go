@@ -238,7 +238,7 @@ func (o *PopupMenu) AddIconItem(texture TextureImplementer, label gdnative.Strin
 }
 
 /*
-        Undocumented
+        Same as [method add_icon_check_item], but uses a radio check button.
 	Args: [{ false texture Texture} { false label String} {-1 true id int} {0 true accel int}], Returns: void
 */
 func (o *PopupMenu) AddIconRadioCheckItem(texture TextureImplementer, label gdnative.String, id gdnative.Int, accel gdnative.Int) {
@@ -262,7 +262,7 @@ func (o *PopupMenu) AddIconRadioCheckItem(texture TextureImplementer, label gdna
 }
 
 /*
-        Undocumented
+        Same as [method add_icon_check_shortcut], but uses a radio check button.
 	Args: [{ false texture Texture} { false shortcut ShortCut} {-1 true id int} {False true global bool}], Returns: void
 */
 func (o *PopupMenu) AddIconRadioCheckShortcut(texture TextureImplementer, shortcut ShortCutImplementer, id gdnative.Int, global gdnative.Bool) {
@@ -333,7 +333,7 @@ func (o *PopupMenu) AddItem(label gdnative.String, id gdnative.Int, accel gdnati
 }
 
 /*
-        Undocumented
+        Adds a new multistate item with text [code]label[/code]. Contrarily to normal binary items, multistate items can have more than two states, as defined by [code]max_states[/code]. Each press or activate of the item will increase the state by one. The default value is defined by [code]default_state[/code]. An [code]id[/code] can optionally be provided, as well as an accelerator ([code]accel[/code]). If no [code]id[/code] is provided, one will be created from the index. If no [code]accel[/code] is provided then the default [code]0[/code] will be assigned to it. See [method get_item_accelerator] for more info on accelerators.
 	Args: [{ false label String} { false max_states int} {0 true default_state int} {-1 true id int} {0 true accel int}], Returns: void
 */
 func (o *PopupMenu) AddMultistateItem(label gdnative.String, maxStates gdnative.Int, defaultState gdnative.Int, id gdnative.Int, accel gdnative.Int) {
@@ -358,7 +358,7 @@ func (o *PopupMenu) AddMultistateItem(label gdnative.String, maxStates gdnative.
 }
 
 /*
-        Adds a new radio button with text [code]label[/code]. An [code]id[/code] can optionally be provided, as well as an accelerator ([code]accel[/code]). If no [code]id[/code] is provided, one will be created from the index. If no [code]accel[/code] is provided then the default [code]0[/code] will be assigned to it. See [method get_item_accelerator] for more info on accelerators. [b]Note:[/b] Checkable items just display a checkmark, but don't have any built-in checking behavior and must be checked/unchecked manually. See [method set_item_checked] for more info on how to control it.
+        Adds a new radio check button with text [code]label[/code]. An [code]id[/code] can optionally be provided, as well as an accelerator ([code]accel[/code]). If no [code]id[/code] is provided, one will be created from the index. If no [code]accel[/code] is provided then the default [code]0[/code] will be assigned to it. See [method get_item_accelerator] for more info on accelerators. [b]Note:[/b] Checkable items just display a checkmark, but don't have any built-in checking behavior and must be checked/unchecked manually. See [method set_item_checked] for more info on how to control it.
 	Args: [{ false label String} {-1 true id int} {0 true accel int}], Returns: void
 */
 func (o *PopupMenu) AddRadioCheckItem(label gdnative.String, id gdnative.Int, accel gdnative.Int) {
@@ -404,7 +404,7 @@ func (o *PopupMenu) AddRadioCheckShortcut(shortcut ShortCutImplementer, id gdnat
 }
 
 /*
-        Add a separator between items. Separators also occupy an index.
+        Adds a separator between items. Separators also occupy an index.
 	Args: [{ true label String}], Returns: void
 */
 func (o *PopupMenu) AddSeparator(label gdnative.String) {
@@ -514,7 +514,7 @@ func (o *PopupMenu) GetAllowSearch() gdnative.Bool {
 }
 
 /*
-        Returns the accelerator of the item at index "idx". Accelerators are special combinations of keys that activate the item, no matter which control is focused.
+        Returns the accelerator of the item at index [code]idx[/code]. Accelerators are special combinations of keys that activate the item, no matter which control is focused.
 	Args: [{ false idx int}], Returns: int
 */
 func (o *PopupMenu) GetItemAccelerator(idx gdnative.Int) gdnative.Int {
@@ -561,7 +561,7 @@ func (o *PopupMenu) GetItemCount() gdnative.Int {
 }
 
 /*
-        Returns the icon of the item at index "idx".
+        Returns the icon of the item at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: Texture
 */
 func (o *PopupMenu) GetItemIcon(idx gdnative.Int) TextureImplementer {
@@ -623,7 +623,7 @@ func (o *PopupMenu) GetItemId(idx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Returns the index of the item containing the specified [code]id[/code]. Index is automatically assigned to each item by the engine. Index can not be set manualy.
+        Returns the index of the item containing the specified [code]id[/code]. Index is automatically assigned to each item by the engine. Index can not be set manually.
 	Args: [{ false id int}], Returns: int
 */
 func (o *PopupMenu) GetItemIndex(id gdnative.Int) gdnative.Int {
@@ -733,7 +733,7 @@ func (o *PopupMenu) GetItemSubmenu(idx gdnative.Int) gdnative.String {
 }
 
 /*
-        Returns the text of the item at index "idx".
+        Returns the text of the item at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: String
 */
 func (o *PopupMenu) GetItemText(idx gdnative.Int) gdnative.String {
@@ -873,7 +873,7 @@ func (o *PopupMenu) IsHideOnStateItemSelection() gdnative.Bool {
 }
 
 /*
-        Returns whether the popup will be hidden when the window loses focus or not.
+        Returns [code]true[/code] if the popup will be hidden when the window loses focus or not.
 	Args: [], Returns: bool
 */
 func (o *PopupMenu) IsHideOnWindowLoseFocus() gdnative.Bool {
@@ -896,7 +896,7 @@ func (o *PopupMenu) IsHideOnWindowLoseFocus() gdnative.Bool {
 }
 
 /*
-        Returns whether the item at index "idx" is checkable in some way, i.e., whether has a checkbox or radio button. Note that checkable items just display a checkmark or radio button, but don't have any built-in checking behavior and must be checked/unchecked manually.
+        Returns [code]true[/code] if the item at index [code]idx[/code] is checkable in some way, i.e. if it has a checkbox or radio button. [b]Note:[/b] Checkable items just display a checkmark or radio button, but don't have any built-in checking behavior and must be checked/unchecked manually.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *PopupMenu) IsItemCheckable(idx gdnative.Int) gdnative.Bool {
@@ -920,7 +920,7 @@ func (o *PopupMenu) IsItemCheckable(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Returns whether the item at index "idx" is checked.
+        Returns [code]true[/code] if the item at index [code]idx[/code] is checked.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *PopupMenu) IsItemChecked(idx gdnative.Int) gdnative.Bool {
@@ -1016,7 +1016,7 @@ func (o *PopupMenu) IsItemSeparator(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Returns whether the shortcut of the specified item [code]idx[/code] is disabled or not.
+        Returns [code]true[/code] if the specified item's shortcut is disabled.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *PopupMenu) IsItemShortcutDisabled(idx gdnative.Int) gdnative.Bool {
@@ -1040,7 +1040,7 @@ func (o *PopupMenu) IsItemShortcutDisabled(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Removes the item at index "idx" from the menu. Note that the indexes of items after the removed item are going to be shifted by one.
+        Removes the item at index [code]idx[/code] from the menu. [b]Note:[/b] The indices of items after the removed item will be shifted by one.
 	Args: [{ false idx int}], Returns: void
 */
 func (o *PopupMenu) RemoveItem(idx gdnative.Int) {
@@ -1166,7 +1166,7 @@ func (o *PopupMenu) SetHideOnWindowLoseFocus(enable gdnative.Bool) {
 }
 
 /*
-        Set the accelerator of the item at index "idx". Accelerators are special combinations of keys that activate the item, no matter which control is focused.
+        Sets the accelerator of the item at index [code]idx[/code]. Accelerators are special combinations of keys that activate the item, no matter which control is focused.
 	Args: [{ false idx int} { false accel int}], Returns: void
 */
 func (o *PopupMenu) SetItemAccelerator(idx gdnative.Int, accel gdnative.Int) {
@@ -1210,7 +1210,7 @@ func (o *PopupMenu) SetItemAsCheckable(idx gdnative.Int, enable gdnative.Bool) {
 }
 
 /*
-        Sets the type of the item at the specified index [code]idx[/code] to radio button. If false, sets the type of the item to plain text.
+        Sets the type of the item at the specified index [code]idx[/code] to radio button. If [code]false[/code], sets the type of the item to plain text.
 	Args: [{ false idx int} { false enable bool}], Returns: void
 */
 func (o *PopupMenu) SetItemAsRadioCheckable(idx gdnative.Int, enable gdnative.Bool) {
@@ -1254,7 +1254,7 @@ func (o *PopupMenu) SetItemAsSeparator(idx gdnative.Int, enable gdnative.Bool) {
 }
 
 /*
-        Set the checkstate status of the item at index "idx".
+        Sets the checkstate status of the item at index [code]idx[/code].
 	Args: [{ false idx int} { false checked bool}], Returns: void
 */
 func (o *PopupMenu) SetItemChecked(idx gdnative.Int, checked gdnative.Bool) {
@@ -1276,7 +1276,7 @@ func (o *PopupMenu) SetItemChecked(idx gdnative.Int, checked gdnative.Bool) {
 }
 
 /*
-        Sets whether the item at index "idx" is disabled or not. When it is disabled it can't be selected, or its action invoked.
+        Enables/disables the item at index [code]idx[/code]. When it is disabled, it can't be selected and its action can't be invoked.
 	Args: [{ false idx int} { false disabled bool}], Returns: void
 */
 func (o *PopupMenu) SetItemDisabled(idx gdnative.Int, disabled gdnative.Bool) {
@@ -1320,7 +1320,7 @@ func (o *PopupMenu) SetItemIcon(idx gdnative.Int, icon TextureImplementer) {
 }
 
 /*
-        Set the id of the item at index "idx".
+        Sets the [code]id[/code] of the item at index [code]idx[/code].
 	Args: [{ false idx int} { false id int}], Returns: void
 */
 func (o *PopupMenu) SetItemId(idx gdnative.Int, id gdnative.Int) {
@@ -1342,7 +1342,7 @@ func (o *PopupMenu) SetItemId(idx gdnative.Int, id gdnative.Int) {
 }
 
 /*
-        Sets the metadata of an item, which might be of any type. You can later get it with [method get_item_metadata], which provides a simple way of assigning context data to items.
+        Sets the metadata of an item, which may be of any type. You can later get it with [method get_item_metadata], which provides a simple way of assigning context data to items.
 	Args: [{ false idx int} { false metadata Variant}], Returns: void
 */
 func (o *PopupMenu) SetItemMetadata(idx gdnative.Int, metadata gdnative.Variant) {
@@ -1364,7 +1364,7 @@ func (o *PopupMenu) SetItemMetadata(idx gdnative.Int, metadata gdnative.Variant)
 }
 
 /*
-
+        Sets the state of an multistate item. See [method add_multistate_item] for details.
 	Args: [{ false idx int} { false state int}], Returns: void
 */
 func (o *PopupMenu) SetItemMultistate(idx gdnative.Int, state gdnative.Int) {
@@ -1453,7 +1453,7 @@ func (o *PopupMenu) SetItemSubmenu(idx gdnative.Int, submenu gdnative.String) {
 }
 
 /*
-        Set the text of the item at index "idx".
+        Sets the text of the item at index [code]idx[/code].
 	Args: [{ false idx int} { false text String}], Returns: void
 */
 func (o *PopupMenu) SetItemText(idx gdnative.Int, text gdnative.String) {
@@ -1539,7 +1539,7 @@ func (o *PopupMenu) ToggleItemChecked(idx gdnative.Int) {
 }
 
 /*
-
+        Cycle to the next state of an multistate item. See [method add_multistate_item] for details.
 	Args: [{ false idx int}], Returns: void
 */
 func (o *PopupMenu) ToggleItemMultistate(idx gdnative.Int) {

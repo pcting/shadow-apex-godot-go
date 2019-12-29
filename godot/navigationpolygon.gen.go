@@ -23,7 +23,7 @@ func newNavigationPolygonFromPointer(ptr gdnative.Pointer) NavigationPolygon {
 }
 
 /*
-There are two ways to create polygons. Either by using the [method add_outline] method or using the [method add_polygon] method. Using [method add_outline]: [codeblock] var polygon = NavigationPolygon.new() var outline = PoolVector2Array([Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)]) polygon.add_outline(outline) polygon.make_polygons_from_outlines() $NavigationPolygonInstance.navpoly = polygon [/codeblock] Using [method add_polygon] and indices of the vertices array. [codeblock] var polygon = NavigationPolygon.new() var vertices = PoolVector2Array([Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)]) polygon.set_vertices(vertices) var indices = PoolIntArray(0, 3, 1) polygon.add_polygon(indices) $NavigationPolygonInstance.navpoly = polygon [/codeblock]
+There are two ways to create polygons. Either by using the [method add_outline] method, or using the [method add_polygon] method. Using [method add_outline]: [codeblock] var polygon = NavigationPolygon.new() var outline = PoolVector2Array([Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)]) polygon.add_outline(outline) polygon.make_polygons_from_outlines() $NavigationPolygonInstance.navpoly = polygon [/codeblock] Using [method add_polygon] and indices of the vertices array. [codeblock] var polygon = NavigationPolygon.new() var vertices = PoolVector2Array([Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)]) polygon.set_vertices(vertices) var indices = PoolIntArray(0, 3, 1) polygon.add_polygon(indices) $NavigationPolygonInstance.navpoly = polygon [/codeblock]
 */
 type NavigationPolygon struct {
 	Resource

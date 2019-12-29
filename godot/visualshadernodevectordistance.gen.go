@@ -23,8 +23,8 @@ func newVisualShaderNodeVectorDistanceFromPointer(ptr gdnative.Pointer) VisualSh
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeVectorDistance struct {
 	VisualShaderNode
 	owner gdnative.Object

@@ -23,7 +23,7 @@ func newSurfaceToolFromPointer(ptr gdnative.Pointer) SurfaceTool {
 }
 
 /*
-The [code]SurfaceTool[/code] is used to construct a [Mesh] by specifying vertex attributes individually. It can be used to construct a [Mesh] from script. All properties except index need to be added before a call to [method add_vertex]. For example adding vertex colors and UVs looks like [codeblock] var st = SurfaceTool.new() st.begin(Mesh.PRIMITIVE_TRIANGLES) st.add_color(Color(1, 0, 0)) st.add_uv(Vector2(0, 0)) st.add_vertex(Vector3(0, 0, 0)) [/codeblock] The [code]SurfaceTool[/code] now contains one vertex of a triangle which has a UV coordinate and a specified [Color]. If another vertex were added without calls to [method add_uv] or [method add_color] then the last values would be used. It is very important that vertex attributes are passed [b]before[/b] the call to [method add_vertex], failure to do this will result in an error when committing the vertex information to a mesh. Additionally, the attributes used before the first vertex is added determine the format of the mesh. For example if you only add UVs to the first vertex, you cannot add color to any of the subsequent vertices.
+The [SurfaceTool] is used to construct a [Mesh] by specifying vertex attributes individually. It can be used to construct a [Mesh] from a script. All properties except indices need to be added before calling [method add_vertex]. For example, to add vertex colors and UVs: [codeblock] var st = SurfaceTool.new() st.begin(Mesh.PRIMITIVE_TRIANGLES) st.add_color(Color(1, 0, 0)) st.add_uv(Vector2(0, 0)) st.add_vertex(Vector3(0, 0, 0)) [/codeblock] The above [SurfaceTool] now contains one vertex of a triangle which has a UV coordinate and a specified [Color]. If another vertex were added without calling [method add_uv] or [method add_color], then the last values would be used. Vertex attributes must be passed [b]before[/b] calling [method add_vertex]. Failure to do so will result in an error when committing the vertex information to a mesh. Additionally, the attributes used before the first vertex is added determine the format of the mesh. For example, if you only add UVs to the first vertex, you cannot add color to any of the subsequent vertices.
 */
 type SurfaceTool struct {
 	Reference
@@ -35,7 +35,7 @@ func (o *SurfaceTool) BaseClass() string {
 }
 
 /*
-        Add an array of bones for the next Vertex to use. Array must contain 4 integers.
+        Adds an array of bones for the next vertex to use. [code]bones[/code] must contain 4 integers.
 	Args: [{ false bones PoolIntArray}], Returns: void
 */
 func (o *SurfaceTool) AddBones(bones gdnative.PoolIntArray) {
@@ -56,7 +56,7 @@ func (o *SurfaceTool) AddBones(bones gdnative.PoolIntArray) {
 }
 
 /*
-        Specify a [Color] for the next Vertex to use.
+        Specifies a [Color] for the next vertex to use.
 	Args: [{ false color Color}], Returns: void
 */
 func (o *SurfaceTool) AddColor(color gdnative.Color) {
@@ -77,7 +77,7 @@ func (o *SurfaceTool) AddColor(color gdnative.Color) {
 }
 
 /*
-        Adds an index to index array if you are using indexed Vertices. Does not need to be called before adding Vertex.
+        Adds an index to index array if you are using indexed vertices. Does not need to be called before adding vertices.
 	Args: [{ false index int}], Returns: void
 */
 func (o *SurfaceTool) AddIndex(index gdnative.Int) {
@@ -98,7 +98,7 @@ func (o *SurfaceTool) AddIndex(index gdnative.Int) {
 }
 
 /*
-        Specify a normal for the next Vertex to use.
+        Specifies a normal for the next vertex to use.
 	Args: [{ false normal Vector3}], Returns: void
 */
 func (o *SurfaceTool) AddNormal(normal gdnative.Vector3) {
@@ -119,7 +119,7 @@ func (o *SurfaceTool) AddNormal(normal gdnative.Vector3) {
 }
 
 /*
-        Specify whether current Vertex (if using only Vertex arrays) or current index (if also using index arrays) should utilize smooth normals for normal calculation.
+        Specifies whether the current vertex (if using only vertex arrays) or current index (if also using index arrays) should use smooth normals for normal calculation.
 	Args: [{ false smooth bool}], Returns: void
 */
 func (o *SurfaceTool) AddSmoothGroup(smooth gdnative.Bool) {
@@ -140,7 +140,7 @@ func (o *SurfaceTool) AddSmoothGroup(smooth gdnative.Bool) {
 }
 
 /*
-        Specify a Tangent for the next Vertex to use.
+        Specifies a tangent for the next vertex to use.
 	Args: [{ false tangent Plane}], Returns: void
 */
 func (o *SurfaceTool) AddTangent(tangent gdnative.Plane) {
@@ -161,7 +161,7 @@ func (o *SurfaceTool) AddTangent(tangent gdnative.Plane) {
 }
 
 /*
-        Insert a triangle fan made of array data into [Mesh] being constructed. Requires primitive type be set to [constant Mesh.PRIMITIVE_TRIANGLES].
+        Inserts a triangle fan made of array data into [Mesh] being constructed. Requires the primitive type be set to [constant Mesh.PRIMITIVE_TRIANGLES].
 	Args: [{ false vertices PoolVector3Array} {[] true uvs PoolVector2Array} {[PoolColorArray] true colors PoolColorArray} {[] true uv2s PoolVector2Array} {[] true normals PoolVector3Array} {[] true tangents Array}], Returns: void
 */
 func (o *SurfaceTool) AddTriangleFan(vertices gdnative.PoolVector3Array, uvs gdnative.PoolVector2Array, colors gdnative.PoolColorArray, uv2S gdnative.PoolVector2Array, normals gdnative.PoolVector3Array, tangents gdnative.Array) {
@@ -187,7 +187,7 @@ func (o *SurfaceTool) AddTriangleFan(vertices gdnative.PoolVector3Array, uvs gdn
 }
 
 /*
-        Specify UV Coordinate for next Vertex to use.
+        Specifies a set of UV coordinates to use for the next vertex.
 	Args: [{ false uv Vector2}], Returns: void
 */
 func (o *SurfaceTool) AddUv(uv gdnative.Vector2) {
@@ -208,7 +208,7 @@ func (o *SurfaceTool) AddUv(uv gdnative.Vector2) {
 }
 
 /*
-        Specify an optional second set of UV coordinates for next Vertex to use.
+        Specifies an optional second set of UV coordinates to use for the next vertex.
 	Args: [{ false uv2 Vector2}], Returns: void
 */
 func (o *SurfaceTool) AddUv2(uv2 gdnative.Vector2) {
@@ -229,7 +229,7 @@ func (o *SurfaceTool) AddUv2(uv2 gdnative.Vector2) {
 }
 
 /*
-        Specify position of current Vertex. Should be called after specifying other vertex properties (e.g. Color, UV).
+        Specifies the position of current vertex. Should be called after specifying other vertex properties (e.g. Color, UV).
 	Args: [{ false vertex Vector3}], Returns: void
 */
 func (o *SurfaceTool) AddVertex(vertex gdnative.Vector3) {
@@ -250,7 +250,7 @@ func (o *SurfaceTool) AddVertex(vertex gdnative.Vector3) {
 }
 
 /*
-        Specify weight values for next Vertex to use. Array must contain 4 values.
+        Specifies weight values for next vertex to use. [code]weights[/code] must contain 4 values.
 	Args: [{ false weights PoolRealArray}], Returns: void
 */
 func (o *SurfaceTool) AddWeights(weights gdnative.PoolRealArray) {
@@ -294,7 +294,7 @@ func (o *SurfaceTool) AppendFrom(existing MeshImplementer, surface gdnative.Int,
 }
 
 /*
-        Called before adding any Vertices. Takes the primitive type as an argument (e.g. [constant Mesh.PRIMITIVE_TRIANGLES]).
+        Called before adding any vertices. Takes the primitive type as an argument (e.g. [constant Mesh.PRIMITIVE_TRIANGLES]).
 	Args: [{ false primitive int}], Returns: void
 */
 func (o *SurfaceTool) Begin(primitive gdnative.Int) {
@@ -335,7 +335,7 @@ func (o *SurfaceTool) Clear() {
 }
 
 /*
-        Returns a constructed [ArrayMesh] from current information passed in. If an existing [ArrayMesh] is passed in as an argument, will add an extra surface to the existing [ArrayMesh].
+        Returns a constructed [ArrayMesh] from current information passed in. If an existing [ArrayMesh] is passed in as an argument, will add an extra surface to the existing [ArrayMesh]. Default flag is [constant Mesh.ARRAY_COMPRESS_DEFAULT]. See [code]ARRAY_COMPRESS_*[/code] constants in [enum Mesh.ArrayFormat] for other flags.
 	Args: [{Null true existing ArrayMesh} {97280 true flags int}], Returns: ArrayMesh
 */
 func (o *SurfaceTool) Commit(existing ArrayMeshImplementer, flags gdnative.Int) ArrayMeshImplementer {
@@ -374,7 +374,7 @@ func (o *SurfaceTool) Commit(existing ArrayMeshImplementer, flags gdnative.Int) 
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: Array
 */
 func (o *SurfaceTool) CommitToArrays() gdnative.Array {
@@ -419,7 +419,7 @@ func (o *SurfaceTool) CreateFrom(existing MeshImplementer, surface gdnative.Int)
 }
 
 /*
-        Undocumented
+
 	Args: [{ false existing Mesh} { false surface int} { false blend_shape String}], Returns: void
 */
 func (o *SurfaceTool) CreateFromBlendShape(existing MeshImplementer, surface gdnative.Int, blendShape gdnative.String) {
@@ -442,7 +442,7 @@ func (o *SurfaceTool) CreateFromBlendShape(existing MeshImplementer, surface gdn
 }
 
 /*
-        Removes index array by expanding Vertex array.
+        Removes the index array by expanding the vertex array.
 	Args: [], Returns: void
 */
 func (o *SurfaceTool) Deindex() {
@@ -462,7 +462,7 @@ func (o *SurfaceTool) Deindex() {
 }
 
 /*
-        Generates normals from Vertices so you do not have to do it manually. Setting [code]flip[/code] to [code]true[/code] inverts the resulting normals. Requires primitive type to be set to [constant Mesh.PRIMITIVE_TRIANGLES].
+        Generates normals from vertices so you do not have to do it manually. If [code]flip[/code] is [code]true[/code], the resulting normals will be inverted. Requires the primitive type to be set to [constant Mesh.PRIMITIVE_TRIANGLES].
 	Args: [{False true flip bool}], Returns: void
 */
 func (o *SurfaceTool) GenerateNormals(flip gdnative.Bool) {
@@ -503,7 +503,7 @@ func (o *SurfaceTool) GenerateTangents() {
 }
 
 /*
-        Shrinks Vertex array by creating an index array. Avoids reusing Vertices.
+        Shrinks the vertex array by creating an index array (avoids reusing vertices).
 	Args: [], Returns: void
 */
 func (o *SurfaceTool) Index() {

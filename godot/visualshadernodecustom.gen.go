@@ -23,7 +23,7 @@ func newVisualShaderNodeCustomFromPointer(ptr gdnative.Pointer) VisualShaderNode
 }
 
 /*
-Undocumented
+By inheriting this class you can create a custom [VisualShader] script addon which will be automatically added to the Visual Shader Editor. The [VisualShaderNode]'s behavior is defined by overriding the provided virtual methods. In order for the node to be registered as an editor addon, you must use the [code]tool[/code] keyword and provide a [code]class_name[/code] for your custom script. For example: [codeblock] tool extends VisualShaderNodeCustom class_name VisualShaderNodeNoise [/codeblock]
 */
 type VisualShaderNodeCustom struct {
 	VisualShaderNode
@@ -35,7 +35,7 @@ func (o *VisualShaderNodeCustom) BaseClass() string {
 }
 
 /*
-        Undocumented
+        Override this method to define the category of the associated custom node in the Visual Shader Editor's members dialog. Defining this method is [b]optional[/b]. If not overridden, the node will be filed under the "Custom" category.
 	Args: [], Returns: String
 */
 func (o *VisualShaderNodeCustom) X_GetCategory() gdnative.String {
@@ -58,7 +58,7 @@ func (o *VisualShaderNodeCustom) X_GetCategory() gdnative.String {
 }
 
 /*
-        Undocumented
+        Override this method to define the actual shader code of the associated custom node. The shader code should be returned as a string, which can have multiple lines (the [code]"""[/code] multiline string construct can be used for convenience). The [code]input_vars[/code] and [code]output_vars[/code] arrays contain the string names of the various input and output variables, as defined by [code]_get_input_*[/code] and [code]_get_output_*[/code] virtual methods in this class. The output ports can be assigned values in the shader code. For example, [code]return output_vars[0] + " = " + input_vars[0] + ";"[/code]. You can customize the generated code based on the shader [code]mode[/code] (see [enum Shader.Mode]) and/or [code]type[/code] (see [enum VisualShader.Type]). Defining this method is [b]required[/b].
 	Args: [{ false input_vars Array} { false output_vars Array} { false mode int} { false type int}], Returns: String
 */
 func (o *VisualShaderNodeCustom) X_GetCode(inputVars gdnative.Array, outputVars gdnative.Array, mode gdnative.Int, aType gdnative.Int) gdnative.String {
@@ -85,7 +85,7 @@ func (o *VisualShaderNodeCustom) X_GetCode(inputVars gdnative.Array, outputVars 
 }
 
 /*
-        Undocumented
+        Override this method to define the description of the associated custom node in the Visual Shader Editor's members dialog. Defining this method is [b]optional[/b].
 	Args: [], Returns: String
 */
 func (o *VisualShaderNodeCustom) X_GetDescription() gdnative.String {
@@ -108,7 +108,7 @@ func (o *VisualShaderNodeCustom) X_GetDescription() gdnative.String {
 }
 
 /*
-        Undocumented
+        Override this method to add shader code on top of the global shader, to define your own standard library of reusable methods, varyings, constants, uniforms, etc. The shader code should be returned as a string, which can have multiple lines (the [code]"""[/code] multiline string construct can be used for convenience). Be careful with this functionality as it can cause name conflicts with other custom nodes, so be sure to give the defined entities unique names. You can customize the generated code based on the shader [code]mode[/code] (see [enum Shader.Mode]). Defining this method is [b]optional[/b].
 	Args: [{ false mode int}], Returns: String
 */
 func (o *VisualShaderNodeCustom) X_GetGlobalCode(mode gdnative.Int) gdnative.String {
@@ -132,7 +132,7 @@ func (o *VisualShaderNodeCustom) X_GetGlobalCode(mode gdnative.Int) gdnative.Str
 }
 
 /*
-        Undocumented
+        Override this method to define the amount of input ports of the associated custom node. Defining this method is [b]required[/b]. If not overridden, the node has no input ports.
 	Args: [], Returns: int
 */
 func (o *VisualShaderNodeCustom) X_GetInputPortCount() gdnative.Int {
@@ -155,7 +155,7 @@ func (o *VisualShaderNodeCustom) X_GetInputPortCount() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Override this method to define the names of input ports of the associated custom node. The names are used both for the input slots in the editor and as identifiers in the shader code, and are passed in the [code]input_vars[/code] array in [method _get_code]. Defining this method is [b]optional[/b], but recommended. If not overridden, input ports are named as [code]"in" + str(port)[/code].
 	Args: [{ false port int}], Returns: String
 */
 func (o *VisualShaderNodeCustom) X_GetInputPortName(port gdnative.Int) gdnative.String {
@@ -179,7 +179,7 @@ func (o *VisualShaderNodeCustom) X_GetInputPortName(port gdnative.Int) gdnative.
 }
 
 /*
-        Undocumented
+        Override this method to define the returned type of each input port of the associated custom node (see [enum VisualShaderNode.PortType] for possible types). Defining this method is [b]optional[/b], but recommended. If not overridden, input ports will return the [constant VisualShaderNode.PORT_TYPE_SCALAR] type.
 	Args: [{ false port int}], Returns: int
 */
 func (o *VisualShaderNodeCustom) X_GetInputPortType(port gdnative.Int) gdnative.Int {
@@ -203,7 +203,7 @@ func (o *VisualShaderNodeCustom) X_GetInputPortType(port gdnative.Int) gdnative.
 }
 
 /*
-        Undocumented
+        Override this method to define the name of the associated custom node in the Visual Shader Editor's members dialog and graph. Defining this method is [b]optional[/b], but recommended. If not overridden, the node will be named as "Unnamed".
 	Args: [], Returns: String
 */
 func (o *VisualShaderNodeCustom) X_GetName() gdnative.String {
@@ -226,7 +226,7 @@ func (o *VisualShaderNodeCustom) X_GetName() gdnative.String {
 }
 
 /*
-        Undocumented
+        Override this method to define the amount of output ports of the associated custom node. Defining this method is [b]required[/b]. If not overridden, the node has no output ports.
 	Args: [], Returns: int
 */
 func (o *VisualShaderNodeCustom) X_GetOutputPortCount() gdnative.Int {
@@ -249,7 +249,7 @@ func (o *VisualShaderNodeCustom) X_GetOutputPortCount() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Override this method to define the names of output ports of the associated custom node. The names are used both for the output slots in the editor and as identifiers in the shader code, and are passed in the [code]output_vars[/code] array in [method _get_code]. Defining this method is [b]optional[/b], but recommended. If not overridden, output ports are named as [code]"out" + str(port)[/code].
 	Args: [{ false port int}], Returns: String
 */
 func (o *VisualShaderNodeCustom) X_GetOutputPortName(port gdnative.Int) gdnative.String {
@@ -273,7 +273,7 @@ func (o *VisualShaderNodeCustom) X_GetOutputPortName(port gdnative.Int) gdnative
 }
 
 /*
-        Undocumented
+        Override this method to define the returned type of each output port of the associated custom node (see [enum VisualShaderNode.PortType] for possible types). Defining this method is [b]optional[/b], but recommended. If not overridden, output ports will return the [constant VisualShaderNode.PORT_TYPE_SCALAR] type.
 	Args: [{ false port int}], Returns: int
 */
 func (o *VisualShaderNodeCustom) X_GetOutputPortType(port gdnative.Int) gdnative.Int {
@@ -297,7 +297,7 @@ func (o *VisualShaderNodeCustom) X_GetOutputPortType(port gdnative.Int) gdnative
 }
 
 /*
-        Undocumented
+        Override this method to define the return icon of the associated custom node in the Visual Shader Editor's members dialog. Defining this method is [b]optional[/b]. If not overridden, no return icon is shown.
 	Args: [], Returns: int
 */
 func (o *VisualShaderNodeCustom) X_GetReturnIconType() gdnative.Int {
@@ -320,7 +320,7 @@ func (o *VisualShaderNodeCustom) X_GetReturnIconType() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Override this method to define the subcategory of the associated custom node in the Visual Shader Editor's members dialog. Defining this method is [b]optional[/b]. If not overridden, the node will be filed under the root of the main category (see [method _get_category]).
 	Args: [], Returns: String
 */
 func (o *VisualShaderNodeCustom) X_GetSubcategory() gdnative.String {

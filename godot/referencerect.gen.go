@@ -23,7 +23,7 @@ func newReferenceRectFromPointer(ptr gdnative.Pointer) ReferenceRect {
 }
 
 /*
-Reference frame for GUI. It's just like an empty control, except an outline border [member border_color] is displayed while editing around its size at all times.
+A rectangle box that displays only a [member border_color] border color around its rectangle. [ReferenceRect] has no fill [Color].
 */
 type ReferenceRect struct {
 	Control

@@ -32,8 +32,8 @@ func newVisualShaderNodeScalarDerivativeFuncFromPointer(ptr gdnative.Pointer) Vi
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeScalarDerivativeFunc struct {
 	VisualShaderNode
 	owner gdnative.Object

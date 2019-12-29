@@ -507,7 +507,7 @@ func (o *CanvasItem) X_UpdateCallback() {
 }
 
 /*
-        Undocumented
+        Draws an arc between the given angles. The larger the value of [code]point_count[/code], the smoother the curve.
 	Args: [{ false center Vector2} { false radius float} { false start_angle float} { false end_angle float} { false point_count int} { false color Color} {1 true width float} {False true antialiased bool}], Returns: void
 */
 func (o *CanvasItem) DrawArc(center gdnative.Vector2, radius gdnative.Real, startAngle gdnative.Real, endAngle gdnative.Real, pointCount gdnative.Int, color gdnative.Color, width gdnative.Real, antialiased gdnative.Bool) {
@@ -833,7 +833,7 @@ func (o *CanvasItem) DrawPrimitive(points gdnative.PoolVector2Array, colors gdna
 }
 
 /*
-        Draws a colored rectangle.
+        Draws a rectangle. If [code]filled[/code] is [code]true[/code], the rectangle will be filled with the [code]color[/code] specified. If [code]filled[/code] is [code]false[/code], the rectangle will be drawn as a stroke with the [code]color[/code] and [code]width[/code] specified. If [code]antialiased[/code] is [code]true[/code], the lines will be antialiased. [b]Note:[/b] [code]width[/code] and [code]antialiased[/code] are only effective if [code]filled[/code] is [code]false[/code].
 	Args: [{ false rect Rect2} { false color Color} {True true filled bool} {1 true width float} {False true antialiased bool}], Returns: void
 */
 func (o *CanvasItem) DrawRect(rect gdnative.Rect2, color gdnative.Color, filled gdnative.Bool, width gdnative.Real, antialiased gdnative.Bool) {
@@ -1026,7 +1026,7 @@ func (o *CanvasItem) DrawTextureRectRegion(texture TextureImplementer, rect gdna
 }
 
 /*
-
+        Forces the transform to update. Transform changes in physics are not instant for performance reasons. Transforms are accumulated and then set. Use this if you need an up-to-date transform when doing physics operations.
 	Args: [], Returns: void
 */
 func (o *CanvasItem) ForceUpdateTransform() {
@@ -1092,7 +1092,7 @@ func (o *CanvasItem) GetCanvasItem() gdnative.Rid {
 }
 
 /*
-        Get the transform matrix of this item's canvas.
+        Gets the transform matrix of this item's canvas.
 	Args: [], Returns: Transform2D
 */
 func (o *CanvasItem) GetCanvasTransform() gdnative.Transform2D {
@@ -1115,7 +1115,7 @@ func (o *CanvasItem) GetCanvasTransform() gdnative.Transform2D {
 }
 
 /*
-        Get the global position of the mouse.
+        Gets the global position of the mouse.
 	Args: [], Returns: Vector2
 */
 func (o *CanvasItem) GetGlobalMousePosition() gdnative.Vector2 {
@@ -1138,7 +1138,7 @@ func (o *CanvasItem) GetGlobalMousePosition() gdnative.Vector2 {
 }
 
 /*
-        Get the global transform matrix of this item.
+        Gets the global transform matrix of this item.
 	Args: [], Returns: Transform2D
 */
 func (o *CanvasItem) GetGlobalTransform() gdnative.Transform2D {
@@ -1161,7 +1161,7 @@ func (o *CanvasItem) GetGlobalTransform() gdnative.Transform2D {
 }
 
 /*
-        Get the global transform matrix of this item in relation to the canvas.
+        Gets the global transform matrix of this item in relation to the canvas.
 	Args: [], Returns: Transform2D
 */
 func (o *CanvasItem) GetGlobalTransformWithCanvas() gdnative.Transform2D {
@@ -1207,7 +1207,7 @@ func (o *CanvasItem) GetLightMask() gdnative.Int {
 }
 
 /*
-        Get the mouse position relative to this item's position.
+        Gets the mouse position relative to this item's position.
 	Args: [], Returns: Vector2
 */
 func (o *CanvasItem) GetLocalMousePosition() gdnative.Vector2 {
@@ -1313,7 +1313,7 @@ func (o *CanvasItem) GetSelfModulate() gdnative.Color {
 }
 
 /*
-        Get the transform matrix of this item.
+        Gets the transform matrix of this item.
 	Args: [], Returns: Transform2D
 */
 func (o *CanvasItem) GetTransform() gdnative.Transform2D {
@@ -1359,7 +1359,7 @@ func (o *CanvasItem) GetUseParentMaterial() gdnative.Bool {
 }
 
 /*
-        Get the viewport's boundaries as a [Rect2].
+        Gets the viewport's boundaries as a [Rect2].
 	Args: [], Returns: Rect2
 */
 func (o *CanvasItem) GetViewportRect() gdnative.Rect2 {
@@ -1382,7 +1382,7 @@ func (o *CanvasItem) GetViewportRect() gdnative.Rect2 {
 }
 
 /*
-        Get this item's transform in relation to the viewport.
+        Gets this item's transform in relation to the viewport.
 	Args: [], Returns: Transform2D
 */
 func (o *CanvasItem) GetViewportTransform() gdnative.Transform2D {
@@ -1405,7 +1405,7 @@ func (o *CanvasItem) GetViewportTransform() gdnative.Transform2D {
 }
 
 /*
-        Get the [World2D] where this item is in.
+        Gets the [World2D] where this item is in.
 	Args: [], Returns: World2D
 */
 func (o *CanvasItem) GetWorld2D() World2DImplementer {

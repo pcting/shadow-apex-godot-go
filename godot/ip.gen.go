@@ -77,7 +77,7 @@ func (o *ip) BaseClass() string {
 }
 
 /*
-        Removes all of a "hostname"'s cached references. If no "hostname" is given then all cached IP addresses are removed.
+        Removes all of a [code]hostname[/code]'s cached references. If no [code]hostname[/code] is given, all cached IP addresses are removed.
 	Args: [{ true hostname String}], Returns: void
 */
 func (o *ip) ClearCache(hostname gdnative.String) {
@@ -99,7 +99,7 @@ func (o *ip) ClearCache(hostname gdnative.String) {
 }
 
 /*
-        Removes a given item "id" from the queue. This should be used to free a queue after it has completed to enable more queries to happen.
+        Removes a given item [code]id[/code] from the queue. This should be used to free a queue after it has completed to enable more queries to happen.
 	Args: [{ false id int}], Returns: void
 */
 func (o *ip) EraseResolveItem(id gdnative.Int) {
@@ -145,7 +145,7 @@ func (o *ip) GetLocalAddresses() gdnative.Array {
 }
 
 /*
-        Undocumented
+        Returns all network adapters as an array. Each adapter is a dictionary of the form: [codeblock] { "index": "1", # Interface index. "name": "eth0", # Interface name. "friendly": "Ethernet One", # A friendly name (might be empty). "addresses": ["192.168.1.101"], # An array of IP addresses associated to this interface. } [/codeblock]
 	Args: [], Returns: Array
 */
 func (o *ip) GetLocalInterfaces() gdnative.Array {
@@ -169,7 +169,7 @@ func (o *ip) GetLocalInterfaces() gdnative.Array {
 }
 
 /*
-        Returns a queued hostname's IP address, given its queue "id". Returns an empty string on error or if resolution hasn't happened yet (see [method get_resolve_item_status]).
+        Returns a queued hostname's IP address, given its queue [code]id[/code]. Returns an empty string on error or if resolution hasn't happened yet (see [method get_resolve_item_status]).
 	Args: [{ false id int}], Returns: String
 */
 func (o *ip) GetResolveItemAddress(id gdnative.Int) gdnative.String {
@@ -194,7 +194,7 @@ func (o *ip) GetResolveItemAddress(id gdnative.Int) gdnative.String {
 }
 
 /*
-        Returns a queued hostname's status as a RESOLVER_STATUS_* constant, given its queue "id".
+        Returns a queued hostname's status as a [enum ResolverStatus] constant, given its queue [code]id[/code].
 	Args: [{ false id int}], Returns: enum.IP::ResolverStatus
 */
 func (o *ip) GetResolveItemStatus(id gdnative.Int) IPResolverStatus {
@@ -219,7 +219,7 @@ func (o *ip) GetResolveItemStatus(id gdnative.Int) IPResolverStatus {
 }
 
 /*
-        Returns a given hostname's IPv4 or IPv6 address when resolved (blocking-type method). The address type returned depends on the TYPE_* constant given as "ip_type".
+        Returns a given hostname's IPv4 or IPv6 address when resolved (blocking-type method). The address type returned depends on the [enum Type] constant given as [code]ip_type[/code].
 	Args: [{ false host String} {3 true ip_type int}], Returns: String
 */
 func (o *ip) ResolveHostname(host gdnative.String, ipType gdnative.Int) gdnative.String {
@@ -245,7 +245,7 @@ func (o *ip) ResolveHostname(host gdnative.String, ipType gdnative.Int) gdnative
 }
 
 /*
-        Creates a queue item to resolve a hostname to an IPv4 or IPv6 address depending on the TYPE_* constant given as "ip_type". Returns the queue ID if successful, or RESOLVER_INVALID_ID on error.
+        Creates a queue item to resolve a hostname to an IPv4 or IPv6 address depending on the [enum Type] constant given as [code]ip_type[/code]. Returns the queue ID if successful, or [constant RESOLVER_INVALID_ID] on error.
 	Args: [{ false host String} {3 true ip_type int}], Returns: int
 */
 func (o *ip) ResolveHostnameQueueItem(host gdnative.String, ipType gdnative.Int) gdnative.Int {

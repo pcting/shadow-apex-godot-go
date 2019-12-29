@@ -1335,7 +1335,7 @@ func (o *ScriptEditor) GetOpenScripts() gdnative.Array {
 }
 
 /*
-        Undocumented
+        Goes to the specified line in the current script.
 	Args: [{ false line_number int}], Returns: void
 */
 func (o *ScriptEditor) GotoLine(lineNumber gdnative.Int) {

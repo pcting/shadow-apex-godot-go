@@ -23,8 +23,8 @@ func newSkinFromPointer(ptr gdnative.Pointer) Skin {
 }
 
 /*
-Undocumented
-*/
+
+ */
 type Skin struct {
 	Resource
 	owner gdnative.Object
@@ -35,7 +35,7 @@ func (o *Skin) BaseClass() string {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false bone int} { false pose Transform}], Returns: void
 */
 func (o *Skin) AddBind(bone gdnative.Int, pose gdnative.Transform) {
@@ -57,7 +57,7 @@ func (o *Skin) AddBind(bone gdnative.Int, pose gdnative.Transform) {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: void
 */
 func (o *Skin) ClearBinds() {
@@ -77,7 +77,7 @@ func (o *Skin) ClearBinds() {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false bind_index int}], Returns: int
 */
 func (o *Skin) GetBindBone(bindIndex gdnative.Int) gdnative.Int {
@@ -101,7 +101,7 @@ func (o *Skin) GetBindBone(bindIndex gdnative.Int) gdnative.Int {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: int
 */
 func (o *Skin) GetBindCount() gdnative.Int {
@@ -124,7 +124,7 @@ func (o *Skin) GetBindCount() gdnative.Int {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false bind_index int}], Returns: Transform
 */
 func (o *Skin) GetBindPose(bindIndex gdnative.Int) gdnative.Transform {
@@ -148,7 +148,7 @@ func (o *Skin) GetBindPose(bindIndex gdnative.Int) gdnative.Transform {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false bind_index int} { false bone int}], Returns: void
 */
 func (o *Skin) SetBindBone(bindIndex gdnative.Int, bone gdnative.Int) {
@@ -170,7 +170,7 @@ func (o *Skin) SetBindBone(bindIndex gdnative.Int, bone gdnative.Int) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false bind_count int}], Returns: void
 */
 func (o *Skin) SetBindCount(bindCount gdnative.Int) {
@@ -191,7 +191,7 @@ func (o *Skin) SetBindCount(bindCount gdnative.Int) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false bind_index int} { false pose Transform}], Returns: void
 */
 func (o *Skin) SetBindPose(bindIndex gdnative.Int, pose gdnative.Transform) {

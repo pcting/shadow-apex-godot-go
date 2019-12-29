@@ -23,8 +23,8 @@ func newVisualShaderNodeBooleanUniformFromPointer(ptr gdnative.Pointer) VisualSh
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeBooleanUniform struct {
 	VisualShaderNodeUniform
 	owner gdnative.Object

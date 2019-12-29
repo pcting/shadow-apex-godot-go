@@ -97,7 +97,7 @@ func (o *AcceptDialog) X_Ok() {
 }
 
 /*
-        Adds a button with label [i]text[/i] and a custom [i]action[/i] to the dialog and returns the created button. [i]action[/i] will be passed to the [signal custom_action] signal when pressed. If [code]true[/code], [i]right[/i] will place the button to the right of any sibling buttons. Default value: [code]false[/code].
+        Adds a button with label [code]text[/code] and a custom [code]action[/code] to the dialog and returns the created button. [code]action[/code] will be passed to the [signal custom_action] signal when pressed. If [code]true[/code], [code]right[/code] will place the button to the right of any sibling buttons.
 	Args: [{ false text String} {False true right bool} { true action String}], Returns: Button
 */
 func (o *AcceptDialog) AddButton(text gdnative.String, right gdnative.Bool, action gdnative.String) ButtonImplementer {
@@ -137,7 +137,7 @@ func (o *AcceptDialog) AddButton(text gdnative.String, right gdnative.Bool, acti
 }
 
 /*
-        Adds a button with label [i]name[/i] and a cancel action to the dialog and returns the created button.
+        Adds a button with label [code]name[/code] and a cancel action to the dialog and returns the created button.
 	Args: [{ false name String}], Returns: Button
 */
 func (o *AcceptDialog) AddCancel(name gdnative.String) ButtonImplementer {
@@ -235,7 +235,7 @@ func (o *AcceptDialog) GetLabel() LabelImplementer {
 }
 
 /*
-        Returns the OK Button.
+        Returns the OK [Button] instance.
 	Args: [], Returns: Button
 */
 func (o *AcceptDialog) GetOk() ButtonImplementer {

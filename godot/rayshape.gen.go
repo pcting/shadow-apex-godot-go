@@ -23,7 +23,7 @@ func newRayShapeFromPointer(ptr gdnative.Pointer) RayShape {
 }
 
 /*
-Ray shape for 3D collisions, which can be set into a [PhysicsBody] or [Area]. A ray is not really a collision body, instead it tries to separate itself from whatever is touching its far endpoint. It's often useful for characters.
+Ray shape for 3D collisions, which can be set into a [PhysicsBody] or [Area]. A ray is not really a collision body; instead, it tries to separate itself from whatever is touching its far endpoint. It's often useful for characters.
 */
 type RayShape struct {
 	Shape

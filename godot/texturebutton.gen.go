@@ -36,7 +36,7 @@ func newTextureButtonFromPointer(ptr gdnative.Pointer) TextureButton {
 }
 
 /*
-[code]TextureButton[/code] has the same functionality as [Button], except it uses sprites instead of Godot's [Theme] resource. It is faster to create, but it doesn't support localization like more complex Controls. The Normal state's texture is required. Others are optional.
+[TextureButton] has the same functionality as [Button], except it uses sprites instead of Godot's [Theme] resource. It is faster to create, but it doesn't support localization like more complex [Control]s. The "normal" state must contain a texture ([member texture_normal]); other textures are optional.
 */
 type TextureButton struct {
 	BaseButton

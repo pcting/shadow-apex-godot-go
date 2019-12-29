@@ -32,7 +32,7 @@ func new_ThreadFromPointer(ptr gdnative.Pointer) Thread {
 }
 
 /*
-A unit of execution in a process. Can run methods on [Object]s simultaneously. The use of synchronization via [Mutex], [Semaphore] is advised if working with shared objects.
+A unit of execution in a process. Can run methods on [Object]s simultaneously. The use of synchronization via [Mutex] or [Semaphore] is advised if working with shared objects.
 */
 type Thread struct {
 	Reference

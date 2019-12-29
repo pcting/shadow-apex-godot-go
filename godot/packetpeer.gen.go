@@ -23,7 +23,7 @@ func newPacketPeerFromPointer(ptr gdnative.Pointer) PacketPeer {
 }
 
 /*
-PacketPeer is an abstraction and base class for packet-based protocols (such as UDP). It provides an API for sending and receiving packets both as raw data or variables. This makes it easy to transfer data over a protocol, without having to encode data as low level bytes or having to worry about network ordering.
+PacketPeer is an abstraction and base class for packet-based protocols (such as UDP). It provides an API for sending and receiving packets both as raw data or variables. This makes it easy to transfer data over a protocol, without having to encode data as low-level bytes or having to worry about network ordering.
 */
 type PacketPeer struct {
 	Reference
@@ -58,7 +58,30 @@ func (o *PacketPeer) GetAvailablePacketCount() gdnative.Int {
 }
 
 /*
-        Get a raw packet.
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *PacketPeer) GetEncodeBufferMaxSize() gdnative.Int {
+	//log.Println("Calling PacketPeer.GetEncodeBufferMaxSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PacketPeer", "get_encode_buffer_max_size")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Gets a raw packet.
 	Args: [], Returns: PoolByteArray
 */
 func (o *PacketPeer) GetPacket() gdnative.PoolByteArray {
@@ -104,7 +127,7 @@ func (o *PacketPeer) GetPacketError() gdnative.Error {
 }
 
 /*
-        Get a Variant. When [code]allow_objects[/code] (or [member allow_object_decoding]) is [code]true[/code] decoding objects is allowed. [b]WARNING:[/b] Deserialized object can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats (remote code execution).
+        Gets a Variant. If [code]allow_objects[/code] (or [member allow_object_decoding]) is [code]true[/code], decoding objects is allowed. [b]Warning:[/b] Deserialized objects can contain code which gets executed. Do not use this option if the serialized object comes from untrusted sources to avoid potential security threats such as remote code execution.
 	Args: [{False true allow_objects bool}], Returns: Variant
 */
 func (o *PacketPeer) GetVar(allowObjects gdnative.Bool) gdnative.Variant {
@@ -151,7 +174,7 @@ func (o *PacketPeer) IsObjectDecodingAllowed() gdnative.Bool {
 }
 
 /*
-        Send a raw packet.
+        Sends a raw packet.
 	Args: [{ false buffer PoolByteArray}], Returns: enum.Error
 */
 func (o *PacketPeer) PutPacket(buffer gdnative.PoolByteArray) gdnative.Error {
@@ -175,7 +198,7 @@ func (o *PacketPeer) PutPacket(buffer gdnative.PoolByteArray) gdnative.Error {
 }
 
 /*
-        Send a Variant as a packet. When [code]full_objects[/code] (or [member allow_object_decoding]) is [code]true[/code] encoding objects is allowed (and can potentially include code).
+        Sends a [Variant] as a packet. If [code]full_objects[/code] (or [member allow_object_decoding]) is [code]true[/code], encoding objects is allowed (and can potentially include code).
 	Args: [{ false var Variant} {False true full_objects bool}], Returns: enum.Error
 */
 func (o *PacketPeer) PutVar(variable gdnative.Variant, fullObjects gdnative.Bool) gdnative.Error {
@@ -220,13 +243,36 @@ func (o *PacketPeer) SetAllowObjectDecoding(enable gdnative.Bool) {
 
 }
 
+/*
+        Undocumented
+	Args: [{ false max_size int}], Returns: void
+*/
+func (o *PacketPeer) SetEncodeBufferMaxSize(maxSize gdnative.Int) {
+	//log.Println("Calling PacketPeer.SetEncodeBufferMaxSize()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(maxSize)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PacketPeer", "set_encode_buffer_max_size")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
 // PacketPeerImplementer is an interface that implements the methods
 // of the PacketPeer class.
 type PacketPeerImplementer interface {
 	ReferenceImplementer
 	GetAvailablePacketCount() gdnative.Int
+	GetEncodeBufferMaxSize() gdnative.Int
 	GetPacket() gdnative.PoolByteArray
 	GetVar(allowObjects gdnative.Bool) gdnative.Variant
 	IsObjectDecodingAllowed() gdnative.Bool
 	SetAllowObjectDecoding(enable gdnative.Bool)
+	SetEncodeBufferMaxSize(maxSize gdnative.Int)
 }

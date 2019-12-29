@@ -23,8 +23,8 @@ func newVisualShaderNodeOuterProductFromPointer(ptr gdnative.Pointer) VisualShad
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeOuterProduct struct {
 	VisualShaderNode
 	owner gdnative.Object

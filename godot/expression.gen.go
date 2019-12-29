@@ -107,7 +107,7 @@ func (o *Expression) HasExecuteFailed() gdnative.Bool {
 }
 
 /*
-        Parses the expression and returns a [enum @GlobalScope.Error]. You can optionally specify names of variables that may appear in the expression with [code]input_names[/code], so that you can bind them when it gets executed.
+        Parses the expression and returns an [enum Error] code. You can optionally specify names of variables that may appear in the expression with [code]input_names[/code], so that you can bind them when it gets executed.
 	Args: [{ false expression String} {[] true input_names PoolStringArray}], Returns: enum.Error
 */
 func (o *Expression) Parse(expression gdnative.String, inputNames gdnative.PoolStringArray) gdnative.Error {

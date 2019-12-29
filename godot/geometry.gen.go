@@ -57,13 +57,13 @@ func newSingletonGeometry() *geometry {
 }
 
 /*
-
- */
+   Geometry provides users with a set of helper functions to create geometric shapes, compute intersections between shapes, and process various other geometric operations.
+*/
 var Geometry = newSingletonGeometry()
 
 /*
-
- */
+Geometry provides users with a set of helper functions to create geometric shapes, compute intersections between shapes, and process various other geometric operations.
+*/
 type geometry struct {
 	Object
 	owner       gdnative.Object

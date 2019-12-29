@@ -97,7 +97,7 @@ func (o *RayCast) ClearExceptions() {
 }
 
 /*
-        Updates the collision information for the ray. Use this method to update the collision information immediately instead of waiting for the next [code]_physics_process[/code] call, for example if the ray or its parent has changed state. Note: [code]enabled == true[/code] is not required for this to work.
+        Updates the collision information for the ray. Use this method to update the collision information immediately instead of waiting for the next [code]_physics_process[/code] call, for example if the ray or its parent has changed state. [b]Note:[/b] [code]enabled == true[/code] is not required for this to work.
 	Args: [], Returns: void
 */
 func (o *RayCast) ForceRaycastUpdate() {
@@ -223,7 +223,7 @@ func (o *RayCast) GetCollisionMask() gdnative.Int {
 }
 
 /*
-        Returns [code]true[/code] if the bit index passed is turned on. Note that bit indexes range from 0-19.
+        Returns [code]true[/code] if the bit index passed is turned on. [b]Note:[/b] Bit indices range from 0-19.
 	Args: [{ false bit int}], Returns: bool
 */
 func (o *RayCast) GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool {
@@ -270,7 +270,7 @@ func (o *RayCast) GetCollisionNormal() gdnative.Vector3 {
 }
 
 /*
-        Returns the collision point at which the ray intersects the closest object. Note: this point is in the [b]global[/b] coordinate system.
+        Returns the collision point at which the ray intersects the closest object. [b]Note:[/b] This point is in the [b]global[/b] coordinate system.
 	Args: [], Returns: Vector3
 */
 func (o *RayCast) GetCollisionPoint() gdnative.Vector3 {
@@ -534,7 +534,7 @@ func (o *RayCast) SetCollisionMask(mask gdnative.Int) {
 }
 
 /*
-        Sets the bit index passed to the [code]value[/code] passed. Note that bit indexes range from 0-19.
+        Sets the bit index passed to the [code]value[/code] passed. [b]Note:[/b] Bit indexes range from 0-19.
 	Args: [{ false bit int} { false value bool}], Returns: void
 */
 func (o *RayCast) SetCollisionMaskBit(bit gdnative.Int, value gdnative.Bool) {

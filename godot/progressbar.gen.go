@@ -23,7 +23,7 @@ func newProgressBarFromPointer(ptr gdnative.Pointer) ProgressBar {
 }
 
 /*
-General purpose progress bar. Shows fill percentage from right to left.
+General-purpose progress bar. Shows fill percentage from right to left.
 */
 type ProgressBar struct {
 	Range

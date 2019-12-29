@@ -88,7 +88,7 @@ func newMeshFromPointer(ptr gdnative.Pointer) Mesh {
 }
 
 /*
-Mesh is a type of [Resource] that contains vertex-array based geometry, divided in [i]surfaces[/i]. Each surface contains a completely separate array and a material used to draw it. Design wise, a mesh with multiple surfaces is preferred to a single surface, because objects created in 3D editing software commonly contain multiple materials.
+Mesh is a type of [Resource] that contains vertex array-based geometry, divided in [i]surfaces[/i]. Each surface contains a completely separate array and a material used to draw it. Design wise, a mesh with multiple surfaces is preferred to a single surface, because objects created in 3D editing software commonly contain multiple materials.
 */
 type Mesh struct {
 	Resource
@@ -137,7 +137,7 @@ func (o *Mesh) CreateConvexShape() ShapeImplementer {
 }
 
 /*
-        Calculate an outline mesh at a defined offset (margin) from the original mesh. Note: Typically returns the vertices in reverse order (e.g. clockwise to anti-clockwise).
+        Calculate an outline mesh at a defined offset (margin) from the original mesh. [b]Note:[/b] This method typically returns the vertices in reverse order (e.g. clockwise to counterclockwise).
 	Args: [{ false margin float}], Returns: Mesh
 */
 func (o *Mesh) CreateOutline(margin gdnative.Real) MeshImplementer {
@@ -249,6 +249,29 @@ func (o *Mesh) GenerateTriangleMesh() TriangleMeshImplementer {
 }
 
 /*
+        Returns the smallest [AABB] enclosing this mesh. Not affected by [code]custom_aabb[/code]. [b]Note:[/b] This is only implemented for [ArrayMesh] and [PrimitiveMesh].
+	Args: [], Returns: AABB
+*/
+func (o *Mesh) GetAabb() gdnative.Aabb {
+	//log.Println("Calling Mesh.GetAabb()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Mesh", "get_aabb")
+
+	// Call the parent method.
+	// AABB
+	retPtr := gdnative.NewEmptyAabb()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewAabbFromPointer(retPtr)
+	return ret
+}
+
+/*
         Returns all the vertices that make up the faces of the mesh. Each three vertices represent one triangle.
 	Args: [], Returns: PoolVector3Array
 */
@@ -295,7 +318,7 @@ func (o *Mesh) GetLightmapSizeHint() gdnative.Vector2 {
 }
 
 /*
-        Returns the amount of surfaces that the [code]Mesh[/code] holds.
+        Returns the amount of surfaces that the [Mesh] holds.
 	Args: [], Returns: int
 */
 func (o *Mesh) GetSurfaceCount() gdnative.Int {
@@ -425,7 +448,7 @@ func (o *Mesh) SurfaceGetMaterial(surfIdx gdnative.Int) MaterialImplementer {
 }
 
 /*
-        Undocumented
+        Sets a [Material] for a given surface. Surface will be rendered using this material.
 	Args: [{ false surf_idx int} { false material Material}], Returns: void
 */
 func (o *Mesh) SurfaceSetMaterial(surfIdx gdnative.Int, material MaterialImplementer) {
@@ -454,6 +477,7 @@ type MeshImplementer interface {
 	CreateOutline(margin gdnative.Real) MeshImplementer
 	CreateTrimeshShape() ShapeImplementer
 	GenerateTriangleMesh() TriangleMeshImplementer
+	GetAabb() gdnative.Aabb
 	GetFaces() gdnative.PoolVector3Array
 	GetLightmapSizeHint() gdnative.Vector2
 	GetSurfaceCount() gdnative.Int

@@ -32,7 +32,7 @@ func newGraphNodeFromPointer(ptr gdnative.Pointer) GraphNode {
 }
 
 /*
-A GraphNode is a container defined by a title. It can have 1 or more input and output slots, which can be enabled (shown) or disabled (not shown) and have different (incompatible) types. Colors can also be assigned to slots. A tuple of input and output slots is defined for each GUI element included in the GraphNode. Input and output connections are left and right slots, but only enabled slots are counted as connections.
+A GraphNode is a container. Each GraphNode can have several input and output slots, sometimes refered to as ports, allowing connections between GraphNodes. To add a slot to GraphNode, add any [Control]-derived child node to it. After adding at least one child to GraphNode new sections will be automatically created in the Inspector called 'Slot'. When 'Slot' is expanded you will see list with index number for each slot. You can click on each of them to expand further. In the Inspector you can enable (show) or disable (hide) slots. By default all slots are disabled so you may not see any slots on your GraphNode initially. You can assign a type to each slot. Only slots of the same type will be able to connect to each other. You can also assign colors to slots. A tuple of input and output slots is defined for each GUI element included in the GraphNode. Input connections are on the left and output connections are on the right side of GraphNode. Only enabled slots are counted as connections.
 */
 type GraphNode struct {
 	Container
@@ -65,7 +65,7 @@ func (o *GraphNode) X_GuiInput(arg0 InputEventImplementer) {
 }
 
 /*
-        Disable all input and output slots of the GraphNode.
+        Disables all input and output slots of the GraphNode.
 	Args: [], Returns: void
 */
 func (o *GraphNode) ClearAllSlots() {
@@ -85,7 +85,7 @@ func (o *GraphNode) ClearAllSlots() {
 }
 
 /*
-        Disable input and output slot whose index is 'idx'.
+        Disables input and output slot whose index is [code]idx[/code].
 	Args: [{ false idx int}], Returns: void
 */
 func (o *GraphNode) ClearSlot(idx gdnative.Int) {
@@ -106,7 +106,7 @@ func (o *GraphNode) ClearSlot(idx gdnative.Int) {
 }
 
 /*
-        Returns the color of the input connection 'idx'.
+        Returns the color of the input connection [code]idx[/code].
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *GraphNode) GetConnectionInputColor(idx gdnative.Int) gdnative.Color {
@@ -153,7 +153,7 @@ func (o *GraphNode) GetConnectionInputCount() gdnative.Int {
 }
 
 /*
-        Returns the position of the input connection 'idx'.
+        Returns the position of the input connection [code]idx[/code].
 	Args: [{ false idx int}], Returns: Vector2
 */
 func (o *GraphNode) GetConnectionInputPosition(idx gdnative.Int) gdnative.Vector2 {
@@ -177,7 +177,7 @@ func (o *GraphNode) GetConnectionInputPosition(idx gdnative.Int) gdnative.Vector
 }
 
 /*
-        Returns the type of the input connection 'idx'.
+        Returns the type of the input connection [code]idx[/code].
 	Args: [{ false idx int}], Returns: int
 */
 func (o *GraphNode) GetConnectionInputType(idx gdnative.Int) gdnative.Int {
@@ -201,7 +201,7 @@ func (o *GraphNode) GetConnectionInputType(idx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Returns the color of the output connection 'idx'.
+        Returns the color of the output connection [code]idx[/code].
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *GraphNode) GetConnectionOutputColor(idx gdnative.Int) gdnative.Color {
@@ -248,7 +248,7 @@ func (o *GraphNode) GetConnectionOutputCount() gdnative.Int {
 }
 
 /*
-        Returns the position of the output connection 'idx'.
+        Returns the position of the output connection [code]idx[/code].
 	Args: [{ false idx int}], Returns: Vector2
 */
 func (o *GraphNode) GetConnectionOutputPosition(idx gdnative.Int) gdnative.Vector2 {
@@ -272,7 +272,7 @@ func (o *GraphNode) GetConnectionOutputPosition(idx gdnative.Int) gdnative.Vecto
 }
 
 /*
-        Returns the type of the output connection 'idx'.
+        Returns the type of the output connection [code]idx[/code].
 	Args: [{ false idx int}], Returns: int
 */
 func (o *GraphNode) GetConnectionOutputType(idx gdnative.Int) gdnative.Int {
@@ -342,7 +342,7 @@ func (o *GraphNode) GetOverlay() GraphNodeOverlay {
 }
 
 /*
-        Returns the color set to 'idx' left (input) slot.
+        Returns the color set to [code]idx[/code] left (input) slot.
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *GraphNode) GetSlotColorLeft(idx gdnative.Int) gdnative.Color {
@@ -366,7 +366,7 @@ func (o *GraphNode) GetSlotColorLeft(idx gdnative.Int) gdnative.Color {
 }
 
 /*
-        Returns the color set to 'idx' right (output) slot.
+        Returns the color set to [code]idx[/code] right (output) slot.
 	Args: [{ false idx int}], Returns: Color
 */
 func (o *GraphNode) GetSlotColorRight(idx gdnative.Int) gdnative.Color {
@@ -390,7 +390,7 @@ func (o *GraphNode) GetSlotColorRight(idx gdnative.Int) gdnative.Color {
 }
 
 /*
-        Returns the (integer) type of left (input) 'idx' slot.
+        Returns the (integer) type of left (input) [code]idx[/code] slot.
 	Args: [{ false idx int}], Returns: int
 */
 func (o *GraphNode) GetSlotTypeLeft(idx gdnative.Int) gdnative.Int {
@@ -414,7 +414,7 @@ func (o *GraphNode) GetSlotTypeLeft(idx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Returns the (integer) type of right (output) 'idx' slot.
+        Returns the (integer) type of right (output) [code]idx[/code] slot.
 	Args: [{ false idx int}], Returns: int
 */
 func (o *GraphNode) GetSlotTypeRight(idx gdnative.Int) gdnative.Int {
@@ -553,7 +553,7 @@ func (o *GraphNode) IsSelected() gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if left (input) slot 'idx' is enabled, [code]false[/code] otherwise.
+        Returns [code]true[/code] if left (input) slot [code]idx[/code] is enabled, [code]false[/code] otherwise.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *GraphNode) IsSlotEnabledLeft(idx gdnative.Int) gdnative.Bool {
@@ -577,7 +577,7 @@ func (o *GraphNode) IsSlotEnabledLeft(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if right (output) slot 'idx' is enabled, [code]false[/code] otherwise.
+        Returns [code]true[/code] if right (output) slot [code]idx[/code] is enabled, [code]false[/code] otherwise.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *GraphNode) IsSlotEnabledRight(idx gdnative.Int) gdnative.Bool {
@@ -727,7 +727,7 @@ func (o *GraphNode) SetShowCloseButton(show gdnative.Bool) {
 }
 
 /*
-
+        Sets properties of the slot with ID [code]idx[/code]. If [code]enable_left[/code]/[code]right[/code], a port will appear and the slot will be able to be connected from this side. [code]type_left[/code]/[code]right[/code] is an arbitrary type of the port. Only ports with the same type values can be connected. [code]color_left[/code]/[code]right[/code] is the tint of the port's icon on this side. [code]custom_left[/code]/[code]right[/code] is a custom texture for this side's port. [b]Note:[/b] This method only sets properties of the slot. To create the slot, add a [Control]-derived child to the GraphNode.
 	Args: [{ false idx int} { false enable_left bool} { false type_left int} { false color_left Color} { false enable_right bool} { false type_right int} { false color_right Color} {[Object:null] true custom_left Texture} {[Object:null] true custom_right Texture}], Returns: void
 */
 func (o *GraphNode) SetSlot(idx gdnative.Int, enableLeft gdnative.Bool, typeLeft gdnative.Int, colorLeft gdnative.Color, enableRight gdnative.Bool, typeRight gdnative.Int, colorRight gdnative.Color, customLeft TextureImplementer, customRight TextureImplementer) {

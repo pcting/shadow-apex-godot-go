@@ -23,7 +23,7 @@ func new_SemaphoreFromPointer(ptr gdnative.Pointer) Semaphore {
 }
 
 /*
-A synchronization Semaphore. Element used to synchronize multiple [Thread]s. Initialized to zero on creation. Be careful to avoid deadlocks. For a binary version, see [Mutex].
+A synchronization semaphore which can be used to synchronize multiple [Thread]s. Initialized to zero on creation. Be careful to avoid deadlocks. For a binary version, see [Mutex].
 */
 type Semaphore struct {
 	Reference

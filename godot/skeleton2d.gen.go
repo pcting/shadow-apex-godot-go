@@ -113,7 +113,7 @@ func (o *Skeleton2D) GetBone(idx gdnative.Int) Bone2DImplementer {
 }
 
 /*
-
+        Returns the amount of bones in the skeleton.
 	Args: [], Returns: int
 */
 func (o *Skeleton2D) GetBoneCount() gdnative.Int {

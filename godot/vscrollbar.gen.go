@@ -23,8 +23,8 @@ func newVScrollBarFromPointer(ptr gdnative.Pointer) VScrollBar {
 }
 
 /*
-
- */
+Vertical version of [ScrollBar], which goes from top (min) to bottom (max).
+*/
 type VScrollBar struct {
 	ScrollBar
 	owner gdnative.Object

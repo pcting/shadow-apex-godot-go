@@ -23,7 +23,7 @@ func newInputEventActionFromPointer(ptr gdnative.Pointer) InputEventAction {
 }
 
 /*
-Contains a generic action which can be targeted from several type of inputs. Actions can be created from the project settings menu [code]Project > Project Settings > Input Map[/code]. See [method Node._input].
+Contains a generic action which can be targeted from several types of inputs. Actions can be created from the [b]Input Map[/b] tab in the [b]Project > Project Settings[/b] menu. See [method Node._input].
 */
 type InputEventAction struct {
 	InputEvent

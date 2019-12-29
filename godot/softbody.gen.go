@@ -423,7 +423,7 @@ func (o *SoftBody) GetVolumeStiffness() gdnative.Real {
 }
 
 /*
-
+        Undocumented
 	Args: [], Returns: bool
 */
 func (o *SoftBody) IsRayPickable() gdnative.Bool {
@@ -700,7 +700,7 @@ func (o *SoftBody) SetPressureCoefficient(pressureCoefficient gdnative.Real) {
 }
 
 /*
-
+        Undocumented
 	Args: [{ false ray_pickable bool}], Returns: void
 */
 func (o *SoftBody) SetRayPickable(rayPickable gdnative.Bool) {

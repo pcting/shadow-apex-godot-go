@@ -32,7 +32,7 @@ func newTabContainerFromPointer(ptr gdnative.Pointer) TabContainer {
 }
 
 /*
-Sets the active tab's [code]visible[/code] property to the value [code]true[/code]. Sets all other children's to [code]false[/code]. Ignores non-[Control] children. Individual tabs are always visible unless you use [method set_tab_disabled] and [method set_tab_title] to hide it. To hide only a tab's content, nest the content inside a child [Control], so it receives the [code]TabContainer[/code]'s visibility setting instead.
+Sets the active tab's [code]visible[/code] property to the value [code]true[/code]. Sets all other children's to [code]false[/code]. Ignores non-[Control] children. Individual tabs are always visible unless you use [method set_tab_disabled] and [method set_tab_title] to hide it. To hide only a tab's content, nest the content inside a child [Control], so it receives the [TabContainer]'s visibility setting instead.
 */
 type TabContainer struct {
 	Container
@@ -419,7 +419,7 @@ func (o *TabContainer) GetTabDisabled(tabIdx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Returns the [Texture] for the tab at index [code]tab_idx[/code] or null if the tab has no [Texture].
+        Returns the [Texture] for the tab at index [code]tab_idx[/code] or [code]null[/code] if the tab has no [Texture].
 	Args: [{ false tab_idx int}], Returns: Texture
 */
 func (o *TabContainer) GetTabIcon(tabIdx gdnative.Int) TextureImplementer {
@@ -481,7 +481,7 @@ func (o *TabContainer) GetTabTitle(tabIdx gdnative.Int) gdnative.String {
 }
 
 /*
-        Returns the [code]TabContainer[/code] rearrange group id.
+        Returns the [TabContainer] rearrange group id.
 	Args: [], Returns: int
 */
 func (o *TabContainer) GetTabsRearrangeGroup() gdnative.Int {
@@ -569,7 +569,7 @@ func (o *TabContainer) SetDragToRearrangeEnabled(enabled gdnative.Bool) {
 }
 
 /*
-        If set on a [Popup] node instance, a popup menu icon appears in the top-right corner of the [code]TabContainer[/code]. Clicking it will expand the [Popup] node.
+        If set on a [Popup] node instance, a popup menu icon appears in the top-right corner of the [TabContainer]. Clicking it will expand the [Popup] node.
 	Args: [{ false popup Node}], Returns: void
 */
 func (o *TabContainer) SetPopup(popup NodeImplementer) {
@@ -611,7 +611,7 @@ func (o *TabContainer) SetTabAlign(align gdnative.Int) {
 }
 
 /*
-        If [code]disabled[/code] is [code]false[/code], hides the tab at index [code]tab_idx[/code]. Note that its title text will remain, unless also removed with [method set_tab_title].
+        If [code]disabled[/code] is [code]false[/code], hides the tab at index [code]tab_idx[/code]. [b]Note:[/b] Its title text will remain, unless also removed with [method set_tab_title].
 	Args: [{ false tab_idx int} { false disabled bool}], Returns: void
 */
 func (o *TabContainer) SetTabDisabled(tabIdx gdnative.Int, disabled gdnative.Bool) {
@@ -677,7 +677,7 @@ func (o *TabContainer) SetTabTitle(tabIdx gdnative.Int, title gdnative.String) {
 }
 
 /*
-        Defines rearrange group id, choose for each [code]TabContainer[/code] the same value to enable tab drag between [code]TabContainer[/code]. Enable drag with [code]set_drag_to_rearrange_enabled(true)[/code].
+        Defines rearrange group id, choose for each [TabContainer] the same value to enable tab drag between [TabContainer]. Enable drag with [code]set_drag_to_rearrange_enabled(true)[/code].
 	Args: [{ false group_id int}], Returns: void
 */
 func (o *TabContainer) SetTabsRearrangeGroup(groupId gdnative.Int) {

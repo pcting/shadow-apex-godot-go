@@ -42,7 +42,7 @@ func newAudioStreamSampleFromPointer(ptr gdnative.Pointer) AudioStreamSample {
 }
 
 /*
-AudioStreamSample stores sound samples loaded from [code].wav[/code] files. To play the stored sound use an [AudioStreamPlayer] (for background music) or [AudioStreamPlayer2D]/[AudioStreamPlayer3D] (for positional audio). The sound can be looped. This class can also be used to store dynamically generated PCM audio data.
+AudioStreamSample stores sound samples loaded from WAV files. To play the stored sound, use an [AudioStreamPlayer] (for non-positional audio) or [AudioStreamPlayer2D]/[AudioStreamPlayer3D] (for positional audio). The sound can be looped. This class can also be used to store dynamically-generated PCM audio data.
 */
 type AudioStreamSample struct {
 	AudioStream
@@ -215,7 +215,7 @@ func (o *AudioStreamSample) IsStereo() gdnative.Bool {
 }
 
 /*
-        Saves the AudioStreamSample as a WAV file to [code]path[/code]. Samples with IMA ADPCM format can't be saved. Note that a [code].wav[/code] extension is automatically appended to [code]path[/code] if it is missing.
+        Saves the AudioStreamSample as a WAV file to [code]path[/code]. Samples with IMA ADPCM format can't be saved. [b]Note:[/b] A [code].wav[/code] extension is automatically appended to [code]path[/code] if it is missing.
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *AudioStreamSample) SaveToWav(path gdnative.String) gdnative.Error {

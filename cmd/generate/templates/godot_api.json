@@ -31212,6 +31212,7 @@
 			"DRAW_ORDER_VIEW_DEPTH": 2,
 			"EMISSION_SHAPE_BOX": 2,
 			"EMISSION_SHAPE_DIRECTED_POINTS": 4,
+			"EMISSION_SHAPE_MAX": 5,
 			"EMISSION_SHAPE_POINT": 0,
 			"EMISSION_SHAPE_POINTS": 3,
 			"EMISSION_SHAPE_SPHERE": 1,
@@ -32757,7 +32758,8 @@
 					"EMISSION_SHAPE_SPHERE": 1,
 					"EMISSION_SHAPE_BOX": 2,
 					"EMISSION_SHAPE_POINTS": 3,
-					"EMISSION_SHAPE_DIRECTED_POINTS": 4
+					"EMISSION_SHAPE_DIRECTED_POINTS": 4,
+					"EMISSION_SHAPE_MAX": 5
 				}
 			},
 			{
@@ -32800,6 +32802,7 @@
 			"DRAW_ORDER_INDEX": 0,
 			"DRAW_ORDER_LIFETIME": 1,
 			"EMISSION_SHAPE_DIRECTED_POINTS": 4,
+			"EMISSION_SHAPE_MAX": 5,
 			"EMISSION_SHAPE_POINT": 0,
 			"EMISSION_SHAPE_POINTS": 3,
 			"EMISSION_SHAPE_RECTANGLE": 2,
@@ -34371,7 +34374,8 @@
 					"EMISSION_SHAPE_SPHERE": 1,
 					"EMISSION_SHAPE_RECTANGLE": 2,
 					"EMISSION_SHAPE_POINTS": 3,
-					"EMISSION_SHAPE_DIRECTED_POINTS": 4
+					"EMISSION_SHAPE_DIRECTED_POINTS": 4,
+					"EMISSION_SHAPE_MAX": 5
 				}
 			},
 			{
@@ -42080,31 +42084,6 @@
 				"has_varargs": false,
 				"is_from_script": false,
 				"arguments": [
-				]
-			},
-			{
-				"name": "get_value_or",
-				"return_type": "Variant",
-				"is_editor": false,
-				"is_noscript": false,
-				"is_const": false,
-				"is_reverse": false,
-				"is_virtual": false,
-				"has_varargs": false,
-				"is_from_script": false,
-				"arguments": [
-					{
-						"name": "key",
-						"type": "String",
-						"has_default_value": false,
-						"default_value": ""
-					},
-					{
-						"name": "default_value",
-						"type": "Variant",
-						"has_default_value": false,
-						"default_value": ""
-					}
 				]
 			},
 			{
@@ -55714,10 +55693,10 @@
 	{
 		"name": "EditorNavigationMeshGenerator",
 		"base_class": "Object",
-		"api_type": "core",
+		"api_type": "tools",
 		"singleton": false,
 		"singleton_name": "",
-		"instanciable": true,
+		"instanciable": false,
 		"is_reference": false,
 		"constants": {
 		},
@@ -58700,6 +58679,12 @@
 						"type": "bool",
 						"has_default_value": true,
 						"default_value": "False"
+					},
+					{
+						"name": "modulate",
+						"type": "Color",
+						"has_default_value": true,
+						"default_value": "1,1,1,1"
 					}
 				]
 			},
@@ -58762,6 +58747,12 @@
 						"type": "float",
 						"has_default_value": true,
 						"default_value": "1"
+					},
+					{
+						"name": "modulate",
+						"type": "Color",
+						"has_default_value": true,
+						"default_value": "1,1,1,1"
 					}
 				]
 			},
@@ -78664,7 +78655,7 @@
 						"default_value": ""
 					},
 					{
-						"name": "rect",
+						"name": "transposed",
 						"type": "bool",
 						"has_default_value": false,
 						"default_value": ""
@@ -79326,6 +79317,63 @@
 		]
 	},
 	{
+		"name": "JavaClass",
+		"base_class": "Reference",
+		"api_type": "core",
+		"singleton": false,
+		"singleton_name": "",
+		"instanciable": true,
+		"is_reference": true,
+		"constants": {
+		},
+		"properties": [
+		],
+		"signals": [
+		],
+		"methods": [
+		],
+		"enums": [
+		]
+	},
+	{
+		"name": "JavaClassWrapper",
+		"base_class": "Object",
+		"api_type": "core",
+		"singleton": true,
+		"singleton_name": "JavaClassWrapper",
+		"instanciable": false,
+		"is_reference": false,
+		"constants": {
+		},
+		"properties": [
+		],
+		"signals": [
+		],
+		"methods": [
+			{
+				"name": "wrap",
+				"return_type": "JavaClass",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+					{
+						"name": "name",
+						"type": "String",
+						"has_default_value": false,
+						"default_value": ""
+					}
+				]
+			}
+		],
+		"enums": [
+		]
+	},
+	{
 		"name": "JavaScript",
 		"base_class": "Object",
 		"api_type": "core",
@@ -79782,6 +79830,19 @@
 				]
 			},
 			{
+				"name": "get_floor_normal",
+				"return_type": "Vector3",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
 				"name": "get_floor_velocity",
 				"return_type": "Vector3",
 				"is_editor": false,
@@ -79933,7 +79994,7 @@
 						"default_value": ""
 					},
 					{
-						"name": "floor_normal",
+						"name": "up_direction",
 						"type": "Vector3",
 						"has_default_value": true,
 						"default_value": "(0, 0, 0)"
@@ -79988,7 +80049,7 @@
 						"default_value": ""
 					},
 					{
-						"name": "floor_normal",
+						"name": "up_direction",
 						"type": "Vector3",
 						"has_default_value": true,
 						"default_value": "(0, 0, 0)"
@@ -80144,6 +80205,19 @@
 						"has_default_value": false,
 						"default_value": ""
 					}
+				]
+			},
+			{
+				"name": "get_floor_normal",
+				"return_type": "Vector2",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
 				]
 			},
 			{
@@ -80311,7 +80385,7 @@
 						"default_value": ""
 					},
 					{
-						"name": "floor_normal",
+						"name": "up_direction",
 						"type": "Vector2",
 						"has_default_value": true,
 						"default_value": "(0, 0)"
@@ -80366,7 +80440,7 @@
 						"default_value": ""
 					},
 					{
-						"name": "floor_normal",
+						"name": "up_direction",
 						"type": "Vector2",
 						"has_default_value": true,
 						"default_value": "(0, 0)"
@@ -83931,6 +84005,11 @@
 		],
 		"signals": [
 			{
+				"name": "text_change_rejected",
+				"arguments": [
+				]
+			},
+			{
 				"name": "text_changed",
 				"arguments": [
 					{
@@ -85655,6 +85734,19 @@
 			{
 				"name": "generate_triangle_mesh",
 				"return_type": "TriangleMesh",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
+				"name": "get_aabb",
+				"return_type": "AABB",
 				"is_editor": false,
 				"is_noscript": false,
 				"is_const": true,
@@ -95061,6 +95153,19 @@
 				]
 			},
 			{
+				"name": "_queue_update",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": true,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
 				"name": "_thread_done",
 				"return_type": "void",
 				"is_editor": false,
@@ -95436,7 +95541,7 @@
 			},
 			{
 				"name": "call_deferred",
-				"return_type": "Variant",
+				"return_type": "void",
 				"is_editor": false,
 				"is_noscript": false,
 				"is_const": false,
@@ -95567,7 +95672,7 @@
 			},
 			{
 				"name": "emit_signal",
-				"return_type": "Variant",
+				"return_type": "void",
 				"is_editor": false,
 				"is_noscript": false,
 				"is_const": false,
@@ -97473,8 +97578,8 @@
 					{
 						"name": "verbose",
 						"type": "bool",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "False"
 					}
 				]
 			},
@@ -97498,8 +97603,8 @@
 					{
 						"name": "alignment",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "0"
 					}
 				]
 			}
@@ -97944,6 +98049,13 @@
 				"getter": "is_object_decoding_allowed",
 				"setter": "set_allow_object_decoding",
 				"index": -1
+			},
+			{
+				"name": "encode_buffer_max_size",
+				"type": "int",
+				"getter": "get_encode_buffer_max_size",
+				"setter": "set_encode_buffer_max_size",
+				"index": -1
 			}
 		],
 		"signals": [
@@ -97951,6 +98063,19 @@
 		"methods": [
 			{
 				"name": "get_available_packet_count",
+				"return_type": "int",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
+				"name": "get_encode_buffer_max_size",
 				"return_type": "int",
 				"is_editor": false,
 				"is_noscript": false,
@@ -98078,6 +98203,25 @@
 					{
 						"name": "enable",
 						"type": "bool",
+						"has_default_value": false,
+						"default_value": ""
+					}
+				]
+			},
+			{
+				"name": "set_encode_buffer_max_size",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+					{
+						"name": "max_size",
+						"type": "int",
 						"has_default_value": false,
 						"default_value": ""
 					}
@@ -98387,6 +98531,25 @@
 						"type": "int",
 						"has_default_value": true,
 						"default_value": "65536"
+					}
+				]
+			},
+			{
+				"name": "set_broadcast_enabled",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+					{
+						"name": "enabled",
+						"type": "bool",
+						"has_default_value": false,
+						"default_value": ""
 					}
 				]
 			},
@@ -100345,6 +100508,7 @@
 		"constants": {
 			"EMISSION_SHAPE_BOX": 2,
 			"EMISSION_SHAPE_DIRECTED_POINTS": 4,
+			"EMISSION_SHAPE_MAX": 5,
 			"EMISSION_SHAPE_POINT": 0,
 			"EMISSION_SHAPE_POINTS": 3,
 			"EMISSION_SHAPE_SPHERE": 1,
@@ -101494,7 +101658,8 @@
 					"EMISSION_SHAPE_SPHERE": 1,
 					"EMISSION_SHAPE_BOX": 2,
 					"EMISSION_SHAPE_POINTS": 3,
-					"EMISSION_SHAPE_DIRECTED_POINTS": 4
+					"EMISSION_SHAPE_DIRECTED_POINTS": 4,
+					"EMISSION_SHAPE_MAX": 5
 				}
 			},
 			{
@@ -102496,6 +102661,50 @@
 					{
 						"name": "arg0",
 						"type": "Object",
+						"has_default_value": false,
+						"default_value": ""
+					}
+				]
+			},
+			{
+				"name": "apply_central_impulse",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+					{
+						"name": "impulse",
+						"type": "Vector3",
+						"has_default_value": false,
+						"default_value": ""
+					}
+				]
+			},
+			{
+				"name": "apply_impulse",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+					{
+						"name": "position",
+						"type": "Vector3",
+						"has_default_value": false,
+						"default_value": ""
+					},
+					{
+						"name": "impulse",
+						"type": "Vector3",
 						"has_default_value": false,
 						"default_value": ""
 					}
@@ -126284,6 +126493,12 @@
 				"has_varargs": false,
 				"is_from_script": false,
 				"arguments": [
+					{
+						"name": "exit_code",
+						"type": "int",
+						"has_default_value": true,
+						"default_value": "-1"
+					}
 				]
 			},
 			{
@@ -127250,6 +127465,12 @@
 					},
 					{
 						"name": "built_in_enabled",
+						"type": "bool",
+						"has_default_value": true,
+						"default_value": "True"
+					},
+					{
+						"name": "load_enabled",
 						"type": "bool",
 						"has_default_value": true,
 						"default_value": "True"
@@ -128568,6 +128789,13 @@
 		},
 		"properties": [
 			{
+				"name": "follow_focus",
+				"type": "bool",
+				"getter": "is_following_focus",
+				"setter": "set_follow_focus",
+				"index": -1
+			},
+			{
 				"name": "scroll_deadzone",
 				"type": "int",
 				"getter": "get_deadzone",
@@ -128616,6 +128844,25 @@
 			}
 		],
 		"methods": [
+			{
+				"name": "_ensure_focused_visible",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": true,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+					{
+						"name": "arg0",
+						"type": "Control",
+						"has_default_value": false,
+						"default_value": ""
+					}
+				]
+			},
 			{
 				"name": "_gui_input",
 				"return_type": "void",
@@ -128733,6 +128980,19 @@
 				]
 			},
 			{
+				"name": "is_following_focus",
+				"return_type": "bool",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
 				"name": "is_h_scroll_enabled",
 				"return_type": "bool",
 				"is_editor": false,
@@ -128809,6 +129069,25 @@
 				"arguments": [
 					{
 						"name": "enable",
+						"type": "bool",
+						"has_default_value": false,
+						"default_value": ""
+					}
+				]
+			},
+			{
+				"name": "set_follow_focus",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+					{
+						"name": "enabled",
 						"type": "bool",
 						"has_default_value": false,
 						"default_value": ""
@@ -136576,6 +136855,19 @@
 						"has_default_value": false,
 						"default_value": ""
 					}
+				]
+			},
+			{
+				"name": "apply",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
 				]
 			},
 			{
@@ -144371,6 +144663,20 @@
 				"index": -1
 			},
 			{
+				"name": "scroll_horizontal",
+				"type": "int",
+				"getter": "get_h_scroll",
+				"setter": "set_h_scroll",
+				"index": -1
+			},
+			{
+				"name": "scroll_vertical",
+				"type": "float",
+				"getter": "get_v_scroll",
+				"setter": "set_v_scroll",
+				"index": -1
+			},
+			{
 				"name": "selecting_enabled",
 				"type": "bool",
 				"getter": "is_selecting_enabled",
@@ -145027,6 +145333,19 @@
 				]
 			},
 			{
+				"name": "get_h_scroll",
+				"return_type": "int",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
 				"name": "get_keyword_color",
 				"return_type": "Color",
 				"is_editor": false,
@@ -145174,6 +145493,19 @@
 				"is_editor": false,
 				"is_noscript": false,
 				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
+				"name": "get_v_scroll",
+				"return_type": "float",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
 				"is_reverse": false,
 				"is_virtual": false,
 				"has_varargs": false,
@@ -145771,6 +146103,25 @@
 				]
 			},
 			{
+				"name": "set_h_scroll",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+					{
+						"name": "value",
+						"type": "int",
+						"has_default_value": false,
+						"default_value": ""
+					}
+				]
+			},
+			{
 				"name": "set_hiding_enabled",
 				"return_type": "void",
 				"is_editor": false,
@@ -146037,6 +146388,25 @@
 					{
 						"name": "text",
 						"type": "String",
+						"has_default_value": false,
+						"default_value": ""
+					}
+				]
+			},
+			{
+				"name": "set_v_scroll",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+					{
+						"name": "value",
+						"type": "float",
 						"has_default_value": false,
 						"default_value": ""
 					}
@@ -155526,14 +155896,14 @@
 					{
 						"name": "trans_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "0"
 					},
 					{
 						"name": "ease_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "2"
 					},
 					{
 						"name": "delay",
@@ -155593,14 +155963,14 @@
 					{
 						"name": "trans_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "0"
 					},
 					{
 						"name": "ease_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "2"
 					},
 					{
 						"name": "delay",
@@ -155815,14 +156185,14 @@
 					{
 						"name": "trans_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "0"
 					},
 					{
 						"name": "ease_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "2"
 					},
 					{
 						"name": "delay",
@@ -155876,14 +156246,14 @@
 					{
 						"name": "trans_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "0"
 					},
 					{
 						"name": "ease_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "2"
 					},
 					{
 						"name": "delay",
@@ -156229,14 +156599,14 @@
 					{
 						"name": "trans_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "0"
 					},
 					{
 						"name": "ease_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "2"
 					},
 					{
 						"name": "delay",
@@ -156296,14 +156666,14 @@
 					{
 						"name": "trans_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "0"
 					},
 					{
 						"name": "ease_type",
 						"type": "int",
-						"has_default_value": false,
-						"default_value": ""
+						"has_default_value": true,
+						"default_value": "2"
 					},
 					{
 						"name": "delay",
@@ -157191,7 +157561,7 @@
 		"methods": [
 			{
 				"name": "add_do_method",
-				"return_type": "Variant",
+				"return_type": "void",
 				"is_editor": false,
 				"is_noscript": false,
 				"is_const": false,
@@ -157266,7 +157636,7 @@
 			},
 			{
 				"name": "add_undo_method",
-				"return_type": "Variant",
+				"return_type": "void",
 				"is_editor": false,
 				"is_noscript": false,
 				"is_const": false,
@@ -159265,6 +159635,16 @@
 		],
 		"signals": [
 			{
+				"name": "gui_focus_changed",
+				"arguments": [
+					{
+						"name": "node",
+						"type": "Control",
+						"default_value": ""
+					}
+				]
+			},
+			{
 				"name": "size_changed",
 				"arguments": [
 				]
@@ -159286,6 +159666,19 @@
 			},
 			{
 				"name": "_gui_show_tooltip",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": true,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
+				"name": "_own_world_changed",
 				"return_type": "void",
 				"is_editor": false,
 				"is_noscript": false,
@@ -168555,6 +168948,12 @@
 						"type": "bool",
 						"has_default_value": true,
 						"default_value": "False"
+					},
+					{
+						"name": "antialiasing_use_indices",
+						"type": "bool",
+						"has_default_value": true,
+						"default_value": "False"
 					}
 				]
 			},
@@ -170791,6 +171190,32 @@
 				"is_editor": false,
 				"is_noscript": false,
 				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
+				"name": "get_video_adapter_name",
+				"return_type": "String",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
+				"name": "get_video_adapter_vendor",
+				"return_type": "String",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
 				"is_reverse": false,
 				"is_virtual": false,
 				"has_varargs": false,
@@ -180394,6 +180819,7 @@
 			"SOURCE_2D_NORMAL": 3,
 			"SOURCE_2D_TEXTURE": 2,
 			"SOURCE_DEPTH": 4,
+			"SOURCE_PORT": 5,
 			"SOURCE_SCREEN": 1,
 			"SOURCE_TEXTURE": 0,
 			"TYPE_COLOR": 1,
@@ -180539,7 +180965,8 @@
 					"SOURCE_SCREEN": 1,
 					"SOURCE_2D_TEXTURE": 2,
 					"SOURCE_2D_NORMAL": 3,
-					"SOURCE_DEPTH": 4
+					"SOURCE_DEPTH": 4,
+					"SOURCE_PORT": 5
 				}
 			}
 		]
@@ -182812,6 +183239,13 @@
 		},
 		"properties": [
 			{
+				"name": "bind_ip",
+				"type": "String",
+				"getter": "get_bind_ip",
+				"setter": "set_bind_ip",
+				"index": -1
+			},
+			{
 				"name": "ca_chain",
 				"type": "X509Certificate",
 				"getter": "get_ca_chain",
@@ -182925,6 +183359,19 @@
 						"has_default_value": true,
 						"default_value": ""
 					}
+				]
+			},
+			{
+				"name": "get_bind_ip",
+				"return_type": "String",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
 				]
 			},
 			{
@@ -183064,6 +183511,25 @@
 						"type": "bool",
 						"has_default_value": true,
 						"default_value": "False"
+					}
+				]
+			},
+			{
+				"name": "set_bind_ip",
+				"return_type": "void",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": false,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+					{
+						"name": "arg0",
+						"type": "String",
+						"has_default_value": false,
+						"default_value": ""
 					}
 				]
 			},
@@ -184929,6 +185395,19 @@
 				]
 			},
 			{
+				"name": "get_idle_frames",
+				"return_type": "int",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
 				"name": "get_iterations_per_second",
 				"return_type": "int",
 				"is_editor": false,
@@ -184970,6 +185449,19 @@
 			{
 				"name": "get_main_loop",
 				"return_type": "MainLoop",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
+				"name": "get_physics_frames",
+				"return_type": "int",
 				"is_editor": false,
 				"is_noscript": false,
 				"is_const": true,
@@ -188991,6 +189483,19 @@
 			},
 			{
 				"name": "is_window_always_on_top",
+				"return_type": "bool",
+				"is_editor": false,
+				"is_noscript": false,
+				"is_const": true,
+				"is_reverse": false,
+				"is_virtual": false,
+				"has_varargs": false,
+				"is_from_script": false,
+				"arguments": [
+				]
+			},
+			{
+				"name": "is_window_focused",
 				"return_type": "bool",
 				"is_editor": false,
 				"is_noscript": false,

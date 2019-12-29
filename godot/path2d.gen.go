@@ -23,7 +23,7 @@ func newPath2DFromPointer(ptr gdnative.Pointer) Path2D {
 }
 
 /*
-Can have [PathFollow2D] child nodes moving along the [Curve2D]. See [PathFollow2D] for more information on the usage. Note that the path is considered as relative to the moved nodes (children of [PathFollow2D]). As such, the curve should usually start with a zero vector [code](0, 0)[/code].
+Can have [PathFollow2D] child nodes moving along the [Curve2D]. See [PathFollow2D] for more information on usage. [b]Note:[/b] The path is considered as relative to the moved nodes (children of [PathFollow2D]). As such, the curve should usually start with a zero vector ([code](0, 0)[/code]).
 */
 type Path2D struct {
 	Node2D

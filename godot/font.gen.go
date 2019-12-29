@@ -23,7 +23,7 @@ func newFontFromPointer(ptr gdnative.Pointer) Font {
 }
 
 /*
-Font contains a unicode compatible character set, as well as the ability to draw it with variable width, ascent, descent and kerning. For creating fonts from TTF files (or other font formats), see the editor support for fonts.
+Font contains a Unicode-compatible character set, as well as the ability to draw it with variable width, ascent, descent and kerning. For creating fonts from TTF files (or other font formats), see the editor support for fonts.
 */
 type Font struct {
 	Resource
@@ -35,7 +35,7 @@ func (o *Font) BaseClass() string {
 }
 
 /*
-        Draw "string" into a canvas item using the font at a given position, with "modulate" color, and optionally clipping the width. "position" specifies the baseline, not the top. To draw from the top, [i]ascent[/i] must be added to the Y axis.
+        Draw [code]string[/code] into a canvas item using the font at a given position, with [code]modulate[/code] color, and optionally clipping the width. [code]position[/code] specifies the baseline, not the top. To draw from the top, [i]ascent[/i] must be added to the Y axis.
 	Args: [{ false canvas_item RID} { false position Vector2} { false string String} {1,1,1,1 true modulate Color} {-1 true clip_w int} {1,1,1,1 true outline_modulate Color}], Returns: void
 */
 func (o *Font) Draw(canvasItem gdnative.Rid, position gdnative.Vector2, string gdnative.String, modulate gdnative.Color, clipW gdnative.Int, outlineModulate gdnative.Color) {
@@ -61,7 +61,7 @@ func (o *Font) Draw(canvasItem gdnative.Rid, position gdnative.Vector2, string g
 }
 
 /*
-        Draw character "char" into a canvas item using the font at a given position, with "modulate" color, and optionally kerning if "next" is passed. clipping the width. "position" specifies the baseline, not the top. To draw from the top, [i]ascent[/i] must be added to the Y axis. The width used by the character is returned, making this function useful for drawing strings character by character.
+        Draw character [code]char[/code] into a canvas item using the font at a given position, with [code]modulate[/code] color, and optionally kerning if [code]next[/code] is passed. clipping the width. [code]position[/code] specifies the baseline, not the top. To draw from the top, [i]ascent[/i] must be added to the Y axis. The width used by the character is returned, making this function useful for drawing strings character by character.
 	Args: [{ false canvas_item RID} { false position Vector2} { false char int} {-1 true next int} {1,1,1,1 true modulate Color} {False true outline bool}], Returns: float
 */
 func (o *Font) DrawChar(canvasItem gdnative.Rid, position gdnative.Vector2, char gdnative.Int, next gdnative.Int, modulate gdnative.Color, outline gdnative.Bool) gdnative.Real {
@@ -183,7 +183,7 @@ func (o *Font) GetStringSize(string gdnative.String) gdnative.Vector2 {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false string String} { false width float}], Returns: Vector2
 */
 func (o *Font) GetWordwrapStringSize(string gdnative.String, width gdnative.Real) gdnative.Vector2 {
@@ -208,7 +208,7 @@ func (o *Font) GetWordwrapStringSize(string gdnative.String, width gdnative.Real
 }
 
 /*
-
+        Returns [code]true[/code] if the font has an outline.
 	Args: [], Returns: bool
 */
 func (o *Font) HasOutline() gdnative.Bool {

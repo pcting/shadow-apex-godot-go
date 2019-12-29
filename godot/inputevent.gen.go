@@ -153,7 +153,7 @@ func (o *InputEvent) IsAction(action gdnative.String) gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if the given action is being pressed (and is not an echo event for [InputEventKey] events). Not relevant for events of type [InputEventMouseMotion] or [InputEventScreenDrag].
+        Returns [code]true[/code] if the given action is being pressed (and is not an echo event for [InputEventKey] events, unless [code]allow_echo[/code] is [code]true[/code]). Not relevant for events of type [InputEventMouseMotion] or [InputEventScreenDrag].
 	Args: [{ false action String} {False true allow_echo bool}], Returns: bool
 */
 func (o *InputEvent) IsActionPressed(action gdnative.String, allowEcho gdnative.Bool) gdnative.Bool {

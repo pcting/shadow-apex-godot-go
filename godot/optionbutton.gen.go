@@ -142,7 +142,7 @@ func (o *OptionButton) X_SetItems(arg0 gdnative.Array) {
 }
 
 /*
-        Add an item, with a "texture" icon, text "label" and (optionally) id. If no "id" is passed, "id" becomes the item index. New items are appended at the end.
+        Adds an item, with a [code]texture[/code] icon, text [code]label[/code] and (optionally) [code]id[/code]. If no [code]id[/code] is passed, the item index will be used as the item's ID. New items are appended at the end.
 	Args: [{ false texture Texture} { false label String} {-1 true id int}], Returns: void
 */
 func (o *OptionButton) AddIconItem(texture TextureImplementer, label gdnative.String, id gdnative.Int) {
@@ -165,7 +165,7 @@ func (o *OptionButton) AddIconItem(texture TextureImplementer, label gdnative.St
 }
 
 /*
-        Add an item, with text "label" and (optionally) id. If no "id" is passed, "id" becomes the item index. New items are appended at the end.
+        Adds an item, with text [code]label[/code] and (optionally) [code]id[/code]. If no [code]id[/code] is passed, the item index will be used as the item's ID. New items are appended at the end.
 	Args: [{ false label String} {-1 true id int}], Returns: void
 */
 func (o *OptionButton) AddItem(label gdnative.String, id gdnative.Int) {
@@ -187,7 +187,7 @@ func (o *OptionButton) AddItem(label gdnative.String, id gdnative.Int) {
 }
 
 /*
-        Add a separator to the list of items. Separators help to group items. Separator also takes up an index and is appended at the end.
+        Adds a separator to the list of items. Separators help to group items. Separator also takes up an index and is appended at the end.
 	Args: [], Returns: void
 */
 func (o *OptionButton) AddSeparator() {
@@ -207,7 +207,7 @@ func (o *OptionButton) AddSeparator() {
 }
 
 /*
-        Clear all the items in the [code]OptionButton[/code].
+        Clears all the items in the [OptionButton].
 	Args: [], Returns: void
 */
 func (o *OptionButton) Clear() {
@@ -227,7 +227,7 @@ func (o *OptionButton) Clear() {
 }
 
 /*
-        Returns the amount of items in the OptionButton.
+        Returns the amount of items in the OptionButton, including separators.
 	Args: [], Returns: int
 */
 func (o *OptionButton) GetItemCount() gdnative.Int {
@@ -250,7 +250,7 @@ func (o *OptionButton) GetItemCount() gdnative.Int {
 }
 
 /*
-        Returns the icon of the item at index "idx".
+        Returns the icon of the item at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: Texture
 */
 func (o *OptionButton) GetItemIcon(idx gdnative.Int) TextureImplementer {
@@ -336,7 +336,7 @@ func (o *OptionButton) GetItemIndex(id gdnative.Int) gdnative.Int {
 }
 
 /*
-
+        Retrieves the metadata of an item. Metadata may be any type and can be used to store extra information about an item, such as an external string ID.
 	Args: [{ false idx int}], Returns: Variant
 */
 func (o *OptionButton) GetItemMetadata(idx gdnative.Int) gdnative.Variant {
@@ -360,7 +360,7 @@ func (o *OptionButton) GetItemMetadata(idx gdnative.Int) gdnative.Variant {
 }
 
 /*
-        Returns the text of the item at index "idx".
+        Returns the text of the item at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: String
 */
 func (o *OptionButton) GetItemText(idx gdnative.Int) gdnative.String {
@@ -444,7 +444,7 @@ func (o *OptionButton) GetSelected() gdnative.Int {
 }
 
 /*
-
+        Returns the ID of the selected item, or [code]0[/code] if no item is selected.
 	Args: [], Returns: int
 */
 func (o *OptionButton) GetSelectedId() gdnative.Int {
@@ -467,7 +467,7 @@ func (o *OptionButton) GetSelectedId() gdnative.Int {
 }
 
 /*
-
+        Gets the metadata of the selected item. Metadata for items can be set using [method set_item_metadata].
 	Args: [], Returns: Variant
 */
 func (o *OptionButton) GetSelectedMetadata() gdnative.Variant {
@@ -490,7 +490,7 @@ func (o *OptionButton) GetSelectedMetadata() gdnative.Variant {
 }
 
 /*
-
+        Returns [code]true[/code] if the item at index [code]idx[/code] is disabled.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *OptionButton) IsItemDisabled(idx gdnative.Int) gdnative.Bool {
@@ -514,7 +514,7 @@ func (o *OptionButton) IsItemDisabled(idx gdnative.Int) gdnative.Bool {
 }
 
 /*
-
+        Removes the item at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: void
 */
 func (o *OptionButton) RemoveItem(idx gdnative.Int) {
@@ -535,7 +535,7 @@ func (o *OptionButton) RemoveItem(idx gdnative.Int) {
 }
 
 /*
-        Select an item by index and make it the current item.
+        Selects an item by index and makes it the current item. This will work even if the item is disabled.
 	Args: [{ false idx int}], Returns: void
 */
 func (o *OptionButton) Select(idx gdnative.Int) {
@@ -556,7 +556,7 @@ func (o *OptionButton) Select(idx gdnative.Int) {
 }
 
 /*
-
+        Sets whether the item at index [code]idx[/code] is disabled. Disabled items are drawn differently in the dropdown and are not selectable by the user. If the current selected item is set as disabled, it will remain selected.
 	Args: [{ false idx int} { false disabled bool}], Returns: void
 */
 func (o *OptionButton) SetItemDisabled(idx gdnative.Int, disabled gdnative.Bool) {
@@ -578,7 +578,7 @@ func (o *OptionButton) SetItemDisabled(idx gdnative.Int, disabled gdnative.Bool)
 }
 
 /*
-        Set the icon of an item at index "idx".
+        Sets the icon of the item at index [code]idx[/code].
 	Args: [{ false idx int} { false texture Texture}], Returns: void
 */
 func (o *OptionButton) SetItemIcon(idx gdnative.Int, texture TextureImplementer) {
@@ -600,7 +600,7 @@ func (o *OptionButton) SetItemIcon(idx gdnative.Int, texture TextureImplementer)
 }
 
 /*
-        Set the ID of an item at index "idx".
+        Sets the ID of the item at index [code]idx[/code].
 	Args: [{ false idx int} { false id int}], Returns: void
 */
 func (o *OptionButton) SetItemId(idx gdnative.Int, id gdnative.Int) {
@@ -622,7 +622,7 @@ func (o *OptionButton) SetItemId(idx gdnative.Int, id gdnative.Int) {
 }
 
 /*
-
+        Sets the metadata of an item. Metadata may be of any type and can be used to store extra information about an item, such as an external string ID.
 	Args: [{ false idx int} { false metadata Variant}], Returns: void
 */
 func (o *OptionButton) SetItemMetadata(idx gdnative.Int, metadata gdnative.Variant) {
@@ -644,7 +644,7 @@ func (o *OptionButton) SetItemMetadata(idx gdnative.Int, metadata gdnative.Varia
 }
 
 /*
-        Set the text of an item at index "idx".
+        Sets the text of the item at index [code]idx[/code].
 	Args: [{ false idx int} { false text String}], Returns: void
 */
 func (o *OptionButton) SetItemText(idx gdnative.Int, text gdnative.String) {

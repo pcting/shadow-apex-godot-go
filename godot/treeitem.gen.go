@@ -43,7 +43,7 @@ func newTreeItemFromPointer(ptr gdnative.Pointer) TreeItem {
 }
 
 /*
-Control for a single item inside a [Tree]. May have child [code]TreeItem[/code]s and be styled as well as contain buttons.
+Control for a single item inside a [Tree]. May have child [TreeItem]s and be styled as well as contain buttons.
 */
 type TreeItem struct {
 	Object
@@ -80,15 +80,19 @@ func (o *TreeItem) AddButton(column gdnative.Int, button TextureImplementer, but
 }
 
 /*
-        Undocumented
+        Calls the [code]method[/code] on the actual TreeItem and its children recursively. Pass parameters as a comma separated list.
 	Args: [{ false method String}], Returns: Variant
 */
-func (o *TreeItem) CallRecursive(method gdnative.String) gdnative.Variant {
+func (o *TreeItem) CallRecursive(method gdnative.String, args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling TreeItem.CallRecursive()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 1+len(args), 1+len(args))
 	ptrArguments[0] = gdnative.NewPointerFromString(method)
+
+	for i, arg := range args {
+		ptrArguments[i+1] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TreeItem", "call_recursive")
@@ -252,7 +256,7 @@ func (o *TreeItem) GetButtonCount(column gdnative.Int) gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns the tooltip string for the button at index [code]button_idx[/code] in column [code]column[/code].
 	Args: [{ false column int} { false button_idx int}], Returns: String
 */
 func (o *TreeItem) GetButtonTooltip(column gdnative.Int, buttonIdx gdnative.Int) gdnative.String {
@@ -277,7 +281,7 @@ func (o *TreeItem) GetButtonTooltip(column gdnative.Int, buttonIdx gdnative.Int)
 }
 
 /*
-        Returns the column's cell mode. See [code]CELL_MODE_*[/code] constants.
+        Returns the column's cell mode.
 	Args: [{ false column int}], Returns: enum.TreeItem::TreeCellMode
 */
 func (o *TreeItem) GetCellMode(column gdnative.Int) TreeItemTreeCellMode {
@@ -362,7 +366,7 @@ func (o *TreeItem) GetCustomBgColor(column gdnative.Int) gdnative.Color {
 }
 
 /*
-        Undocumented
+        Returns the custom color of column [code]column[/code].
 	Args: [{ false column int}], Returns: Color
 */
 func (o *TreeItem) GetCustomColor(column gdnative.Int) gdnative.Color {
@@ -495,7 +499,7 @@ func (o *TreeItem) GetIconMaxWidth(column gdnative.Int) gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns the [Color] modulating the column's icon.
 	Args: [{ false column int}], Returns: Color
 */
 func (o *TreeItem) GetIconModulate(column gdnative.Int) gdnative.Color {
@@ -604,7 +608,7 @@ func (o *TreeItem) GetNext() TreeItemImplementer {
 }
 
 /*
-        Returns the next visible TreeItem in the tree.
+        Returns the next visible TreeItem in the tree. If [code]wrap[/code] is enabled, the method will wrap around to the first visible element in the tree when called on the last visible element, otherwise it returns [code]null[/code].
 	Args: [{False true wrap bool}], Returns: TreeItem
 */
 func (o *TreeItem) GetNextVisible(wrap gdnative.Bool) TreeItemImplementer {
@@ -716,7 +720,7 @@ func (o *TreeItem) GetPrev() TreeItemImplementer {
 }
 
 /*
-        Returns the previous visible TreeItem in the tree.
+        Returns the previous visible TreeItem in the tree. If [code]wrap[/code] is enabled, the method will wrap around to the last visible element in the tree when called on the first visible element, otherwise it returns [code]null[/code].
 	Args: [{False true wrap bool}], Returns: TreeItem
 */
 func (o *TreeItem) GetPrevVisible(wrap gdnative.Bool) TreeItemImplementer {
@@ -1170,7 +1174,7 @@ func (o *TreeItem) SetButton(column gdnative.Int, buttonIdx gdnative.Int, button
 }
 
 /*
-        Undocumented
+        If [code]true[/code], disables the button at index [code]button_idx[/code] in column [code]column[/code].
 	Args: [{ false column int} { false button_idx int} { false disabled bool}], Returns: void
 */
 func (o *TreeItem) SetButtonDisabled(column gdnative.Int, buttonIdx gdnative.Int, disabled gdnative.Bool) {
@@ -1193,7 +1197,7 @@ func (o *TreeItem) SetButtonDisabled(column gdnative.Int, buttonIdx gdnative.Int
 }
 
 /*
-        Sets the given column's cell mode to [code]mode[/code]. See [code]CELL_MODE_*[/code] constants.
+        Sets the given column's cell mode to [code]mode[/code]. See [enum TreeCellMode] constants.
 	Args: [{ false column int} { false mode int}], Returns: void
 */
 func (o *TreeItem) SetCellMode(column gdnative.Int, mode gdnative.Int) {
@@ -1478,7 +1482,7 @@ func (o *TreeItem) SetIconMaxWidth(column gdnative.Int, width gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Modulates the given column's icon with [code]modulate[/code].
 	Args: [{ false column int} { false modulate Color}], Returns: void
 */
 func (o *TreeItem) SetIconModulate(column gdnative.Int, modulate gdnative.Color) {
@@ -1635,7 +1639,7 @@ func (o *TreeItem) SetText(column gdnative.Int, text gdnative.String) {
 }
 
 /*
-        Sets the given column's text alignment. See [code]ALIGN_*[/code] constants.
+        Sets the given column's text alignment. See [enum TextAlign] for possible values.
 	Args: [{ false column int} { false text_align int}], Returns: void
 */
 func (o *TreeItem) SetTextAlign(column gdnative.Int, textAlign gdnative.Int) {
@@ -1683,7 +1687,7 @@ func (o *TreeItem) SetTooltip(column gdnative.Int, tooltip gdnative.String) {
 type TreeItemImplementer interface {
 	ObjectImplementer
 	AddButton(column gdnative.Int, button TextureImplementer, buttonIdx gdnative.Int, disabled gdnative.Bool, tooltip gdnative.String)
-	CallRecursive(method gdnative.String) gdnative.Variant
+	CallRecursive(method gdnative.String, args ...gdnative.Variant) gdnative.Variant
 	ClearCustomBgColor(column gdnative.Int)
 	ClearCustomColor(column gdnative.Int)
 	Deselect(column gdnative.Int)

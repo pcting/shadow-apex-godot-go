@@ -23,7 +23,7 @@ func newFuncRefFromPointer(ptr gdnative.Pointer) FuncRef {
 }
 
 /*
-In GDScript, functions are not [i]first-class objects[/i]. This means it is impossible to store them directly as variables, return them from another function, or pass them as arguments. However, by creating a [code]FuncRef[/code] using the [method @GDScript.funcref] function, a reference to a function in a given object can be created, passed around and called.
+In GDScript, functions are not [i]first-class objects[/i]. This means it is impossible to store them directly as variables, return them from another function, or pass them as arguments. However, by creating a [FuncRef] using the [method @GDScript.funcref] function, a reference to a function in a given object can be created, passed around and called.
 */
 type FuncRef struct {
 	Reference
@@ -38,11 +38,15 @@ func (o *FuncRef) BaseClass() string {
         Calls the referenced function previously set by [method set_function] or [method @GDScript.funcref].
 	Args: [], Returns: Variant
 */
-func (o *FuncRef) CallFunc() gdnative.Variant {
+func (o *FuncRef) CallFunc(args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling FuncRef.CallFunc()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 0+len(args), 0+len(args))
+
+	for i, arg := range args {
+		ptrArguments[i+0] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("FuncRef", "call_func")
@@ -58,7 +62,7 @@ func (o *FuncRef) CallFunc() gdnative.Variant {
 }
 
 /*
-        Undocumented
+        Calls the referenced function previously set by [method set_function] or [method @GDScript.funcref]. Contrarily to [method call_func], this method does not support a variable number of arguments but expects all parameters to be passed via a single [Array].
 	Args: [{ false arg_array Array}], Returns: Variant
 */
 func (o *FuncRef) CallFuncv(argArray gdnative.Array) gdnative.Variant {
@@ -82,7 +86,7 @@ func (o *FuncRef) CallFuncv(argArray gdnative.Array) gdnative.Variant {
 }
 
 /*
-        Undocumented
+        Returns whether the object still exists and has the function assigned.
 	Args: [], Returns: bool
 */
 func (o *FuncRef) IsValid() gdnative.Bool {
@@ -150,7 +154,7 @@ func (o *FuncRef) SetInstance(instance ObjectImplementer) {
 // of the FuncRef class.
 type FuncRefImplementer interface {
 	ReferenceImplementer
-	CallFunc() gdnative.Variant
+	CallFunc(args ...gdnative.Variant) gdnative.Variant
 	CallFuncv(argArray gdnative.Array) gdnative.Variant
 	IsValid() gdnative.Bool
 	SetFunction(name gdnative.String)

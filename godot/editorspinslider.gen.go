@@ -23,8 +23,8 @@ func newEditorSpinSliderFromPointer(ptr gdnative.Pointer) EditorSpinSlider {
 }
 
 /*
-Undocumented
-*/
+
+ */
 type EditorSpinSlider struct {
 	Range
 	owner gdnative.Object

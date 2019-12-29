@@ -31,8 +31,8 @@ func newVisualShaderNodeColorFuncFromPointer(ptr gdnative.Pointer) VisualShaderN
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeColorFunc struct {
 	VisualShaderNode
 	owner gdnative.Object

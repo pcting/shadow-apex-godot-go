@@ -23,7 +23,7 @@ func newShape2DFromPointer(ptr gdnative.Pointer) Shape2D {
 }
 
 /*
-Base class for all 2D Shapes. All 2D shape types inherit from this.
+Base class for all 2D shapes. All 2D shape types inherit from this.
 */
 type Shape2D struct {
 	Resource

@@ -23,7 +23,7 @@ func newEditorVCSInterfaceFromPointer(ptr gdnative.Pointer) EditorVCSInterface {
 }
 
 /*
-Undocumented
+Used by the editor to display VCS extracted information in the editor. The implementation of this API is included in VCS addons, which are essentially GDNative plugins that need to be put into the project folder. These VCS addons are scripts which are attached (on demand) to the object instance of [code]EditorVCSInterface[/code]. All the functions listed below, instead of performing the task themselves, they call the internally defined functions in the VCS addons to provide a plug-n-play experience.
 */
 type EditorVCSInterface struct {
 	Object
@@ -261,7 +261,7 @@ func (o *EditorVCSInterface) X_UnstageFile(filePath gdnative.String) {
 }
 
 /*
-        Undocumented
+        Creates a version commit if the addon is initialized, else returns without doing anything. Uses the files which have been staged previously, with the commit message set to a value as provided as in the argument.
 	Args: [{ false msg String}], Returns: void
 */
 func (o *EditorVCSInterface) Commit(msg gdnative.String) {
@@ -282,7 +282,7 @@ func (o *EditorVCSInterface) Commit(msg gdnative.String) {
 }
 
 /*
-        Undocumented
+        Returns an [Array] of [Dictionary] objects containing the diff output from the VCS in use, if a VCS addon is initialized, else returns an empty [Array] object. The diff contents also consist of some contextual lines which provide context to the observed line change in the file. Each [Dictionary] object has the line diff contents under the keys: - [code]"content"[/code] to store a [String] containing the line contents - [code]"status"[/code] to store a [String] which contains [code]"+"[/code] in case the content is a line addition but it stores a [code]"-"[/code] in case of deletion and an empty string in the case the line content is neither an addition nor a deletion. - [code]"new_line_number"[/code] to store an integer containing the new line number of the line content. - [code]"line_count"[/code] to store an integer containing the number of lines in the line content. - [code]"old_line_number"[/code] to store an integer containing the old line number of the line content. - [code]"offset"[/code] to store the offset of the line change since the first contextual line content.
 	Args: [{ false file_path String}], Returns: Array
 */
 func (o *EditorVCSInterface) GetFileDiff(filePath gdnative.String) gdnative.Array {
@@ -306,7 +306,7 @@ func (o *EditorVCSInterface) GetFileDiff(filePath gdnative.String) gdnative.Arra
 }
 
 /*
-        Undocumented
+        Returns a [Dictionary] containing the path of the detected file change mapped to an integer signifying what kind of a change the corresponding file has experienced. The following integer values are being used to signify that the detected file is: - [code]0[/code]: New to the VCS working directory - [code]1[/code]: Modified - [code]2[/code]: Renamed - [code]3[/code]: Deleted - [code]4[/code]: Typechanged
 	Args: [], Returns: Dictionary
 */
 func (o *EditorVCSInterface) GetModifiedFilesData() gdnative.Dictionary {
@@ -329,7 +329,7 @@ func (o *EditorVCSInterface) GetModifiedFilesData() gdnative.Dictionary {
 }
 
 /*
-        Undocumented
+        Return the project name of the VCS working directory
 	Args: [], Returns: String
 */
 func (o *EditorVCSInterface) GetProjectName() gdnative.String {
@@ -352,7 +352,7 @@ func (o *EditorVCSInterface) GetProjectName() gdnative.String {
 }
 
 /*
-        Undocumented
+        Return the name of the VCS if the VCS has been initialized, else return an empty string.
 	Args: [], Returns: String
 */
 func (o *EditorVCSInterface) GetVcsName() gdnative.String {
@@ -375,7 +375,7 @@ func (o *EditorVCSInterface) GetVcsName() gdnative.String {
 }
 
 /*
-        Undocumented
+        Initialize the VCS addon if not already. Uses the argument value as the path to the working directory of the project. Creates the initial commit if required. Returns [code]true[/code] if no failure occurs, else returns [code]false[/code].
 	Args: [{ false project_root_path String}], Returns: bool
 */
 func (o *EditorVCSInterface) Initialize(projectRootPath gdnative.String) gdnative.Bool {
@@ -399,7 +399,7 @@ func (o *EditorVCSInterface) Initialize(projectRootPath gdnative.String) gdnativ
 }
 
 /*
-        Undocumented
+        Returns [code]true[/code] if the addon is ready to respond to function calls, else returns [code]false[/code].
 	Args: [], Returns: bool
 */
 func (o *EditorVCSInterface) IsAddonReady() gdnative.Bool {
@@ -422,7 +422,7 @@ func (o *EditorVCSInterface) IsAddonReady() gdnative.Bool {
 }
 
 /*
-        Undocumented
+        Returns [code]true[/code] if the VCS addon has been initialized, else returns [code]false[/code].
 	Args: [], Returns: bool
 */
 func (o *EditorVCSInterface) IsVcsInitialized() gdnative.Bool {
@@ -445,7 +445,7 @@ func (o *EditorVCSInterface) IsVcsInitialized() gdnative.Bool {
 }
 
 /*
-        Undocumented
+        Shuts down the VCS addon to allow cleanup code to run on call. Returns [code]true[/code] is no failure occurs, else returns [code]false[/code].
 	Args: [], Returns: bool
 */
 func (o *EditorVCSInterface) ShutDown() gdnative.Bool {
@@ -468,7 +468,7 @@ func (o *EditorVCSInterface) ShutDown() gdnative.Bool {
 }
 
 /*
-        Undocumented
+        Stage the file which should be committed when [method EditorVCSInterface.commit] is called. Argument should contain the absolute path.
 	Args: [{ false file_path String}], Returns: void
 */
 func (o *EditorVCSInterface) StageFile(filePath gdnative.String) {
@@ -489,7 +489,7 @@ func (o *EditorVCSInterface) StageFile(filePath gdnative.String) {
 }
 
 /*
-        Undocumented
+        Unstage the file which was staged previously to be committed, so that it is no longer committed when [method EditorVCSInterface.commit] is called. Argument should contain the absolute path.
 	Args: [{ false file_path String}], Returns: void
 */
 func (o *EditorVCSInterface) UnstageFile(filePath gdnative.String) {

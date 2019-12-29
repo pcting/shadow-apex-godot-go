@@ -56,7 +56,7 @@ func newEditorPluginFromPointer(ptr gdnative.Pointer) EditorPlugin {
 }
 
 /*
-Plugins are used by the editor to extend functionality. The most common types of plugins are those which edit a given node or resource type, import plugins and export plugins. Also see [EditorScript] to add functions to the editor.
+Plugins are used by the editor to extend functionality. The most common types of plugins are those which edit a given node or resource type, import plugins and export plugins. See also [EditorScript] to add functions to the editor.
 */
 type EditorPlugin struct {
 	Node
@@ -68,7 +68,7 @@ func (o *EditorPlugin) BaseClass() string {
 }
 
 /*
-        Add a script at [code]path[/code] to the Autoload list as [code]name[/code].
+        Adds a script at [code]path[/code] to the Autoload list as [code]name[/code].
 	Args: [{ false name String} { false path String}], Returns: void
 */
 func (o *EditorPlugin) AddAutoloadSingleton(name gdnative.String, path gdnative.String) {
@@ -90,7 +90,7 @@ func (o *EditorPlugin) AddAutoloadSingleton(name gdnative.String, path gdnative.
 }
 
 /*
-        Add a control to the bottom panel (together with Output, Debug, Animation, etc). Returns a reference to the button added. It's up to you to hide/show the button when needed. When your plugin is deactivated, make sure to remove your custom control with [method remove_control_from_bottom_panel] and free it with [code]queue_free()[/code].
+        Adds a control to the bottom panel (together with Output, Debug, Animation, etc). Returns a reference to the button added. It's up to you to hide/show the button when needed. When your plugin is deactivated, make sure to remove your custom control with [method remove_control_from_bottom_panel] and free it with [method Node.queue_free].
 	Args: [{ false control Control} { false title String}], Returns: ToolButton
 */
 func (o *EditorPlugin) AddControlToBottomPanel(control ControlImplementer, title gdnative.String) ToolButtonImplementer {
@@ -129,7 +129,7 @@ func (o *EditorPlugin) AddControlToBottomPanel(control ControlImplementer, title
 }
 
 /*
-        Add a custom control to a container (see CONTAINER_* enum). There are many locations where custom controls can be added in the editor UI. Please remember that you have to manage the visibility of your custom controls yourself (and likely hide it after adding it). When your plugin is deactivated, make sure to remove your custom control with [method remove_control_from_container] and free it with [code]queue_free()[/code].
+        Adds a custom control to a container (see [enum CustomControlContainer]). There are many locations where custom controls can be added in the editor UI. Please remember that you have to manage the visibility of your custom controls yourself (and likely hide it after adding it). When your plugin is deactivated, make sure to remove your custom control with [method remove_control_from_container] and free it with [method Node.queue_free].
 	Args: [{ false container int} { false control Control}], Returns: void
 */
 func (o *EditorPlugin) AddControlToContainer(container gdnative.Int, control ControlImplementer) {
@@ -151,7 +151,7 @@ func (o *EditorPlugin) AddControlToContainer(container gdnative.Int, control Con
 }
 
 /*
-        Add the control to a specific dock slot (see DOCK_* enum for options). If the dock is repositioned and as long as the plugin is active, the editor will save the dock position on further sessions. When your plugin is deactivated, make sure to remove your custom control with [method remove_control_from_docks] and free it with [code]queue_free()[/code].
+        Adds the control to a specific dock slot (see [enum DockSlot] for options). If the dock is repositioned and as long as the plugin is active, the editor will save the dock position on further sessions. When your plugin is deactivated, make sure to remove your custom control with [method remove_control_from_docks] and free it with [method Node.queue_free].
 	Args: [{ false slot int} { false control Control}], Returns: void
 */
 func (o *EditorPlugin) AddControlToDock(slot gdnative.Int, control ControlImplementer) {
@@ -173,7 +173,7 @@ func (o *EditorPlugin) AddControlToDock(slot gdnative.Int, control ControlImplem
 }
 
 /*
-        Add a custom type, which will appear in the list of nodes or resources. An icon can be optionally passed. When given node or resource is selected, the base type will be instanced (ie, "Spatial", "Control", "Resource"), then the script will be loaded and set to this object. You can use the virtual method [method handles] to check if your custom object is being edited by checking the script or using 'is' keyword. During run-time, this will be a simple object with a script so this function does not need to be called then.
+        Adds a custom type, which will appear in the list of nodes or resources. An icon can be optionally passed. When given node or resource is selected, the base type will be instanced (ie, "Spatial", "Control", "Resource"), then the script will be loaded and set to this object. You can use the virtual method [method handles] to check if your custom object is being edited by checking the script or using the [code]is[/code] keyword. During run-time, this will be a simple object with a script so this function does not need to be called then.
 	Args: [{ false type String} { false base String} { false script Script} { false icon Texture}], Returns: void
 */
 func (o *EditorPlugin) AddCustomType(aType gdnative.String, base gdnative.String, script ScriptImplementer, icon TextureImplementer) {
@@ -411,7 +411,7 @@ func (o *EditorPlugin) Clear() {
 }
 
 /*
-
+        Called by the engine when the user disables the [EditorPlugin] in the Plugin tab of the project settings window.
 	Args: [], Returns: void
 */
 func (o *EditorPlugin) DisablePlugin() {
@@ -452,7 +452,7 @@ func (o *EditorPlugin) Edit(object ObjectImplementer) {
 }
 
 /*
-
+        Called by the engine when the user enables the [EditorPlugin] in the Plugin tab of the project settings window.
 	Args: [], Returns: void
 */
 func (o *EditorPlugin) EnablePlugin() {
@@ -472,7 +472,7 @@ func (o *EditorPlugin) EnablePlugin() {
 }
 
 /*
-        This method is called when there is an input event in the 2D viewport, e.g. the user clicks with the mouse in the 2D space (canvas GUI). Keep in mind that for this method to be called you have to first declare the virtual method [method handles] so the editor knows that you want to work with the workspace: [codeblock] func handles(object): return true [/codeblock] Also note that the edited scene must have a root node.
+
 	Args: [{ false overlay Control}], Returns: void
 */
 func (o *EditorPlugin) ForwardCanvasDrawOverViewport(overlay ControlImplementer) {
@@ -514,7 +514,7 @@ func (o *EditorPlugin) ForwardCanvasForceDrawOverViewport(overlay ControlImpleme
 }
 
 /*
-
+        Called when there is a root node in the current edited scene, [method handles] is implemented and an [InputEvent] happens in the 2D viewport. Intercepts the [InputEvent], if [code]return true[/code] [EditorPlugin] consumes the [code]event[/code], otherwise forwards [code]event[/code] to other Editor classes. Example: [codeblock] # Prevents the InputEvent to reach other Editor classes func forward_canvas_gui_input(event): var forward = true return forward [/codeblock] Must [code]return false[/code] in order to forward the [InputEvent] to other Editor classes. Example: [codeblock] # Consumes InputEventMouseMotion and forwards other InputEvent types func forward_canvas_gui_input(event): var forward = false if event is InputEventMouseMotion: forward = true return forward [/codeblock]
 	Args: [{ false event InputEvent}], Returns: bool
 */
 func (o *EditorPlugin) ForwardCanvasGuiInput(event InputEventImplementer) gdnative.Bool {
@@ -538,7 +538,7 @@ func (o *EditorPlugin) ForwardCanvasGuiInput(event InputEventImplementer) gdnati
 }
 
 /*
-        This method is called when there is an input event in the 3D viewport, e.g. the user clicks with the mouse in the 3D space (spatial GUI). Keep in mind that for this method to be called you have to first declare the virtual method [method handles] so the editor knows that you want to work with the workspace: [codeblock] func handles(object): return true [/codeblock] Also note that the edited scene must have a root node.
+        Called when there is a root node in the current edited scene, [method handles] is implemented and an [InputEvent] happens in the 3D viewport. Intercepts the [InputEvent], if [code]return true[/code] [EditorPlugin] consumes the [code]event[/code], otherwise forwards [code]event[/code] to other Editor classes. Example: [codeblock] # Prevents the InputEvent to reach other Editor classes func forward_spatial_gui_input(camera, event): var forward = true return forward [/codeblock] Must [code]return false[/code] in order to forward the [InputEvent] to other Editor classes. Example: [codeblock] # Consumes InputEventMouseMotion and forwards other InputEvent types func forward_spatial_gui_input(camera, event): var forward = false if event is InputEventMouseMotion: forward = true return forward [/codeblock]
 	Args: [{ false camera Camera} { false event InputEvent}], Returns: bool
 */
 func (o *EditorPlugin) ForwardSpatialGuiInput(camera CameraImplementer, event InputEventImplementer) gdnative.Bool {
@@ -563,7 +563,7 @@ func (o *EditorPlugin) ForwardSpatialGuiInput(camera CameraImplementer, event In
 }
 
 /*
-        This is for editors that edit script based objects. You can return a list of breakpoints in the format (script:line), for example: res://path_to_script.gd:25
+        This is for editors that edit script-based objects. You can return a list of breakpoints in the format ([code]script:line[/code]), for example: [code]res://path_to_script.gd:25[/code].
 	Args: [], Returns: PoolStringArray
 */
 func (o *EditorPlugin) GetBreakpoints() gdnative.PoolStringArray {
@@ -683,7 +683,7 @@ func (o *EditorPlugin) GetPluginName() gdnative.String {
 }
 
 /*
-        Gets the Editor's dialogue used for making scripts. Note that users can configure it before use.
+        Gets the Editor's dialogue used for making scripts. [b]Note:[/b] Users can configure it before use.
 	Args: [], Returns: ScriptCreateDialog
 */
 func (o *EditorPlugin) GetScriptCreateDialog() ScriptCreateDialogImplementer {
@@ -720,7 +720,7 @@ func (o *EditorPlugin) GetScriptCreateDialog() ScriptCreateDialogImplementer {
 }
 
 /*
-        Get the state of your plugin editor. This is used when saving the scene (so state is kept when opening it again) and for switching tabs (so state can be restored when the tab returns).
+        Gets the state of your plugin editor. This is used when saving the scene (so state is kept when opening it again) and for switching tabs (so state can be restored when the tab returns).
 	Args: [], Returns: Dictionary
 */
 func (o *EditorPlugin) GetState() gdnative.Dictionary {
@@ -743,7 +743,7 @@ func (o *EditorPlugin) GetState() gdnative.Dictionary {
 }
 
 /*
-        Get the undo/redo object. Most actions in the editor can be undoable, so use this object to make sure this happens when it's worth it.
+        Gets the undo/redo object. Most actions in the editor can be undoable, so use this object to make sure this happens when it's worth it.
 	Args: [], Returns: UndoRedo
 */
 func (o *EditorPlugin) GetUndoRedo() UndoRedoImplementer {
@@ -780,7 +780,7 @@ func (o *EditorPlugin) GetUndoRedo() UndoRedoImplementer {
 }
 
 /*
-        Get the GUI layout of the plugin. This is used to save the project's editor layout when [method queue_save_layout] is called or the editor layout was changed(For example changing the position of a dock).
+        Gets the GUI layout of the plugin. This is used to save the project's editor layout when [method queue_save_layout] is called or the editor layout was changed(For example changing the position of a dock).
 	Args: [{ false layout ConfigFile}], Returns: void
 */
 func (o *EditorPlugin) GetWindowLayout(layout ConfigFileImplementer) {
@@ -801,7 +801,7 @@ func (o *EditorPlugin) GetWindowLayout(layout ConfigFileImplementer) {
 }
 
 /*
-        Implement this function if your plugin edits a specific type of object (Resource or Node). If you return [code]true[/code], then you will get the functions [method EditorPlugin.edit] and [method EditorPlugin.make_visible] called when the editor requests them. If you have declared the methods [method forward_canvas_gui_input] and [method forward_spatial_gui_input] these will be called too.
+        Implement this function if your plugin edits a specific type of object (Resource or Node). If you return [code]true[/code], then you will get the functions [method edit] and [method make_visible] called when the editor requests them. If you have declared the methods [method forward_canvas_gui_input] and [method forward_spatial_gui_input] these will be called too.
 	Args: [{ false object Object}], Returns: bool
 */
 func (o *EditorPlugin) Handles(object ObjectImplementer) gdnative.Bool {
@@ -825,7 +825,7 @@ func (o *EditorPlugin) Handles(object ObjectImplementer) gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if this is a main screen editor plugin (it goes in the workspaces selector together with '2D', '3D', and 'Script').
+        Returns [code]true[/code] if this is a main screen editor plugin (it goes in the workspace selector together with [b]2D[/b], [b]3D[/b], [b]Script[/b] and [b]AssetLib[/b]).
 	Args: [], Returns: bool
 */
 func (o *EditorPlugin) HasMainScreen() gdnative.Bool {
@@ -930,7 +930,7 @@ func (o *EditorPlugin) QueueSaveLayout() {
 }
 
 /*
-        Remove an Autoload [code]name[/code] from the list.
+        Removes an Autoload [code]name[/code] from the list.
 	Args: [{ false name String}], Returns: void
 */
 func (o *EditorPlugin) RemoveAutoloadSingleton(name gdnative.String) {
@@ -951,7 +951,7 @@ func (o *EditorPlugin) RemoveAutoloadSingleton(name gdnative.String) {
 }
 
 /*
-        Remove the control from the bottom panel. You have to manually [code]queue_free()[/code] the control.
+        Removes the control from the bottom panel. You have to manually [method Node.queue_free] the control.
 	Args: [{ false control Control}], Returns: void
 */
 func (o *EditorPlugin) RemoveControlFromBottomPanel(control ControlImplementer) {
@@ -972,7 +972,7 @@ func (o *EditorPlugin) RemoveControlFromBottomPanel(control ControlImplementer) 
 }
 
 /*
-        Remove the control from the specified container. You have to manually [code]queue_free()[/code] the control.
+        Removes the control from the specified container. You have to manually [method Node.queue_free] the control.
 	Args: [{ false container int} { false control Control}], Returns: void
 */
 func (o *EditorPlugin) RemoveControlFromContainer(container gdnative.Int, control ControlImplementer) {
@@ -994,7 +994,7 @@ func (o *EditorPlugin) RemoveControlFromContainer(container gdnative.Int, contro
 }
 
 /*
-        Remove the control from the dock. You have to manually [code]queue_free()[/code] the control.
+        Removes the control from the dock. You have to manually [method Node.queue_free] the control.
 	Args: [{ false control Control}], Returns: void
 */
 func (o *EditorPlugin) RemoveControlFromDocks(control ControlImplementer) {
@@ -1015,7 +1015,7 @@ func (o *EditorPlugin) RemoveControlFromDocks(control ControlImplementer) {
 }
 
 /*
-        Remove a custom type added by [method add_custom_type]
+        Removes a custom type added by [method add_custom_type].
 	Args: [{ false type String}], Returns: void
 */
 func (o *EditorPlugin) RemoveCustomType(aType gdnative.String) {
@@ -1141,7 +1141,7 @@ func (o *EditorPlugin) RemoveSpatialGizmoPlugin(plugin EditorSpatialGizmoPluginI
 }
 
 /*
-        Removes a menu [code]name[/code] from 'Project > Tools'.
+        Removes a menu [code]name[/code] from [b]Project > Tools[/b].
 	Args: [{ false name String}], Returns: void
 */
 func (o *EditorPlugin) RemoveToolMenuItem(name gdnative.String) {
@@ -1222,7 +1222,7 @@ func (o *EditorPlugin) SetInputEventForwardingAlwaysEnabled() {
 }
 
 /*
-        Restore the state saved by [method EditorPlugin.get_state].
+        Restore the state saved by [method get_state].
 	Args: [{ false state Dictionary}], Returns: void
 */
 func (o *EditorPlugin) SetState(state gdnative.Dictionary) {
@@ -1243,7 +1243,7 @@ func (o *EditorPlugin) SetState(state gdnative.Dictionary) {
 }
 
 /*
-        Restore the plugin GUI layout saved by [method EditorPlugin.get_window_layout].
+        Restore the plugin GUI layout saved by [method get_window_layout].
 	Args: [{ false layout ConfigFile}], Returns: void
 */
 func (o *EditorPlugin) SetWindowLayout(layout ConfigFileImplementer) {

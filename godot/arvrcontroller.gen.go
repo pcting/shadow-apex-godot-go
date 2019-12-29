@@ -23,7 +23,7 @@ func newARVRControllerFromPointer(ptr gdnative.Pointer) ARVRController {
 }
 
 /*
-This is a helper spatial node that is linked to the tracking of controllers. It also offers several handy passthroughs to the state of buttons and such on the controllers. Controllers are linked by their id. You can create controller nodes before the controllers are available. Say your game always uses two controllers (one for each hand) you can predefine the controllers with id 1 and 2 and they will become active as soon as the controllers are identified. If you expect additional controllers to be used, you should react to the signals and add ARVRController nodes to your scene. The position of the controller node is automatically updated by the ARVR Server. This makes this node ideal to add child nodes to visualise the controller.
+This is a helper spatial node that is linked to the tracking of controllers. It also offers several handy passthroughs to the state of buttons and such on the controllers. Controllers are linked by their ID. You can create controller nodes before the controllers are available. If your game always uses two controllers (one for each hand), you can predefine the controllers with ID 1 and 2; they will become active as soon as the controllers are identified. If you expect additional controllers to be used, you should react to the signals and add ARVRController nodes to your scene. The position of the controller node is automatically updated by the [ARVRServer]. This makes this node ideal to add child nodes to visualize the controller.
 */
 type ARVRController struct {
 	Spatial
@@ -81,7 +81,7 @@ func (o *ARVRController) GetControllerName() gdnative.String {
 }
 
 /*
-        Returns the hand holding this controller, if known. See TRACKER_* constants in [ARVRPositionalTracker].
+        Returns the hand holding this controller, if known. See [enum ARVRPositionalTracker.TrackerHand].
 	Args: [], Returns: enum.ARVRPositionalTracker::TrackerHand
 */
 func (o *ARVRController) GetHand() ARVRPositionalTrackerTrackerHand {
@@ -151,7 +151,7 @@ func (o *ARVRController) GetJoystickAxis(axis gdnative.Int) gdnative.Real {
 }
 
 /*
-        Returns the ID of the joystick object bound to this. Every controller tracked by the ARVR Server that has buttons and axis will also be registered as a joystick within Godot. This means that all the normal joystick tracking and input mapping will work for buttons and axis found on the AR/VR controllers. This ID is purely offered as information so you can link up the controller with its joystick entry.
+        Returns the ID of the joystick object bound to this. Every controller tracked by the [ARVRServer] that has buttons and axis will also be registered as a joystick within Godot. This means that all the normal joystick tracking and input mapping will work for buttons and axis found on the AR/VR controllers. This ID is purely offered as information so you can link up the controller with its joystick entry.
 	Args: [], Returns: int
 */
 func (o *ARVRController) GetJoystickId() gdnative.Int {
@@ -174,7 +174,7 @@ func (o *ARVRController) GetJoystickId() gdnative.Int {
 }
 
 /*
-        Undocumented
+        If provided by the [ARVRInterface], this returns a mesh associated with the controller. This can be used to visualize the controller.
 	Args: [], Returns: Mesh
 */
 func (o *ARVRController) GetMesh() MeshImplementer {
@@ -234,7 +234,7 @@ func (o *ARVRController) GetRumble() gdnative.Real {
 }
 
 /*
-        Returns [code]true[/code] if the button at index [code]button[/code] is pressed.
+        Returns [code]true[/code] if the button at index [code]button[/code] is pressed. See [enum JoystickList], in particular the [code]JOY_VR_*[/code] constants.
 	Args: [{ false button int}], Returns: int
 */
 func (o *ARVRController) IsButtonPressed(button gdnative.Int) gdnative.Int {

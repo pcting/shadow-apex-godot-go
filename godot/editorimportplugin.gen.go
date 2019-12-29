@@ -23,7 +23,7 @@ func newEditorImportPluginFromPointer(ptr gdnative.Pointer) EditorImportPlugin {
 }
 
 /*
-EditorImportPlugins provide a way to extend the editor's resource import functionality. Use them to import resources from custom files or to provide alternatives to the editor's existing importers. Register your [EditorPlugin] with [method EditorPlugin.add_import_plugin]. EditorImportPlugins work by associating with specific file extensions and a resource type. See [method get_recognized_extensions] and [method get_resource_type]). They may optionally specify some import presets that affect the import process. EditorImportPlugins are responsible for creating the resources and saving them in the [code].import[/code] directory. Below is an example EditorImportPlugin that imports a [Mesh] from a file with the extension ".special" or ".spec": [codeblock] tool extends EditorImportPlugin func get_importer_name(): return "my.special.plugin" func get_visible_name(): return "Special Mesh Importer" func get_recognized_extensions(): return ["special", "spec"] func get_save_extension(): return "mesh" func get_resource_type(): return "Mesh" func get_preset_count(): return 1 func get_preset_name(i): return "Default" func get_import_options(i): return [{"name": "my_option", "default_value": false}] func import(source_file, save_path, options, platform_variants, gen_files): var file = File.new() if file.open(source_file, File.READ) != OK: return FAILED var mesh = Mesh.new() # Fill the Mesh with data read in 'file', left as exercise to the reader var filename = save_path + "." + get_save_extension() ResourceSaver.save(filename, mesh) return OK [/codeblock]
+EditorImportPlugins provide a way to extend the editor's resource import functionality. Use them to import resources from custom files or to provide alternatives to the editor's existing importers. Register your [EditorPlugin] with [method EditorPlugin.add_import_plugin]. EditorImportPlugins work by associating with specific file extensions and a resource type. See [method get_recognized_extensions] and [method get_resource_type]. They may optionally specify some import presets that affect the import process. EditorImportPlugins are responsible for creating the resources and saving them in the [code].import[/code] directory. Below is an example EditorImportPlugin that imports a [Mesh] from a file with the extension ".special" or ".spec": [codeblock] tool extends EditorImportPlugin func get_importer_name(): return "my.special.plugin" func get_visible_name(): return "Special Mesh Importer" func get_recognized_extensions(): return ["special", "spec"] func get_save_extension(): return "mesh" func get_resource_type(): return "Mesh" func get_preset_count(): return 1 func get_preset_name(i): return "Default" func get_import_options(i): return [{"name": "my_option", "default_value": false}] func import(source_file, save_path, options, platform_variants, gen_files): var file = File.new() if file.open(source_file, File.READ) != OK: return FAILED var mesh = Mesh.new() # Fill the Mesh with data read in "file", left as an exercise to the reader var filename = save_path + "." + get_save_extension() ResourceSaver.save(filename, mesh) return OK [/codeblock]
 */
 type EditorImportPlugin struct {
 	ResourceImporter
@@ -35,7 +35,7 @@ func (o *EditorImportPlugin) BaseClass() string {
 }
 
 /*
-        Get the options and default values for the preset at this index. Returns an Array of Dictionaries with the following keys: [code]name[/code], [code]default_value[/code], [code]property_hint[/code] (optional), [code]hint_string[/code] (optional), [code]usage[/code] (optional).
+        Gets the options and default values for the preset at this index. Returns an Array of Dictionaries with the following keys: [code]name[/code], [code]default_value[/code], [code]property_hint[/code] (optional), [code]hint_string[/code] (optional), [code]usage[/code] (optional).
 	Args: [{ false preset int}], Returns: Array
 */
 func (o *EditorImportPlugin) GetImportOptions(preset gdnative.Int) gdnative.Array {
@@ -59,7 +59,7 @@ func (o *EditorImportPlugin) GetImportOptions(preset gdnative.Int) gdnative.Arra
 }
 
 /*
-        Get the order of this importer to be run when importing resources. Higher values will be called later. Use this to ensure the importer runs after the dependencies are already imported.
+        Gets the order of this importer to be run when importing resources. Higher values will be called later. Use this to ensure the importer runs after the dependencies are already imported.
 	Args: [], Returns: int
 */
 func (o *EditorImportPlugin) GetImportOrder() gdnative.Int {
@@ -82,7 +82,7 @@ func (o *EditorImportPlugin) GetImportOrder() gdnative.Int {
 }
 
 /*
-        Get the unique name of the importer.
+        Gets the unique name of the importer.
 	Args: [], Returns: String
 */
 func (o *EditorImportPlugin) GetImporterName() gdnative.String {
@@ -130,7 +130,7 @@ func (o *EditorImportPlugin) GetOptionVisibility(option gdnative.String, options
 }
 
 /*
-        Get the number of initial presets defined by the plugin. Use [method get_import_options] to get the default options for the preset and [method get_preset_name] to get the name of the preset.
+        Gets the number of initial presets defined by the plugin. Use [method get_import_options] to get the default options for the preset and [method get_preset_name] to get the name of the preset.
 	Args: [], Returns: int
 */
 func (o *EditorImportPlugin) GetPresetCount() gdnative.Int {
@@ -153,7 +153,7 @@ func (o *EditorImportPlugin) GetPresetCount() gdnative.Int {
 }
 
 /*
-        Get the name of the options preset at this index.
+        Gets the name of the options preset at this index.
 	Args: [{ false preset int}], Returns: String
 */
 func (o *EditorImportPlugin) GetPresetName(preset gdnative.Int) gdnative.String {
@@ -177,7 +177,7 @@ func (o *EditorImportPlugin) GetPresetName(preset gdnative.Int) gdnative.String 
 }
 
 /*
-        Get the priority of this plugin for the recognized extension. Higher priority plugins will be preferred. Default value is 1.0.
+        Gets the priority of this plugin for the recognized extension. Higher priority plugins will be preferred. The default priority is [code]1.0[/code].
 	Args: [], Returns: float
 */
 func (o *EditorImportPlugin) GetPriority() gdnative.Real {
@@ -200,7 +200,7 @@ func (o *EditorImportPlugin) GetPriority() gdnative.Real {
 }
 
 /*
-        Get the list of file extensions to associate with this loader (case insensitive). e.g. [code]["obj"][/code].
+        Gets the list of file extensions to associate with this loader (case-insensitive). e.g. [code]["obj"][/code].
 	Args: [], Returns: Array
 */
 func (o *EditorImportPlugin) GetRecognizedExtensions() gdnative.Array {
@@ -223,7 +223,7 @@ func (o *EditorImportPlugin) GetRecognizedExtensions() gdnative.Array {
 }
 
 /*
-        Get the Godot resource type associated with this loader. e.g. [code]"Mesh"[/code] or [code]"Animation"[/code].
+        Gets the Godot resource type associated with this loader. e.g. [code]"Mesh"[/code] or [code]"Animation"[/code].
 	Args: [], Returns: String
 */
 func (o *EditorImportPlugin) GetResourceType() gdnative.String {
@@ -246,7 +246,7 @@ func (o *EditorImportPlugin) GetResourceType() gdnative.String {
 }
 
 /*
-        Get the extension used to save this resource in the [code].import[/code] directory.
+        Gets the extension used to save this resource in the [code].import[/code] directory.
 	Args: [], Returns: String
 */
 func (o *EditorImportPlugin) GetSaveExtension() gdnative.String {
@@ -269,7 +269,7 @@ func (o *EditorImportPlugin) GetSaveExtension() gdnative.String {
 }
 
 /*
-        Get the name to display in the import window.
+        Gets the name to display in the import window.
 	Args: [], Returns: String
 */
 func (o *EditorImportPlugin) GetVisibleName() gdnative.String {

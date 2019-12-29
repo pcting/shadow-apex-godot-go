@@ -23,7 +23,7 @@ func newIP_UnixFromPointer(ptr gdnative.Pointer) IP_Unix {
 }
 
 /*
-Unix-specific implementation of IP support functions. See [IP].
+UNIX-specific implementation of IP support functions. See [IP].
 */
 type IP_Unix struct {
 	ip

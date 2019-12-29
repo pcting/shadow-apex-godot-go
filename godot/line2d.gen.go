@@ -102,7 +102,7 @@ func (o *Line2D) X_GradientChanged() {
 }
 
 /*
-        Add a point at the [code]position[/code]. Appends the point at the end of the line.
+        Adds a point at the [code]position[/code]. Appends the point at the end of the line. If [code]at_position[/code] is given, the point is inserted before the point number [code]at_position[/code], moving that point (and every point after) after the inserted point. If [code]at_position[/code] is not given, or is an illegal value ([code]at_position < 0[/code] or [code]at_position >= [method get_point_count][/code]), the point will be appended at the end of the point list.
 	Args: [{ false position Vector2} {-1 true at_position int}], Returns: void
 */
 func (o *Line2D) AddPoint(position gdnative.Vector2, atPosition gdnative.Int) {
@@ -532,7 +532,7 @@ func (o *Line2D) GetWidth() gdnative.Real {
 }
 
 /*
-        Remove the point at index [code]i[/code] from the line.
+        Removes the point at index [code]i[/code] from the line.
 	Args: [{ false i int}], Returns: void
 */
 func (o *Line2D) RemovePoint(i gdnative.Int) {

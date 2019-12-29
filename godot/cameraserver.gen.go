@@ -37,13 +37,13 @@ func newSingletonCameraServer() *cameraServer {
 }
 
 /*
-   Undocumented
-*/
+
+ */
 var CameraServer = newSingletonCameraServer()
 
 /*
-Undocumented
-*/
+
+ */
 type cameraServer struct {
 	Object
 	owner       gdnative.Object
@@ -67,7 +67,7 @@ func (o *cameraServer) BaseClass() string {
 }
 
 /*
-        Undocumented
+        Adds a camera feed to the camera server.
 	Args: [{ false feed CameraFeed}], Returns: void
 */
 func (o *cameraServer) AddFeed(feed CameraFeedImplementer) {
@@ -89,7 +89,7 @@ func (o *cameraServer) AddFeed(feed CameraFeedImplementer) {
 }
 
 /*
-        Undocumented
+        Returns an array of [CameraFeed]s.
 	Args: [], Returns: Array
 */
 func (o *cameraServer) Feeds() gdnative.Array {
@@ -113,7 +113,7 @@ func (o *cameraServer) Feeds() gdnative.Array {
 }
 
 /*
-        Undocumented
+        Returns the [CameraFeed] with this id.
 	Args: [{ false index int}], Returns: CameraFeed
 */
 func (o *cameraServer) GetFeed(index gdnative.Int) CameraFeedImplementer {
@@ -152,7 +152,7 @@ func (o *cameraServer) GetFeed(index gdnative.Int) CameraFeedImplementer {
 }
 
 /*
-        Undocumented
+        Returns the number of [CameraFeed]s registered.
 	Args: [], Returns: int
 */
 func (o *cameraServer) GetFeedCount() gdnative.Int {
@@ -176,7 +176,7 @@ func (o *cameraServer) GetFeedCount() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Removes a [CameraFeed].
 	Args: [{ false feed CameraFeed}], Returns: void
 */
 func (o *cameraServer) RemoveFeed(feed CameraFeedImplementer) {

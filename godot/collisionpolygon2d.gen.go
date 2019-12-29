@@ -31,7 +31,7 @@ func newCollisionPolygon2DFromPointer(ptr gdnative.Pointer) CollisionPolygon2D {
 }
 
 /*
-Provides a 2D collision polygon to a [CollisionObject2D] parent. Polygon can be drawn in the editor or specified by a list of vertices.
+Provides a 2D collision polygon to a [CollisionObject2D] parent. Polygons can be drawn in the editor or specified by a list of vertices.
 */
 type CollisionPolygon2D struct {
 	Node2D

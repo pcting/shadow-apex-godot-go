@@ -54,7 +54,7 @@ func newArrayMeshFromPointer(ptr gdnative.Pointer) ArrayMesh {
 }
 
 /*
-The [code]ArrayMesh[/code] is used to construct a [Mesh] by specifying the attributes as arrays. The most basic example is the creation of a single triangle [codeblock] var vertices = PoolVector3Array() vertices.push_back(Vector3(0, 1, 0)) vertices.push_back(Vector3(1, 0, 0)) vertices.push_back(Vector3(0, 0, 1)) # Initialize the ArrayMesh. var arr_mesh = ArrayMesh.new() var arrays = [] arrays.resize(ArrayMesh.ARRAY_MAX) arrays[ArrayMesh.ARRAY_VERTEX] = vertices # Create the Mesh. arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays) var m = MeshInstance.new() m.mesh = arr_mesh [/codeblock] The [code]MeshInstance[/code] is ready to be added to the SceneTree to be shown.
+The [ArrayMesh] is used to construct a [Mesh] by specifying the attributes as arrays. The most basic example is the creation of a single triangle [codeblock] var vertices = PoolVector3Array() vertices.push_back(Vector3(0, 1, 0)) vertices.push_back(Vector3(1, 0, 0)) vertices.push_back(Vector3(0, 0, 1)) # Initialize the ArrayMesh. var arr_mesh = ArrayMesh.new() var arrays = [] arrays.resize(ArrayMesh.ARRAY_MAX) arrays[ArrayMesh.ARRAY_VERTEX] = vertices # Create the Mesh. arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays) var m = MeshInstance.new() m.mesh = arr_mesh [/codeblock] The [code]MeshInstance[/code] is ready to be added to the SceneTree to be shown.
 */
 type ArrayMesh struct {
 	Mesh
@@ -66,7 +66,7 @@ func (o *ArrayMesh) BaseClass() string {
 }
 
 /*
-        Add name for a blend shape that will be added with [method add_surface_from_arrays]. Must be called before surface is added.
+        Adds name for a blend shape that will be added with [method add_surface_from_arrays]. Must be called before surface is added.
 	Args: [{ false name String}], Returns: void
 */
 func (o *ArrayMesh) AddBlendShape(name gdnative.String) {
@@ -87,7 +87,7 @@ func (o *ArrayMesh) AddBlendShape(name gdnative.String) {
 }
 
 /*
-        Creates a new surface. Surfaces are created to be rendered using a "primitive", which may be PRIMITIVE_POINTS, PRIMITIVE_LINES, PRIMITIVE_LINE_STRIP, PRIMITIVE_LINE_LOOP, PRIMITIVE_TRIANGLES, PRIMITIVE_TRIANGLE_STRIP, PRIMITIVE_TRIANGLE_FAN. See [Mesh] for details. (As a note, when using indices, it is recommended to only use points, lines or triangles). [method Mesh.get_surface_count] will become the [code]surf_idx[/code] for this new surface. The [code]arrays[/code] argument is an array of arrays. See [enum ArrayType] for the values used in this array. For example, [code]arrays[0][/code] is the array of vertices. That first vertex sub-array is always required; the others are optional. Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data and the index array defines the vertex order. All sub-arrays must have the same length as the vertex array or be empty, except for [constant ARRAY_INDEX] if it is used. Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data, and the index array defines the order of the vertices. Godot uses clockwise winding order for front faces of triangle primitive modes.
+        Creates a new surface. Surfaces are created to be rendered using a [code]primitive[/code], which may be any of the types defined in [enum Mesh.PrimitiveType]. (As a note, when using indices, it is recommended to only use points, lines or triangles.) [method Mesh.get_surface_count] will become the [code]surf_idx[/code] for this new surface. The [code]arrays[/code] argument is an array of arrays. See [enum ArrayType] for the values used in this array. For example, [code]arrays[0][/code] is the array of vertices. That first vertex sub-array is always required; the others are optional. Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data and the index array defines the vertex order. All sub-arrays must have the same length as the vertex array or be empty, except for [constant ARRAY_INDEX] if it is used. Adding an index array puts this function into "index mode" where the vertex and other arrays become the sources of data, and the index array defines the order of the vertices. Godot uses clockwise winding order for front faces of triangle primitive modes.
 	Args: [{ false primitive int} { false arrays Array} {[] true blend_shapes Array} {97280 true compress_flags int}], Returns: void
 */
 func (o *ArrayMesh) AddSurfaceFromArrays(primitive gdnative.Int, arrays gdnative.Array, blendShapes gdnative.Array, compressFlags gdnative.Int) {
@@ -111,7 +111,7 @@ func (o *ArrayMesh) AddSurfaceFromArrays(primitive gdnative.Int, arrays gdnative
 }
 
 /*
-        Remove all blend shapes from this [code]ArrayMesh[/code].
+        Removes all blend shapes from this [ArrayMesh].
 	Args: [], Returns: void
 */
 func (o *ArrayMesh) ClearBlendShapes() {
@@ -131,7 +131,7 @@ func (o *ArrayMesh) ClearBlendShapes() {
 }
 
 /*
-        Returns the number of blend shapes that the [code]ArrayMesh[/code] holds.
+        Returns the number of blend shapes that the [ArrayMesh] holds.
 	Args: [], Returns: int
 */
 func (o *ArrayMesh) GetBlendShapeCount() gdnative.Int {
@@ -224,7 +224,7 @@ func (o *ArrayMesh) GetCustomAabb() gdnative.Aabb {
 }
 
 /*
-        Will perform a UV unwrap on the [code]ArrayMesh[/code] to prepare the mesh for lightmapping.
+        Will perform a UV unwrap on the [ArrayMesh] to prepare the mesh for lightmapping.
 	Args: [{ false transform Transform} { false texel_size float}], Returns: enum.Error
 */
 func (o *ArrayMesh) LightmapUnwrap(transform gdnative.Transform, texelSize gdnative.Real) gdnative.Error {
@@ -249,7 +249,7 @@ func (o *ArrayMesh) LightmapUnwrap(transform gdnative.Transform, texelSize gdnat
 }
 
 /*
-        Will regenerate normal maps for the [code]ArrayMesh[/code].
+        Will regenerate normal maps for the [ArrayMesh].
 	Args: [], Returns: void
 */
 func (o *ArrayMesh) RegenNormalmaps() {
@@ -311,7 +311,7 @@ func (o *ArrayMesh) SetCustomAabb(aabb gdnative.Aabb) {
 }
 
 /*
-        Returns the index of the first surface with this name held within this [code]ArrayMesh[/code]. If none are found -1 is returned.
+        Returns the index of the first surface with this name held within this [ArrayMesh]. If none are found, -1 is returned.
 	Args: [{ false name String}], Returns: int
 */
 func (o *ArrayMesh) SurfaceFindByName(name gdnative.String) gdnative.Int {
@@ -407,7 +407,7 @@ func (o *ArrayMesh) SurfaceGetFormat(surfIdx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Get the name assigned to this surface.
+        Gets the name assigned to this surface.
 	Args: [{ false surf_idx int}], Returns: String
 */
 func (o *ArrayMesh) SurfaceGetName(surfIdx gdnative.Int) gdnative.String {
@@ -455,7 +455,7 @@ func (o *ArrayMesh) SurfaceGetPrimitiveType(surfIdx gdnative.Int) MeshPrimitiveT
 }
 
 /*
-        Remove a surface at position surf_idx, shifting greater surfaces one surf_idx slot down.
+        Removes a surface at position [code]surf_idx[/code], shifting greater surfaces one [code]surf_idx[/code] slot down.
 	Args: [{ false surf_idx int}], Returns: void
 */
 func (o *ArrayMesh) SurfaceRemove(surfIdx gdnative.Int) {
@@ -476,7 +476,7 @@ func (o *ArrayMesh) SurfaceRemove(surfIdx gdnative.Int) {
 }
 
 /*
-        Set a name for a given surface.
+        Sets a name for a given surface.
 	Args: [{ false surf_idx int} { false name String}], Returns: void
 */
 func (o *ArrayMesh) SurfaceSetName(surfIdx gdnative.Int, name gdnative.String) {
@@ -498,7 +498,7 @@ func (o *ArrayMesh) SurfaceSetName(surfIdx gdnative.Int, name gdnative.String) {
 }
 
 /*
-        Updates a specified region of mesh arrays on GPU. Warning: only use if you know what you are doing. You can easily cause crashes by calling this function with improper arguments.
+        Updates a specified region of mesh arrays on the GPU. [b]Warning:[/b] Only use if you know what you are doing. You can easily cause crashes by calling this function with improper arguments.
 	Args: [{ false surf_idx int} { false offset int} { false data PoolByteArray}], Returns: void
 */
 func (o *ArrayMesh) SurfaceUpdateRegion(surfIdx gdnative.Int, offset gdnative.Int, data gdnative.PoolByteArray) {

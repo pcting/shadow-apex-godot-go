@@ -23,8 +23,8 @@ func newSkinReferenceFromPointer(ptr gdnative.Pointer) SkinReference {
 }
 
 /*
-Undocumented
-*/
+
+ */
 type SkinReference struct {
 	Reference
 	owner gdnative.Object
@@ -55,7 +55,7 @@ func (o *SkinReference) X_SkinChanged() {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: RID
 */
 func (o *SkinReference) GetSkeleton() gdnative.Rid {
@@ -78,7 +78,7 @@ func (o *SkinReference) GetSkeleton() gdnative.Rid {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: Skin
 */
 func (o *SkinReference) GetSkin() SkinImplementer {

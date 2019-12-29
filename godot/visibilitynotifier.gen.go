@@ -58,7 +58,7 @@ func (o *VisibilityNotifier) GetAabb() gdnative.Aabb {
 }
 
 /*
-        If [code]true[/code], the bounding box is on the screen. Note: It takes one frame for the node's visibility to be assessed once added to the scene tree, so this method will return [code]false[/code] right after it is instantiated, even if it will be on screen in the draw pass.
+        If [code]true[/code], the bounding box is on the screen. [b]Note:[/b] It takes one frame for the node's visibility to be assessed once added to the scene tree, so this method will return [code]false[/code] right after it is instantiated, even if it will be on screen in the draw pass.
 	Args: [], Returns: bool
 */
 func (o *VisibilityNotifier) IsOnScreen() gdnative.Bool {

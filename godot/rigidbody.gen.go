@@ -33,7 +33,7 @@ func newRigidBodyFromPointer(ptr gdnative.Pointer) RigidBody {
 }
 
 /*
-This is the node that implements full 3D physics. This means that you do not control a RigidBody directly. Instead you can apply forces to it (gravity, impulses, etc.), and the physics simulation will calculate the resulting movement, collision, bouncing, rotating, etc. A RigidBody has 4 behavior [member mode]s: Rigid, Static, Character, and Kinematic. [b]Note:[/b] Don't change a RigidBody's position every frame or very often. Sporadic changes work fine, but physics runs at a different granularity (fixed hz) than usual rendering (process callback) and maybe even in a separate thread, so changing this from a process loop will yield strange behavior. If you need to directly affect the body's state, use [method _integrate_forces], which allows you to directly access the physics state. If you need to override the default physics behavior, you can write a custom force integration. See [member custom_integrator].
+This is the node that implements full 3D physics. This means that you do not control a RigidBody directly. Instead, you can apply forces to it (gravity, impulses, etc.), and the physics simulation will calculate the resulting movement, collision, bouncing, rotating, etc. A RigidBody has 4 behavior [member mode]s: Rigid, Static, Character, and Kinematic. [b]Note:[/b] Don't change a RigidBody's position every frame or very often. Sporadic changes work fine, but physics runs at a different granularity (fixed Hz) than usual rendering (process callback) and maybe even in a separate thread, so changing this from a process loop may result in strange behavior. If you need to directly affect the body's state, use [method _integrate_forces], which allows you to directly access the physics state. If you need to override the default physics behavior, you can write a custom force integration function. See [member custom_integrator].
 */
 type RigidBody struct {
 	PhysicsBody
@@ -234,7 +234,7 @@ func (o *RigidBody) ApplyCentralImpulse(impulse gdnative.Vector3) {
 }
 
 /*
-        Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
+        Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
 	Args: [{ false position Vector3} { false impulse Vector3}], Returns: void
 */
 func (o *RigidBody) ApplyImpulse(position gdnative.Vector3, impulse gdnative.Vector3) {
@@ -256,7 +256,7 @@ func (o *RigidBody) ApplyImpulse(position gdnative.Vector3, impulse gdnative.Vec
 }
 
 /*
-        Applies a torque impulse which will be affected by the body mass and shape. This will rotate the body around the passed in vector.
+        Applies a torque impulse which will be affected by the body mass and shape. This will rotate the body around the [code]impulse[/code] vector passed.
 	Args: [{ false impulse Vector3}], Returns: void
 */
 func (o *RigidBody) ApplyTorqueImpulse(impulse gdnative.Vector3) {
@@ -323,7 +323,7 @@ func (o *RigidBody) GetAngularVelocity() gdnative.Vector3 {
 }
 
 /*
-        Undocumented
+        Returns [code]true[/code] if the specified linear or rotational axis is locked.
 	Args: [{ false axis int}], Returns: bool
 */
 func (o *RigidBody) GetAxisLock(axis gdnative.Int) gdnative.Bool {
@@ -370,7 +370,7 @@ func (o *RigidBody) GetBounce() gdnative.Real {
 }
 
 /*
-        Returns a list of the bodies colliding with this one. By default, number of max contacts reported is at 0, see the [member contacts_reported] property to increase it. Note that the result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
+        Returns a list of the bodies colliding with this one. By default, number of max contacts reported is at 0, see the [member contacts_reported] property to increase it. [b]Note:[/b] The result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
 	Args: [], Returns: Array
 */
 func (o *RigidBody) GetCollidingBodies() gdnative.Array {
@@ -771,7 +771,7 @@ func (o *RigidBody) SetAngularVelocity(angularVelocity gdnative.Vector3) {
 }
 
 /*
-        Undocumented
+        Locks the specified linear or rotational axis.
 	Args: [{ false axis int} { false lock bool}], Returns: void
 */
 func (o *RigidBody) SetAxisLock(axis gdnative.Int, lock gdnative.Bool) {

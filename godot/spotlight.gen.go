@@ -23,7 +23,7 @@ func newSpotLightFromPointer(ptr gdnative.Pointer) SpotLight {
 }
 
 /*
-A SpotLight light is a type of [Light] node that emits lights in a specific direction, in the shape of a cone. The light is attenuated through the distance and this attenuation can be configured by changing the energy, radius and attenuation parameters of [Light].
+A Spotlight is a type of [Light] node that emits lights in a specific direction, in the shape of a cone. The light is attenuated through the distance. This attenuation can be configured by changing the energy, radius and attenuation parameters of [Light].
 */
 type SpotLight struct {
 	Light

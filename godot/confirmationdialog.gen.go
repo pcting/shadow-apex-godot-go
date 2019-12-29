@@ -23,7 +23,7 @@ func newConfirmationDialogFromPointer(ptr gdnative.Pointer) ConfirmationDialog {
 }
 
 /*
-Dialog for confirmation of actions. This dialog inherits from [AcceptDialog], but has by default an OK and Cancel button (in host OS order).
+Dialog for confirmation of actions. This dialog inherits from [AcceptDialog], but has by default an OK and Cancel button (in host OS order). To get cancel action, you can use: [codeblock] get_cancel().connect("pressed", self, "cancelled") [/codeblock].
 */
 type ConfirmationDialog struct {
 	AcceptDialog

@@ -32,7 +32,7 @@ func newHashingContextFromPointer(ptr gdnative.Pointer) HashingContext {
 }
 
 /*
-Undocumented
+The HashingContext class provides an interface for computing cryptographic hashes over multiple iterations. This is useful for example when computing hashes of big files (so you don't have to load them all in memory), network streams, and data streams in general (so you don't have to hold buffers). The [enum HashType] enum shows the supported hashing algorithms. [codeblock] const CHUNK_SIZE = 1024 func hash_file(path): var ctx = HashingContext.new() var file = File.new() # Start a SHA-256 context. ctx.start(HashingContext.HASH_SHA256) # Check that file exists. if not file.file_exists(path): return # Open the file to hash. file.open(path, File.READ) # Update the context after reading each chunk. while not file.eof_reached(): ctx.update(file.get_buffer(CHUNK_SIZE)) # Get the computed hash. var res = ctx.finish() # Print the result as hex string and array. printt(res.hex_encode(), Array(res)) [/codeblock] [b]Note:[/b] Not available in HTML5 exports.
 */
 type HashingContext struct {
 	Reference
@@ -44,7 +44,7 @@ func (o *HashingContext) BaseClass() string {
 }
 
 /*
-        Undocumented
+        Closes the current context, and return the computed hash.
 	Args: [], Returns: PoolByteArray
 */
 func (o *HashingContext) Finish() gdnative.PoolByteArray {
@@ -67,7 +67,7 @@ func (o *HashingContext) Finish() gdnative.PoolByteArray {
 }
 
 /*
-        Undocumented
+        Starts a new hash computation of the given [code]type[/code] (e.g. [constant HASH_SHA256] to start computation of a SHA-256).
 	Args: [{ false type int}], Returns: enum.Error
 */
 func (o *HashingContext) Start(aType gdnative.Int) gdnative.Error {
@@ -91,7 +91,7 @@ func (o *HashingContext) Start(aType gdnative.Int) gdnative.Error {
 }
 
 /*
-        Undocumented
+        Updates the computation with the given [code]chunk[/code] of data.
 	Args: [{ false chunk PoolByteArray}], Returns: enum.Error
 */
 func (o *HashingContext) Update(chunk gdnative.PoolByteArray) gdnative.Error {

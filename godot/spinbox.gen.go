@@ -138,6 +138,26 @@ func (o *SpinBox) X_TextEntered(arg0 gdnative.String) {
 }
 
 /*
+        Applies the current value of this [SpinBox].
+	Args: [], Returns: void
+*/
+func (o *SpinBox) Apply() {
+	//log.Println("Calling SpinBox.Apply()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("SpinBox", "apply")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Undocumented
 	Args: [], Returns: enum.LineEdit::Align
 */
@@ -358,6 +378,7 @@ type SpinBoxImplementer interface {
 	X_LineEditInput(arg0 InputEventImplementer)
 	X_RangeClickTimeout()
 	X_TextEntered(arg0 gdnative.String)
+	Apply()
 	GetLineEdit() LineEditImplementer
 	GetPrefix() gdnative.String
 	GetSuffix() gdnative.String

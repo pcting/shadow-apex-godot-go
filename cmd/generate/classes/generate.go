@@ -463,6 +463,17 @@ func Generate() {
 			outFileName = strings.Replace(outFileName, "_", "", 1)
 		}
 
+		var method GDMethod
+
+		if outFileName == "object.gen.go" {
+			for _, m := range api.Methods {
+				if m.Name == "emit_signal" {
+					method = m
+				}
+			}
+			log.Printf("%v\n", method)
+		}
+
 		// Set the current API
 		view.API = api
 		view.Package = packageName

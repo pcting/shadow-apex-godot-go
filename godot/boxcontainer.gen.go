@@ -44,7 +44,7 @@ func (o *BoxContainer) BaseClass() string {
 }
 
 /*
-        Adds a control to the box as a spacer. If [code]true[/code], [i]begin[/i] will insert the spacer control in front of other children.
+        Adds a control to the box as a spacer. If [code]true[/code], [code]begin[/code] will insert the spacer control in front of other children.
 	Args: [{ false begin bool}], Returns: void
 */
 func (o *BoxContainer) AddSpacer(begin gdnative.Bool) {

@@ -20,6 +20,7 @@ const (
 	VisualShaderNodeTextureSource2DNormal  VisualShaderNodeTextureSource = 3
 	VisualShaderNodeTextureSource2DTexture VisualShaderNodeTextureSource = 2
 	VisualShaderNodeTextureSourceDepth     VisualShaderNodeTextureSource = 4
+	VisualShaderNodeTextureSourcePort      VisualShaderNodeTextureSource = 5
 	VisualShaderNodeTextureSourceScreen    VisualShaderNodeTextureSource = 1
 	VisualShaderNodeTextureSourceTexture   VisualShaderNodeTextureSource = 0
 )

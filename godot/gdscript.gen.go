@@ -61,11 +61,15 @@ func (o *GDScript) GetAsByteCode() gdnative.PoolByteArray {
         Undocumented
 	Args: [], Returns: Variant
 */
-func (o *GDScript) New() gdnative.Variant {
+func (o *GDScript) New(args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling GDScript.New()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 0+len(args), 0+len(args))
+
+	for i, arg := range args {
+		ptrArguments[i+0] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("GDScript", "new")
@@ -85,5 +89,5 @@ func (o *GDScript) New() gdnative.Variant {
 type GDScriptImplementer interface {
 	ScriptImplementer
 	GetAsByteCode() gdnative.PoolByteArray
-	New() gdnative.Variant
+	New(args ...gdnative.Variant) gdnative.Variant
 }

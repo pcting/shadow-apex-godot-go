@@ -43,7 +43,7 @@ func newCanvasItemMaterialFromPointer(ptr gdnative.Pointer) CanvasItemMaterial {
 }
 
 /*
-[code]CanvasItemMaterial[/code]s provide a means of modifying the textures associated with a CanvasItem. They specialize in describing blend and lighting behaviors for textures. Use a [ShaderMaterial] to more fully customize a material's interactions with a [CanvasItem].
+[CanvasItemMaterial]s provide a means of modifying the textures associated with a CanvasItem. They specialize in describing blend and lighting behaviors for textures. Use a [ShaderMaterial] to more fully customize a material's interactions with a [CanvasItem].
 */
 type CanvasItemMaterial struct {
 	Material

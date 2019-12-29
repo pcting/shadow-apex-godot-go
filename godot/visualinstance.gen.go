@@ -23,8 +23,8 @@ func newVisualInstanceFromPointer(ptr gdnative.Pointer) VisualInstance {
 }
 
 /*
-
- */
+The VisualInstance is used to connect a resource to a visual representation. All visual 3D nodes inherit from the VisualInstance. In general, you should not access the VisualInstance properties directly as they are accessed and managed by the nodes that inherit from VisualInstance. VisualInstance is the node representation of the [VisualServer] instance.
+*/
 type VisualInstance struct {
 	Spatial
 	owner gdnative.Object
@@ -81,7 +81,7 @@ func (o *VisualInstance) GetAabb() gdnative.Aabb {
 }
 
 /*
-
+        Returns the RID of the resource associated with this VisualInstance. For example, if the Node is a [MeshInstance], this will return the RID of the associated [Mesh].
 	Args: [], Returns: RID
 */
 func (o *VisualInstance) GetBase() gdnative.Rid {
@@ -104,7 +104,7 @@ func (o *VisualInstance) GetBase() gdnative.Rid {
 }
 
 /*
-
+        Returns the RID of this instance. This RID is the same as the RID returned by [method VisualServer.instance_create]. This RID is needed if you want to call [VisualServer] functions directly on this VisualInstance.
 	Args: [], Returns: RID
 */
 func (o *VisualInstance) GetInstance() gdnative.Rid {
@@ -150,7 +150,7 @@ func (o *VisualInstance) GetLayerMask() gdnative.Int {
 }
 
 /*
-
+        Returns [code]true[/code] when the specified layer is enabled in [member layers] and [code]false[/code] otherwise.
 	Args: [{ false layer int}], Returns: bool
 */
 func (o *VisualInstance) GetLayerMaskBit(layer gdnative.Int) gdnative.Bool {
@@ -197,7 +197,7 @@ func (o *VisualInstance) GetTransformedAabb() gdnative.Aabb {
 }
 
 /*
-        Sets the base of the VisualInstance, which changes how the engine handles the VisualInstance under the hood. It is recommended to only use set_base if you know what you're doing.
+        Sets the resource that is instantiated by this VisualInstance, which changes how the engine handles the VisualInstance under the hood. Equivalent to [method VisualServer.instance_set_base].
 	Args: [{ false base RID}], Returns: void
 */
 func (o *VisualInstance) SetBase(base gdnative.Rid) {
@@ -239,7 +239,7 @@ func (o *VisualInstance) SetLayerMask(mask gdnative.Int) {
 }
 
 /*
-
+        Enables a particular layer in [member layers].
 	Args: [{ false layer int} { false enabled bool}], Returns: void
 */
 func (o *VisualInstance) SetLayerMaskBit(layer gdnative.Int, enabled gdnative.Bool) {

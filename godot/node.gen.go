@@ -42,7 +42,7 @@ func newNodeFromPointer(ptr gdnative.Pointer) Node {
 }
 
 /*
-Nodes are Godot's building blocks. They can be assigned as the child of another node, resulting in a tree arrangement. A given node can contain any number of nodes as children with the requirement that all siblings (direct children of a node) should have unique names. A tree of nodes is called a [i]scene[/i]. Scenes can be saved to the disk and then instanced into other scenes. This allows for very high flexibility in the architecture and data model of Godot projects. [b]Scene tree:[/b] The [SceneTree] contains the active tree of nodes. When a node is added to the scene tree, it receives the [constant NOTIFICATION_ENTER_TREE] notification and its [method _enter_tree] callback is triggered. Child nodes are always added [i]after[/i] their parent node, i.e. the [method _enter_tree] callback of a parent node will be triggered before its child's. Once all nodes have been added in the scene tree, they receive the [constant NOTIFICATION_READY] notification and their respective [method _ready] callbacks are triggered. For groups of nodes, the [method _ready] callback is called in reverse order, starting with the children and moving up to the parent nodes. This means that when adding a node to the scene tree, the following order will be used for the callbacks: [method _enter_tree] of the parent, [method _enter_tree] of the children, [method _ready] of the children and finally [method _ready] of the parent (recursively for the entire scene tree). [b]Processing:[/b] Nodes can override the "process" state, so that they receive a callback on each frame requesting them to process (do something). Normal processing (callback [method _process], toggled with [method set_process]) happens as fast as possible and is dependent on the frame rate, so the processing time [i]delta[/i] is passed as an argument. Physics processing (callback [method _physics_process], toggled with [method set_physics_process]) happens a fixed number of times per second (60 by default) and is useful for code related to the physics engine. Nodes can also process input events. When present, the [method _input] function will be called for each input that the program receives. In many cases, this can be overkill (unless used for simple projects), and the [method _unhandled_input] function might be preferred; it is called when the input event was not handled by anyone else (typically, GUI [Control] nodes), ensuring that the node only receives the events that were meant for it. To keep track of the scene hierarchy (especially when instancing scenes into other scenes), an "owner" can be set for the node with the [member owner] property. This keeps track of who instanced what. This is mostly useful when writing editors and tools, though. Finally, when a node is freed with [method Object.free] or [method queue_free], it will also free all its children. [b]Groups:[/b] Nodes can be added to as many groups as you want to be easy to manage, you could create groups like "enemies" or "collectables" for example, depending on your game. See [method add_to_group], [method is_in_group] and [method remove_from_group]. You can then retrieve all nodes in these groups, iterate them and even call methods on groups via the methods on [SceneTree]. [b]Networking with nodes:[/b] After connecting to a server (or making one, see [NetworkedMultiplayerENet]) it is possible to use the built-in RPC (remote procedure call) system to communicate over the network. By calling [method rpc] with a method name, it will be called locally and in all connected peers (peers = clients and the server that accepts connections). To identify which node receives the RPC call Godot will use its [NodePath] (make sure node names are the same on all peers). Also take a look at the high-level networking tutorial and corresponding demos.
+Nodes are Godot's building blocks. They can be assigned as the child of another node, resulting in a tree arrangement. A given node can contain any number of nodes as children with the requirement that all siblings (direct children of a node) should have unique names. A tree of nodes is called a [i]scene[/i]. Scenes can be saved to the disk and then instanced into other scenes. This allows for very high flexibility in the architecture and data model of Godot projects. [b]Scene tree:[/b] The [SceneTree] contains the active tree of nodes. When a node is added to the scene tree, it receives the [constant NOTIFICATION_ENTER_TREE] notification and its [method _enter_tree] callback is triggered. Child nodes are always added [i]after[/i] their parent node, i.e. the [method _enter_tree] callback of a parent node will be triggered before its child's. Once all nodes have been added in the scene tree, they receive the [constant NOTIFICATION_READY] notification and their respective [method _ready] callbacks are triggered. For groups of nodes, the [method _ready] callback is called in reverse order, starting with the children and moving up to the parent nodes. This means that when adding a node to the scene tree, the following order will be used for the callbacks: [method _enter_tree] of the parent, [method _enter_tree] of the children, [method _ready] of the children and finally [method _ready] of the parent (recursively for the entire scene tree). [b]Processing:[/b] Nodes can override the "process" state, so that they receive a callback on each frame requesting them to process (do something). Normal processing (callback [method _process], toggled with [method set_process]) happens as fast as possible and is dependent on the frame rate, so the processing time [i]delta[/i] is passed as an argument. Physics processing (callback [method _physics_process], toggled with [method set_physics_process]) happens a fixed number of times per second (60 by default) and is useful for code related to the physics engine. Nodes can also process input events. When present, the [method _input] function will be called for each input that the program receives. In many cases, this can be overkill (unless used for simple projects), and the [method _unhandled_input] function might be preferred; it is called when the input event was not handled by anyone else (typically, GUI [Control] nodes), ensuring that the node only receives the events that were meant for it. To keep track of the scene hierarchy (especially when instancing scenes into other scenes), an "owner" can be set for the node with the [member owner] property. This keeps track of who instanced what. This is mostly useful when writing editors and tools, though. Finally, when a node is freed with [method Object.free] or [method queue_free], it will also free all its children. [b]Groups:[/b] Nodes can be added to as many groups as you want to be easy to manage, you could create groups like "enemies" or "collectables" for example, depending on your game. See [method add_to_group], [method is_in_group] and [method remove_from_group]. You can then retrieve all nodes in these groups, iterate them and even call methods on groups via the methods on [SceneTree]. [b]Networking with nodes:[/b] After connecting to a server (or making one, see [NetworkedMultiplayerENet]), it is possible to use the built-in RPC (remote procedure call) system to communicate over the network. By calling [method rpc] with a method name, it will be called locally and in all connected peers (peers = clients and the server that accepts connections). To identify which node receives the RPC call, Godot will use its [NodePath] (make sure node names are the same on all peers). Also, take a look at the high-level networking tutorial and corresponding demos.
 */
 type Node struct {
 	Object
@@ -94,7 +94,7 @@ func (o *Node) X_ExitTree() {
 }
 
 /*
-        The string returned from this method is displayed as a warning in the "Scene Dock" if the script that overrides it is a [code]tool[/code] script. Returning an empty string produces no warning.
+        The string returned from this method is displayed as a warning in the Scene Dock if the script that overrides it is a [code]tool[/code] script. Returning an empty string produces no warning. Call [method update_configuration_warning] when the warning needs to be updated for this node.
 	Args: [], Returns: String
 */
 func (o *Node) X_GetConfigurationWarning() gdnative.String {
@@ -330,7 +330,7 @@ func (o *Node) X_UnhandledKeyInput(event InputEventKeyImplementer) {
 }
 
 /*
-        Adds a child node. Nodes can have any number of children, but every child must have a unique name. Child nodes are automatically deleted when the parent node is deleted, so an entire scene can be removed by deleting its topmost node. Setting [code]legible_unique_name[/code] to [code]true[/code] creates child nodes with human-readable names, based on the name of the node being instanced instead of its type.
+        Adds a child node. Nodes can have any number of children, but every child must have a unique name. Child nodes are automatically deleted when the parent node is deleted, so an entire scene can be removed by deleting its topmost node. If [code]legible_unique_name[/code] is [code]true[/code], the child node will have an human-readable name based on the name of the node being instanced instead of its type. [b]Note:[/b] If the child node already has a parent, the function will fail. Use [method remove_child] first to remove the node from its current parent. For example: [codeblock] if child_node.get_parent(): child_node.get_parent().remove_child(child_node) add_child(child_node) [/codeblock] [b]Note:[/b] If you want a child to be persisted to a [PackedScene], you must set [member owner] in addition to calling [method add_child]. This is typically relevant for [url=https://godot.readthedocs.io/en/latest/tutorials/misc/running_code_in_the_editor.html]tool scripts[/url] and [url=https://godot.readthedocs.io/en/latest/tutorials/plugins/editor/index.html]editor plugins[/url]. If [method add_child] is called without setting [member owner], the newly added [Node] will not be visible in the scene tree, though it will be visible in the 2D/3D view.
 	Args: [{ false node Node} {False true legible_unique_name bool}], Returns: void
 */
 func (o *Node) AddChild(node NodeImplementer, legibleUniqueName gdnative.Bool) {
@@ -352,7 +352,7 @@ func (o *Node) AddChild(node NodeImplementer, legibleUniqueName gdnative.Bool) {
 }
 
 /*
-        Adds a child node. The child is placed below the given node in the list of children. Setting [code]legible_unique_name[/code] to [code]true[/code] creates child nodes with human-readable names, based on the name of the node being instanced instead of its type.
+        Adds a child node. The child is placed below the given node in the list of children. If [code]legible_unique_name[/code] is [code]true[/code], the child node will have an human-readable name based on the name of the node being instanced instead of its type.
 	Args: [{ false node Node} { false child_node Node} {False true legible_unique_name bool}], Returns: void
 */
 func (o *Node) AddChildBelowNode(node NodeImplementer, childNode NodeImplementer, legibleUniqueName gdnative.Bool) {
@@ -420,7 +420,7 @@ func (o *Node) CanProcess() gdnative.Bool {
 }
 
 /*
-        Duplicates the node, returning a new node. You can fine-tune the behavior using the [code]flags[/code] (see [enum Node.DuplicateFlags]).
+        Duplicates the node, returning a new node. You can fine-tune the behavior using the [code]flags[/code] (see [enum DuplicateFlags]). [b]Note:[/b] It will not work properly if the node contains a script with constructor arguments (i.e. needs to supply arguments to [method Object._init] method). In that case, the node will be duplicated without a script.
 	Args: [{15 true flags int}], Returns: Node
 */
 func (o *Node) Duplicate(flags gdnative.Int) NodeImplementer {
@@ -458,7 +458,7 @@ func (o *Node) Duplicate(flags gdnative.Int) NodeImplementer {
 }
 
 /*
-        Finds a descendant of this node whose name matches [code]mask[/code] as in [method String.match] (i.e. case sensitive, but '*' matches zero or more characters and '?' matches any single character except '.'). Note that it does not match against the full path, just against individual node names. If [code]owned[/code] is [code]true[/code], this method only finds nodes whose owner is this node. This is especially important for scenes instantiated through script, because those scenes don't have an owner.
+        Finds a descendant of this node whose name matches [code]mask[/code] as in [method String.match] (i.e. case-sensitive, but [code]"*"[/code] matches zero or more characters and [code]"?"[/code] matches any single character except [code]"."[/code]). [b]Note:[/b] It does not match against the full path, just against individual node names. If [code]owned[/code] is [code]true[/code], this method only finds nodes whose owner is this node. This is especially important for scenes instantiated through a script, because those scenes don't have an owner.
 	Args: [{ false mask String} {True true recursive bool} {True true owned bool}], Returns: Node
 */
 func (o *Node) FindNode(mask gdnative.String, recursive gdnative.Bool, owned gdnative.Bool) NodeImplementer {
@@ -498,7 +498,7 @@ func (o *Node) FindNode(mask gdnative.String, recursive gdnative.Bool, owned gdn
 }
 
 /*
-        Finds the first parent of the current node whose name matches [code]mask[/code] as in [method String.match] (i.e. case sensitive, but '*' matches zero or more characters and '?' matches any single character except '.'). Note that it does not match against the full path, just against individual node names.
+        Finds the first parent of the current node whose name matches [code]mask[/code] as in [method String.match] (i.e. case-sensitive, but [code]"*"[/code] matches zero or more characters and [code]"?"[/code] matches any single character except [code]"."[/code]). [b]Note:[/b] It does not match against the full path, just against individual node names.
 	Args: [{ false mask String}], Returns: Node
 */
 func (o *Node) FindParent(mask gdnative.String) NodeImplementer {
@@ -809,7 +809,7 @@ func (o *Node) GetNetworkMaster() gdnative.Int {
 }
 
 /*
-        Fetches a node. The [NodePath] can be either a relative path (from the current node) or an absolute path (in the scene tree) to a node. If the path does not exist, a [code]null instance[/code] is returned and attempts to access it will result in an "Attempt to call <method> on a null instance." error. [b]Note:[/b] Fetching absolute paths only works when the node is inside the scene tree (see [method is_inside_tree]). [b]Example:[/b] Assume your current node is Character and the following tree: [codeblock] /root /root/Character /root/Character/Sword /root/Character/Backpack/Dagger /root/MyGame /root/Swamp/Alligator /root/Swamp/Mosquito /root/Swamp/Goblin [/codeblock] Possible paths are: [codeblock] get_node("Sword") get_node("Backpack/Dagger") get_node("../Swamp/Alligator") get_node("/root/MyGame") [/codeblock]
+        Fetches a node. The [NodePath] can be either a relative path (from the current node) or an absolute path (in the scene tree) to a node. If the path does not exist, a [code]null instance[/code] is returned and an error is logged. Attempts to access methods on the return value will result in an "Attempt to call <method> on a null instance." error. [b]Note:[/b] Fetching absolute paths only works when the node is inside the scene tree (see [method is_inside_tree]). [b]Example:[/b] Assume your current node is Character and the following tree: [codeblock] /root /root/Character /root/Character/Sword /root/Character/Backpack/Dagger /root/MyGame /root/Swamp/Alligator /root/Swamp/Mosquito /root/Swamp/Goblin [/codeblock] Possible paths are: [codeblock] get_node("Sword") get_node("Backpack/Dagger") get_node("../Swamp/Alligator") get_node("/root/MyGame") [/codeblock]
 	Args: [{ false path NodePath}], Returns: Node
 */
 func (o *Node) GetNode(path gdnative.NodePath) NodeImplementer {
@@ -847,7 +847,7 @@ func (o *Node) GetNode(path gdnative.NodePath) NodeImplementer {
 }
 
 /*
-
+        Fetches a node and one of its resources as specified by the [NodePath]'s subname (e.g. [code]Area2D/CollisionShape2D:shape[/code]). If several nested resources are specified in the [NodePath], the last one will be fetched. The return value is an array of size 3: the first index points to the [Node] (or [code]null[/code] if not found), the second index points to the [Resource] (or [code]null[/code] if not found), and the third index is the remaining [NodePath], if any. For example, assuming that [code]Area2D/CollisionShape2D[/code] is a valid node and that its [code]shape[/code] property has been assigned a [RectangleShape2D] resource, one could have this kind of output: [codeblock] print(get_node_and_resource("Area2D/CollisionShape2D")) # [[CollisionShape2D:1161], Null, ] print(get_node_and_resource("Area2D/CollisionShape2D:shape")) # [[CollisionShape2D:1161], [RectangleShape2D:1156], ] print(get_node_and_resource("Area2D/CollisionShape2D:shape:extents")) # [[CollisionShape2D:1161], [RectangleShape2D:1156], :extents] [/codeblock]
 	Args: [{ false path NodePath}], Returns: Array
 */
 func (o *Node) GetNodeAndResource(path gdnative.NodePath) gdnative.Array {
@@ -871,7 +871,7 @@ func (o *Node) GetNodeAndResource(path gdnative.NodePath) gdnative.Array {
 }
 
 /*
-        Similar to [method get_node], but does not raise an error when [code]path[/code] does not point to a valid [code]Node[/code].
+        Similar to [method get_node], but does not log an error if [code]path[/code] does not point to a valid [Node].
 	Args: [{ false path NodePath}], Returns: Node
 */
 func (o *Node) GetNodeOrNull(path gdnative.NodePath) NodeImplementer {
@@ -946,7 +946,7 @@ func (o *Node) GetOwner() NodeImplementer {
 }
 
 /*
-        Returns the parent node of the current node, or an empty [code]Node[/code] if the node lacks a parent.
+        Returns the parent node of the current node, or an empty [Node] if the node lacks a parent.
 	Args: [], Returns: Node
 */
 func (o *Node) GetParent() NodeImplementer {
@@ -1266,7 +1266,7 @@ func (o *Node) HasNode(path gdnative.NodePath) gdnative.Bool {
 }
 
 /*
-
+        Returns [code]true[/code] if the [NodePath] points to a valid node and its subname points to a valid resource, e.g. [code]Area2D/CollisionShape2D:shape[/code]. Properties with a non-[Resource] type (e.g. nodes or primitive math types) are not considered resources.
 	Args: [{ false path NodePath}], Returns: bool
 */
 func (o *Node) HasNodeAndResource(path gdnative.NodePath) gdnative.Bool {
@@ -1634,7 +1634,7 @@ func (o *Node) PrintStrayNodes() {
 }
 
 /*
-        Prints the tree to stdout. Used mainly for debugging purposes. This version displays the path relative to the current node, and is good for copy/pasting into the [method get_node] function. Example output: [codeblock] TheGame TheGame/Menu TheGame/Menu/Label TheGame/Menu/Camera2D TheGame/SplashScreen TheGame/SplashScreen/Camera2D [/codeblock]
+        Prints the tree to stdout. Used mainly for debugging purposes. This version displays the path relative to the current node, and is good for copy/pasting into the [method get_node] function. [b]Example output:[/b] [codeblock] TheGame TheGame/Menu TheGame/Menu/Label TheGame/Menu/Camera2D TheGame/SplashScreen TheGame/SplashScreen/Camera2D [/codeblock]
 	Args: [], Returns: void
 */
 func (o *Node) PrintTree() {
@@ -1654,7 +1654,7 @@ func (o *Node) PrintTree() {
 }
 
 /*
-        Similar to [method print_tree], this prints the tree to stdout. This version displays a more graphical representation similar to what is displayed in the scene inspector. It is useful for inspecting larger trees. Example output: [codeblock] ┖╴TheGame ┠╴Menu ┃ ┠╴Label ┃ ┖╴Camera2D ┖-SplashScreen ┖╴Camera2D [/codeblock]
+        Similar to [method print_tree], this prints the tree to stdout. This version displays a more graphical representation similar to what is displayed in the scene inspector. It is useful for inspecting larger trees. [b]Example output:[/b] [codeblock] ┖╴TheGame ┠╴Menu ┃ ┠╴Label ┃ ┖╴Camera2D ┖-SplashScreen ┖╴Camera2D [/codeblock]
 	Args: [], Returns: void
 */
 func (o *Node) PrintTreePretty() {
@@ -1674,7 +1674,7 @@ func (o *Node) PrintTreePretty() {
 }
 
 /*
-        Calls the given method (if present) with the arguments given in [code]args[/code] on this node and recursively on all its children. If the [code]parent_first[/code] argument is [code]true[/code] then the method will be called on the current node first, then on all children. If it is [code]false[/code] then the children will be called first.
+        Calls the given method (if present) with the arguments given in [code]args[/code] on this node and recursively on all its children. If the [code]parent_first[/code] argument is [code]true[/code], the method will be called on the current node first, then on all its children. If [code]parent_first[/code] is [code]false[/code], the children will be called first.
 	Args: [{ false method String} {[] true args Array} {False true parent_first bool}], Returns: void
 */
 func (o *Node) PropagateCall(method gdnative.String, args gdnative.Array, parentFirst gdnative.Bool) {
@@ -1862,15 +1862,19 @@ func (o *Node) RequestReady() {
 }
 
 /*
-        Sends a remote procedure call request for the given [code]method[/code] to peers on the network (and locally), optionally sending all additional arguments as arguments to the method called by the RPC. The call request will only be received by nodes with the same [NodePath], including the exact same node name. Behaviour depends on the RPC configuration for the given method, see [method rpc_config]. Methods are not exposed to RPCs by default. Also see [method rset] and [method rset_config] for properties. Returns an empty [Variant]. Note that you can only safely use RPCs on clients after you received the [code]connected_to_server[/code] signal from the [SceneTree]. You also need to keep track of the connection state, either by the [SceneTree] signals like [code]server_disconnected[/code] or by checking [code]SceneTree.network_peer.get_connection_status() == CONNECTION_CONNECTED[/code].
+        Sends a remote procedure call request for the given [code]method[/code] to peers on the network (and locally), optionally sending all additional arguments as arguments to the method called by the RPC. The call request will only be received by nodes with the same [NodePath], including the exact same node name. Behaviour depends on the RPC configuration for the given method, see [method rpc_config]. Methods are not exposed to RPCs by default. See also [method rset] and [method rset_config] for properties. Returns an empty [Variant]. [b]Note:[/b] You can only safely use RPCs on clients after you received the [code]connected_to_server[/code] signal from the [SceneTree]. You also need to keep track of the connection state, either by the [SceneTree] signals like [code]server_disconnected[/code] or by checking [code]SceneTree.network_peer.get_connection_status() == CONNECTION_CONNECTED[/code].
 	Args: [{ false method String}], Returns: Variant
 */
-func (o *Node) Rpc(method gdnative.String) gdnative.Variant {
+func (o *Node) Rpc(method gdnative.String, args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling Node.Rpc()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 1+len(args), 1+len(args))
 	ptrArguments[0] = gdnative.NewPointerFromString(method)
+
+	for i, arg := range args {
+		ptrArguments[i+1] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Node", "rpc")
@@ -1886,7 +1890,7 @@ func (o *Node) Rpc(method gdnative.String) gdnative.Variant {
 }
 
 /*
-        Changes the RPC mode for the given [code]method[/code] to the given [code]mode[/code]. See [enum MultiplayerAPI.RPCMode]. An alternative is annotating methods and properties with the corresponding keywords ([code]remote[/code], [code]master[/code], [code]puppet[/code], [code]remotesync[/code], [code]mastersync[/code], [code]puppetsync[/code]). By default, methods are not exposed to networking (and RPCs). Also see [method rset] and [method rset_config] for properties.
+        Changes the RPC mode for the given [code]method[/code] to the given [code]mode[/code]. See [enum MultiplayerAPI.RPCMode]. An alternative is annotating methods and properties with the corresponding keywords ([code]remote[/code], [code]master[/code], [code]puppet[/code], [code]remotesync[/code], [code]mastersync[/code], [code]puppetsync[/code]). By default, methods are not exposed to networking (and RPCs). See also [method rset] and [method rset_config] for properties.
 	Args: [{ false method String} { false mode int}], Returns: void
 */
 func (o *Node) RpcConfig(method gdnative.String, mode gdnative.Int) {
@@ -1911,13 +1915,17 @@ func (o *Node) RpcConfig(method gdnative.String, mode gdnative.Int) {
         Sends a [method rpc] to a specific peer identified by [code]peer_id[/code] (see [method NetworkedMultiplayerPeer.set_target_peer]). Returns an empty [Variant].
 	Args: [{ false peer_id int} { false method String}], Returns: Variant
 */
-func (o *Node) RpcId(peerId gdnative.Int, method gdnative.String) gdnative.Variant {
+func (o *Node) RpcId(peerId gdnative.Int, method gdnative.String, args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling Node.RpcId()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments := make([]gdnative.Pointer, 2+len(args), 2+len(args))
 	ptrArguments[0] = gdnative.NewPointerFromInt(peerId)
 	ptrArguments[1] = gdnative.NewPointerFromString(method)
+
+	for i, arg := range args {
+		ptrArguments[i+2] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Node", "rpc_id")
@@ -1936,12 +1944,16 @@ func (o *Node) RpcId(peerId gdnative.Int, method gdnative.String) gdnative.Varia
         Sends a [method rpc] using an unreliable protocol. Returns an empty [Variant].
 	Args: [{ false method String}], Returns: Variant
 */
-func (o *Node) RpcUnreliable(method gdnative.String) gdnative.Variant {
+func (o *Node) RpcUnreliable(method gdnative.String, args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling Node.RpcUnreliable()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments := make([]gdnative.Pointer, 1+len(args), 1+len(args))
 	ptrArguments[0] = gdnative.NewPointerFromString(method)
+
+	for i, arg := range args {
+		ptrArguments[i+1] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Node", "rpc_unreliable")
@@ -1960,13 +1972,17 @@ func (o *Node) RpcUnreliable(method gdnative.String) gdnative.Variant {
         Sends a [method rpc] to a specific peer identified by [code]peer_id[/code] using an unreliable protocol (see [method NetworkedMultiplayerPeer.set_target_peer]). Returns an empty [Variant].
 	Args: [{ false peer_id int} { false method String}], Returns: Variant
 */
-func (o *Node) RpcUnreliableId(peerId gdnative.Int, method gdnative.String) gdnative.Variant {
+func (o *Node) RpcUnreliableId(peerId gdnative.Int, method gdnative.String, args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling Node.RpcUnreliableId()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments := make([]gdnative.Pointer, 2+len(args), 2+len(args))
 	ptrArguments[0] = gdnative.NewPointerFromInt(peerId)
 	ptrArguments[1] = gdnative.NewPointerFromString(method)
+
+	for i, arg := range args {
+		ptrArguments[i+2] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("Node", "rpc_unreliable_id")
@@ -1982,7 +1998,7 @@ func (o *Node) RpcUnreliableId(peerId gdnative.Int, method gdnative.String) gdna
 }
 
 /*
-        Remotely changes a property's value on other peers (and locally). Behaviour depends on the RPC configuration for the given property, see [method rset_config]. Also see [method rpc] for RPCs for methods, most information applies to this method as well.
+        Remotely changes a property's value on other peers (and locally). Behaviour depends on the RPC configuration for the given property, see [method rset_config]. See also [method rpc] for RPCs for methods, most information applies to this method as well.
 	Args: [{ false property String} { false value Variant}], Returns: void
 */
 func (o *Node) Rset(property gdnative.String, value gdnative.Variant) {
@@ -2004,7 +2020,7 @@ func (o *Node) Rset(property gdnative.String, value gdnative.Variant) {
 }
 
 /*
-        Changes the RPC mode for the given [code]property[/code] to the given [code]mode[/code]. See [enum MultiplayerAPI.RPCMode]. An alternative is annotating methods and properties with the corresponding keywords ([code]remote[/code], [code]master[/code], [code]puppet[/code], [code]remotesync[/code], [code]mastersync[/code], [code]puppetsync[/code]). By default, properties are not exposed to networking (and RPCs). Also see [method rpc] and [method rpc_config] for methods.
+        Changes the RPC mode for the given [code]property[/code] to the given [code]mode[/code]. See [enum MultiplayerAPI.RPCMode]. An alternative is annotating methods and properties with the corresponding keywords ([code]remote[/code], [code]master[/code], [code]puppet[/code], [code]remotesync[/code], [code]mastersync[/code], [code]puppetsync[/code]). By default, properties are not exposed to networking (and RPCs). See also [method rpc] and [method rpc_config] for methods.
 	Args: [{ false property String} { false mode int}], Returns: void
 */
 func (o *Node) RsetConfig(property gdnative.String, mode gdnative.Int) {
@@ -2263,7 +2279,7 @@ func (o *Node) SetPhysicsProcess(enable gdnative.Bool) {
 }
 
 /*
-        Enables or disables internal physics for this node. Internal physics processing happens in isolation from the normal [method _physics_process] calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or physics processing is disabled for scripting ([method set_physics_process]). Only useful for advanced uses to manipulate built-in nodes behavior.
+        Enables or disables internal physics for this node. Internal physics processing happens in isolation from the normal [method _physics_process] calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or physics processing is disabled for scripting ([method set_physics_process]). Only useful for advanced uses to manipulate built-in nodes' behaviour.
 	Args: [{ false enable bool}], Returns: void
 */
 func (o *Node) SetPhysicsProcessInternal(enable gdnative.Bool) {
@@ -2326,7 +2342,7 @@ func (o *Node) SetProcessInput(enable gdnative.Bool) {
 }
 
 /*
-        Enables or disabled internal processing for this node. Internal processing happens in isolation from the normal [method _process] calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or processing is disabled for scripting ([method set_process]). Only useful for advanced uses to manipulate built-in nodes behavior.
+        Enables or disabled internal processing for this node. Internal processing happens in isolation from the normal [method _process] calls and is used by some nodes internally to guarantee proper functioning even if the node is paused or processing is disabled for scripting ([method set_process]). Only useful for advanced uses to manipulate built-in nodes' behaviour.
 	Args: [{ false enable bool}], Returns: void
 */
 func (o *Node) SetProcessInternal(enable gdnative.Bool) {
@@ -2347,7 +2363,7 @@ func (o *Node) SetProcessInternal(enable gdnative.Bool) {
 }
 
 /*
-        Sets the node's priority in the execution order of the enabled processing callbacks (i.e. [constant NOTIFICATION_PROCESS], [constant NOTIFICATION_PHYSICS_PROCESS] and their internal counterparts). Nodes with a higher process priority will have their processing callbacks executed first.
+        Undocumented
 	Args: [{ false priority int}], Returns: void
 */
 func (o *Node) SetProcessPriority(priority gdnative.Int) {
@@ -2431,7 +2447,7 @@ func (o *Node) SetSceneInstanceLoadPlaceholder(loadPlaceholder gdnative.Bool) {
 }
 
 /*
-        Undocumented
+        Updates the warning displayed for this node in the Scene Dock. Use [method _get_configuration_warning] to setup the warning message to display.
 	Args: [], Returns: void
 */
 func (o *Node) UpdateConfigurationWarning() {
@@ -2526,11 +2542,11 @@ type NodeImplementer interface {
 	RemoveFromGroup(group gdnative.String)
 	ReplaceBy(node NodeImplementer, keepData gdnative.Bool)
 	RequestReady()
-	Rpc(method gdnative.String) gdnative.Variant
+	Rpc(method gdnative.String, args ...gdnative.Variant) gdnative.Variant
 	RpcConfig(method gdnative.String, mode gdnative.Int)
-	RpcId(peerId gdnative.Int, method gdnative.String) gdnative.Variant
-	RpcUnreliable(method gdnative.String) gdnative.Variant
-	RpcUnreliableId(peerId gdnative.Int, method gdnative.String) gdnative.Variant
+	RpcId(peerId gdnative.Int, method gdnative.String, args ...gdnative.Variant) gdnative.Variant
+	RpcUnreliable(method gdnative.String, args ...gdnative.Variant) gdnative.Variant
+	RpcUnreliableId(peerId gdnative.Int, method gdnative.String, args ...gdnative.Variant) gdnative.Variant
 	Rset(property gdnative.String, value gdnative.Variant)
 	RsetConfig(property gdnative.String, mode gdnative.Int)
 	RsetId(peerId gdnative.Int, property gdnative.String, value gdnative.Variant)

@@ -104,12 +104,12 @@ func newSingletonOS() *os {
 }
 
 /*
-   Operating System functions. OS Wraps the most common functionality to communicate with the host Operating System, such as: clipboard, video mode, date and time, timers, environment variables, execution of binaries, command line, etc.
+   Operating System functions. OS wraps the most common functionality to communicate with the host operating system, such as the clipboard, video driver, date and time, timers, environment variables, execution of binaries, command line, etc.
 */
 var OS = newSingletonOS()
 
 /*
-Operating System functions. OS Wraps the most common functionality to communicate with the host Operating System, such as: clipboard, video mode, date and time, timers, environment variables, execution of binaries, command line, etc.
+Operating System functions. OS wraps the most common functionality to communicate with the host operating system, such as the clipboard, video driver, date and time, timers, environment variables, execution of binaries, command line, etc.
 */
 type os struct {
 	Object
@@ -2249,6 +2249,30 @@ func (o *os) IsWindowAlwaysOnTop() gdnative.Bool {
         Undocumented
 	Args: [], Returns: bool
 */
+func (o *os) IsWindowFocused() gdnative.Bool {
+	o.ensureSingleton()
+	//log.Println("Calling _OS.IsWindowFocused()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_OS", "is_window_focused")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
 func (o *os) IsWindowFullscreen() gdnative.Bool {
 	o.ensureSingleton()
 	//log.Println("Calling _OS.IsWindowFullscreen()")
@@ -3413,6 +3437,7 @@ type OSImplementer interface {
 	IsVsyncEnabled() gdnative.Bool
 	IsVsyncViaCompositorEnabled() gdnative.Bool
 	IsWindowAlwaysOnTop() gdnative.Bool
+	IsWindowFocused() gdnative.Bool
 	IsWindowFullscreen() gdnative.Bool
 	IsWindowMaximized() gdnative.Bool
 	IsWindowMinimized() gdnative.Bool

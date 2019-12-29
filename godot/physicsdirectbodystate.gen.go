@@ -120,7 +120,7 @@ func (o *PhysicsDirectBodyState) ApplyCentralImpulse(j gdnative.Vector3) {
 }
 
 /*
-        Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
+        Applies a positioned impulse to the body. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason it should only be used when simulating one-time impacts. The position uses the rotation of the global coordinate system, but is centered at the object's origin.
 	Args: [{ false position Vector3} { false j Vector3}], Returns: void
 */
 func (o *PhysicsDirectBodyState) ApplyImpulse(position gdnative.Vector3, j gdnative.Vector3) {
@@ -142,7 +142,7 @@ func (o *PhysicsDirectBodyState) ApplyImpulse(position gdnative.Vector3, j gdnat
 }
 
 /*
-        Apply a torque impulse (which will be affected by the body mass and shape). This will rotate the body around the passed in vector.
+        Apply a torque impulse (which will be affected by the body mass and shape). This will rotate the body around the vector [code]j[/code] passed as parameter.
 	Args: [{ false j Vector3}], Returns: void
 */
 func (o *PhysicsDirectBodyState) ApplyTorqueImpulse(j gdnative.Vector3) {
@@ -367,7 +367,7 @@ func (o *PhysicsDirectBodyState) GetContactColliderVelocityAtPosition(contactIdx
 }
 
 /*
-        Returns the number of contacts this body has with other bodies. Note that by default this returns 0 unless bodies are configured to log contacts. See [member RigidBody.contact_monitor].
+        Returns the number of contacts this body has with other bodies. [b]Note:[/b] By default, this returns 0 unless bodies are configured to monitor contacts. See [member RigidBody.contact_monitor].
 	Args: [], Returns: int
 */
 func (o *PhysicsDirectBodyState) GetContactCount() gdnative.Int {

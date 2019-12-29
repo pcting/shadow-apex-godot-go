@@ -42,7 +42,7 @@ func newHTTPRequestFromPointer(ptr gdnative.Pointer) HTTPRequest {
 }
 
 /*
-A node with the ability to send HTTP requests. Uses [HTTPClient] internally. Can be used to make HTTP requests, i.e. download or upload files or web content via HTTP.
+A node with the ability to send HTTP requests. Uses [HTTPClient] internally. Can be used to make HTTP requests, i.e. download or upload files or web content via HTTP. [b]Example of contacting a REST API and printing one of its returned fields:[/b] [codeblock] func _ready(): # Create an HTTP request node and connect its completion signal. var http_request = HTTPRequest.new() add_child(http_request) http_request.connect("request_completed", self, "_http_request_completed") # Perform the HTTP request. The URL below returns some JSON as of writing. var error = http_request.request("https://httpbin.org/get") if error != OK: push_error("An error occurred in the HTTP request.") # Called when the HTTP request is completed. func _http_request_completed(result, response_code, headers, body): var response = parse_json(body.get_string_from_utf8()) # Will print the user agent string used by the HTTPRequest node (as recognized by httpbin.org). print(response.headers["User-Agent"]) [/codeblock] [b]Example of loading and displaying an image using HTTPRequest:[/b] [codeblock] func _ready(): # Create an HTTP request node and connect its completion signal. var http_request = HTTPRequest.new() add_child(http_request) http_request.connect("request_completed", self, "_http_request_completed") # Perform the HTTP request. The URL below returns a PNG image as of writing. var error = http_request.request("https://via.placeholder.com/512") if error != OK: push_error("An error occurred in the HTTP request.") # Called when the HTTP request is completed. func _http_request_completed(result, response_code, headers, body): var image = Image.new() var error = image.load_png_from_buffer(body) if error != OK: push_error("Couldn't load the image.") var texture = ImageTexture.new() texture.create_from_image(image) # Display the image in a TextureRect node. var texture_rect = TextureRect.new() add_child(texture_rect) texture_rect.texture = texture [/codeblock]
 */
 type HTTPRequest struct {
 	Node
@@ -139,7 +139,7 @@ func (o *HTTPRequest) CancelRequest() {
 }
 
 /*
-        Returns the response body length.
+        Returns the response body length. [b]Note:[/b] Some Web servers may not send a body length. In this case, the value returned will be [code]-1[/code]. If using chunked transfer encoding, the body length will also be [code]-1[/code].
 	Args: [], Returns: int
 */
 func (o *HTTPRequest) GetBodySize() gdnative.Int {
@@ -254,7 +254,7 @@ func (o *HTTPRequest) GetDownloadedBytes() gdnative.Int {
 }
 
 /*
-        Returns the current status of the underlying [HTTPClient]. See [code]STATUS_*[/code] enum on [HTTPClient].
+        Returns the current status of the underlying [HTTPClient]. See [enum HTTPClient.Status].
 	Args: [], Returns: enum.HTTPClient::Status
 */
 func (o *HTTPRequest) GetHttpClientStatus() HTTPClientStatus {
@@ -346,7 +346,7 @@ func (o *HTTPRequest) IsUsingThreads() gdnative.Bool {
 }
 
 /*
-        Creates request on the underlying [HTTPClient]. If there is no configuration errors, it tries to connect using [method HTTPClient.connect_to_host] and passes parameters onto [method HTTPClient.request]. Returns [constant @GlobalScope.OK] if request is successfully created. (Does not imply that the server has responded), [constant @GlobalScope.ERR_UNCONFIGURED] if not in the tree, [constant @GlobalScope.ERR_BUSY] if still processing previous request, [constant @GlobalScope.ERR_INVALID_PARAMETER] if given string is not a valid URL format, or [constant @GlobalScope.ERR_CANT_CONNECT] if not using thread and the [HTTPClient] cannot connect to host.
+        Creates request on the underlying [HTTPClient]. If there is no configuration errors, it tries to connect using [method HTTPClient.connect_to_host] and passes parameters onto [method HTTPClient.request]. Returns [constant OK] if request is successfully created. (Does not imply that the server has responded), [constant ERR_UNCONFIGURED] if not in the tree, [constant ERR_BUSY] if still processing previous request, [constant ERR_INVALID_PARAMETER] if given string is not a valid URL format, or [constant ERR_CANT_CONNECT] if not using thread and the [HTTPClient] cannot connect to host.
 	Args: [{ false url String} {[] true custom_headers PoolStringArray} {True true ssl_validate_domain bool} {0 true method int} { true request_data String}], Returns: enum.Error
 */
 func (o *HTTPRequest) Request(url gdnative.String, customHeaders gdnative.PoolStringArray, sslValidateDomain gdnative.Bool, method gdnative.Int, requestData gdnative.String) gdnative.Error {

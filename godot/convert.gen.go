@@ -974,6 +974,10 @@ func getActualClass(className gdnative.String, obj gdnative.Object) ObjectImplem
 		class := &JSONRPC{}
 		class.SetBaseObject(obj)
 		return class
+	case "JavaClass":
+		class := &JavaClass{}
+		class.SetBaseObject(obj)
+		return class
 	case "Joint":
 		class := &Joint{}
 		class.SetBaseObject(obj)

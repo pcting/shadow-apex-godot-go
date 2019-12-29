@@ -34,7 +34,7 @@ func newAudioEffectDistortionFromPointer(ptr gdnative.Pointer) AudioEffectDistor
 }
 
 /*
-Modify the sound and make it dirty. Different types are available : clip, tan, lofi (bit crushing), overdrive, or waveshape. By distorting the waveform the frequency content change, which will often make the sound "crunchy" or "abrasive". For games, it can simulate sound coming from some saturated device or speaker very efficiently.
+Modify the sound and make it dirty. Different types are available: clip, tan, lo-fi (bit crushing), overdrive, or waveshape. By distorting the waveform the frequency content change, which will often make the sound "crunchy" or "abrasive". For games, it can simulate sound coming from some saturated device or speaker very efficiently.
 */
 type AudioEffectDistortion struct {
 	AudioEffect

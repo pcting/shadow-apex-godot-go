@@ -23,7 +23,7 @@ func newRichTextEffectFromPointer(ptr gdnative.Pointer) RichTextEffect {
 }
 
 /*
-Undocumented
+A custom effect for use with [RichTextLabel]. [b]Note:[/b] For a [RichTextEffect] to be usable, a BBCode tag must be defined as a member variable called [code]bbcode[/code] in the script. [codeblock] # The RichTextEffect will be usable like this: `[example]Some text[/example]` var bbcode = "example" [/codeblock] [b]Note:[/b] As soon as a [RichTextLabel] contains at least one [RichTextEffect], it will continuously process the effect unless the project is paused. This may impact battery life negatively.
 */
 type RichTextEffect struct {
 	Resource
@@ -35,7 +35,7 @@ func (o *RichTextEffect) BaseClass() string {
 }
 
 /*
-        Undocumented
+        Override this method to modify properties in [code]char_fx[/code]. The method must return [code]true[/code] if the character could be transformed successfully. If the method returns [code]false[/code], it will skip transformation to avoid displaying broken text.
 	Args: [{ false char_fx CharFXTransform}], Returns: bool
 */
 func (o *RichTextEffect) X_ProcessCustomFx(charFx CharFXTransformImplementer) gdnative.Bool {

@@ -32,7 +32,7 @@ func newParticlesFromPointer(ptr gdnative.Pointer) Particles {
 }
 
 /*
-3D particle node used to create a variety of particle systems and effects. [code]Particles[/code] features an emitter that generates some number of particles at a given rate. Use the [code]process_material[/code] property to add a [ParticlesMaterial] to configure particle appearance and behavior. Alternatively, you can add a [ShaderMaterial] which will be applied to all particles.
+3D particle node used to create a variety of particle systems and effects. [Particles] features an emitter that generates some number of particles at a given rate. Use the [code]process_material[/code] property to add a [ParticlesMaterial] to configure particle appearance and behavior. Alternatively, you can add a [ShaderMaterial] which will be applied to all particles.
 */
 type Particles struct {
 	GeometryInstance
@@ -44,7 +44,7 @@ func (o *Particles) BaseClass() string {
 }
 
 /*
-        Returns the bounding box that contains all the particles that are active in the current frame.
+        Returns the axis-aligned bounding box that contains all the particles that are active in the current frame.
 	Args: [], Returns: AABB
 */
 func (o *Particles) CaptureAabb() gdnative.Aabb {
@@ -113,7 +113,7 @@ func (o *Particles) GetDrawOrder() ParticlesDrawOrder {
 }
 
 /*
-        Undocumented
+        Returns the [Mesh] that is drawn at index [code]pass[/code].
 	Args: [{ false pass int}], Returns: Mesh
 */
 func (o *Particles) GetDrawPassMesh(pass gdnative.Int) MeshImplementer {
@@ -526,7 +526,7 @@ func (o *Particles) SetDrawOrder(order gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Sets the [Mesh] that is drawn at index [code]pass[/code].
 	Args: [{ false pass int} { false mesh Mesh}], Returns: void
 */
 func (o *Particles) SetDrawPassMesh(pass gdnative.Int, mesh MeshImplementer) {

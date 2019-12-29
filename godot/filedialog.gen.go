@@ -403,7 +403,7 @@ func (o *FileDialog) X_UpdateFileName() {
 }
 
 /*
-        Add a custom filter. Example: [code]add_filter("*.png ; PNG Images")[/code]
+        Adds [code]filter[/code] as a custom filter; [code]filter[/code] should be of the form [code]"filename.extension ; Description"[/code]. For example, [code]"*.png ; PNG Images"[/code].
 	Args: [{ false filter String}], Returns: void
 */
 func (o *FileDialog) AddFilter(filter gdnative.String) {

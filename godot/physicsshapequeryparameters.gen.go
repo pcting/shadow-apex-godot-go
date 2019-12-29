@@ -23,8 +23,8 @@ func newPhysicsShapeQueryParametersFromPointer(ptr gdnative.Pointer) PhysicsShap
 }
 
 /*
-
- */
+This class contains the shape and other parameters for 3D intersection/collision queries. See also [PhysicsShapeQueryResult].
+*/
 type PhysicsShapeQueryParameters struct {
 	Reference
 	owner gdnative.Object
@@ -301,7 +301,7 @@ func (o *PhysicsShapeQueryParameters) SetMargin(margin gdnative.Real) {
 }
 
 /*
-
+        Sets the [Shape] that will be used for collision/intersection queries.
 	Args: [{ false shape Resource}], Returns: void
 */
 func (o *PhysicsShapeQueryParameters) SetShape(shape ResourceImplementer) {

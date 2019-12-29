@@ -155,6 +155,26 @@ func (o *Viewport) X_GuiShowTooltip() {
         Undocumented
 	Args: [], Returns: void
 */
+func (o *Viewport) X_OwnWorldChanged() {
+	//log.Println("Calling Viewport.X_OwnWorldChanged()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("Viewport", "_own_world_changed")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [], Returns: void
+*/
 func (o *Viewport) X_PostGuiGrabClickFocus() {
 	//log.Println("Calling Viewport.X_PostGuiGrabClickFocus()")
 
@@ -657,7 +677,7 @@ func (o *Viewport) GetRenderInfo(info gdnative.Int) gdnative.Int {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false quadrant int}], Returns: enum.Viewport::ShadowAtlasQuadrantSubdiv
 */
 func (o *Viewport) GetShadowAtlasQuadrantSubdiv(quadrant gdnative.Int) ViewportShadowAtlasQuadrantSubdiv {
@@ -750,7 +770,7 @@ func (o *Viewport) GetSizeOverride() gdnative.Vector2 {
 }
 
 /*
-        Returns the viewport's texture. Note that due to the way OpenGL works, the resulting [ViewportTexture] is flipped vertically. You can use [method Image.flip_y] on the result of [method Texture.get_data] to flip it back, for example: [codeblock] var img = get_viewport().get_texture().get_data() img.flip_y() [/codeblock]
+        Returns the viewport's texture. [b]Note:[/b] Due to the way OpenGL works, the resulting [ViewportTexture] is flipped vertically. You can use [method Image.flip_y] on the result of [method Texture.get_data] to flip it back, for example: [codeblock] var img = get_viewport().get_texture().get_data() img.flip_y() [/codeblock]
 	Args: [], Returns: ViewportTexture
 */
 func (o *Viewport) GetTexture() ViewportTextureImplementer {
@@ -1022,7 +1042,7 @@ func (o *Viewport) GuiHasModalStack() gdnative.Bool {
 }
 
 /*
-
+        Returns [code]true[/code] if the viewport is currently performing a drag operation.
 	Args: [], Returns: bool
 */
 func (o *Viewport) GuiIsDragging() gdnative.Bool {
@@ -1250,7 +1270,7 @@ func (o *Viewport) IsSizeOverrideEnabled() gdnative.Bool {
 }
 
 /*
-
+        Undocumented
 	Args: [], Returns: bool
 */
 func (o *Viewport) IsSizeOverrideStretchEnabled() gdnative.Bool {
@@ -1656,7 +1676,7 @@ func (o *Viewport) SetPhysicsObjectPicking(enable gdnative.Bool) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false quadrant int} { false subdiv int}], Returns: void
 */
 func (o *Viewport) SetShadowAtlasQuadrantSubdiv(quadrant gdnative.Int, subdiv gdnative.Int) {
@@ -1743,7 +1763,7 @@ func (o *Viewport) SetSizeOverride(enable gdnative.Bool, size gdnative.Vector2, 
 }
 
 /*
-
+        Undocumented
 	Args: [{ false enabled bool}], Returns: void
 */
 func (o *Viewport) SetSizeOverrideStretch(enabled gdnative.Bool) {
@@ -2064,6 +2084,7 @@ type ViewportImplementer interface {
 	NodeImplementer
 	X_GuiRemoveFocus()
 	X_GuiShowTooltip()
+	X_OwnWorldChanged()
 	X_PostGuiGrabClickFocus()
 	X_SubwindowVisibilityChanged()
 	X_VpInput(arg0 InputEventImplementer)

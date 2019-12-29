@@ -27,12 +27,12 @@ func newSingletonEngine() *engine {
 }
 
 /*
-   The [code]Engine[/code] class allows you to query and modify the game's run-time parameters, such as frames per second, time scale, and others.
+   The [Engine] class allows you to query and modify the project's run-time parameters, such as frames per second, time scale, and others.
 */
 var Engine = newSingletonEngine()
 
 /*
-The [code]Engine[/code] class allows you to query and modify the game's run-time parameters, such as frames per second, time scale, and others.
+The [Engine] class allows you to query and modify the project's run-time parameters, such as frames per second, time scale, and others.
 */
 type engine struct {
 	Object
@@ -180,6 +180,30 @@ func (o *engine) GetFramesPerSecond() gdnative.Real {
         Undocumented
 	Args: [], Returns: int
 */
+func (o *engine) GetIdleFrames() gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling _Engine.GetIdleFrames()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Engine", "get_idle_frames")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
 func (o *engine) GetIterationsPerSecond() gdnative.Int {
 	o.ensureSingleton()
 	//log.Println("Calling _Engine.GetIterationsPerSecond()")
@@ -284,6 +308,30 @@ func (o *engine) GetMainLoop() MainLoopImplementer {
 	}
 
 	return &ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *engine) GetPhysicsFrames() gdnative.Int {
+	o.ensureSingleton()
+	//log.Println("Calling _Engine.GetPhysicsFrames()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("_Engine", "get_physics_frames")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
+	return ret
 }
 
 /*
@@ -637,10 +685,12 @@ type EngineImplementer interface {
 	GetDonorInfo() gdnative.Dictionary
 	GetFramesDrawn() gdnative.Int
 	GetFramesPerSecond() gdnative.Real
+	GetIdleFrames() gdnative.Int
 	GetIterationsPerSecond() gdnative.Int
 	GetLicenseInfo() gdnative.Dictionary
 	GetLicenseText() gdnative.String
 	GetMainLoop() MainLoopImplementer
+	GetPhysicsFrames() gdnative.Int
 	GetPhysicsInterpolationFraction() gdnative.Real
 	GetPhysicsJitterFix() gdnative.Real
 	GetSingleton(name gdnative.String) ObjectImplementer

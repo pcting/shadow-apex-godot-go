@@ -31,7 +31,7 @@ func newParticles2DFromPointer(ptr gdnative.Pointer) Particles2D {
 }
 
 /*
-2D particle node used to create a variety of particle systems and effects. [code]Particles2D[/code] features an emitter that generates some number of particles at a given rate. Use the [code]process_material[/code] property to add a [ParticlesMaterial] to configure particle appearance and behavior. Alternatively, you can add a [ShaderMaterial] which will be applied to all particles.
+2D particle node used to create a variety of particle systems and effects. [Particles2D] features an emitter that generates some number of particles at a given rate. Use the [code]process_material[/code] property to add a [ParticlesMaterial] to configure particle appearance and behavior. Alternatively, you can add a [ShaderMaterial] which will be applied to all particles.
 */
 type Particles2D struct {
 	Node2D

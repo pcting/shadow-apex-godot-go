@@ -273,7 +273,7 @@ func (o *EditorFileSystemDirectory) GetName() gdnative.String {
 }
 
 /*
-        Returns the parent directory for this directory or null if called on a directory at [code]res://[/code] or [code]user://[/code].
+        Returns the parent directory for this directory or [code]null[/code] if called on a directory at [code]res://[/code] or [code]user://[/code].
 	Args: [], Returns: EditorFileSystemDirectory
 */
 func (o *EditorFileSystemDirectory) GetParent() EditorFileSystemDirectoryImplementer {

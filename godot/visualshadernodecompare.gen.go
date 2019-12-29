@@ -53,8 +53,8 @@ func newVisualShaderNodeCompareFromPointer(ptr gdnative.Pointer) VisualShaderNod
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeCompare struct {
 	VisualShaderNode
 	owner gdnative.Object

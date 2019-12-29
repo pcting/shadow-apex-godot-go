@@ -39,7 +39,7 @@ func newCamera2DFromPointer(ptr gdnative.Pointer) Camera2D {
 }
 
 /*
-Camera node for 2D scenes. It forces the screen (current layer) to scroll following this node. This makes it easier (and faster) to program scrollable scenes than manually changing the position of [CanvasItem] based nodes. This node is intended to be a simple helper to get things going quickly and it may happen often that more functionality is desired to change how the camera works. To make your own custom camera node, simply inherit from [Node2D] and change the transform of the canvas by calling get_viewport().set_canvas_transform(m) in [Viewport].
+Camera node for 2D scenes. It forces the screen (current layer) to scroll following this node. This makes it easier (and faster) to program scrollable scenes than manually changing the position of [CanvasItem]-based nodes. This node is intended to be a simple helper to get things going quickly and it may happen that more functionality is desired to change how the camera works. To make your own custom camera node, simply inherit from [Node2D] and change the transform of the canvas by calling get_viewport().set_canvas_transform(m) in [Viewport].
 */
 type Camera2D struct {
 	Node2D
@@ -134,7 +134,7 @@ func (o *Camera2D) X_UpdateScroll() {
 }
 
 /*
-        Align the camera to the tracked node
+        Aligns the camera to the tracked node.
 	Args: [], Returns: void
 */
 func (o *Camera2D) Align() {
@@ -154,7 +154,7 @@ func (o *Camera2D) Align() {
 }
 
 /*
-        Removes any [code]Camera2D[/code] from the ancestor [Viewport]'s internal currently-assigned camera.
+        Removes any [Camera2D] from the ancestor [Viewport]'s internal currently-assigned camera.
 	Args: [], Returns: void
 */
 func (o *Camera2D) ClearCurrent() {
@@ -174,7 +174,7 @@ func (o *Camera2D) ClearCurrent() {
 }
 
 /*
-        Force the camera to update scroll immediately.
+        Forces the camera to update scroll immediately.
 	Args: [], Returns: void
 */
 func (o *Camera2D) ForceUpdateScroll() {
@@ -240,7 +240,7 @@ func (o *Camera2D) GetCameraPosition() gdnative.Vector2 {
 }
 
 /*
-        Returns the location of the [code]Camera2D[/code]'s screen-center, relative to the origin.
+        Returns the location of the [Camera2D]'s screen-center, relative to the origin.
 	Args: [], Returns: Vector2
 */
 func (o *Camera2D) GetCameraScreenCenter() gdnative.Vector2 {
@@ -300,7 +300,7 @@ func (o *Camera2D) GetCustomViewport() NodeImplementer {
 }
 
 /*
-        Undocumented
+        Returns the specified margin. See also [member drag_margin_bottom], [member drag_margin_top], [member drag_margin_left], and [member drag_margin_right].
 	Args: [{ false margin int}], Returns: float
 */
 func (o *Camera2D) GetDragMargin(margin gdnative.Int) gdnative.Real {
@@ -370,7 +370,7 @@ func (o *Camera2D) GetHOffset() gdnative.Real {
 }
 
 /*
-        Undocumented
+        Returns the specified camera limit. See also [member limit_bottom], [member limit_top], [member limit_left], and [member limit_right].
 	Args: [{ false margin int}], Returns: int
 */
 func (o *Camera2D) GetLimit(margin gdnative.Int) gdnative.Int {
@@ -693,7 +693,7 @@ func (o *Camera2D) IsVDragEnabled() gdnative.Bool {
 }
 
 /*
-        Make this the current 2D camera for the scene (viewport and layer), in case there's many cameras in the scene.
+        Make this the current 2D camera for the scene (viewport and layer), in case there are many cameras in the scene.
 	Args: [], Returns: void
 */
 func (o *Camera2D) MakeCurrent() {
@@ -713,7 +713,7 @@ func (o *Camera2D) MakeCurrent() {
 }
 
 /*
-        Set the camera's position immediately to its current smoothing destination. This has no effect if smoothing is disabled.
+        Sets the camera's position immediately to its current smoothing destination. This has no effect if smoothing is disabled.
 	Args: [], Returns: void
 */
 func (o *Camera2D) ResetSmoothing() {
@@ -775,7 +775,7 @@ func (o *Camera2D) SetCustomViewport(viewport NodeImplementer) {
 }
 
 /*
-        Undocumented
+        Sets the specified margin. See also [member drag_margin_bottom], [member drag_margin_top], [member drag_margin_left], and [member drag_margin_right].
 	Args: [{ false margin int} { false drag_margin float}], Returns: void
 */
 func (o *Camera2D) SetDragMargin(margin gdnative.Int, dragMargin gdnative.Real) {
@@ -881,7 +881,7 @@ func (o *Camera2D) SetHOffset(ofs gdnative.Real) {
 }
 
 /*
-        Undocumented
+        Sets the specified camera limit. See also [member limit_bottom], [member limit_top], [member limit_left], and [member limit_right].
 	Args: [{ false margin int} { false limit int}], Returns: void
 */
 func (o *Camera2D) SetLimit(margin gdnative.Int, limit gdnative.Int) {

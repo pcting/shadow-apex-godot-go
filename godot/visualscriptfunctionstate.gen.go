@@ -38,11 +38,15 @@ func (o *VisualScriptFunctionState) BaseClass() string {
         Undocumented
 	Args: [], Returns: Variant
 */
-func (o *VisualScriptFunctionState) X_SignalCallback() gdnative.Variant {
+func (o *VisualScriptFunctionState) X_SignalCallback(args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling VisualScriptFunctionState.X_SignalCallback()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 0+len(args), 0+len(args))
+
+	for i, arg := range args {
+		ptrArguments[i+0] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("VisualScriptFunctionState", "_signal_callback")
@@ -131,7 +135,7 @@ func (o *VisualScriptFunctionState) Resume(args gdnative.Array) gdnative.Variant
 // of the VisualScriptFunctionState class.
 type VisualScriptFunctionStateImplementer interface {
 	ReferenceImplementer
-	X_SignalCallback() gdnative.Variant
+	X_SignalCallback(args ...gdnative.Variant) gdnative.Variant
 	ConnectToSignal(obj ObjectImplementer, signals gdnative.String, args gdnative.Array)
 	IsValid() gdnative.Bool
 	Resume(args gdnative.Array) gdnative.Variant

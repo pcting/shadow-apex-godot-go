@@ -23,8 +23,8 @@ func newPCKPackerFromPointer(ptr gdnative.Pointer) PCKPacker {
 }
 
 /*
-
- */
+The [PCKPacker] is used to create packages that can be loaded into a running project using [method ProjectSettings.load_resource_pack]. [codeblock] var packer = PCKPacker.new() packer.pck_start("test.pck") packer.add_file("res://text.txt", "text.txt") packer.flush() [/codeblock] The above [PCKPacker] creates package [code]test.pck[/code], then adds a file named [code]text.txt[/code] at the root of the package.
+*/
 type PCKPacker struct {
 	Reference
 	owner gdnative.Object
@@ -35,7 +35,7 @@ func (o *PCKPacker) BaseClass() string {
 }
 
 /*
-
+        Adds the [code]source_path[/code] file to the current PCK package at the [code]pck_path[/code] internal path (should start with [code]res://[/code]).
 	Args: [{ false pck_path String} { false source_path String}], Returns: enum.Error
 */
 func (o *PCKPacker) AddFile(pckPath gdnative.String, sourcePath gdnative.String) gdnative.Error {
@@ -60,8 +60,8 @@ func (o *PCKPacker) AddFile(pckPath gdnative.String, sourcePath gdnative.String)
 }
 
 /*
-
-	Args: [{ false verbose bool}], Returns: enum.Error
+        Writes the files specified using all [method add_file] calls since the last flush. If [code]verbose[/code] is [code]true[/code], a list of files added will be printed to the console for easier debugging.
+	Args: [{False true verbose bool}], Returns: enum.Error
 */
 func (o *PCKPacker) Flush(verbose gdnative.Bool) gdnative.Error {
 	//log.Println("Calling PCKPacker.Flush()")
@@ -84,8 +84,8 @@ func (o *PCKPacker) Flush(verbose gdnative.Bool) gdnative.Error {
 }
 
 /*
-
-	Args: [{ false pck_name String} { false alignment int}], Returns: enum.Error
+        Creates a new PCK file with the name [code]pck_name[/code]. The [code].pck[/code] file extension isn't added automatically, so it should be part of [code]pck_name[/code] (even though it's not required).
+	Args: [{ false pck_name String} {0 true alignment int}], Returns: enum.Error
 */
 func (o *PCKPacker) PckStart(pckName gdnative.String, alignment gdnative.Int) gdnative.Error {
 	//log.Println("Calling PCKPacker.PckStart()")

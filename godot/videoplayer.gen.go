@@ -23,7 +23,7 @@ func newVideoPlayerFromPointer(ptr gdnative.Pointer) VideoPlayer {
 }
 
 /*
-Control node for playing video streams. Supported formats are WebM and OGV Theora.
+Control node for playing video streams. Supported formats are [url=https://www.webmproject.org/]WebM[/url] and [url=https://www.theora.org/]Ogg Theora[/url].
 */
 type VideoPlayer struct {
 	Control
@@ -141,7 +141,7 @@ func (o *VideoPlayer) GetStream() VideoStreamImplementer {
 }
 
 /*
-        Returns the video stream's name.
+        Returns the video stream's name, or [code]"<No Stream>"[/code] if no video stream is assigned.
 	Args: [], Returns: String
 */
 func (o *VideoPlayer) GetStreamName() gdnative.String {
@@ -339,7 +339,7 @@ func (o *VideoPlayer) IsPaused() gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if the video is playing.
+        Returns [code]true[/code] if the video is playing. [b]Note:[/b] The video is still considered playing if paused during playback.
 	Args: [], Returns: bool
 */
 func (o *VideoPlayer) IsPlaying() gdnative.Bool {
@@ -362,7 +362,7 @@ func (o *VideoPlayer) IsPlaying() gdnative.Bool {
 }
 
 /*
-        Starts the video playback.
+        Starts the video playback from the beginning. If the video is paused, this will not unpause the video.
 	Args: [], Returns: void
 */
 func (o *VideoPlayer) Play() {
@@ -592,7 +592,7 @@ func (o *VideoPlayer) SetVolumeDb(db gdnative.Real) {
 }
 
 /*
-        Stops the video playback.
+        Stops the video playback and sets the stream position to 0. [b]Note:[/b] Although the stream position will be set to 0, the first frame of the video stream won't become the current frame.
 	Args: [], Returns: void
 */
 func (o *VideoPlayer) Stop() {

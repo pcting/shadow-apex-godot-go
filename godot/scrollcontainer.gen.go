@@ -23,7 +23,7 @@ func newScrollContainerFromPointer(ptr gdnative.Pointer) ScrollContainer {
 }
 
 /*
-A ScrollContainer node meant to contain a [Control] child. ScrollContainers will automatically create a scrollbar child ([HScrollBar], [VScrollBar], or both) when needed and will only draw the Control within the ScrollContainer area. Scrollbars will automatically be drawn at the right (for vertical) or bottom (for horizontal) and will enable dragging to move the viewable Control (and its children) within the ScrollContainer. Scrollbars will also automatically resize the grabber based on the minimum_size of the Control relative to the ScrollContainer. Works great with a [Panel] control. You can set EXPAND on children size flags, so they will upscale to ScrollContainer size if ScrollContainer size is bigger (scroll is invisible for chosen dimension).
+A ScrollContainer node meant to contain a [Control] child. ScrollContainers will automatically create a scrollbar child ([HScrollBar], [VScrollBar], or both) when needed and will only draw the Control within the ScrollContainer area. Scrollbars will automatically be drawn at the right (for vertical) or bottom (for horizontal) and will enable dragging to move the viewable Control (and its children) within the ScrollContainer. Scrollbars will also automatically resize the grabber based on the [member Control.rect_min_size] of the Control relative to the ScrollContainer. Works great with a [Panel] control. You can set [code]EXPAND[/code] on the children's size flags, so they will upscale to the ScrollContainer's size if it's larger (scroll is invisible for the chosen dimension).
 */
 type ScrollContainer struct {
 	Container
@@ -32,6 +32,27 @@ type ScrollContainer struct {
 
 func (o *ScrollContainer) BaseClass() string {
 	return "ScrollContainer"
+}
+
+/*
+        Undocumented
+	Args: [{ false arg0 Control}], Returns: void
+*/
+func (o *ScrollContainer) X_EnsureFocusedVisible(arg0 ControlImplementer) {
+	//log.Println("Calling ScrollContainer.X_EnsureFocusedVisible()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromObject(arg0.GetBaseObject())
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScrollContainer", "_ensure_focused_visible")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
 }
 
 /*
@@ -243,6 +264,29 @@ func (o *ScrollContainer) GetVScrollbar() VScrollBarImplementer {
         Undocumented
 	Args: [], Returns: bool
 */
+func (o *ScrollContainer) IsFollowingFocus() gdnative.Bool {
+	//log.Println("Calling ScrollContainer.IsFollowingFocus()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScrollContainer", "is_following_focus")
+
+	// Call the parent method.
+	// bool
+	retPtr := gdnative.NewEmptyBool()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewBoolFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: bool
+*/
 func (o *ScrollContainer) IsHScrollEnabled() gdnative.Bool {
 	//log.Println("Calling ScrollContainer.IsHScrollEnabled()")
 
@@ -350,6 +394,27 @@ func (o *ScrollContainer) SetEnableVScroll(enable gdnative.Bool) {
 
 /*
         Undocumented
+	Args: [{ false enabled bool}], Returns: void
+*/
+func (o *ScrollContainer) SetFollowFocus(enabled gdnative.Bool) {
+	//log.Println("Calling ScrollContainer.SetFollowFocus()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("ScrollContainer", "set_follow_focus")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false value int}], Returns: void
 */
 func (o *ScrollContainer) SetHScroll(value gdnative.Int) {
@@ -394,6 +459,7 @@ func (o *ScrollContainer) SetVScroll(value gdnative.Int) {
 // of the ScrollContainer class.
 type ScrollContainerImplementer interface {
 	ContainerImplementer
+	X_EnsureFocusedVisible(arg0 ControlImplementer)
 	X_ScrollMoved(arg0 gdnative.Real)
 	X_UpdateScrollbarPosition()
 	GetDeadzone() gdnative.Int
@@ -401,11 +467,13 @@ type ScrollContainerImplementer interface {
 	GetHScrollbar() HScrollBarImplementer
 	GetVScroll() gdnative.Int
 	GetVScrollbar() VScrollBarImplementer
+	IsFollowingFocus() gdnative.Bool
 	IsHScrollEnabled() gdnative.Bool
 	IsVScrollEnabled() gdnative.Bool
 	SetDeadzone(deadzone gdnative.Int)
 	SetEnableHScroll(enable gdnative.Bool)
 	SetEnableVScroll(enable gdnative.Bool)
+	SetFollowFocus(enabled gdnative.Bool)
 	SetHScroll(value gdnative.Int)
 	SetVScroll(value gdnative.Int)
 }

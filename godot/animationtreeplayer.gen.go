@@ -102,7 +102,7 @@ func (o *AnimationTreePlayer) Advance(delta gdnative.Real) {
 }
 
 /*
-        Returns the [AnimationPlayer]'s [Animation] bound to the [code]AnimationTreePlayer[/code]'s animation node with name [code]id[/code].
+        Returns the [AnimationPlayer]'s [Animation] bound to the [AnimationTreePlayer]'s animation node with name [code]id[/code].
 	Args: [{ false id String}], Returns: Animation
 */
 func (o *AnimationTreePlayer) AnimationNodeGetAnimation(id gdnative.String) AnimationImplementer {
@@ -188,7 +188,7 @@ func (o *AnimationTreePlayer) AnimationNodeGetPosition(id gdnative.String) gdnat
 }
 
 /*
-        Binds a new [Animation] from the [member master_player] to the [code]AnimationTreePlayer[/code]'s animation node with name [code]id[/code].
+        Binds a new [Animation] from the [member master_player] to the [AnimationTreePlayer]'s animation node with name [code]id[/code].
 	Args: [{ false id String} { false animation Animation}], Returns: void
 */
 func (o *AnimationTreePlayer) AnimationNodeSetAnimation(id gdnative.String, animation AnimationImplementer) {
@@ -629,7 +629,7 @@ func (o *AnimationTreePlayer) MixNodeGetAmount(id gdnative.String) gdnative.Real
 }
 
 /*
-        Sets mix amount of a Mix node given its name and value. A Mix node adds input b to input a by a the amount given by ratio.
+        Sets mix amount of a Mix node given its name and value. A Mix node adds input b to input a by the amount given by ratio.
 	Args: [{ false id String} { false ratio float}], Returns: void
 */
 func (o *AnimationTreePlayer) MixNodeSetAmount(id gdnative.String, ratio gdnative.Real) {
@@ -748,7 +748,7 @@ func (o *AnimationTreePlayer) NodeGetPosition(id gdnative.String) gdnative.Vecto
 }
 
 /*
-        Get the node type, will return from NODE_* enum.
+        Gets the node type, will return from [enum NodeType] enum.
 	Args: [{ false id String}], Returns: enum.AnimationTreePlayer::NodeType
 */
 func (o *AnimationTreePlayer) NodeGetType(id gdnative.String) AnimationTreePlayerNodeType {
@@ -1179,7 +1179,7 @@ func (o *AnimationTreePlayer) RemoveNode(id gdnative.String) {
 }
 
 /*
-        Resets this [code]AnimationTreePlayer[/code].
+        Resets this [AnimationTreePlayer].
 	Args: [], Returns: void
 */
 func (o *AnimationTreePlayer) Reset() {
@@ -1329,7 +1329,7 @@ func (o *AnimationTreePlayer) TimescaleNodeSetScale(id gdnative.String, scale gd
 }
 
 /*
-        Sets the time seek value of the TimeSeek node with name [code]id[/code] to [code]seconds[/code] This functions as a seek in the [Animation] or the blend or mix of [Animation]s input in it.
+        Sets the time seek value of the TimeSeek node with name [code]id[/code] to [code]seconds[/code]. This functions as a seek in the [Animation] or the blend or mix of [Animation]s input in it.
 	Args: [{ false id String} { false seconds float}], Returns: void
 */
 func (o *AnimationTreePlayer) TimeseekNodeSeek(id gdnative.String, seconds gdnative.Real) {

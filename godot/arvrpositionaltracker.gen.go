@@ -32,7 +32,7 @@ func newARVRPositionalTrackerFromPointer(ptr gdnative.Pointer) ARVRPositionalTra
 }
 
 /*
-An instance of this object represents a device that is tracked such as a controller or anchor point. HMDs aren't represented here as they are fully handled internally. As controllers are turned on and the AR/VR interface detects them instances of this object are automatically added to this list of active tracking objects accessible through the ARVRServer The ARVRController and ARVRAnchor both consume objects of this type and should be the objects you use in game. The positional trackers are just the under the hood objects that make this all work and are mostly exposed so GDNative based interfaces can interact with them.
+An instance of this object represents a device that is tracked, such as a controller or anchor point. HMDs aren't represented here as they are handled internally. As controllers are turned on and the AR/VR interface detects them, instances of this object are automatically added to this list of active tracking objects accessible through the [ARVRServer]. The [ARVRController] and [ARVRAnchor] both consume objects of this type and should be used in your project. The positional trackers are just under-the-hood objects that make this all work. These are mostly exposed so that GDNative-based interfaces can interact with them.
 */
 type ARVRPositionalTracker struct {
 	Object
@@ -170,7 +170,7 @@ func (o *ARVRPositionalTracker) X_SetType(aType gdnative.Int) {
 }
 
 /*
-        Returns the hand holding this tracker, if known. See TRACKER_* constants.
+        Returns the hand holding this tracker, if known. See [enum TrackerHand] constants.
 	Args: [], Returns: enum.ARVRPositionalTracker::TrackerHand
 */
 func (o *ARVRPositionalTracker) GetHand() ARVRPositionalTrackerTrackerHand {
@@ -193,7 +193,7 @@ func (o *ARVRPositionalTracker) GetHand() ARVRPositionalTrackerTrackerHand {
 }
 
 /*
-        If this is a controller that is being tracked the controller will also be represented by a joystick entry with this id.
+        If this is a controller that is being tracked, the controller will also be represented by a joystick entry with this ID.
 	Args: [], Returns: int
 */
 func (o *ARVRPositionalTracker) GetJoyId() gdnative.Int {
@@ -216,7 +216,7 @@ func (o *ARVRPositionalTracker) GetJoyId() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns the mesh related to a controller or anchor point if one is available.
 	Args: [], Returns: Mesh
 */
 func (o *ARVRPositionalTracker) GetMesh() MeshImplementer {

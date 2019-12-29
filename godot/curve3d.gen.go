@@ -23,7 +23,7 @@ func newCurve3DFromPointer(ptr gdnative.Pointer) Curve3D {
 }
 
 /*
-This class describes a Bezier curve in 3D space. It is mainly used to give a shape to a [Path], but can be manually sampled for other purposes. It keeps a cache of precalculated points along the curve, to speed further calculations up.
+This class describes a Bézier curve in 3D space. It is mainly used to give a shape to a [Path], but can be manually sampled for other purposes. It keeps a cache of precalculated points along the curve, to speed up further calculations.
 */
 type Curve3D struct {
 	Resource
@@ -79,7 +79,7 @@ func (o *Curve3D) X_SetData(arg0 gdnative.Dictionary) {
 }
 
 /*
-        Adds a point to a curve, at [code]position[/code], with control points [code]in[/code] and [code]out[/code]. If [code]at_position[/code] is given, the point is inserted before the point number [code]at_position[/code], moving that point (and every point after) after the inserted point. If [code]at_position[/code] is not given, or is an illegal value ([code]at_position <0[/code] or [code]at_position >= [method get_point_count][/code]), the point will be appended at the end of the point list.
+        Adds a point to a curve at [code]position[/code], with control points [code]in[/code] and [code]out[/code]. If [code]at_position[/code] is given, the point is inserted before the point number [code]at_position[/code], moving that point (and every point after) after the inserted point. If [code]at_position[/code] is not given, or is an illegal value ([code]at_position <0[/code] or [code]at_position >= [method get_point_count][/code]), the point will be appended at the end of the point list.
 	Args: [{ false position Vector3} {(0, 0, 0) true in Vector3} {(0, 0, 0) true out Vector3} {-1 true at_position int}], Returns: void
 */
 func (o *Curve3D) AddPoint(position gdnative.Vector3, in gdnative.Vector3, out gdnative.Vector3, atPosition gdnative.Int) {

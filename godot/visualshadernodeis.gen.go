@@ -31,8 +31,8 @@ func newVisualShaderNodeIsFromPointer(ptr gdnative.Pointer) VisualShaderNodeIs {
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeIs struct {
 	VisualShaderNode
 	owner gdnative.Object

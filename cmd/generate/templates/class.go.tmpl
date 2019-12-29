@@ -62,7 +62,7 @@ type {{ $view.SetClassName $API.Name $API.Singleton }} struct {
 
 {{/* Singletons need to check if they've been fetched before. -*/}}
 {{ if $API.Singleton -}}
-    // EnsureSingleton will check to see if we have an object for it. If not, it will fetch its 
+    // EnsureSingleton will check to see if we have an object for it. If not, it will fetch its
     // GDNative object and set it.
     func (o *{{ $view.SetClassName $API.Name $API.Singleton }}) ensureSingleton() {
         if o.initialized == true {
@@ -97,23 +97,29 @@ func (o *{{ $view.SetClassName $API.Name $API.Singleton }}) GetBaseObject() gdna
         {{ $view.MethodDoc $API.Name $method.Name }}
 	Args: {{ $method.Arguments }}, Returns: {{ $method.ReturnType }}
         */
-	func (o *{{ $view.SetClassName $API.Name $API.Singleton }}) {{ $view.GoMethodName $method.Name }}({{ range $k, $arg := $method.Arguments }}{{ $view.GoArgName $arg.Name }} {{ $view.GoValue $arg.Type }}{{ if $view.IsGodotClass $arg.Type }}Implementer{{ end }},{{ end }}) {{ if $method.ReturnType }}{{ $view.GoValue $method.ReturnType }}{{ if ($view.IsGodotClass $method.ReturnType) }}Implementer{{ end }}{{ end }} {
+	func (o *{{ $view.SetClassName $API.Name $API.Singleton }}) {{ $view.GoMethodName $method.Name }}({{ range $k, $arg := $method.Arguments }}{{ $view.GoArgName $arg.Name }} {{ $view.GoValue $arg.Type }}{{ if $view.IsGodotClass $arg.Type }}Implementer{{ end }},{{ end }}{{ if $method.HasVarargs }} args ...gdnative.Variant{{ end }}) {{ if $method.ReturnType }}{{ $view.GoValue $method.ReturnType }}{{ if ($view.IsGodotClass $method.ReturnType) }}Implementer{{ end }}{{ end }} {
 		{{ if $API.Singleton -}}
 			o.ensureSingleton()
 		{{ end -}}
                 //log.Println("Calling {{ $API.Name }}.{{ $view.GoMethodName $method.Name }}()")
 
                 // Build out the method's arguments
-                ptrArguments := make([]gdnative.Pointer, {{ len $method.Arguments }}, {{ len $method.Arguments }})
+                ptrArguments := make([]gdnative.Pointer, {{ len $method.Arguments }}{{ if $method.HasVarargs }} + len(args){{ end }}, {{ len $method.Arguments }}{{ if $method.HasVarargs }} + len(args) {{ end }})
                 {{ range $k, $arg := $method.Arguments -}}
 	    	    {{ if ($view.IsGodotClass $arg.Type) -}}
-			ptrArguments[{{ $k }}] = gdnative.NewPointerFromObject({{ $view.GoArgName $arg.Name }}.GetBaseObject())
+	    	        ptrArguments[{{ $k }}] = gdnative.NewPointerFromObject({{ $view.GoArgName $arg.Name }}.GetBaseObject())
 	    	    {{ else -}}
 	    	        ptrArguments[{{ $k }}] = gdnative.NewPointerFrom{{ $view.GoName $arg.Type }}({{ $view.GoArgName $arg.Name }})
 	            {{ end -}}
                 {{ end }}
 
-	        // Get the method bind 
+                {{ if $method.HasVarargs }}
+                    for i, arg := range args {
+                        ptrArguments[i+{{ len $method.Arguments }}] = gdnative.NewPointerFromVariant(arg)
+                    }
+                {{ end }}
+
+	        // Get the method bind
 	        methodBind := gdnative.NewMethodBind("{{ $API.Name }}", "{{ $method.Name }}")
 
                 // Call the parent method.
@@ -123,7 +129,7 @@ func (o *{{ $view.SetClassName $API.Name $API.Singleton }}) GetBaseObject() gdna
 
                	{{ if $method.ReturnType }}
 	    	    {{ $returnType := $view.GoValue $method.ReturnType }}{{ if ne $returnType "" }}
-	    		// If we have a return type, convert it from a pointer into its actual object. 
+	    		// If we have a return type, convert it from a pointer into its actual object.
 			{{ if $view.IsGodotClass $method.ReturnType -}}
 			        ret := new{{ $view.GoNewFromPointerType $method.ReturnType }}FromPointer(retPtr)
 
@@ -169,7 +175,7 @@ type {{ $view.GoClassName $API.Name }}Implementer interface {
 	    {{ range $j, $method := $API.Methods -}}
 		{{/* Skip ENUM functions for now*/}}{{ if not ($view.IsEnum $method.ReturnType) -}}
 			{{ if (not ($view.HasParentMethod $API.BaseClass ($view.GoMethodName $method.Name))) -}}
-				{{ $view.GoMethodName $method.Name }}({{ range $k, $arg := $method.Arguments }}{{ $view.GoArgName $arg.Name }} {{ $view.GoValue $arg.Type }}{{ if $view.IsGodotClass $arg.Type }}Implementer{{ end }},{{ end }}) {{ if $method.ReturnType }}{{ $view.GoValue $method.ReturnType }}{{ if ($view.IsGodotClass $method.ReturnType) }}Implementer{{ end }}{{ end }}
+				{{ $view.GoMethodName $method.Name }}({{ range $k, $arg := $method.Arguments }}{{ $view.GoArgName $arg.Name }} {{ $view.GoValue $arg.Type }}{{ if $view.IsGodotClass $arg.Type }}Implementer{{ end }},{{ end }}{{ if $method.HasVarargs }} args ...gdnative.Variant{{ end }}) {{ if $method.ReturnType }}{{ $view.GoValue $method.ReturnType }}{{ if ($view.IsGodotClass $method.ReturnType) }}Implementer{{ end }}{{ end }}
 			{{ end -}}
 	        {{ end -}}
 	    {{ end -}}

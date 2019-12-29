@@ -23,7 +23,7 @@ func newToolButtonFromPointer(ptr gdnative.Pointer) ToolButton {
 }
 
 /*
-This is a helper class to generate a flat [Button] (see [member Button.flat]), creating a [code]ToolButton[/code] is equivalent to: [codeblock] var btn = Button.new() btn.flat = true [/codeblock]
+This is a helper class to generate a flat [Button] (see [member Button.flat]), creating a [ToolButton] is equivalent to: [codeblock] var btn = Button.new() btn.flat = true [/codeblock]
 */
 type ToolButton struct {
 	Button

@@ -23,7 +23,7 @@ func newThemeFromPointer(ptr gdnative.Pointer) Theme {
 }
 
 /*
-Theme for skinning controls. Controls can be skinned individually, but for complex applications it's more efficient to just create a global theme that defines everything. This theme can be applied to any [Control], and it and its children will automatically use it. Theme resources can be alternatively loaded by writing them in a .theme file, see docs for more info.
+A theme for skinning controls. Controls can be skinned individually, but for complex applications, it's more practical to just create a global theme that defines everything. This theme can be applied to any [Control]; the Control and its children will automatically use it. Theme resources can alternatively be loaded by writing them in a [code].theme[/code] file, see the documentation for more information.
 */
 type Theme struct {
 	Resource
@@ -55,7 +55,7 @@ func (o *Theme) X_EmitThemeChanged() {
 }
 
 /*
-
+        Clears all values on the theme.
 	Args: [], Returns: void
 */
 func (o *Theme) Clear() {
@@ -75,7 +75,7 @@ func (o *Theme) Clear() {
 }
 
 /*
-        Clears theme [Color] at [code]name[/code] if Theme has [code]type[/code].
+        Clears the [Color] at [code]name[/code] if the theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: void
 */
 func (o *Theme) ClearColor(name gdnative.String, aType gdnative.String) {
@@ -97,7 +97,7 @@ func (o *Theme) ClearColor(name gdnative.String, aType gdnative.String) {
 }
 
 /*
-        Clears theme constant at [code]name[/code] if Theme has [code]type[/code].
+        Clears the constant at [code]name[/code] if the theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: void
 */
 func (o *Theme) ClearConstant(name gdnative.String, aType gdnative.String) {
@@ -119,7 +119,7 @@ func (o *Theme) ClearConstant(name gdnative.String, aType gdnative.String) {
 }
 
 /*
-        Clears [Font] at [code]name[/code] if Theme has [code]type[/code].
+        Clears the [Font] at [code]name[/code] if the theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: void
 */
 func (o *Theme) ClearFont(name gdnative.String, aType gdnative.String) {
@@ -141,7 +141,7 @@ func (o *Theme) ClearFont(name gdnative.String, aType gdnative.String) {
 }
 
 /*
-        Clears icon at [code]name[/code] if Theme has [code]type[/code].
+        Clears the icon at [code]name[/code] if the theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: void
 */
 func (o *Theme) ClearIcon(name gdnative.String, aType gdnative.String) {
@@ -163,7 +163,7 @@ func (o *Theme) ClearIcon(name gdnative.String, aType gdnative.String) {
 }
 
 /*
-        Clears [StyleBox] at [code]name[/code] if Theme has [code]type[/code].
+        Clears [StyleBox] at [code]name[/code] if the theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: void
 */
 func (o *Theme) ClearStylebox(name gdnative.String, aType gdnative.String) {
@@ -185,7 +185,7 @@ func (o *Theme) ClearStylebox(name gdnative.String, aType gdnative.String) {
 }
 
 /*
-        Sets theme values to a copy of the default theme values.
+        Sets the theme's values to a copy of the default theme values.
 	Args: [], Returns: void
 */
 func (o *Theme) CopyDefaultTheme() {
@@ -205,7 +205,7 @@ func (o *Theme) CopyDefaultTheme() {
 }
 
 /*
-
+        Sets the theme's values to a copy of a given theme.
 	Args: [{ false other Theme}], Returns: void
 */
 func (o *Theme) CopyTheme(other ThemeImplementer) {
@@ -226,7 +226,7 @@ func (o *Theme) CopyTheme(other ThemeImplementer) {
 }
 
 /*
-        Returns the [Color] at [code]name[/code] if Theme has [code]type[/code].
+        Returns the [Color] at [code]name[/code] if the theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: Color
 */
 func (o *Theme) GetColor(name gdnative.String, aType gdnative.String) gdnative.Color {
@@ -251,7 +251,7 @@ func (o *Theme) GetColor(name gdnative.String, aType gdnative.String) gdnative.C
 }
 
 /*
-        Returns all of the [Color]s as a [PoolStringArray] filled with each [Color]'s name, for use in [method get_color], if Theme has [code]type[/code].
+        Returns all the [Color]s as a [PoolStringArray] filled with each [Color]'s name, for use in [method get_color], if the theme has [code]type[/code].
 	Args: [{ false type String}], Returns: PoolStringArray
 */
 func (o *Theme) GetColorList(aType gdnative.String) gdnative.PoolStringArray {
@@ -275,7 +275,7 @@ func (o *Theme) GetColorList(aType gdnative.String) gdnative.PoolStringArray {
 }
 
 /*
-        Returns the constant at [code]name[/code] if Theme has [code]type[/code].
+        Returns the constant at [code]name[/code] if the theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: int
 */
 func (o *Theme) GetConstant(name gdnative.String, aType gdnative.String) gdnative.Int {
@@ -300,7 +300,7 @@ func (o *Theme) GetConstant(name gdnative.String, aType gdnative.String) gdnativ
 }
 
 /*
-        Returns all of the constants as a [PoolStringArray] filled with each constant's name, for use in [method get_constant], if Theme has [code]type[/code].
+        Returns all the constants as a [PoolStringArray] filled with each constant's name, for use in [method get_constant], if the theme has [code]type[/code].
 	Args: [{ false type String}], Returns: PoolStringArray
 */
 func (o *Theme) GetConstantList(aType gdnative.String) gdnative.PoolStringArray {
@@ -361,7 +361,7 @@ func (o *Theme) GetDefaultFont() FontImplementer {
 }
 
 /*
-        Returns the [Font] at [code]name[/code] if Theme has [code]type[/code].
+        Returns the [Font] at [code]name[/code] if the theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: Font
 */
 func (o *Theme) GetFont(name gdnative.String, aType gdnative.String) FontImplementer {
@@ -400,7 +400,7 @@ func (o *Theme) GetFont(name gdnative.String, aType gdnative.String) FontImpleme
 }
 
 /*
-        Returns all of the [Font]s as a [PoolStringArray] filled with each [Font]'s name, for use in [method get_font], if Theme has [code]type[/code].
+        Returns all the [Font]s as a [PoolStringArray] filled with each [Font]'s name, for use in [method get_font], if the theme has [code]type[/code].
 	Args: [{ false type String}], Returns: PoolStringArray
 */
 func (o *Theme) GetFontList(aType gdnative.String) gdnative.PoolStringArray {
@@ -424,7 +424,7 @@ func (o *Theme) GetFontList(aType gdnative.String) gdnative.PoolStringArray {
 }
 
 /*
-        Returns the icon [Texture] at [code]name[/code] if Theme has [code]type[/code].
+        Returns the icon [Texture] at [code]name[/code] if the theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: Texture
 */
 func (o *Theme) GetIcon(name gdnative.String, aType gdnative.String) TextureImplementer {
@@ -463,7 +463,7 @@ func (o *Theme) GetIcon(name gdnative.String, aType gdnative.String) TextureImpl
 }
 
 /*
-        Returns all of the icons as a [PoolStringArray] filled with each [Texture]'s name, for use in [method get_icon], if Theme has [code]type[/code].
+        Returns all the icons as a [PoolStringArray] filled with each [Texture]'s name, for use in [method get_icon], if the theme has [code]type[/code].
 	Args: [{ false type String}], Returns: PoolStringArray
 */
 func (o *Theme) GetIconList(aType gdnative.String) gdnative.PoolStringArray {
@@ -487,7 +487,7 @@ func (o *Theme) GetIconList(aType gdnative.String) gdnative.PoolStringArray {
 }
 
 /*
-        Returns the icon [StyleBox] at [code]name[/code] if Theme has [code]type[/code].
+        Returns the icon [StyleBox] at [code]name[/code] if the theme has [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: StyleBox
 */
 func (o *Theme) GetStylebox(name gdnative.String, aType gdnative.String) StyleBoxImplementer {
@@ -526,7 +526,7 @@ func (o *Theme) GetStylebox(name gdnative.String, aType gdnative.String) StyleBo
 }
 
 /*
-        Returns all of the [StyleBox]s as a [PoolStringArray] filled with each [StyleBox]'s name, for use in [method get_stylebox], if Theme has [code]type[/code].
+        Returns all the [StyleBox]s as a [PoolStringArray] filled with each [StyleBox]'s name, for use in [method get_stylebox], if the theme has [code]type[/code].
 	Args: [{ false type String}], Returns: PoolStringArray
 */
 func (o *Theme) GetStyleboxList(aType gdnative.String) gdnative.PoolStringArray {
@@ -550,7 +550,7 @@ func (o *Theme) GetStyleboxList(aType gdnative.String) gdnative.PoolStringArray 
 }
 
 /*
-        Returns all of the [StyleBox] types as a [PoolStringArray] filled with each [StyleBox]'s type, for use in [method get_stylebox] and/or [method get_stylebox_list], if Theme has [code]type[/code].
+        Returns all the [StyleBox] types as a [PoolStringArray] filled with each [StyleBox]'s type, for use in [method get_stylebox] and/or [method get_stylebox_list], if the theme has [code]type[/code].
 	Args: [], Returns: PoolStringArray
 */
 func (o *Theme) GetStyleboxTypes() gdnative.PoolStringArray {
@@ -573,7 +573,7 @@ func (o *Theme) GetStyleboxTypes() gdnative.PoolStringArray {
 }
 
 /*
-        Returns all of the types in [code]type[/code] as a [PoolStringArray] for use in any of the get_* functions, if Theme has [code]type[/code].
+        Returns all the types in [code]type[/code] as a [PoolStringArray] for use in any of the [code]get_*[/code] functions, if the theme has [code]type[/code].
 	Args: [{ false type String}], Returns: PoolStringArray
 */
 func (o *Theme) GetTypeList(aType gdnative.String) gdnative.PoolStringArray {
@@ -597,7 +597,7 @@ func (o *Theme) GetTypeList(aType gdnative.String) gdnative.PoolStringArray {
 }
 
 /*
-        Returns [code]true[/code] if [Color] with [code]name[/code] is in [code]type[/code]. Returns [code]false[/code] if Theme does not have [code]type[/code].
+        Returns [code]true[/code] if [Color] with [code]name[/code] is in [code]type[/code]. Returns [code]false[/code] if the theme does not have [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: bool
 */
 func (o *Theme) HasColor(name gdnative.String, aType gdnative.String) gdnative.Bool {
@@ -622,7 +622,7 @@ func (o *Theme) HasColor(name gdnative.String, aType gdnative.String) gdnative.B
 }
 
 /*
-        Returns [code]true[/code] if constant with [code]name[/code] is in [code]type[/code]. Returns [code]false[/code] if Theme does not have [code]type[/code].
+        Returns [code]true[/code] if constant with [code]name[/code] is in [code]type[/code]. Returns [code]false[/code] if the theme does not have [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: bool
 */
 func (o *Theme) HasConstant(name gdnative.String, aType gdnative.String) gdnative.Bool {
@@ -647,7 +647,7 @@ func (o *Theme) HasConstant(name gdnative.String, aType gdnative.String) gdnativ
 }
 
 /*
-        Returns [code]true[/code] if [Font] with [code]name[/code] is in [code]type[/code]. Returns [code]false[/code] if Theme does not have [code]type[/code].
+        Returns [code]true[/code] if [Font] with [code]name[/code] is in [code]type[/code]. Returns [code]false[/code] if the theme does not have [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: bool
 */
 func (o *Theme) HasFont(name gdnative.String, aType gdnative.String) gdnative.Bool {
@@ -672,7 +672,7 @@ func (o *Theme) HasFont(name gdnative.String, aType gdnative.String) gdnative.Bo
 }
 
 /*
-        Returns [code]true[/code] if icon [Texture] with [code]name[/code] is in [code]type[/code]. Returns [code]false[/code] if Theme does not have [code]type[/code].
+        Returns [code]true[/code] if icon [Texture] with [code]name[/code] is in [code]type[/code]. Returns [code]false[/code] if the theme does not have [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: bool
 */
 func (o *Theme) HasIcon(name gdnative.String, aType gdnative.String) gdnative.Bool {
@@ -697,7 +697,7 @@ func (o *Theme) HasIcon(name gdnative.String, aType gdnative.String) gdnative.Bo
 }
 
 /*
-        Returns [code]true[/code] if [StyleBox] with [code]name[/code] is in [code]type[/code]. Returns [code]false[/code] if Theme does not have [code]type[/code].
+        Returns [code]true[/code] if [StyleBox] with [code]name[/code] is in [code]type[/code]. Returns [code]false[/code] if the theme does not have [code]type[/code].
 	Args: [{ false name String} { false type String}], Returns: bool
 */
 func (o *Theme) HasStylebox(name gdnative.String, aType gdnative.String) gdnative.Bool {
@@ -722,7 +722,7 @@ func (o *Theme) HasStylebox(name gdnative.String, aType gdnative.String) gdnativ
 }
 
 /*
-        Sets Theme's [Color] to [code]color[/code] at [code]name[/code] in [code]type[/code]. Does nothing if Theme does not have [code]type[/code].
+        Sets the theme's [Color] to [code]color[/code] at [code]name[/code] in [code]type[/code]. Does nothing if the theme does not have [code]type[/code].
 	Args: [{ false name String} { false type String} { false color Color}], Returns: void
 */
 func (o *Theme) SetColor(name gdnative.String, aType gdnative.String, color gdnative.Color) {
@@ -745,7 +745,7 @@ func (o *Theme) SetColor(name gdnative.String, aType gdnative.String, color gdna
 }
 
 /*
-        Sets Theme's constant to [code]constant[/code] at [code]name[/code] in [code]type[/code]. Does nothing if Theme does not have [code]type[/code].
+        Sets the theme's constant to [code]constant[/code] at [code]name[/code] in [code]type[/code]. Does nothing if the theme does not have [code]type[/code].
 	Args: [{ false name String} { false type String} { false constant int}], Returns: void
 */
 func (o *Theme) SetConstant(name gdnative.String, aType gdnative.String, constant gdnative.Int) {
@@ -789,7 +789,7 @@ func (o *Theme) SetDefaultFont(font FontImplementer) {
 }
 
 /*
-        Sets Theme's [Font] to [code]font[/code] at [code]name[/code] in [code]type[/code]. Does nothing if Theme does not have [code]type[/code].
+        Sets the theme's [Font] to [code]font[/code] at [code]name[/code] in [code]type[/code]. Does nothing if the theme does not have [code]type[/code].
 	Args: [{ false name String} { false type String} { false font Font}], Returns: void
 */
 func (o *Theme) SetFont(name gdnative.String, aType gdnative.String, font FontImplementer) {
@@ -812,7 +812,7 @@ func (o *Theme) SetFont(name gdnative.String, aType gdnative.String, font FontIm
 }
 
 /*
-        Sets Theme's icon [Texture] to [code]texture[/code] at [code]name[/code] in [code]type[/code]. Does nothing if Theme does not have [code]type[/code].
+        Sets the theme's icon [Texture] to [code]texture[/code] at [code]name[/code] in [code]type[/code]. Does nothing if the theme does not have [code]type[/code].
 	Args: [{ false name String} { false type String} { false texture Texture}], Returns: void
 */
 func (o *Theme) SetIcon(name gdnative.String, aType gdnative.String, texture TextureImplementer) {
@@ -835,7 +835,7 @@ func (o *Theme) SetIcon(name gdnative.String, aType gdnative.String, texture Tex
 }
 
 /*
-        Sets Theme's [StyleBox] to [code]stylebox[/code] at [code]name[/code] in [code]type[/code]. Does nothing if Theme does not have [code]type[/code].
+        Sets theme's [StyleBox] to [code]stylebox[/code] at [code]name[/code] in [code]type[/code]. Does nothing if the theme does not have [code]type[/code].
 	Args: [{ false name String} { false type String} { false texture StyleBox}], Returns: void
 */
 func (o *Theme) SetStylebox(name gdnative.String, aType gdnative.String, texture StyleBoxImplementer) {

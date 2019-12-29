@@ -23,8 +23,8 @@ func newVisualShaderNodeGroupBaseFromPointer(ptr gdnative.Pointer) VisualShaderN
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeGroupBase struct {
 	VisualShaderNode
 	owner gdnative.Object
@@ -35,7 +35,7 @@ func (o *VisualShaderNodeGroupBase) BaseClass() string {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false id int} { false type int} { false name String}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) AddInputPort(id gdnative.Int, aType gdnative.Int, name gdnative.String) {
@@ -58,7 +58,7 @@ func (o *VisualShaderNodeGroupBase) AddInputPort(id gdnative.Int, aType gdnative
 }
 
 /*
-        Undocumented
+
 	Args: [{ false id int} { false type int} { false name String}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) AddOutputPort(id gdnative.Int, aType gdnative.Int, name gdnative.String) {
@@ -81,7 +81,7 @@ func (o *VisualShaderNodeGroupBase) AddOutputPort(id gdnative.Int, aType gdnativ
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) ClearInputPorts() {
@@ -101,7 +101,7 @@ func (o *VisualShaderNodeGroupBase) ClearInputPorts() {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) ClearOutputPorts() {
@@ -121,7 +121,7 @@ func (o *VisualShaderNodeGroupBase) ClearOutputPorts() {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false index int}], Returns: Control
 */
 func (o *VisualShaderNodeGroupBase) GetControl(index gdnative.Int) ControlImplementer {
@@ -159,7 +159,7 @@ func (o *VisualShaderNodeGroupBase) GetControl(index gdnative.Int) ControlImplem
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: int
 */
 func (o *VisualShaderNodeGroupBase) GetFreeInputPortId() gdnative.Int {
@@ -182,7 +182,7 @@ func (o *VisualShaderNodeGroupBase) GetFreeInputPortId() gdnative.Int {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: int
 */
 func (o *VisualShaderNodeGroupBase) GetFreeOutputPortId() gdnative.Int {
@@ -205,7 +205,7 @@ func (o *VisualShaderNodeGroupBase) GetFreeOutputPortId() gdnative.Int {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: int
 */
 func (o *VisualShaderNodeGroupBase) GetInputPortCount() gdnative.Int {
@@ -228,7 +228,7 @@ func (o *VisualShaderNodeGroupBase) GetInputPortCount() gdnative.Int {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: String
 */
 func (o *VisualShaderNodeGroupBase) GetInputs() gdnative.String {
@@ -251,7 +251,7 @@ func (o *VisualShaderNodeGroupBase) GetInputs() gdnative.String {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: int
 */
 func (o *VisualShaderNodeGroupBase) GetOutputPortCount() gdnative.Int {
@@ -274,7 +274,7 @@ func (o *VisualShaderNodeGroupBase) GetOutputPortCount() gdnative.Int {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: String
 */
 func (o *VisualShaderNodeGroupBase) GetOutputs() gdnative.String {
@@ -297,7 +297,7 @@ func (o *VisualShaderNodeGroupBase) GetOutputs() gdnative.String {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: Vector2
 */
 func (o *VisualShaderNodeGroupBase) GetSize() gdnative.Vector2 {
@@ -320,7 +320,7 @@ func (o *VisualShaderNodeGroupBase) GetSize() gdnative.Vector2 {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false id int}], Returns: bool
 */
 func (o *VisualShaderNodeGroupBase) HasInputPort(id gdnative.Int) gdnative.Bool {
@@ -344,7 +344,7 @@ func (o *VisualShaderNodeGroupBase) HasInputPort(id gdnative.Int) gdnative.Bool 
 }
 
 /*
-        Undocumented
+
 	Args: [{ false id int}], Returns: bool
 */
 func (o *VisualShaderNodeGroupBase) HasOutputPort(id gdnative.Int) gdnative.Bool {
@@ -391,7 +391,7 @@ func (o *VisualShaderNodeGroupBase) IsEditable() gdnative.Bool {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false name String}], Returns: bool
 */
 func (o *VisualShaderNodeGroupBase) IsValidPortName(name gdnative.String) gdnative.Bool {
@@ -415,7 +415,7 @@ func (o *VisualShaderNodeGroupBase) IsValidPortName(name gdnative.String) gdnati
 }
 
 /*
-        Undocumented
+
 	Args: [{ false id int}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) RemoveInputPort(id gdnative.Int) {
@@ -436,7 +436,7 @@ func (o *VisualShaderNodeGroupBase) RemoveInputPort(id gdnative.Int) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false id int}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) RemoveOutputPort(id gdnative.Int) {
@@ -457,7 +457,7 @@ func (o *VisualShaderNodeGroupBase) RemoveOutputPort(id gdnative.Int) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false control Control} { false index int}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) SetControl(control ControlImplementer, index gdnative.Int) {
@@ -500,7 +500,7 @@ func (o *VisualShaderNodeGroupBase) SetEditable(enabled gdnative.Bool) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false id int} { false name String}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) SetInputPortName(id gdnative.Int, name gdnative.String) {
@@ -522,7 +522,7 @@ func (o *VisualShaderNodeGroupBase) SetInputPortName(id gdnative.Int, name gdnat
 }
 
 /*
-        Undocumented
+
 	Args: [{ false id int} { false type int}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) SetInputPortType(id gdnative.Int, aType gdnative.Int) {
@@ -544,7 +544,7 @@ func (o *VisualShaderNodeGroupBase) SetInputPortType(id gdnative.Int, aType gdna
 }
 
 /*
-        Undocumented
+
 	Args: [{ false inputs String}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) SetInputs(inputs gdnative.String) {
@@ -565,7 +565,7 @@ func (o *VisualShaderNodeGroupBase) SetInputs(inputs gdnative.String) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false id int} { false name String}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) SetOutputPortName(id gdnative.Int, name gdnative.String) {
@@ -587,7 +587,7 @@ func (o *VisualShaderNodeGroupBase) SetOutputPortName(id gdnative.Int, name gdna
 }
 
 /*
-        Undocumented
+
 	Args: [{ false id int} { false type int}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) SetOutputPortType(id gdnative.Int, aType gdnative.Int) {
@@ -609,7 +609,7 @@ func (o *VisualShaderNodeGroupBase) SetOutputPortType(id gdnative.Int, aType gdn
 }
 
 /*
-        Undocumented
+
 	Args: [{ false outputs String}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) SetOutputs(outputs gdnative.String) {
@@ -630,7 +630,7 @@ func (o *VisualShaderNodeGroupBase) SetOutputs(outputs gdnative.String) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false size Vector2}], Returns: void
 */
 func (o *VisualShaderNodeGroupBase) SetSize(size gdnative.Vector2) {

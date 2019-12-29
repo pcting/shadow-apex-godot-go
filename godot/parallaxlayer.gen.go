@@ -23,7 +23,7 @@ func newParallaxLayerFromPointer(ptr gdnative.Pointer) ParallaxLayer {
 }
 
 /*
-A ParallaxLayer must be the child of a [ParallaxBackground] node. Each ParallaxLayer can be set to move at different speeds relative to the camera movement or the [member ParallaxBackground.scroll_offset] value. This node's children will be affected by its scroll offset. Note that any changes to this node's position and scale made after it enters the scene will be ignored.
+A ParallaxLayer must be the child of a [ParallaxBackground] node. Each ParallaxLayer can be set to move at different speeds relative to the camera movement or the [member ParallaxBackground.scroll_offset] value. This node's children will be affected by its scroll offset. [b]Note:[/b] Any changes to this node's position and scale made after it enters the scene will be ignored.
 */
 type ParallaxLayer struct {
 	Node2D

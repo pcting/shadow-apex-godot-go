@@ -81,7 +81,7 @@ func (o *AudioEffectChorus) GetVoiceCount() gdnative.Int {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int}], Returns: float
 */
 func (o *AudioEffectChorus) GetVoiceCutoffHz(voiceIdx gdnative.Int) gdnative.Real {
@@ -105,7 +105,7 @@ func (o *AudioEffectChorus) GetVoiceCutoffHz(voiceIdx gdnative.Int) gdnative.Rea
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int}], Returns: float
 */
 func (o *AudioEffectChorus) GetVoiceDelayMs(voiceIdx gdnative.Int) gdnative.Real {
@@ -129,7 +129,7 @@ func (o *AudioEffectChorus) GetVoiceDelayMs(voiceIdx gdnative.Int) gdnative.Real
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int}], Returns: float
 */
 func (o *AudioEffectChorus) GetVoiceDepthMs(voiceIdx gdnative.Int) gdnative.Real {
@@ -153,7 +153,7 @@ func (o *AudioEffectChorus) GetVoiceDepthMs(voiceIdx gdnative.Int) gdnative.Real
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int}], Returns: float
 */
 func (o *AudioEffectChorus) GetVoiceLevelDb(voiceIdx gdnative.Int) gdnative.Real {
@@ -177,7 +177,7 @@ func (o *AudioEffectChorus) GetVoiceLevelDb(voiceIdx gdnative.Int) gdnative.Real
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int}], Returns: float
 */
 func (o *AudioEffectChorus) GetVoicePan(voiceIdx gdnative.Int) gdnative.Real {
@@ -201,7 +201,7 @@ func (o *AudioEffectChorus) GetVoicePan(voiceIdx gdnative.Int) gdnative.Real {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int}], Returns: float
 */
 func (o *AudioEffectChorus) GetVoiceRateHz(voiceIdx gdnative.Int) gdnative.Real {
@@ -290,7 +290,7 @@ func (o *AudioEffectChorus) SetVoiceCount(voices gdnative.Int) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int} { false cutoff_hz float}], Returns: void
 */
 func (o *AudioEffectChorus) SetVoiceCutoffHz(voiceIdx gdnative.Int, cutoffHz gdnative.Real) {
@@ -312,7 +312,7 @@ func (o *AudioEffectChorus) SetVoiceCutoffHz(voiceIdx gdnative.Int, cutoffHz gdn
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int} { false delay_ms float}], Returns: void
 */
 func (o *AudioEffectChorus) SetVoiceDelayMs(voiceIdx gdnative.Int, delayMs gdnative.Real) {
@@ -334,7 +334,7 @@ func (o *AudioEffectChorus) SetVoiceDelayMs(voiceIdx gdnative.Int, delayMs gdnat
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int} { false depth_ms float}], Returns: void
 */
 func (o *AudioEffectChorus) SetVoiceDepthMs(voiceIdx gdnative.Int, depthMs gdnative.Real) {
@@ -356,7 +356,7 @@ func (o *AudioEffectChorus) SetVoiceDepthMs(voiceIdx gdnative.Int, depthMs gdnat
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int} { false level_db float}], Returns: void
 */
 func (o *AudioEffectChorus) SetVoiceLevelDb(voiceIdx gdnative.Int, levelDb gdnative.Real) {
@@ -378,7 +378,7 @@ func (o *AudioEffectChorus) SetVoiceLevelDb(voiceIdx gdnative.Int, levelDb gdnat
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int} { false pan float}], Returns: void
 */
 func (o *AudioEffectChorus) SetVoicePan(voiceIdx gdnative.Int, pan gdnative.Real) {
@@ -400,7 +400,7 @@ func (o *AudioEffectChorus) SetVoicePan(voiceIdx gdnative.Int, pan gdnative.Real
 }
 
 /*
-        Undocumented
+
 	Args: [{ false voice_idx int} { false rate_hz float}], Returns: void
 */
 func (o *AudioEffectChorus) SetVoiceRateHz(voiceIdx gdnative.Int, rateHz gdnative.Real) {

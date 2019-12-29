@@ -60,12 +60,12 @@ func newSingletonInput() *input {
 }
 
 /*
-   A Singleton that deals with inputs. This includes key presses, mouse buttons and movement, joypads, and input actions. Actions and their events can be set in the Project Settings / Input Map tab. Or be set with [InputMap].
+   A Singleton that deals with inputs. This includes key presses, mouse buttons and movement, joypads, and input actions. Actions and their events can be set in the [b]Input Map[/b] tab in the [b]Project > Project Settings[/b], or with the [InputMap] class.
 */
 var Input = newSingletonInput()
 
 /*
-A Singleton that deals with inputs. This includes key presses, mouse buttons and movement, joypads, and input actions. Actions and their events can be set in the Project Settings / Input Map tab. Or be set with [InputMap].
+A Singleton that deals with inputs. This includes key presses, mouse buttons and movement, joypads, and input actions. Actions and their events can be set in the [b]Input Map[/b] tab in the [b]Project > Project Settings[/b], or with the [InputMap] class.
 */
 type input struct {
 	Object
@@ -135,7 +135,7 @@ func (o *input) ActionRelease(action gdnative.String) {
 }
 
 /*
-        Add a new mapping entry (in SDL2 format) to the mapping database. Optionally update already connected devices.
+        Adds a new mapping entry (in SDL2 format) to the mapping database. Optionally update already connected devices.
 	Args: [{ false mapping String} {False true update_existing bool}], Returns: void
 */
 func (o *input) AddJoyMapping(mapping gdnative.String, updateExisting gdnative.Bool) {
@@ -231,7 +231,7 @@ func (o *input) GetConnectedJoypads() gdnative.Array {
 }
 
 /*
-
+        Returns the currently assigned cursor shape (see [enum CursorShape]).
 	Args: [], Returns: enum.Input::CursorShape
 */
 func (o *input) GetCurrentCursorShape() InputCursorShape {
@@ -279,7 +279,7 @@ func (o *input) GetGravity() gdnative.Vector3 {
 }
 
 /*
-        If the device has a gyroscope, this will return the rate of rotation in rad/s around a device's x, y, and z axis. Otherwise, it returns an empty [Vector3].
+        If the device has a gyroscope, this will return the rate of rotation in rad/s around a device's X, Y, and Z axes. Otherwise, it returns an empty [Vector3].
 	Args: [], Returns: Vector3
 */
 func (o *input) GetGyroscope() gdnative.Vector3 {
@@ -303,7 +303,7 @@ func (o *input) GetGyroscope() gdnative.Vector3 {
 }
 
 /*
-        Returns the current value of the joypad axis at given index (see [code]JOY_*[/code] constants in [@GlobalScope])
+        Returns the current value of the joypad axis at given index (see [enum JoystickList]).
 	Args: [{ false device int} { false axis int}], Returns: float
 */
 func (o *input) GetJoyAxis(device gdnative.Int, axis gdnative.Int) gdnative.Real {
@@ -354,7 +354,7 @@ func (o *input) GetJoyAxisIndexFromString(axis gdnative.String) gdnative.Int {
 }
 
 /*
-        Receives a [code]JOY_AXIS_*[/code] Enum and returns its equivalent name as a string.
+        Receives a [enum JoystickList] axis and returns its equivalent name as a string.
 	Args: [{ false axis_index int}], Returns: String
 */
 func (o *input) GetJoyAxisString(axisIndex gdnative.Int) gdnative.String {
@@ -404,7 +404,7 @@ func (o *input) GetJoyButtonIndexFromString(button gdnative.String) gdnative.Int
 }
 
 /*
-        Receives a [code]JOY_BUTTON_*[/code] Enum and returns its equivalent name as a string.
+        Receives a gamepad button from [enum JoystickList] and returns its equivalent name as a string.
 	Args: [{ false button_index int}], Returns: String
 */
 func (o *input) GetJoyButtonString(buttonIndex gdnative.Int) gdnative.String {
@@ -429,7 +429,7 @@ func (o *input) GetJoyButtonString(buttonIndex gdnative.Int) gdnative.String {
 }
 
 /*
-        Returns a SDL2 compatible device guid on platforms that use gamepad remapping. Returns "Default Gamepad" otherwise.
+        Returns a SDL2-compatible device GUID on platforms that use gamepad remapping. Returns [code]"Default Gamepad"[/code] otherwise.
 	Args: [{ false device int}], Returns: String
 */
 func (o *input) GetJoyGuid(device gdnative.Int) gdnative.String {
@@ -454,7 +454,7 @@ func (o *input) GetJoyGuid(device gdnative.Int) gdnative.String {
 }
 
 /*
-        Returns the name of the joypad at the specified device index
+        Returns the name of the joypad at the specified device index.
 	Args: [{ false device int}], Returns: String
 */
 func (o *input) GetJoyName(device gdnative.Int) gdnative.String {
@@ -577,7 +577,7 @@ func (o *input) GetMagnetometer() gdnative.Vector3 {
 }
 
 /*
-        Returns mouse buttons as a bitmask. If multiple mouse buttons are pressed at the same time the bits are added together.
+        Returns mouse buttons as a bitmask. If multiple mouse buttons are pressed at the same time, the bits are added together.
 	Args: [], Returns: int
 */
 func (o *input) GetMouseButtonMask() gdnative.Int {
@@ -675,7 +675,7 @@ func (o *input) IsActionJustReleased(action gdnative.String) gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if you are pressing the action event. Note that if an action has multiple buttons asigned and more than one of them is pressed, releasing one button will release the action, even if some other button assigned to this action is still pressed.
+        Returns [code]true[/code] if you are pressing the action event. Note that if an action has multiple buttons assigned and more than one of them is pressed, releasing one button will release the action, even if some other button assigned to this action is still pressed.
 	Args: [{ false action String}], Returns: bool
 */
 func (o *input) IsActionPressed(action gdnative.String) gdnative.Bool {
@@ -700,7 +700,7 @@ func (o *input) IsActionPressed(action gdnative.String) gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if you are pressing the joypad button. (see [code]JOY_*[/code] constants in [@GlobalScope])
+        Returns [code]true[/code] if you are pressing the joypad button (see [enum JoystickList]).
 	Args: [{ false device int} { false button int}], Returns: bool
 */
 func (o *input) IsJoyButtonPressed(device gdnative.Int, button gdnative.Int) gdnative.Bool {
@@ -726,7 +726,7 @@ func (o *input) IsJoyButtonPressed(device gdnative.Int, button gdnative.Int) gdn
 }
 
 /*
-        Returns [code]true[/code] if the system knows the specified device. This means that it sets all button and axis indices exactly as defined in the [code]JOY_*[/code] constants (see [@GlobalScope]). Unknown joypads are not expected to match these constants, but you can still retrieve events from them.
+        Returns [code]true[/code] if the system knows the specified device. This means that it sets all button and axis indices exactly as defined in [enum JoystickList]. Unknown joypads are not expected to match these constants, but you can still retrieve events from them.
 	Args: [{ false device int}], Returns: bool
 */
 func (o *input) IsJoyKnown(device gdnative.Int) gdnative.Bool {
@@ -751,7 +751,7 @@ func (o *input) IsJoyKnown(device gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if you are pressing the key. You can pass [code]KEY_*[/code], which are pre-defined constants listed in [@GlobalScope].
+        Returns [code]true[/code] if you are pressing the key. You can pass a [enum KeyList] constant.
 	Args: [{ false scancode int}], Returns: bool
 */
 func (o *input) IsKeyPressed(scancode gdnative.Int) gdnative.Bool {
@@ -776,7 +776,7 @@ func (o *input) IsKeyPressed(scancode gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if you are pressing the mouse button. You can pass [code]BUTTON_*[/code], which are pre-defined constants listed in [@GlobalScope].
+        Returns [code]true[/code] if you are pressing the mouse button specified with [enum ButtonList].
 	Args: [{ false button int}], Returns: bool
 */
 func (o *input) IsMouseButtonPressed(button gdnative.Int) gdnative.Bool {
@@ -848,7 +848,7 @@ func (o *input) ParseInputEvent(event InputEventImplementer) {
 }
 
 /*
-        Removes all mappings from the internal db that match the given uid.
+        Removes all mappings from the internal database that match the given GUID.
 	Args: [{ false guid String}], Returns: void
 */
 func (o *input) RemoveJoyMapping(guid gdnative.String) {
@@ -870,7 +870,7 @@ func (o *input) RemoveJoyMapping(guid gdnative.String) {
 }
 
 /*
-        Sets a custom mouse cursor image, which is only visible inside the game window. The hotspot can also be specified. Passing [code]null[/code] to the image parameter resets to the system cursor. See enum [code]CURSOR_*[/code] for the list of shapes. [code]image[/code]'s size must be lower than 256x256. [code]hotspot[/code] must be within [code]image[/code]'s size.
+        Sets a custom mouse cursor image, which is only visible inside the game window. The hotspot can also be specified. Passing [code]null[/code] to the image parameter resets to the system cursor. See [enum CursorShape] for the list of shapes. [code]image[/code]'s size must be lower than 256×256. [code]hotspot[/code] must be within [code]image[/code]'s size. [b]Note:[/b] [AnimatedTexture]s aren't supported as custom mouse cursors. If using an [AnimatedTexture], only the first frame will be displayed. [b]Note:[/b] Only images imported with the [b]Lossless[/b], [b]Lossy[/b] or [b]Uncompressed[/b] compression modes are supported. The [b]Video RAM[/b] compression mode can't be used for custom cursors.
 	Args: [{ false image Resource} {0 true shape int} {(0, 0) true hotspot Vector2}], Returns: void
 */
 func (o *input) SetCustomMouseCursor(image ResourceImplementer, shape gdnative.Int, hotspot gdnative.Vector2) {
@@ -916,7 +916,7 @@ func (o *input) SetDefaultCursorShape(shape gdnative.Int) {
 }
 
 /*
-        Set the mouse mode. See the constants for more information.
+        Sets the mouse mode. See the constants for more information.
 	Args: [{ false mode int}], Returns: void
 */
 func (o *input) SetMouseMode(mode gdnative.Int) {
@@ -938,7 +938,7 @@ func (o *input) SetMouseMode(mode gdnative.Int) {
 }
 
 /*
-        Whether to accumulate similar input events sent by the operating system. Defaults to [code]true[/code].
+        Whether to accumulate similar input events sent by the operating system. Enabled by default.
 	Args: [{ false enable bool}], Returns: void
 */
 func (o *input) SetUseAccumulatedInput(enable gdnative.Bool) {
@@ -960,7 +960,7 @@ func (o *input) SetUseAccumulatedInput(enable gdnative.Bool) {
 }
 
 /*
-        Starts to vibrate the joypad. Joypads usually come with two rumble motors, a strong and a weak one. weak_magnitude is the strength of the weak motor (between 0 and 1) and strong_magnitude is the strength of the strong motor (between 0 and 1). duration is the duration of the effect in seconds (a duration of 0 will try to play the vibration indefinitely). Note that not every hardware is compatible with long effect durations, it is recommended to restart an effect if in need to play it for more than a few seconds.
+        Starts to vibrate the joypad. Joypads usually come with two rumble motors, a strong and a weak one. [code]weak_magnitude[/code] is the strength of the weak motor (between 0 and 1) and [code]strong_magnitude[/code] is the strength of the strong motor (between 0 and 1). [code]duration[/code] is the duration of the effect in seconds (a duration of 0 will try to play the vibration indefinitely). [b]Note:[/b] Not every hardware is compatible with long effect durations; it is recommended to restart an effect if it has to be played for more than a few seconds.
 	Args: [{ false device int} { false weak_magnitude float} { false strong_magnitude float} {0 true duration float}], Returns: void
 */
 func (o *input) StartJoyVibration(device gdnative.Int, weakMagnitude gdnative.Real, strongMagnitude gdnative.Real, duration gdnative.Real) {

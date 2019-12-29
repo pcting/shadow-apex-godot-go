@@ -23,7 +23,7 @@ func newMultiMeshInstanceFromPointer(ptr gdnative.Pointer) MultiMeshInstance {
 }
 
 /*
-[code]MultiMeshInstance[/code] is a specialized node to instance [GeometryInstance]s based on a [MultiMesh] resource. This is useful to optimize the rendering of a high amount of instances of a given mesh (for example tree in a forest or grass strands).
+[MultiMeshInstance] is a specialized node to instance [GeometryInstance]s based on a [MultiMesh] resource. This is useful to optimize the rendering of a high amount of instances of a given mesh (for example trees in a forest or grass strands).
 */
 type MultiMeshInstance struct {
 	GeometryInstance

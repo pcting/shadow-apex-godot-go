@@ -23,7 +23,7 @@ func newMeshDataToolFromPointer(ptr gdnative.Pointer) MeshDataTool {
 }
 
 /*
-The MeshDataTool provides access to individual vertices in a [Mesh]. It allows users to read and edit vertex data of meshes. It also creates an array of faces and edges. To use the MeshDataTool, load a mesh with [method create_from_surface]. When you are finished editing the data commit the data to a mesh with [method commit_to_surface]. Below is an example of how the MeshDataTool may be used. [codeblock] var mdt = MeshDataTool.new() mdt.create_from_surface(mesh, 0) for i in range(mdt.get_vertex_count()): var vertex = mdt.get_vertex(i) ... mdt.set_vertex(i, vertex) mesh.surface_remove(0) mdt.commit_to_surface(mesh) [/codeblock]
+MeshDataTool provides access to individual vertices in a [Mesh]. It allows users to read and edit vertex data of meshes. It also creates an array of faces and edges. To use MeshDataTool, load a mesh with [method create_from_surface]. When you are finished editing the data commit the data to a mesh with [method commit_to_surface]. Below is an example of how MeshDataTool may be used. [codeblock] var mdt = MeshDataTool.new() mdt.create_from_surface(mesh, 0) for i in range(mdt.get_vertex_count()): var vertex = mdt.get_vertex(i) ... mdt.set_vertex(i, vertex) mesh.surface_remove(0) mdt.commit_to_surface(mesh) [/codeblock]
 */
 type MeshDataTool struct {
 	Reference
@@ -248,7 +248,7 @@ func (o *MeshDataTool) GetFaceEdge(idx gdnative.Int, edge gdnative.Int) gdnative
 }
 
 /*
-        Returns meta data associated with given face.
+        Returns the metadata associated with the given face.
 	Args: [{ false idx int}], Returns: Variant
 */
 func (o *MeshDataTool) GetFaceMeta(idx gdnative.Int) gdnative.Variant {
@@ -272,7 +272,7 @@ func (o *MeshDataTool) GetFaceMeta(idx gdnative.Int) gdnative.Variant {
 }
 
 /*
-        Calculates and returns face normal of given face.
+        Calculates and returns the face normal of the given face.
 	Args: [{ false idx int}], Returns: Vector3
 */
 func (o *MeshDataTool) GetFaceNormal(idx gdnative.Int) gdnative.Vector3 {
@@ -296,7 +296,7 @@ func (o *MeshDataTool) GetFaceNormal(idx gdnative.Int) gdnative.Vector3 {
 }
 
 /*
-        Returns specified vertex of given face. Vertex argument must be 2 or less because faces contain three vertices.
+        Returns the specified vertex of the given face. Vertex argument must be 2 or less because faces contain three vertices.
 	Args: [{ false idx int} { false vertex int}], Returns: int
 */
 func (o *MeshDataTool) GetFaceVertex(idx gdnative.Int, vertex gdnative.Int) gdnative.Int {
@@ -321,7 +321,7 @@ func (o *MeshDataTool) GetFaceVertex(idx gdnative.Int, vertex gdnative.Int) gdna
 }
 
 /*
-        Returns format of [Mesh]. Format is an integer made up of [Mesh] format flags combined together. For example, a mesh containing both vertices and normals would return a format of [code]3[/code] because [constant ArrayMesh.ARRAY_FORMAT_VERTEX] is [code]1[/code] and [constant ArrayMesh.ARRAY_FORMAT_NORMAL] is [code]2[/code]. For list of format flags see [enum ArrayMesh.ArrayFormat].
+        Returns the [Mesh]'s format. Format is an integer made up of [Mesh] format flags combined together. For example, a mesh containing both vertices and normals would return a format of [code]3[/code] because [constant ArrayMesh.ARRAY_FORMAT_VERTEX] is [code]1[/code] and [constant ArrayMesh.ARRAY_FORMAT_NORMAL] is [code]2[/code]. See [enum ArrayMesh.ArrayFormat] for a list of format flags.
 	Args: [], Returns: int
 */
 func (o *MeshDataTool) GetFormat() gdnative.Int {
@@ -344,7 +344,7 @@ func (o *MeshDataTool) GetFormat() gdnative.Int {
 }
 
 /*
-        Returns material assigned to the [Mesh].
+        Returns the material assigned to the [Mesh].
 	Args: [], Returns: Material
 */
 func (o *MeshDataTool) GetMaterial() MaterialImplementer {
@@ -476,7 +476,7 @@ func (o *MeshDataTool) GetVertexCount() gdnative.Int {
 }
 
 /*
-        Returns array of edges that share given vertex.
+        Returns an array of edges that share the given vertex.
 	Args: [{ false idx int}], Returns: PoolIntArray
 */
 func (o *MeshDataTool) GetVertexEdges(idx gdnative.Int) gdnative.PoolIntArray {
@@ -500,7 +500,7 @@ func (o *MeshDataTool) GetVertexEdges(idx gdnative.Int) gdnative.PoolIntArray {
 }
 
 /*
-        Returns array of faces that share given vertex.
+        Returns an array of faces that share the given vertex.
 	Args: [{ false idx int}], Returns: PoolIntArray
 */
 func (o *MeshDataTool) GetVertexFaces(idx gdnative.Int) gdnative.PoolIntArray {
@@ -524,7 +524,7 @@ func (o *MeshDataTool) GetVertexFaces(idx gdnative.Int) gdnative.PoolIntArray {
 }
 
 /*
-        Returns meta data associated with given vertex.
+        Returns the metadata associated with the given vertex.
 	Args: [{ false idx int}], Returns: Variant
 */
 func (o *MeshDataTool) GetVertexMeta(idx gdnative.Int) gdnative.Variant {
@@ -548,7 +548,7 @@ func (o *MeshDataTool) GetVertexMeta(idx gdnative.Int) gdnative.Variant {
 }
 
 /*
-        Returns normal of given vertex.
+        Returns the normal of the given vertex.
 	Args: [{ false idx int}], Returns: Vector3
 */
 func (o *MeshDataTool) GetVertexNormal(idx gdnative.Int) gdnative.Vector3 {
@@ -572,7 +572,7 @@ func (o *MeshDataTool) GetVertexNormal(idx gdnative.Int) gdnative.Vector3 {
 }
 
 /*
-        Returns tangent of given vertex.
+        Returns the tangent of the given vertex.
 	Args: [{ false idx int}], Returns: Plane
 */
 func (o *MeshDataTool) GetVertexTangent(idx gdnative.Int) gdnative.Plane {
@@ -596,7 +596,7 @@ func (o *MeshDataTool) GetVertexTangent(idx gdnative.Int) gdnative.Plane {
 }
 
 /*
-        Returns UV of given vertex.
+        Returns the UV of the given vertex.
 	Args: [{ false idx int}], Returns: Vector2
 */
 func (o *MeshDataTool) GetVertexUv(idx gdnative.Int) gdnative.Vector2 {
@@ -620,7 +620,7 @@ func (o *MeshDataTool) GetVertexUv(idx gdnative.Int) gdnative.Vector2 {
 }
 
 /*
-        Returns UV2 of given vertex.
+        Returns the UV2 of the given vertex.
 	Args: [{ false idx int}], Returns: Vector2
 */
 func (o *MeshDataTool) GetVertexUv2(idx gdnative.Int) gdnative.Vector2 {
@@ -644,7 +644,7 @@ func (o *MeshDataTool) GetVertexUv2(idx gdnative.Int) gdnative.Vector2 {
 }
 
 /*
-        Returns bone weights of given vertex.
+        Returns bone weights of the given vertex.
 	Args: [{ false idx int}], Returns: PoolRealArray
 */
 func (o *MeshDataTool) GetVertexWeights(idx gdnative.Int) gdnative.PoolRealArray {
@@ -668,7 +668,7 @@ func (o *MeshDataTool) GetVertexWeights(idx gdnative.Int) gdnative.PoolRealArray
 }
 
 /*
-        Sets the meta data of given edge.
+        Sets the metadata of the given edge.
 	Args: [{ false idx int} { false meta Variant}], Returns: void
 */
 func (o *MeshDataTool) SetEdgeMeta(idx gdnative.Int, meta gdnative.Variant) {
@@ -690,7 +690,7 @@ func (o *MeshDataTool) SetEdgeMeta(idx gdnative.Int, meta gdnative.Variant) {
 }
 
 /*
-        Sets the meta data of given face.
+        Sets the metadata of the given face.
 	Args: [{ false idx int} { false meta Variant}], Returns: void
 */
 func (o *MeshDataTool) SetFaceMeta(idx gdnative.Int, meta gdnative.Variant) {
@@ -712,7 +712,7 @@ func (o *MeshDataTool) SetFaceMeta(idx gdnative.Int, meta gdnative.Variant) {
 }
 
 /*
-        Sets the material to be used by newly constructed [Mesh].
+        Sets the material to be used by newly-constructed [Mesh].
 	Args: [{ false material Material}], Returns: void
 */
 func (o *MeshDataTool) SetMaterial(material MaterialImplementer) {
@@ -733,7 +733,7 @@ func (o *MeshDataTool) SetMaterial(material MaterialImplementer) {
 }
 
 /*
-        Sets the position of given vertex.
+        Sets the position of the given vertex.
 	Args: [{ false idx int} { false vertex Vector3}], Returns: void
 */
 func (o *MeshDataTool) SetVertex(idx gdnative.Int, vertex gdnative.Vector3) {
@@ -755,7 +755,7 @@ func (o *MeshDataTool) SetVertex(idx gdnative.Int, vertex gdnative.Vector3) {
 }
 
 /*
-        Sets the bones of given vertex.
+        Sets the bones of the given vertex.
 	Args: [{ false idx int} { false bones PoolIntArray}], Returns: void
 */
 func (o *MeshDataTool) SetVertexBones(idx gdnative.Int, bones gdnative.PoolIntArray) {
@@ -777,7 +777,7 @@ func (o *MeshDataTool) SetVertexBones(idx gdnative.Int, bones gdnative.PoolIntAr
 }
 
 /*
-        Sets the color of given vertex.
+        Sets the color of the given vertex.
 	Args: [{ false idx int} { false color Color}], Returns: void
 */
 func (o *MeshDataTool) SetVertexColor(idx gdnative.Int, color gdnative.Color) {
@@ -799,7 +799,7 @@ func (o *MeshDataTool) SetVertexColor(idx gdnative.Int, color gdnative.Color) {
 }
 
 /*
-        Sets the meta data associated with given vertex.
+        Sets the metadata associated with the given vertex.
 	Args: [{ false idx int} { false meta Variant}], Returns: void
 */
 func (o *MeshDataTool) SetVertexMeta(idx gdnative.Int, meta gdnative.Variant) {
@@ -821,7 +821,7 @@ func (o *MeshDataTool) SetVertexMeta(idx gdnative.Int, meta gdnative.Variant) {
 }
 
 /*
-        Sets the normal of given vertex.
+        Sets the normal of the given vertex.
 	Args: [{ false idx int} { false normal Vector3}], Returns: void
 */
 func (o *MeshDataTool) SetVertexNormal(idx gdnative.Int, normal gdnative.Vector3) {
@@ -843,7 +843,7 @@ func (o *MeshDataTool) SetVertexNormal(idx gdnative.Int, normal gdnative.Vector3
 }
 
 /*
-        Sets the tangent of given vertex.
+        Sets the tangent of the given vertex.
 	Args: [{ false idx int} { false tangent Plane}], Returns: void
 */
 func (o *MeshDataTool) SetVertexTangent(idx gdnative.Int, tangent gdnative.Plane) {
@@ -865,7 +865,7 @@ func (o *MeshDataTool) SetVertexTangent(idx gdnative.Int, tangent gdnative.Plane
 }
 
 /*
-        Sets the UV of given vertex.
+        Sets the UV of the given vertex.
 	Args: [{ false idx int} { false uv Vector2}], Returns: void
 */
 func (o *MeshDataTool) SetVertexUv(idx gdnative.Int, uv gdnative.Vector2) {
@@ -887,7 +887,7 @@ func (o *MeshDataTool) SetVertexUv(idx gdnative.Int, uv gdnative.Vector2) {
 }
 
 /*
-        Sets the UV2 of given vertex.
+        Sets the UV2 of the given vertex.
 	Args: [{ false idx int} { false uv2 Vector2}], Returns: void
 */
 func (o *MeshDataTool) SetVertexUv2(idx gdnative.Int, uv2 gdnative.Vector2) {
@@ -909,7 +909,7 @@ func (o *MeshDataTool) SetVertexUv2(idx gdnative.Int, uv2 gdnative.Vector2) {
 }
 
 /*
-        Sets the bone weights of given vertex.
+        Sets the bone weights of the given vertex.
 	Args: [{ false idx int} { false weights PoolRealArray}], Returns: void
 */
 func (o *MeshDataTool) SetVertexWeights(idx gdnative.Int, weights gdnative.PoolRealArray) {

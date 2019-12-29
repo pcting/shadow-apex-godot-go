@@ -65,7 +65,7 @@ func (o *VisibilityEnabler) X_NodeRemoved(arg0 NodeImplementer) {
 }
 
 /*
-        Undocumented
+        Returns whether the enabler identified by given [enum Enabler] constant is active.
 	Args: [{ false enabler int}], Returns: bool
 */
 func (o *VisibilityEnabler) IsEnablerEnabled(enabler gdnative.Int) gdnative.Bool {
@@ -89,7 +89,7 @@ func (o *VisibilityEnabler) IsEnablerEnabled(enabler gdnative.Int) gdnative.Bool
 }
 
 /*
-        Undocumented
+        Sets active state of the enabler identified by given [enum Enabler] constant.
 	Args: [{ false enabler int} { false enabled bool}], Returns: void
 */
 func (o *VisibilityEnabler) SetEnabler(enabler gdnative.Int, enabled gdnative.Bool) {

@@ -169,12 +169,12 @@ func newSingletonPhysics2DServer() *physics2DServer {
 }
 
 /*
-   Physics 2D Server is the server responsible for all 2D physics. It can create many kinds of physics objects, but does not insert them on the node tree.
+   Physics2DServer is the server responsible for all 2D physics. It can create many kinds of physics objects, but does not insert them on the node tree.
 */
 var Physics2DServer = newSingletonPhysics2DServer()
 
 /*
-Physics 2D Server is the server responsible for all 2D physics. It can create many kinds of physics objects, but does not insert them on the node tree.
+Physics2DServer is the server responsible for all 2D physics. It can create many kinds of physics objects, but does not insert them on the node tree.
 */
 type physics2DServer struct {
 	Object
@@ -637,7 +637,7 @@ func (o *physics2DServer) AreaSetCollisionMask(area gdnative.Rid, mask gdnative.
 }
 
 /*
-        Sets the function to call when any body/area enters or exits the area. This callback will be called for any object interacting with the area, and takes five parameters: 1: AREA_BODY_ADDED or AREA_BODY_REMOVED, depending on whether the object entered or exited the area. 2: [RID] of the object that entered/exited the area. 3: Instance ID of the object that entered/exited the area. 4: The shape index of the object that entered/exited the area. 5: The shape index of the area where the object entered/exited.
+        Sets the function to call when any body/area enters or exits the area. This callback will be called for any object interacting with the area, and takes five parameters: 1: [constant AREA_BODY_ADDED] or [constant AREA_BODY_REMOVED], depending on whether the object entered or exited the area. 2: [RID] of the object that entered/exited the area. 3: Instance ID of the object that entered/exited the area. 4: The shape index of the object that entered/exited the area. 5: The shape index of the area where the object entered/exited.
 	Args: [{ false area RID} { false receiver Object} { false method String}], Returns: void
 */
 func (o *physics2DServer) AreaSetMonitorCallback(area gdnative.Rid, receiver ObjectImplementer, method gdnative.String) {
@@ -1972,7 +1972,7 @@ func (o *physics2DServer) BodySetState(body gdnative.Rid, state gdnative.Int, va
 }
 
 /*
-        Returns whether a body can move from a given point in a given direction. Apart from the boolean return value, a [Physics2DTestMotionResult] can be passed to return additional information in.
+        Returns [code]true[/code] if a collision would result from moving in the given direction from a given point in space. Margin increases the size of the shapes involved in the collision detection. [Physics2DTestMotionResult] can be passed to return additional information in.
 	Args: [{ false body RID} { false from Transform2D} { false motion Vector2} { false infinite_inertia bool} {0.08 true margin float} {Null true result Physics2DTestMotionResult}], Returns: bool
 */
 func (o *physics2DServer) BodyTestMotion(body gdnative.Rid, from gdnative.Transform2D, motion gdnative.Vector2, infiniteInertia gdnative.Bool, margin gdnative.Real, result Physics2DTestMotionResultImplementer) gdnative.Bool {
@@ -2278,7 +2278,7 @@ func (o *physics2DServer) JointGetParam(joint gdnative.Rid, param gdnative.Int) 
 }
 
 /*
-        Returns the type of a joint (see [enum JointType]).
+        Returns a joint's type (see [enum JointType]).
 	Args: [{ false joint RID}], Returns: enum.Physics2DServer::JointType
 */
 func (o *physics2DServer) JointGetType(joint gdnative.Rid) Physics2DServerJointType {
@@ -2497,7 +2497,7 @@ func (o *physics2DServer) ShapeGetData(shape gdnative.Rid) gdnative.Variant {
 }
 
 /*
-        Returns the type of shape (see [enum ShapeType]).
+        Returns a shape's type (see [enum ShapeType]).
 	Args: [{ false shape RID}], Returns: enum.Physics2DServer::ShapeType
 */
 func (o *physics2DServer) ShapeGetType(shape gdnative.Rid) Physics2DServerShapeType {

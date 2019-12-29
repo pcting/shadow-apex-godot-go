@@ -53,7 +53,7 @@ func newSceneTreeFromPointer(ptr gdnative.Pointer) SceneTree {
 }
 
 /*
-As one of the most important classes, the [code]SceneTree[/code] manages the hierarchy of nodes in a scene as well as scenes themselves. Nodes can be added, retrieved and removed. The whole scene tree (and thus the current scene) can be paused. Scenes can be loaded, switched and reloaded. You can also use the [code]SceneTree[/code] to organize your nodes into groups: every node can be assigned as many groups as you want to create, e.g. a "enemy" group. You can then iterate these groups or even call methods and set properties on all the group's members at once. [code]SceneTree[/code] is the default [MainLoop] implementation used by scenes, and is thus in charge of the game loop.
+As one of the most important classes, the [SceneTree] manages the hierarchy of nodes in a scene as well as scenes themselves. Nodes can be added, retrieved and removed. The whole scene tree (and thus the current scene) can be paused. Scenes can be loaded, switched and reloaded. You can also use the [SceneTree] to organize your nodes into groups: every node can be assigned as many groups as you want to create, e.g. a "enemy" group. You can then iterate these groups or even call methods and set properties on all the group's members at once. [SceneTree] is the default [MainLoop] implementation used by scenes, and is thus in charge of the game loop.
 */
 type SceneTree struct {
 	MainLoop
@@ -191,13 +191,17 @@ func (o *SceneTree) X_ServerDisconnected() {
         Calls [code]method[/code] on each member of the given group.
 	Args: [{ false group String} { false method String}], Returns: Variant
 */
-func (o *SceneTree) CallGroup(group gdnative.String, method gdnative.String) gdnative.Variant {
+func (o *SceneTree) CallGroup(group gdnative.String, method gdnative.String, args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling SceneTree.CallGroup()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments := make([]gdnative.Pointer, 2+len(args), 2+len(args))
 	ptrArguments[0] = gdnative.NewPointerFromString(group)
 	ptrArguments[1] = gdnative.NewPointerFromString(method)
+
+	for i, arg := range args {
+		ptrArguments[i+2] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("SceneTree", "call_group")
@@ -216,14 +220,18 @@ func (o *SceneTree) CallGroup(group gdnative.String, method gdnative.String) gdn
         Calls [code]method[/code] on each member of the given group, respecting the given [enum GroupCallFlags].
 	Args: [{ false flags int} { false group String} { false method String}], Returns: Variant
 */
-func (o *SceneTree) CallGroupFlags(flags gdnative.Int, group gdnative.String, method gdnative.String) gdnative.Variant {
+func (o *SceneTree) CallGroupFlags(flags gdnative.Int, group gdnative.String, method gdnative.String, args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling SceneTree.CallGroupFlags()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 3+len(args), 3+len(args))
 	ptrArguments[0] = gdnative.NewPointerFromInt(flags)
 	ptrArguments[1] = gdnative.NewPointerFromString(group)
 	ptrArguments[2] = gdnative.NewPointerFromString(method)
+
+	for i, arg := range args {
+		ptrArguments[i+3] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("SceneTree", "call_group_flags")
@@ -239,7 +247,7 @@ func (o *SceneTree) CallGroupFlags(flags gdnative.Int, group gdnative.String, me
 }
 
 /*
-        Changes the running scene to the one at the given [code]path[/code], after loading it into a [PackedScene] and creating a new instance. Returns [constant @GlobalScope.OK] on success, [constant @GlobalScope.ERR_CANT_OPEN] if the [code]path[/code] cannot be loaded into a [PackedScene], or [constant @GlobalScope.ERR_CANT_CREATE] if that scene cannot be instantiated.
+        Changes the running scene to the one at the given [code]path[/code], after loading it into a [PackedScene] and creating a new instance. Returns [constant OK] on success, [constant ERR_CANT_OPEN] if the [code]path[/code] cannot be loaded into a [PackedScene], or [constant ERR_CANT_CREATE] if that scene cannot be instantiated.
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *SceneTree) ChangeScene(path gdnative.String) gdnative.Error {
@@ -263,7 +271,7 @@ func (o *SceneTree) ChangeScene(path gdnative.String) gdnative.Error {
 }
 
 /*
-        Changes the running scene to a new instance of the given [PackedScene]. Returns [constant @GlobalScope.OK] on success or [constant @GlobalScope.ERR_CANT_CREATE] if the scene cannot be instantiated.
+        Changes the running scene to a new instance of the given [PackedScene]. Returns [constant OK] on success or [constant ERR_CANT_CREATE] if the scene cannot be instantiated.
 	Args: [{ false packed_scene PackedScene}], Returns: enum.Error
 */
 func (o *SceneTree) ChangeSceneTo(packedScene PackedSceneImplementer) gdnative.Error {
@@ -287,7 +295,7 @@ func (o *SceneTree) ChangeSceneTo(packedScene PackedSceneImplementer) gdnative.E
 }
 
 /*
-        Returns a [SceneTreeTimer] which will [signal SceneTreeTimer.timeout] after the given time in seconds elapsed in this [code]SceneTree[/code]. If [code]pause_mode_process[/code] is set to [code]false[/code], pausing the [code]SceneTree[/code] will also pause the timer. Commonly used to create a one-shot delay timer as in the following example: [codeblock] func some_function(): print("start") yield(get_tree().create_timer(1.0), "timeout") print("end") [/codeblock]
+        Returns a [SceneTreeTimer] which will [signal SceneTreeTimer.timeout] after the given time in seconds elapsed in this [SceneTree]. If [code]pause_mode_process[/code] is set to [code]false[/code], pausing the [SceneTree] will also pause the timer. Commonly used to create a one-shot delay timer as in the following example: [codeblock] func some_function(): print("start") yield(get_tree().create_timer(1.0), "timeout") print("end") [/codeblock]
 	Args: [{ false time_sec float} {True true pause_mode_process bool}], Returns: SceneTreeTimer
 */
 func (o *SceneTree) CreateTimer(timeSec gdnative.Real, pauseModeProcess gdnative.Bool) SceneTreeTimerImplementer {
@@ -460,7 +468,7 @@ func (o *SceneTree) GetMultiplayer() MultiplayerAPIImplementer {
 }
 
 /*
-        Returns the peer IDs of all connected peers of this [code]SceneTree[/code]'s [member network_peer].
+        Returns the peer IDs of all connected peers of this [SceneTree]'s [member network_peer].
 	Args: [], Returns: PoolIntArray
 */
 func (o *SceneTree) GetNetworkConnectedPeers() gdnative.PoolIntArray {
@@ -520,7 +528,7 @@ func (o *SceneTree) GetNetworkPeer() NetworkedMultiplayerPeerImplementer {
 }
 
 /*
-        Returns the unique peer ID of this [code]SceneTree[/code]'s [member network_peer].
+        Returns the unique peer ID of this [SceneTree]'s [member network_peer].
 	Args: [], Returns: int
 */
 func (o *SceneTree) GetNetworkUniqueId() gdnative.Int {
@@ -543,7 +551,7 @@ func (o *SceneTree) GetNetworkUniqueId() gdnative.Int {
 }
 
 /*
-        Returns the number of nodes in this [code]SceneTree[/code].
+        Returns the number of nodes in this [SceneTree].
 	Args: [], Returns: int
 */
 func (o *SceneTree) GetNodeCount() gdnative.Int {
@@ -789,7 +797,7 @@ func (o *SceneTree) IsMultiplayerPollEnabled() gdnative.Bool {
 }
 
 /*
-        Returns [code]true[/code] if this [code]SceneTree[/code]'s [member network_peer] is in server mode (listening for connections).
+        Returns [code]true[/code] if this [SceneTree]'s [member network_peer] is in server mode (listening for connections).
 	Args: [], Returns: bool
 */
 func (o *SceneTree) IsNetworkServer() gdnative.Bool {
@@ -947,14 +955,15 @@ func (o *SceneTree) QueueDelete(obj ObjectImplementer) {
 }
 
 /*
-        Quits the application.
-	Args: [], Returns: void
+        Quits the application. A process [code]exit_code[/code] can optionally be passed as an argument. If this argument is [code]0[/code] or greater, it will override the [member OS.exit_code] defined before quitting the application.
+	Args: [{-1 true exit_code int}], Returns: void
 */
-func (o *SceneTree) Quit() {
+func (o *SceneTree) Quit(exitCode gdnative.Int) {
 	//log.Println("Calling SceneTree.Quit()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(exitCode)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("SceneTree", "quit")
@@ -967,7 +976,7 @@ func (o *SceneTree) Quit() {
 }
 
 /*
-        Reloads the currently active scene. Returns an [enum @GlobalScope.Error] code as described in [method change_scene], with the addition of [constant @GlobalScope.ERR_UNCONFIGURED] if no [member current_scene] was defined yet.
+        Reloads the currently active scene. Returns [constant OK] on success, [constant ERR_UNCONFIGURED] if no [member current_scene] was defined yet, [constant ERR_CANT_OPEN] if [member current_scene] cannot be loaded into a [PackedScene], or [constant ERR_CANT_CREATE] if the scene cannot be instantiated.
 	Args: [], Returns: enum.Error
 */
 func (o *SceneTree) ReloadCurrentScene() gdnative.Error {
@@ -990,7 +999,7 @@ func (o *SceneTree) ReloadCurrentScene() gdnative.Error {
 }
 
 /*
-        If [code]true[/code], the application automatically accepts quitting. Defaults to [code]true[/code].
+        If [code]true[/code], the application automatically accepts quitting. Enabled by default. For mobile platforms, see [method set_quit_on_go_back].
 	Args: [{ false enabled bool}], Returns: void
 */
 func (o *SceneTree) SetAutoAcceptQuit(enabled gdnative.Bool) {
@@ -1246,7 +1255,7 @@ func (o *SceneTree) SetPause(enable gdnative.Bool) {
 }
 
 /*
-        If [code]true[/code], the application quits automatically on going back (e.g. on Android). Defaults to [code]true[/code].
+        If [code]true[/code], the application quits automatically on going back (e.g. on Android). Enabled by default. To handle 'Go Back' button when this option is disabled, use [constant MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST].
 	Args: [{ false enabled bool}], Returns: void
 */
 func (o *SceneTree) SetQuitOnGoBack(enabled gdnative.Bool) {
@@ -1342,8 +1351,8 @@ type SceneTreeImplementer interface {
 	X_NetworkPeerConnected(arg0 gdnative.Int)
 	X_NetworkPeerDisconnected(arg0 gdnative.Int)
 	X_ServerDisconnected()
-	CallGroup(group gdnative.String, method gdnative.String) gdnative.Variant
-	CallGroupFlags(flags gdnative.Int, group gdnative.String, method gdnative.String) gdnative.Variant
+	CallGroup(group gdnative.String, method gdnative.String, args ...gdnative.Variant) gdnative.Variant
+	CallGroupFlags(flags gdnative.Int, group gdnative.String, method gdnative.String, args ...gdnative.Variant) gdnative.Variant
 	CreateTimer(timeSec gdnative.Real, pauseModeProcess gdnative.Bool) SceneTreeTimerImplementer
 	GetCurrentScene() NodeImplementer
 	GetEditedSceneRoot() NodeImplementer
@@ -1369,7 +1378,7 @@ type SceneTreeImplementer interface {
 	NotifyGroup(group gdnative.String, notification gdnative.Int)
 	NotifyGroupFlags(callFlags gdnative.Int, group gdnative.String, notification gdnative.Int)
 	QueueDelete(obj ObjectImplementer)
-	Quit()
+	Quit(exitCode gdnative.Int)
 	SetAutoAcceptQuit(enabled gdnative.Bool)
 	SetCurrentScene(childNode NodeImplementer)
 	SetDebugCollisionsHint(enable gdnative.Bool)

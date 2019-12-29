@@ -32,7 +32,7 @@ func newBackBufferCopyFromPointer(ptr gdnative.Pointer) BackBufferCopy {
 }
 
 /*
-Node for back-buffering the currently displayed screen. The region defined in the BackBufferCopy node is bufferized with the content of the screen it covers, or the entire screen according to the copy mode set. Use [code]SCREEN_TEXTURE[/code] in the [code]texture()[/code] function to access the buffer.
+Node for back-buffering the currently-displayed screen. The region defined in the BackBufferCopy node is bufferized with the content of the screen it covers, or the entire screen according to the copy mode set. Use the [code]texture(SCREEN_TEXTURE, ...)[/code] function in your shader scripts to access the buffer.
 */
 type BackBufferCopy struct {
 	Node2D

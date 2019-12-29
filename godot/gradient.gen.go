@@ -23,7 +23,7 @@ func newGradientFromPointer(ptr gdnative.Pointer) Gradient {
 }
 
 /*
-Given a set of colors, this node will interpolate them in order, meaning, that if you have color 1, color 2 and color 3, the ramp will interpolate (generate the colors between two colors) from color 1 to color 2 and from color 2 to color 3. Initially the ramp will have 2 colors (black and white), one (black) at ramp lower offset 0 and the other (white) at the ramp higher offset 1.
+Given a set of colors, this resource will interpolate them in order. This means that if you have color 1, color 2 and color 3, the ramp will interpolate from color 1 to color 2 and from color 2 to color 3. The ramp will initially have 2 colors (black and white), one (black) at ramp lower offset 0 and the other (white) at the ramp higher offset 1.
 */
 type Gradient struct {
 	Resource
@@ -35,7 +35,7 @@ func (o *Gradient) BaseClass() string {
 }
 
 /*
-        Adds the specified color to the end of the ramp, with the specified offset
+        Adds the specified color to the end of the ramp, with the specified offset.
 	Args: [{ false offset float} { false color Color}], Returns: void
 */
 func (o *Gradient) AddPoint(offset gdnative.Real, color gdnative.Color) {
@@ -57,7 +57,7 @@ func (o *Gradient) AddPoint(offset gdnative.Real, color gdnative.Color) {
 }
 
 /*
-        Returns the color of the ramp color at index [i]point[/i]
+        Returns the color of the ramp color at index [code]point[/code].
 	Args: [{ false point int}], Returns: Color
 */
 func (o *Gradient) GetColor(point gdnative.Int) gdnative.Color {
@@ -104,7 +104,7 @@ func (o *Gradient) GetColors() gdnative.PoolColorArray {
 }
 
 /*
-        Returns the offset of the ramp color at index [i]point[/i]
+        Returns the offset of the ramp color at index [code]point[/code].
 	Args: [{ false point int}], Returns: float
 */
 func (o *Gradient) GetOffset(point gdnative.Int) gdnative.Real {
@@ -151,7 +151,7 @@ func (o *Gradient) GetOffsets() gdnative.PoolRealArray {
 }
 
 /*
-        Returns the number of colors in the ramp
+        Returns the number of colors in the ramp.
 	Args: [], Returns: int
 */
 func (o *Gradient) GetPointCount() gdnative.Int {
@@ -174,7 +174,7 @@ func (o *Gradient) GetPointCount() gdnative.Int {
 }
 
 /*
-        Returns the interpolated color specified by [i]offset[/i]
+        Returns the interpolated color specified by [code]offset[/code].
 	Args: [{ false offset float}], Returns: Color
 */
 func (o *Gradient) Interpolate(offset gdnative.Real) gdnative.Color {
@@ -198,7 +198,7 @@ func (o *Gradient) Interpolate(offset gdnative.Real) gdnative.Color {
 }
 
 /*
-        Removes the color at the index [i]offset[/i]
+        Removes the color at the index [code]offset[/code].
 	Args: [{ false offset int}], Returns: void
 */
 func (o *Gradient) RemovePoint(offset gdnative.Int) {
@@ -219,7 +219,7 @@ func (o *Gradient) RemovePoint(offset gdnative.Int) {
 }
 
 /*
-        Sets the color of the ramp color at index [i]point[/i]
+        Sets the color of the ramp color at index [code]point[/code].
 	Args: [{ false point int} { false color Color}], Returns: void
 */
 func (o *Gradient) SetColor(point gdnative.Int, color gdnative.Color) {
@@ -262,7 +262,7 @@ func (o *Gradient) SetColors(colors gdnative.PoolColorArray) {
 }
 
 /*
-        Sets the offset for the ramp color at index [i]point[/i]
+        Sets the offset for the ramp color at index [code]point[/code].
 	Args: [{ false point int} { false offset float}], Returns: void
 */
 func (o *Gradient) SetOffset(point gdnative.Int, offset gdnative.Real) {

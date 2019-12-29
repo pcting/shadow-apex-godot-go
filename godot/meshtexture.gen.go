@@ -23,7 +23,7 @@ func newMeshTextureFromPointer(ptr gdnative.Pointer) MeshTexture {
 }
 
 /*
-Undocumented
+Simple texture that uses a mesh to draw itself. It's limited because flags can't be changed and region drawing is not supported.
 */
 type MeshTexture struct {
 	Texture

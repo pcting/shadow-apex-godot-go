@@ -412,7 +412,7 @@ func (o *Area2D) GetLinearDamp() gdnative.Real {
 }
 
 /*
-        Returns a list of intersecting [code]Area2D[/code]s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
+        Returns a list of intersecting [Area2D]s. For performance reasons (collisions are all processed at the same time) this list is modified once during the physics step, not immediately after objects are moved. Consider using signals instead.
 	Args: [], Returns: Array
 */
 func (o *Area2D) GetOverlappingAreas() gdnative.Array {
@@ -596,7 +596,7 @@ func (o *Area2D) IsOverridingAudioBus() gdnative.Bool {
 }
 
 /*
-        If [code]true[/code], the given area overlaps the Area2D. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
+        If [code]true[/code], the given area overlaps the Area2D. [b]Note:[/b] The result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
 	Args: [{ false area Node}], Returns: bool
 */
 func (o *Area2D) OverlapsArea(area NodeImplementer) gdnative.Bool {
@@ -620,7 +620,7 @@ func (o *Area2D) OverlapsArea(area NodeImplementer) gdnative.Bool {
 }
 
 /*
-        If [code]true[/code], the given body overlaps the Area2D. Note that the result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead.
+        If [code]true[/code], the given physics body overlaps the Area2D. [b]Note:[/b] The result of this test is not immediate after moving objects. For performance, list of overlaps is updated once per frame and before the physics step. Consider using signals instead. The [code]body[/code] argument can either be a [PhysicsBody2D] or a [TileMap] instance (while TileMaps are not physics body themselves, they register their tiles with collision shapes as a virtual physics body).
 	Args: [{ false body Node}], Returns: bool
 */
 func (o *Area2D) OverlapsBody(body NodeImplementer) gdnative.Bool {

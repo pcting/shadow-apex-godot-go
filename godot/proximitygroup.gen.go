@@ -31,7 +31,7 @@ func newProximityGroupFromPointer(ptr gdnative.Pointer) ProximityGroup {
 }
 
 /*
-General purpose proximity-detection node.
+General-purpose proximity detection node.
 */
 type ProximityGroup struct {
 	Spatial

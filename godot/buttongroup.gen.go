@@ -35,7 +35,7 @@ func (o *ButtonGroup) BaseClass() string {
 }
 
 /*
-        Returns an [Array] of [Button]s who have this as their [code]ButtonGroup[/code] (see [member BaseButton.group]).
+        Returns an [Array] of [Button]s who have this as their [ButtonGroup] (see [member BaseButton.group]).
 	Args: [], Returns: Array
 */
 func (o *ButtonGroup) GetButtons() gdnative.Array {

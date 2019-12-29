@@ -23,7 +23,7 @@ func newMainLoopFromPointer(ptr gdnative.Pointer) MainLoop {
 }
 
 /*
-[code]MainLoop[/code] is the abstract base class for a Godot project's game loop. It in inherited by [SceneTree], which is the default game loop implementation used in Godot projects, though it is also possible to write and use one's own [code]MainLoop[/code] subclass instead of the scene tree. Upon application start, a [code]MainLoop[/code] implementation has to be provided to the OS, or the application will exit. This happens automatically (and a [SceneTree] is created) unless a main [Script] is provided from the command line (with e.g. [code]godot -s my_loop.gd[/code], which should then be a [code]MainLoop[/code] implementation. Here is an example script implementing a simple [code]MainLoop[/code]: [codeblock] extends MainLoop var time_elapsed = 0 var keys_typed = [] var quit = false func _initialize(): print("Initialized:") print(" Starting time: %s" % str(time_elapsed)) func _idle(delta): time_elapsed += delta # Return true to end the main loop return quit func _input_event(event): # Record keys if event is InputEventKey and event.pressed and !event.echo: keys_typed.append(OS.get_scancode_string(event.scancode)) # Quit on Escape press if event.scancode == KEY_ESCAPE: quit = true # Quit on any mouse click if event is InputEventMouseButton: quit = true func _finalize(): print("Finalized:") print(" End time: %s" % str(time_elapsed)) print(" Keys typed: %s" % var2str(keys_typed)) [/codeblock]
+[MainLoop] is the abstract base class for a Godot project's game loop. It is inherited by [SceneTree], which is the default game loop implementation used in Godot projects, though it is also possible to write and use one's own [MainLoop] subclass instead of the scene tree. Upon the application start, a [MainLoop] implementation must be provided to the OS; otherwise, the application will exit. This happens automatically (and a [SceneTree] is created) unless a main [Script] is provided from the command line (with e.g. [code]godot -s my_loop.gd[/code], which should then be a [MainLoop] implementation. Here is an example script implementing a simple [MainLoop]: [codeblock] extends MainLoop var time_elapsed = 0 var keys_typed = [] var quit = false func _initialize(): print("Initialized:") print(" Starting time: %s" % str(time_elapsed)) func _idle(delta): time_elapsed += delta # Return true to end the main loop. return quit func _input_event(event): # Record keys. if event is InputEventKey and event.pressed and !event.echo: keys_typed.append(OS.get_scancode_string(event.scancode)) # Quit on Escape press. if event.scancode == KEY_ESCAPE: quit = true # Quit on any mouse click. if event is InputEventMouseButton: quit = true func _finalize(): print("Finalized:") print(" End time: %s" % str(time_elapsed)) print(" Keys typed: %s" % var2str(keys_typed)) [/codeblock]
 */
 type MainLoop struct {
 	Object
@@ -77,7 +77,7 @@ func (o *MainLoop) X_Finalize() {
 }
 
 /*
-        Undocumented
+        Called when the user performs an action in the system global menu (e.g. the Mac OS menu bar).
 	Args: [{ false id Variant} { false meta Variant}], Returns: void
 */
 func (o *MainLoop) X_GlobalMenuAction(id gdnative.Variant, meta gdnative.Variant) {

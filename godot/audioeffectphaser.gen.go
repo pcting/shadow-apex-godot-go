@@ -23,7 +23,7 @@ func newAudioEffectPhaserFromPointer(ptr gdnative.Pointer) AudioEffectPhaser {
 }
 
 /*
-Combines phase-shifted signals with the original signal. The movement of the phase-shifted signals is controlled using a Low Frequency Oscillator.
+Combines phase-shifted signals with the original signal. The movement of the phase-shifted signals is controlled using a low-frequency oscillator.
 */
 type AudioEffectPhaser struct {
 	AudioEffect

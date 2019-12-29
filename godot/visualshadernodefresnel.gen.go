@@ -23,8 +23,8 @@ func newVisualShaderNodeFresnelFromPointer(ptr gdnative.Pointer) VisualShaderNod
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeFresnel struct {
 	VisualShaderNode
 	owner gdnative.Object

@@ -23,8 +23,8 @@ func newVisualShaderNodeGlobalExpressionFromPointer(ptr gdnative.Pointer) Visual
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeGlobalExpression struct {
 	VisualShaderNodeExpression
 	owner gdnative.Object

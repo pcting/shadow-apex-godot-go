@@ -68,6 +68,49 @@ func (o *PhysicalBone) X_DirectStateChanged(arg0 ObjectImplementer) {
 }
 
 /*
+
+	Args: [{ false impulse Vector3}], Returns: void
+*/
+func (o *PhysicalBone) ApplyCentralImpulse(impulse gdnative.Vector3) {
+	//log.Println("Calling PhysicalBone.ApplyCentralImpulse()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(impulse)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicalBone", "apply_central_impulse")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+
+	Args: [{ false position Vector3} { false impulse Vector3}], Returns: void
+*/
+func (o *PhysicalBone) ApplyImpulse(position gdnative.Vector3, impulse gdnative.Vector3) {
+	//log.Println("Calling PhysicalBone.ApplyImpulse()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 2, 2)
+	ptrArguments[0] = gdnative.NewPointerFromVector3(position)
+	ptrArguments[1] = gdnative.NewPointerFromVector3(impulse)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PhysicalBone", "apply_impulse")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
         Undocumented
 	Args: [], Returns: Transform
 */
@@ -516,6 +559,8 @@ func (o *PhysicalBone) SetWeight(weight gdnative.Real) {
 type PhysicalBoneImplementer interface {
 	PhysicsBodyImplementer
 	X_DirectStateChanged(arg0 ObjectImplementer)
+	ApplyCentralImpulse(impulse gdnative.Vector3)
+	ApplyImpulse(position gdnative.Vector3, impulse gdnative.Vector3)
 	GetBodyOffset() gdnative.Transform
 	GetBoneId() gdnative.Int
 	GetBounce() gdnative.Real

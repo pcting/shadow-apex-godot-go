@@ -23,8 +23,8 @@ func newVisualShaderNodeTextureUniformTriplanarFromPointer(ptr gdnative.Pointer)
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeTextureUniformTriplanar struct {
 	VisualShaderNodeTextureUniform
 	owner gdnative.Object

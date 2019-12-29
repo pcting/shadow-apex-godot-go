@@ -23,7 +23,7 @@ func newEditorScenePostImportFromPointer(ptr gdnative.Pointer) EditorScenePostIm
 }
 
 /*
-Imported scenes can be automatically modified right after import by setting their [i]Custom Script[/i] Import property to a [code]tool[/code] script that inherits from this class. The [method post_import] callback receives the imported scene's root node and returns the modified version of the scene. Usage example: [codeblock] tool # needed so it runs in editor extends EditorScenePostImport # This sample changes all node names # Called right after the scene is imported and gets the root node func post_import(scene): # change all node names to "modified_[oldnodename]" iterate(scene) return scene # remember to return the imported scene func iterate(node): if node != null: node.name = "modified_" + node.name for child in node.get_children(): iterate(child) [/codeblock]
+Imported scenes can be automatically modified right after import by setting their [b]Custom Script[/b] Import property to a [code]tool[/code] script that inherits from this class. The [method post_import] callback receives the imported scene's root node and returns the modified version of the scene. Usage example: [codeblock] tool # Needed so it runs in editor extends EditorScenePostImport # This sample changes all node names # Called right after the scene is imported and gets the root node func post_import(scene): # Change all node names to "modified_[oldnodename]" iterate(scene) return scene # Remember to return the imported scene func iterate(node): if node != null: node.name = "modified_" + node.name for child in node.get_children(): iterate(child) [/codeblock]
 */
 type EditorScenePostImport struct {
 	Reference
@@ -81,7 +81,7 @@ func (o *EditorScenePostImport) GetSourceFolder() gdnative.String {
 }
 
 /*
-        Gets called after the scene got imported and has to return the modified version of the scene.
+        Called after the scene was imported. This method must return the modified version of the scene.
 	Args: [{ false scene Object}], Returns: Object
 */
 func (o *EditorScenePostImport) PostImport(scene ObjectImplementer) ObjectImplementer {

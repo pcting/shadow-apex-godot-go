@@ -23,7 +23,7 @@ func newPathFollow2DFromPointer(ptr gdnative.Pointer) PathFollow2D {
 }
 
 /*
-This node takes its parent [Path2D], and returns the coordinates of a point within it, given a distance from the first vertex. It is useful for making other nodes follow a path, without coding the movement pattern. For that, the nodes must be descendants of this node. Then, when setting an offset in this node, the descendant nodes will move accordingly.
+This node takes its parent [Path2D], and returns the coordinates of a point within it, given a distance from the first vertex. It is useful for making other nodes follow a path, without coding the movement pattern. For that, the nodes must be children of this node. The descendant nodes will then move accordingly when setting an offset in this node.
 */
 type PathFollow2D struct {
 	Node2D

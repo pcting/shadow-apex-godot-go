@@ -23,8 +23,8 @@ func newVisualShaderNodeScalarSwitchFromPointer(ptr gdnative.Pointer) VisualShad
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeScalarSwitch struct {
 	VisualShaderNodeSwitch
 	owner gdnative.Object

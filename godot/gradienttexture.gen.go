@@ -23,7 +23,7 @@ func newGradientTextureFromPointer(ptr gdnative.Pointer) GradientTexture {
 }
 
 /*
-Uses a [Gradient] to fill the texture data, the gradient will be filled from left to right using colors obtained from the gradient, this means that the texture does not necessarily represent an exact copy of the gradient, but instead an interpolation of samples obtained from the gradient at fixed steps (see [member width]).
+GradientTexture uses a [Gradient] to fill the texture data. The gradient will be filled from left to right using colors obtained from the gradient. This means the texture does not necessarily represent an exact copy of the gradient, but instead an interpolation of samples obtained from the gradient at fixed steps (see [member width]).
 */
 type GradientTexture struct {
 	Texture

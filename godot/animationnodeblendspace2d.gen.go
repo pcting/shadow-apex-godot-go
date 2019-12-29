@@ -150,7 +150,7 @@ func (o *AnimationNodeBlendSpace2D) X_UpdateTriangles() {
 }
 
 /*
-        Add a new point that represents a [code]node[/code] at the position set by [code]pos[/code]. You can insert it at a specific index using the [code]at_index[/code] argument. If you use the default value for [code]at_index[/code] , the point is inserted at the end of the blend points array.
+        Adds a new point that represents a [code]node[/code] at the position set by [code]pos[/code]. You can insert it at a specific index using the [code]at_index[/code] argument. If you use the default value for [code]at_index[/code] , the point is inserted at the end of the blend points array.
 	Args: [{ false node AnimationRootNode} { false pos Vector2} {-1 true at_index int}], Returns: void
 */
 func (o *AnimationNodeBlendSpace2D) AddBlendPoint(node AnimationRootNodeImplementer, pos gdnative.Vector2, atIndex gdnative.Int) {

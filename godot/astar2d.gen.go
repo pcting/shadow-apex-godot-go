@@ -23,7 +23,7 @@ func newAStar2DFromPointer(ptr gdnative.Pointer) AStar2D {
 }
 
 /*
-Undocumented
+This is a wrapper for the [AStar] class which uses 2D vectors instead of 3D vectors.
 */
 type AStar2D struct {
 	Reference
@@ -35,7 +35,7 @@ func (o *AStar2D) BaseClass() string {
 }
 
 /*
-        Undocumented
+        Adds a new point at the given position with the given identifier. The algorithm prefers points with lower [code]weight_scale[/code] to form a path. The [code]id[/code] must be 0 or larger, and the [code]weight_scale[/code] must be 1 or larger. [codeblock] var astar = AStar2D.new() astar.add_point(1, Vector2(1, 0), 4) # Adds the point (1, 0) with weight_scale 4 and id 1 [/codeblock] If there already exists a point for the given [code]id[/code], its position and weight scale are updated to the given values.
 	Args: [{ false id int} { false position Vector2} {1 true weight_scale float}], Returns: void
 */
 func (o *AStar2D) AddPoint(id gdnative.Int, position gdnative.Vector2, weightScale gdnative.Real) {
@@ -58,7 +58,7 @@ func (o *AStar2D) AddPoint(id gdnative.Int, position gdnative.Vector2, weightSca
 }
 
 /*
-        Undocumented
+        Returns whether there is a connection/segment between the given points.
 	Args: [{ false id int} { false to_id int}], Returns: bool
 */
 func (o *AStar2D) ArePointsConnected(id gdnative.Int, toId gdnative.Int) gdnative.Bool {
@@ -83,7 +83,7 @@ func (o *AStar2D) ArePointsConnected(id gdnative.Int, toId gdnative.Int) gdnativ
 }
 
 /*
-        Undocumented
+        Clears all the points and segments.
 	Args: [], Returns: void
 */
 func (o *AStar2D) Clear() {
@@ -103,7 +103,7 @@ func (o *AStar2D) Clear() {
 }
 
 /*
-        Undocumented
+        Creates a segment between the given points. If [code]bidirectional[/code] is [code]false[/code], only movement from [code]id[/code] to [code]to_id[/code] is allowed, not the reverse direction. [codeblock] var astar = AStar2D.new() astar.add_point(1, Vector2(1, 1)) astar.add_point(2, Vector2(0, 5)) astar.connect_points(1, 2, false) [/codeblock]
 	Args: [{ false id int} { false to_id int} {True true bidirectional bool}], Returns: void
 */
 func (o *AStar2D) ConnectPoints(id gdnative.Int, toId gdnative.Int, bidirectional gdnative.Bool) {
@@ -126,7 +126,7 @@ func (o *AStar2D) ConnectPoints(id gdnative.Int, toId gdnative.Int, bidirectiona
 }
 
 /*
-        Undocumented
+        Deletes the segment between the given points.
 	Args: [{ false id int} { false to_id int}], Returns: void
 */
 func (o *AStar2D) DisconnectPoints(id gdnative.Int, toId gdnative.Int) {
@@ -148,7 +148,7 @@ func (o *AStar2D) DisconnectPoints(id gdnative.Int, toId gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Returns the next available point ID with no point associated to it.
 	Args: [], Returns: int
 */
 func (o *AStar2D) GetAvailablePointId() gdnative.Int {
@@ -171,7 +171,7 @@ func (o *AStar2D) GetAvailablePointId() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns the ID of the closest point to [code]to_position[/code], optionally taking disabled points into account. Returns -1 if there are no points in the points pool.
 	Args: [{ false to_position Vector2} {False true include_disabled bool}], Returns: int
 */
 func (o *AStar2D) GetClosestPoint(toPosition gdnative.Vector2, includeDisabled gdnative.Bool) gdnative.Int {
@@ -196,7 +196,7 @@ func (o *AStar2D) GetClosestPoint(toPosition gdnative.Vector2, includeDisabled g
 }
 
 /*
-        Undocumented
+        Returns the closest position to [code]to_position[/code] that resides inside a segment between two connected points. [codeblock] var astar = AStar2D.new() astar.add_point(1, Vector2(0, 0)) astar.add_point(2, Vector2(0, 5)) astar.connect_points(1, 2) var res = astar.get_closest_position_in_segment(Vector2(3, 3)) # Returns (0, 3) [/codeblock] The result is in the segment that goes from [code]y = 0[/code] to [code]y = 5[/code]. It's the closest position in the segment to the given point.
 	Args: [{ false to_position Vector2}], Returns: Vector2
 */
 func (o *AStar2D) GetClosestPositionInSegment(toPosition gdnative.Vector2) gdnative.Vector2 {
@@ -220,7 +220,7 @@ func (o *AStar2D) GetClosestPositionInSegment(toPosition gdnative.Vector2) gdnat
 }
 
 /*
-        Undocumented
+        Returns an array with the IDs of the points that form the path found by AStar2D between the given points. The array is ordered from the starting point to the ending point of the path. [codeblock] var astar = AStar2D.new() astar.add_point(1, Vector2(0, 0)) astar.add_point(2, Vector2(0, 1), 1) # Default weight is 1 astar.add_point(3, Vector2(1, 1)) astar.add_point(4, Vector2(2, 0)) astar.connect_points(1, 2, false) astar.connect_points(2, 3, false) astar.connect_points(4, 3, false) astar.connect_points(1, 4, false) var res = astar.get_id_path(1, 3) # Returns [1, 2, 3] [/codeblock] If you change the 2nd point's weight to 3, then the result will be [code][1, 4, 3][/code] instead, because now even though the distance is longer, it's "easier" to get through point 4 than through point 2.
 	Args: [{ false from_id int} { false to_id int}], Returns: PoolIntArray
 */
 func (o *AStar2D) GetIdPath(fromId gdnative.Int, toId gdnative.Int) gdnative.PoolIntArray {
@@ -245,7 +245,7 @@ func (o *AStar2D) GetIdPath(fromId gdnative.Int, toId gdnative.Int) gdnative.Poo
 }
 
 /*
-        Undocumented
+        Returns the capacity of the structure backing the points, useful in conjunction with [code]reserve_space[/code].
 	Args: [], Returns: int
 */
 func (o *AStar2D) GetPointCapacity() gdnative.Int {
@@ -268,7 +268,7 @@ func (o *AStar2D) GetPointCapacity() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns an array with the IDs of the points that form the connection with the given point. [codeblock] var astar = AStar2D.new() astar.add_point(1, Vector2(0, 0)) astar.add_point(2, Vector2(0, 1)) astar.add_point(3, Vector2(1, 1)) astar.add_point(4, Vector2(2, 0)) astar.connect_points(1, 2, true) astar.connect_points(1, 3, true) var neighbors = astar.get_point_connections(1) # Returns [2, 3] [/codeblock]
 	Args: [{ false id int}], Returns: PoolIntArray
 */
 func (o *AStar2D) GetPointConnections(id gdnative.Int) gdnative.PoolIntArray {
@@ -292,7 +292,7 @@ func (o *AStar2D) GetPointConnections(id gdnative.Int) gdnative.PoolIntArray {
 }
 
 /*
-        Undocumented
+        Returns the number of points currently in the points pool.
 	Args: [], Returns: int
 */
 func (o *AStar2D) GetPointCount() gdnative.Int {
@@ -315,7 +315,7 @@ func (o *AStar2D) GetPointCount() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns an array with the points that are in the path found by AStar2D between the given points. The array is ordered from the starting point to the ending point of the path.
 	Args: [{ false from_id int} { false to_id int}], Returns: PoolVector2Array
 */
 func (o *AStar2D) GetPointPath(fromId gdnative.Int, toId gdnative.Int) gdnative.PoolVector2Array {
@@ -340,7 +340,7 @@ func (o *AStar2D) GetPointPath(fromId gdnative.Int, toId gdnative.Int) gdnative.
 }
 
 /*
-        Undocumented
+        Returns the position of the point associated with the given [code]id[/code].
 	Args: [{ false id int}], Returns: Vector2
 */
 func (o *AStar2D) GetPointPosition(id gdnative.Int) gdnative.Vector2 {
@@ -364,7 +364,7 @@ func (o *AStar2D) GetPointPosition(id gdnative.Int) gdnative.Vector2 {
 }
 
 /*
-        Undocumented
+        Returns the weight scale of the point associated with the given [code]id[/code].
 	Args: [{ false id int}], Returns: float
 */
 func (o *AStar2D) GetPointWeightScale(id gdnative.Int) gdnative.Real {
@@ -388,7 +388,7 @@ func (o *AStar2D) GetPointWeightScale(id gdnative.Int) gdnative.Real {
 }
 
 /*
-        Undocumented
+        Returns an array of all points.
 	Args: [], Returns: Array
 */
 func (o *AStar2D) GetPoints() gdnative.Array {
@@ -411,7 +411,7 @@ func (o *AStar2D) GetPoints() gdnative.Array {
 }
 
 /*
-        Undocumented
+        Returns whether a point associated with the given [code]id[/code] exists.
 	Args: [{ false id int}], Returns: bool
 */
 func (o *AStar2D) HasPoint(id gdnative.Int) gdnative.Bool {
@@ -435,7 +435,7 @@ func (o *AStar2D) HasPoint(id gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Undocumented
+        Returns whether a point is disabled or not for pathfinding. By default, all points are enabled.
 	Args: [{ false id int}], Returns: bool
 */
 func (o *AStar2D) IsPointDisabled(id gdnative.Int) gdnative.Bool {
@@ -459,7 +459,7 @@ func (o *AStar2D) IsPointDisabled(id gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Undocumented
+        Removes the point associated with the given [code]id[/code] from the points pool.
 	Args: [{ false id int}], Returns: void
 */
 func (o *AStar2D) RemovePoint(id gdnative.Int) {
@@ -480,7 +480,7 @@ func (o *AStar2D) RemovePoint(id gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Reserves space internally for [code]num_nodes[/code] points, useful if you're adding a known large number of points at once, for a grid for instance. New capacity must be greater or equals to old capacity.
 	Args: [{ false num_nodes int}], Returns: void
 */
 func (o *AStar2D) ReserveSpace(numNodes gdnative.Int) {
@@ -501,7 +501,7 @@ func (o *AStar2D) ReserveSpace(numNodes gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Disables or enables the specified point for pathfinding. Useful for making a temporary obstacle.
 	Args: [{ false id int} {True true disabled bool}], Returns: void
 */
 func (o *AStar2D) SetPointDisabled(id gdnative.Int, disabled gdnative.Bool) {
@@ -523,7 +523,7 @@ func (o *AStar2D) SetPointDisabled(id gdnative.Int, disabled gdnative.Bool) {
 }
 
 /*
-        Undocumented
+        Sets the [code]position[/code] for the point with the given [code]id[/code].
 	Args: [{ false id int} { false position Vector2}], Returns: void
 */
 func (o *AStar2D) SetPointPosition(id gdnative.Int, position gdnative.Vector2) {
@@ -545,7 +545,7 @@ func (o *AStar2D) SetPointPosition(id gdnative.Int, position gdnative.Vector2) {
 }
 
 /*
-        Undocumented
+        Sets the [code]weight_scale[/code] for the point with the given [code]id[/code].
 	Args: [{ false id int} { false weight_scale float}], Returns: void
 */
 func (o *AStar2D) SetPointWeightScale(id gdnative.Int, weightScale gdnative.Real) {

@@ -23,7 +23,7 @@ func new_MutexFromPointer(ptr gdnative.Pointer) Mutex {
 }
 
 /*
-A synchronization Mutex. Element used to synchronize multiple [Thread]s. Basically a binary [Semaphore]. Guarantees that only one thread can ever acquire this lock at a time. Can be used to protect a critical section. Be careful to avoid deadlocks.
+A synchronization mutex (mutual exclusion). This is used to synchronize multiple [Thread]s, and is equivalent to a binary [Semaphore]. It guarantees that only one thread can ever acquire the lock at a time. A mutex can be used to protect a critical section; however, be careful to avoid deadlocks.
 */
 type Mutex struct {
 	Reference

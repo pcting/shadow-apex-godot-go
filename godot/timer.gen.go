@@ -31,7 +31,7 @@ func newTimerFromPointer(ptr gdnative.Pointer) Timer {
 }
 
 /*
-Counts down a specified interval and emits a signal on reaching 0. Can be set to repeat or "one shot" mode.
+Counts down a specified interval and emits a signal on reaching 0. Can be set to repeat or "one-shot" mode.
 */
 type Timer struct {
 	Node
@@ -309,7 +309,7 @@ func (o *Timer) SetWaitTime(timeSec gdnative.Real) {
 }
 
 /*
-        Starts the timer. Sets [code]wait_time[/code] to [code]time_sec[/code] if [code]time_sec > 0[/code]. This also resets the remaining time to [code]wait_time[/code]. Note: this method will not resume a paused timer. See [member paused].
+        Starts the timer. Sets [code]wait_time[/code] to [code]time_sec[/code] if [code]time_sec > 0[/code]. This also resets the remaining time to [code]wait_time[/code]. [b]Note:[/b] this method will not resume a paused timer. See [member paused].
 	Args: [{-1 true time_sec float}], Returns: void
 */
 func (o *Timer) Start(timeSec gdnative.Real) {

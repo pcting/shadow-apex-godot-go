@@ -138,7 +138,7 @@ func (o *Tabs) AddTab(title gdnative.String, icon TextureImplementer) {
 }
 
 /*
-        Moves the Scroll view to make the tab visible.
+        Moves the scroll view to make the tab visible.
 	Args: [{ false idx int}], Returns: void
 */
 func (o *Tabs) EnsureTabVisible(idx gdnative.Int) {
@@ -205,7 +205,7 @@ func (o *Tabs) GetDragToRearrangeEnabled() gdnative.Bool {
 }
 
 /*
-
+        Returns [code]true[/code] if the offset buttons (the ones that appear when there's not enough space for all tabs) are visible.
 	Args: [], Returns: bool
 */
 func (o *Tabs) GetOffsetButtonsVisible() gdnative.Bool {
@@ -367,7 +367,7 @@ func (o *Tabs) GetTabDisabled(tabIdx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Returns the [Texture] for the tab at index [code]tab_idx[/code] or null if the tab has no [Texture].
+        Returns the [Texture] for the tab at index [code]tab_idx[/code] or [code]null[/code] if the tab has no [Texture].
 	Args: [{ false tab_idx int}], Returns: Texture
 */
 func (o *Tabs) GetTabIcon(tabIdx gdnative.Int) TextureImplementer {
@@ -405,7 +405,7 @@ func (o *Tabs) GetTabIcon(tabIdx gdnative.Int) TextureImplementer {
 }
 
 /*
-
+        Returns the number of hidden tabs offsetted to the left.
 	Args: [], Returns: int
 */
 func (o *Tabs) GetTabOffset() gdnative.Int {
@@ -476,7 +476,7 @@ func (o *Tabs) GetTabTitle(tabIdx gdnative.Int) gdnative.String {
 }
 
 /*
-        Returns the [code]Tabs[/code] rearrange group id.
+        Returns the [Tabs]' rearrange group ID.
 	Args: [], Returns: int
 */
 func (o *Tabs) GetTabsRearrangeGroup() gdnative.Int {
@@ -499,7 +499,7 @@ func (o *Tabs) GetTabsRearrangeGroup() gdnative.Int {
 }
 
 /*
-        Rearrange tab.
+        Moves a tab from [code]from[/code] to [code]to[/code].
 	Args: [{ false from int} { false to int}], Returns: void
 */
 func (o *Tabs) MoveTab(from gdnative.Int, to gdnative.Int) {
@@ -521,7 +521,7 @@ func (o *Tabs) MoveTab(from gdnative.Int, to gdnative.Int) {
 }
 
 /*
-        Removes tab at index [code]tab_idx[/code]
+        Removes the tab at index [code]tab_idx[/code].
 	Args: [{ false tab_idx int}], Returns: void
 */
 func (o *Tabs) RemoveTab(tabIdx gdnative.Int) {
@@ -605,7 +605,7 @@ func (o *Tabs) SetScrollingEnabled(enabled gdnative.Bool) {
 }
 
 /*
-        If [code]true[/code], enables selecting a tab with right mouse button.
+        If [code]true[/code], enables selecting a tab with the right mouse button.
 	Args: [{ false enabled bool}], Returns: void
 */
 func (o *Tabs) SetSelectWithRmb(enabled gdnative.Bool) {
@@ -668,7 +668,7 @@ func (o *Tabs) SetTabCloseDisplayPolicy(policy gdnative.Int) {
 }
 
 /*
-        If [code]disabled[/code] is [code]false[/code], hides the tab at index [code]tab_idx[/code]. Note that its title text will remain, unless also removed with [method set_tab_title].
+        If [code]disabled[/code] is [code]false[/code], hides the tab at index [code]tab_idx[/code]. [b]Note:[/b] Its title text will remain unless it is also removed with [method set_tab_title].
 	Args: [{ false tab_idx int} { false disabled bool}], Returns: void
 */
 func (o *Tabs) SetTabDisabled(tabIdx gdnative.Int, disabled gdnative.Bool) {
@@ -690,7 +690,7 @@ func (o *Tabs) SetTabDisabled(tabIdx gdnative.Int, disabled gdnative.Bool) {
 }
 
 /*
-        Sets an icon for the tab at index [code]tab_idx[/code].
+        Sets an [code]icon[/code] for the tab at index [code]tab_idx[/code].
 	Args: [{ false tab_idx int} { false icon Texture}], Returns: void
 */
 func (o *Tabs) SetTabIcon(tabIdx gdnative.Int, icon TextureImplementer) {
@@ -712,7 +712,7 @@ func (o *Tabs) SetTabIcon(tabIdx gdnative.Int, icon TextureImplementer) {
 }
 
 /*
-        Sets a title for the tab at index [code]tab_idx[/code].
+        Sets a [code]title[/code] for the tab at index [code]tab_idx[/code].
 	Args: [{ false tab_idx int} { false title String}], Returns: void
 */
 func (o *Tabs) SetTabTitle(tabIdx gdnative.Int, title gdnative.String) {
@@ -734,7 +734,7 @@ func (o *Tabs) SetTabTitle(tabIdx gdnative.Int, title gdnative.String) {
 }
 
 /*
-        Defines rearrange group id, choose for each [code]Tabs[/code] the same value to enable tab drag between [code]Tabs[/code]. Enable drag with [code]set_drag_to_rearrange_enabled(true)[/code].
+        Defines the rearrange group ID. Choose for each [Tabs] the same value to dragging tabs between [Tabs]. Enable drag with [code]set_drag_to_rearrange_enabled(true)[/code].
 	Args: [{ false group_id int}], Returns: void
 */
 func (o *Tabs) SetTabsRearrangeGroup(groupId gdnative.Int) {

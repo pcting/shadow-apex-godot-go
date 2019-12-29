@@ -27,12 +27,12 @@ func newSingletonInputMap() *inputMap {
 }
 
 /*
-   Manages all [InputEventAction] which can be created/modified from the project settings menu [code]Project > Project Settings > Input Map[/code] or in code with [method add_action] and [method action_add_event]. See [method Node._input].
+   Manages all [InputEventAction] which can be created/modified from the project settings menu [b]Project > Project Settings > Input Map[/b] or in code with [method add_action] and [method action_add_event]. See [method Node._input].
 */
 var InputMap = newSingletonInputMap()
 
 /*
-Manages all [InputEventAction] which can be created/modified from the project settings menu [code]Project > Project Settings > Input Map[/code] or in code with [method add_action] and [method action_add_event]. See [method Node._input].
+Manages all [InputEventAction] which can be created/modified from the project settings menu [b]Project > Project Settings > Input Map[/b] or in code with [method add_action] and [method action_add_event]. See [method Node._input].
 */
 type inputMap struct {
 	Object
@@ -151,7 +151,7 @@ func (o *inputMap) ActionHasEvent(action gdnative.String, event InputEventImplem
 }
 
 /*
-
+        Sets a deadzone value for the action.
 	Args: [{ false action String} { false deadzone float}], Returns: void
 */
 func (o *inputMap) ActionSetDeadzone(action gdnative.String, deadzone gdnative.Real) {
@@ -174,7 +174,7 @@ func (o *inputMap) ActionSetDeadzone(action gdnative.String, deadzone gdnative.R
 }
 
 /*
-        Adds an empty action to the [code]InputMap[/code] with a configurable [code]deadzone[/code]. An [InputEvent] can then be added to this action with [method action_add_event].
+        Adds an empty action to the [InputMap] with a configurable [code]deadzone[/code]. An [InputEvent] can then be added to this action with [method action_add_event].
 	Args: [{ false action String} {0.5 true deadzone float}], Returns: void
 */
 func (o *inputMap) AddAction(action gdnative.String, deadzone gdnative.Real) {
@@ -197,7 +197,7 @@ func (o *inputMap) AddAction(action gdnative.String, deadzone gdnative.Real) {
 }
 
 /*
-        Removes an action from the [code]InputMap[/code].
+        Removes an action from the [InputMap].
 	Args: [{ false action String}], Returns: void
 */
 func (o *inputMap) EraseAction(action gdnative.String) {
@@ -270,7 +270,7 @@ func (o *inputMap) GetActionList(action gdnative.String) gdnative.Array {
 }
 
 /*
-        Returns an array of all actions in the [code]InputMap[/code].
+        Returns an array of all actions in the [InputMap].
 	Args: [], Returns: Array
 */
 func (o *inputMap) GetActions() gdnative.Array {
@@ -294,7 +294,7 @@ func (o *inputMap) GetActions() gdnative.Array {
 }
 
 /*
-        Returns [code]true[/code] if the [code]InputMap[/code] has a registered action with the given name.
+        Returns [code]true[/code] if the [InputMap] has a registered action with the given name.
 	Args: [{ false action String}], Returns: bool
 */
 func (o *inputMap) HasAction(action gdnative.String) gdnative.Bool {
@@ -319,7 +319,7 @@ func (o *inputMap) HasAction(action gdnative.String) gdnative.Bool {
 }
 
 /*
-        Clears all [InputEventAction] in the [code]InputMap[/code] and load it anew from [ProjectSettings].
+        Clears all [InputEventAction] in the [InputMap] and load it anew from [ProjectSettings].
 	Args: [], Returns: void
 */
 func (o *inputMap) LoadFromGlobals() {

@@ -58,7 +58,7 @@ func (o *VisualShaderNodeInput) GetInputName() gdnative.String {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: String
 */
 func (o *VisualShaderNodeInput) GetInputRealName() gdnative.String {

@@ -23,7 +23,7 @@ func newSpatialFromPointer(ptr gdnative.Pointer) Spatial {
 }
 
 /*
-Most basic 3D game object, with a 3D [Transform] and visibility settings. All other 3D game objects inherit from Spatial. Use [code]Spatial[/code] as a parent node to move, scale, rotate and show/hide children in a 3D project. Affine operations (rotate, scale, translate) happen in parent's local coordinate system, unless the [code]Spatial[/code] object is set as top level. Affine operations in this coordinate system correspond to direct affine operations on the [code]Spatial[/code]'s transform. The word local below refers to this coordinate system. The coordinate system that is attached to the [code]Spatial[/code] object itself is referred to as object-local coordinate system.
+Most basic 3D game object, with a 3D [Transform] and visibility settings. All other 3D game objects inherit from Spatial. Use [Spatial] as a parent node to move, scale, rotate and show/hide children in a 3D project. Affine operations (rotate, scale, translate) happen in parent's local coordinate system, unless the [Spatial] object is set as top-level. Affine operations in this coordinate system correspond to direct affine operations on the [Spatial]'s transform. The word local below refers to this coordinate system. The coordinate system that is attached to the [Spatial] object itself is referred to as object-local coordinate system.
 */
 type Spatial struct {
 	Node
@@ -55,7 +55,7 @@ func (o *Spatial) X_UpdateGizmo() {
 }
 
 /*
-
+        Forces the transform to update. Transform changes in physics are not instant for performance reasons. Transforms are accumulated and then set. Use this if you need an up-to-date transform when doing physics operations.
 	Args: [], Returns: void
 */
 func (o *Spatial) ForceUpdateTransform() {
@@ -135,7 +135,7 @@ func (o *Spatial) GetGlobalTransform() gdnative.Transform {
 }
 
 /*
-        Returns the parent [code]Spatial[/code], or an empty [Object] if no parent exists or parent is not of type [code]Spatial[/code].
+        Returns the parent [Spatial], or an empty [Object] if no parent exists or parent is not of type [Spatial].
 	Args: [], Returns: Spatial
 */
 func (o *Spatial) GetParentSpatial() SpatialImplementer {
@@ -287,7 +287,7 @@ func (o *Spatial) GetTranslation() gdnative.Vector3 {
 }
 
 /*
-        Returns the current [World] resource this [code]Spatial[/code] node is registered to.
+        Returns the current [World] resource this [Spatial] node is registered to.
 	Args: [], Returns: World
 */
 func (o *Spatial) GetWorld() WorldImplementer {
@@ -346,7 +346,7 @@ func (o *Spatial) GlobalRotate(axis gdnative.Vector3, angle gdnative.Real) {
 }
 
 /*
-
+        Scales the global (world) transformation by the given [Vector3] scale factors.
 	Args: [{ false scale Vector3}], Returns: void
 */
 func (o *Spatial) GlobalScale(scale gdnative.Vector3) {
@@ -408,7 +408,7 @@ func (o *Spatial) Hide() {
 }
 
 /*
-        Returns whether node notifies about its local transformation changes. [code]Spatial[/code] will not propagate this by default.
+        Returns whether node notifies about its local transformation changes. [Spatial] will not propagate this by default.
 	Args: [], Returns: bool
 */
 func (o *Spatial) IsLocalTransformNotificationEnabled() gdnative.Bool {
@@ -431,7 +431,7 @@ func (o *Spatial) IsLocalTransformNotificationEnabled() gdnative.Bool {
 }
 
 /*
-
+        Returns whether this node uses a scale of [code](1, 1, 1)[/code] or its local transformation scale.
 	Args: [], Returns: bool
 */
 func (o *Spatial) IsScaleDisabled() gdnative.Bool {
@@ -477,7 +477,7 @@ func (o *Spatial) IsSetAsToplevel() gdnative.Bool {
 }
 
 /*
-        Returns whether the node notifies about its global and local transformation changes. [code]Spatial[/code] will not propagate this by default.
+        Returns whether the node notifies about its global and local transformation changes. [Spatial] will not propagate this by default.
 	Args: [], Returns: bool
 */
 func (o *Spatial) IsTransformNotificationEnabled() gdnative.Bool {
@@ -655,7 +655,7 @@ func (o *Spatial) RotateObjectLocal(axis gdnative.Vector3, angle gdnative.Real) 
 }
 
 /*
-        Rotates the local transformation around the X axis by angle in radians
+        Rotates the local transformation around the X axis by angle in radians.
 	Args: [{ false angle float}], Returns: void
 */
 func (o *Spatial) RotateX(angle gdnative.Real) {
@@ -760,7 +760,7 @@ func (o *Spatial) SetAsToplevel(enable gdnative.Bool) {
 }
 
 /*
-
+        Sets whether the node uses a scale of [code](1, 1, 1)[/code] or its local transformation scale. Changes to the local transformation scale are preserved.
 	Args: [{ false disable bool}], Returns: void
 */
 func (o *Spatial) SetDisableScale(disable gdnative.Bool) {
@@ -823,7 +823,7 @@ func (o *Spatial) SetGlobalTransform(global gdnative.Transform) {
 }
 
 /*
-        Reset all transformations for this node. Set its [Transform] to identity matrix.
+        Reset all transformations for this node (sets its [Transform] to the identity matrix).
 	Args: [], Returns: void
 */
 func (o *Spatial) SetIdentity() {
@@ -843,7 +843,7 @@ func (o *Spatial) SetIdentity() {
 }
 
 /*
-        Set whether the node ignores notification that its transformation (global or local) changed.
+        Sets whether the node ignores notification that its transformation (global or local) changed.
 	Args: [{ false enabled bool}], Returns: void
 */
 func (o *Spatial) SetIgnoreTransformNotification(enabled gdnative.Bool) {
@@ -864,7 +864,7 @@ func (o *Spatial) SetIgnoreTransformNotification(enabled gdnative.Bool) {
 }
 
 /*
-        Set whether the node notifies about its local transformation changes. [code]Spatial[/code] will not propagate this by default.
+        Sets whether the node notifies about its local transformation changes. [Spatial] will not propagate this by default.
 	Args: [{ false enable bool}], Returns: void
 */
 func (o *Spatial) SetNotifyLocalTransform(enable gdnative.Bool) {
@@ -885,7 +885,7 @@ func (o *Spatial) SetNotifyLocalTransform(enable gdnative.Bool) {
 }
 
 /*
-        Set whether the node notifies about its global and local transformation changes. [code]Spatial[/code] will not propagate this by default.
+        Sets whether the node notifies about its global and local transformation changes. [Spatial] will not propagate this by default.
 	Args: [{ false enable bool}], Returns: void
 */
 func (o *Spatial) SetNotifyTransform(enable gdnative.Bool) {
@@ -1052,7 +1052,7 @@ func (o *Spatial) Show() {
 }
 
 /*
-        Transforms [Vector3] "local_point" from this node's local space to world space.
+        Transforms [code]local_point[/code] from this node's local space to world space.
 	Args: [{ false local_point Vector3}], Returns: Vector3
 */
 func (o *Spatial) ToGlobal(localPoint gdnative.Vector3) gdnative.Vector3 {
@@ -1076,7 +1076,7 @@ func (o *Spatial) ToGlobal(localPoint gdnative.Vector3) gdnative.Vector3 {
 }
 
 /*
-        Transforms [Vector3] "global_point" from world space to this node's local space.
+        Transforms [code]global_point[/code] from world space to this node's local space.
 	Args: [{ false global_point Vector3}], Returns: Vector3
 */
 func (o *Spatial) ToLocal(globalPoint gdnative.Vector3) gdnative.Vector3 {

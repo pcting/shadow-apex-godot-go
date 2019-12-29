@@ -34,8 +34,8 @@ func newJSONRPCFromPointer(ptr gdnative.Pointer) JSONRPC {
 }
 
 /*
-Undocumented
-*/
+
+ */
 type JSONRPC struct {
 	Object
 	owner gdnative.Object
@@ -46,7 +46,7 @@ func (o *JSONRPC) BaseClass() string {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false method String} { false params Variant}], Returns: Dictionary
 */
 func (o *JSONRPC) MakeNotification(method gdnative.String, params gdnative.Variant) gdnative.Dictionary {
@@ -71,7 +71,7 @@ func (o *JSONRPC) MakeNotification(method gdnative.String, params gdnative.Varia
 }
 
 /*
-        Undocumented
+
 	Args: [{ false method String} { false params Variant} { false id Variant}], Returns: Dictionary
 */
 func (o *JSONRPC) MakeRequest(method gdnative.String, params gdnative.Variant, id gdnative.Variant) gdnative.Dictionary {
@@ -97,7 +97,7 @@ func (o *JSONRPC) MakeRequest(method gdnative.String, params gdnative.Variant, i
 }
 
 /*
-        Undocumented
+
 	Args: [{ false result Variant} { false id Variant}], Returns: Dictionary
 */
 func (o *JSONRPC) MakeResponse(result gdnative.Variant, id gdnative.Variant) gdnative.Dictionary {
@@ -122,7 +122,7 @@ func (o *JSONRPC) MakeResponse(result gdnative.Variant, id gdnative.Variant) gdn
 }
 
 /*
-        Undocumented
+
 	Args: [{ false code int} { false message String} {Null true id Variant}], Returns: Dictionary
 */
 func (o *JSONRPC) MakeResponseError(code gdnative.Int, message gdnative.String, id gdnative.Variant) gdnative.Dictionary {
@@ -148,7 +148,7 @@ func (o *JSONRPC) MakeResponseError(code gdnative.Int, message gdnative.String, 
 }
 
 /*
-        Undocumented
+
 	Args: [{ false action Variant} {False true recurse bool}], Returns: Variant
 */
 func (o *JSONRPC) ProcessAction(action gdnative.Variant, recurse gdnative.Bool) gdnative.Variant {
@@ -173,7 +173,7 @@ func (o *JSONRPC) ProcessAction(action gdnative.Variant, recurse gdnative.Bool) 
 }
 
 /*
-        Undocumented
+
 	Args: [{ false action String}], Returns: String
 */
 func (o *JSONRPC) ProcessString(action gdnative.String) gdnative.String {
@@ -197,7 +197,7 @@ func (o *JSONRPC) ProcessString(action gdnative.String) gdnative.String {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false scope String} { false target Object}], Returns: void
 */
 func (o *JSONRPC) SetScope(scope gdnative.String, target ObjectImplementer) {

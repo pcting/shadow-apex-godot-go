@@ -74,7 +74,7 @@ func (o *InstancePlaceholder) CreateInstance(replace gdnative.Bool, customScene 
 }
 
 /*
-        Retrieve the path to the [PackedScene] resource file that is loaded by default when calling [method replace_by_instance].
+        Gets the path to the [PackedScene] resource file that is loaded by default when calling [method replace_by_instance].
 	Args: [], Returns: String
 */
 func (o *InstancePlaceholder) GetInstancePath() gdnative.String {
@@ -121,7 +121,7 @@ func (o *InstancePlaceholder) GetStoredValues(withOrder gdnative.Bool) gdnative.
 }
 
 /*
-        Replace this placeholder by the scene handed as an argument, or the original scene if no argument is given. As for all resources, the scene is loaded only if it's not loaded already. By manually loading the scene beforehand, delays caused by this function can be avoided.
+        Replaces this placeholder by the scene handed as an argument, or the original scene if no argument is given. As for all resources, the scene is loaded only if it's not loaded already. By manually loading the scene beforehand, delays caused by this function can be avoided.
 	Args: [{Null true custom_scene PackedScene}], Returns: void
 */
 func (o *InstancePlaceholder) ReplaceByInstance(customScene PackedSceneImplementer) {

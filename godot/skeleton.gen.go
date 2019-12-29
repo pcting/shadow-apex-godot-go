@@ -23,7 +23,7 @@ func newSkeletonFromPointer(ptr gdnative.Pointer) Skeleton {
 }
 
 /*
-Skeleton provides a hierarchical interface for managing bones, including pose, rest and animation (see [Animation]). Skeleton will support rag doll dynamics in the future. The overall transform of a bone with respect to the skeleton is determined by the following hierarchical order: rest pose, custom pose and pose. Note that "global pose" below refers to the overall transform of the bone with respect to skeleton, so it not the actual global/world transform of the bone.
+Skeleton provides a hierarchical interface for managing bones, including pose, rest and animation (see [Animation]). It can also use ragdoll physics. The overall transform of a bone with respect to the skeleton is determined by the following hierarchical order: rest pose, custom pose and pose. Note that "global pose" below refers to the overall transform of the bone with respect to skeleton, so it not the actual global/world transform of the bone.
 */
 type Skeleton struct {
 	Spatial
@@ -35,7 +35,7 @@ func (o *Skeleton) BaseClass() string {
 }
 
 /*
-        Add a bone, with name "name". [method get_bone_count] will become the bone index.
+        Adds a bone, with name [code]name[/code]. [method get_bone_count] will become the bone index.
 	Args: [{ false name String}], Returns: void
 */
 func (o *Skeleton) AddBone(name gdnative.String) {
@@ -56,7 +56,7 @@ func (o *Skeleton) AddBone(name gdnative.String) {
 }
 
 /*
-        Deprecated soon.
+        [i]Deprecated soon.[/i]
 	Args: [{ false bone_idx int} { false node Node}], Returns: void
 */
 func (o *Skeleton) BindChildNodeToBone(boneIdx gdnative.Int, node NodeImplementer) {
@@ -98,7 +98,7 @@ func (o *Skeleton) ClearBones() {
 }
 
 /*
-        Returns the bone index that matches "name" as its name.
+        Returns the bone index that matches [code]name[/code] as its name.
 	Args: [{ false name String}], Returns: int
 */
 func (o *Skeleton) FindBone(name gdnative.String) gdnative.Int {
@@ -193,7 +193,7 @@ func (o *Skeleton) GetBoneGlobalPose(boneIdx gdnative.Int) gdnative.Transform {
 }
 
 /*
-        Returns the name of the bone at index "index".
+        Returns the name of the bone at index [code]index[/code].
 	Args: [{ false bone_idx int}], Returns: String
 */
 func (o *Skeleton) GetBoneName(boneIdx gdnative.Int) gdnative.String {
@@ -217,7 +217,7 @@ func (o *Skeleton) GetBoneName(boneIdx gdnative.Int) gdnative.String {
 }
 
 /*
-        Returns the bone index which is the parent of the bone at "bone_idx". If -1, then bone has no parent. Note that the parent bone returned will always be less than "bone_idx".
+        Returns the bone index which is the parent of the bone at [code]bone_idx[/code]. If -1, then bone has no parent. [b]Note:[/b] The parent bone returned will always be less than [code]bone_idx[/code].
 	Args: [{ false bone_idx int}], Returns: int
 */
 func (o *Skeleton) GetBoneParent(boneIdx gdnative.Int) gdnative.Int {
@@ -265,7 +265,7 @@ func (o *Skeleton) GetBonePose(boneIdx gdnative.Int) gdnative.Transform {
 }
 
 /*
-        Returns the rest transform for a bone "bone_idx".
+        Returns the rest transform for a bone [code]bone_idx[/code].
 	Args: [{ false bone_idx int}], Returns: Transform
 */
 func (o *Skeleton) GetBoneRest(boneIdx gdnative.Int) gdnative.Transform {
@@ -289,7 +289,7 @@ func (o *Skeleton) GetBoneRest(boneIdx gdnative.Int) gdnative.Transform {
 }
 
 /*
-        Deprecated soon.
+        [i]Deprecated soon.[/i]
 	Args: [{ false bone_idx int}], Returns: Array
 */
 func (o *Skeleton) GetBoundChildNodesToBone(boneIdx gdnative.Int) gdnative.Array {
@@ -337,7 +337,7 @@ func (o *Skeleton) IsBoneRestDisabled(boneIdx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: void
 */
 func (o *Skeleton) LocalizeRests() {
@@ -440,7 +440,7 @@ func (o *Skeleton) PhysicalBonesStopSimulation() {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false skin Skin}], Returns: SkinReference
 */
 func (o *Skeleton) RegisterSkin(skin SkinImplementer) SkinReferenceImplementer {
@@ -522,7 +522,7 @@ func (o *Skeleton) SetBoneDisableRest(boneIdx gdnative.Int, disable gdnative.Boo
 }
 
 /*
-        Undocumented
+
 	Args: [{ false bone_idx int} { false pose Transform} { false amount float} {False true persistent bool}], Returns: void
 */
 func (o *Skeleton) SetBoneGlobalPoseOverride(boneIdx gdnative.Int, pose gdnative.Transform, amount gdnative.Real, persistent gdnative.Bool) {
@@ -546,7 +546,7 @@ func (o *Skeleton) SetBoneGlobalPoseOverride(boneIdx gdnative.Int, pose gdnative
 }
 
 /*
-        Set the bone index "parent_idx" as the parent of the bone at "bone_idx". If -1, then bone has no parent. Note: "parent_idx" must be less than "bone_idx".
+        Sets the bone index [code]parent_idx[/code] as the parent of the bone at [code]bone_idx[/code]. If -1, then bone has no parent. [b]Note:[/b] [code]parent_idx[/code] must be less than [code]bone_idx[/code].
 	Args: [{ false bone_idx int} { false parent_idx int}], Returns: void
 */
 func (o *Skeleton) SetBoneParent(boneIdx gdnative.Int, parentIdx gdnative.Int) {
@@ -568,7 +568,7 @@ func (o *Skeleton) SetBoneParent(boneIdx gdnative.Int, parentIdx gdnative.Int) {
 }
 
 /*
-        Returns the pose transform for bone "bone_idx".
+        Returns the pose transform for bone [code]bone_idx[/code].
 	Args: [{ false bone_idx int} { false pose Transform}], Returns: void
 */
 func (o *Skeleton) SetBonePose(boneIdx gdnative.Int, pose gdnative.Transform) {
@@ -590,7 +590,7 @@ func (o *Skeleton) SetBonePose(boneIdx gdnative.Int, pose gdnative.Transform) {
 }
 
 /*
-        Set the rest transform for bone "bone_idx"
+        Sets the rest transform for bone [code]bone_idx[/code].
 	Args: [{ false bone_idx int} { false rest Transform}], Returns: void
 */
 func (o *Skeleton) SetBoneRest(boneIdx gdnative.Int, rest gdnative.Transform) {
@@ -612,7 +612,7 @@ func (o *Skeleton) SetBoneRest(boneIdx gdnative.Int, rest gdnative.Transform) {
 }
 
 /*
-        Deprecated soon.
+        [i]Deprecated soon.[/i]
 	Args: [{ false bone_idx int} { false node Node}], Returns: void
 */
 func (o *Skeleton) UnbindChildNodeFromBone(boneIdx gdnative.Int, node NodeImplementer) {

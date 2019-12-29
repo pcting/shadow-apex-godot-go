@@ -73,6 +73,26 @@ func (o *NoiseTexture) X_GenerateTexture() ImageImplementer {
 
 /*
         Undocumented
+	Args: [], Returns: void
+*/
+func (o *NoiseTexture) X_QueueUpdate() {
+	//log.Println("Calling NoiseTexture.X_QueueUpdate()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("NoiseTexture", "_queue_update")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false image Image}], Returns: void
 */
 func (o *NoiseTexture) X_ThreadDone(image ImageImplementer) {
@@ -349,6 +369,7 @@ func (o *NoiseTexture) SetWidth(width gdnative.Int) {
 type NoiseTextureImplementer interface {
 	TextureImplementer
 	X_GenerateTexture() ImageImplementer
+	X_QueueUpdate()
 	X_ThreadDone(image ImageImplementer)
 	X_UpdateTexture()
 	GetBumpStrength() gdnative.Real

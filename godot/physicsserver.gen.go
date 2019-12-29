@@ -260,12 +260,12 @@ func newSingletonPhysicsServer() *physicsServer {
 }
 
 /*
-   Everything related to physics in 3D.
+   PhysicsServer is the server responsible for all 3D physics. It can create many kinds of physics objects, but does not insert them on the node tree.
 */
 var PhysicsServer = newSingletonPhysicsServer()
 
 /*
-Everything related to physics in 3D.
+PhysicsServer is the server responsible for all 3D physics. It can create many kinds of physics objects, but does not insert them on the node tree.
 */
 type physicsServer struct {
 	Object
@@ -409,7 +409,7 @@ func (o *physicsServer) AreaGetObjectInstanceId(area gdnative.Rid) gdnative.Int 
 }
 
 /*
-        Returns an area parameter value. A list of available parameters is on the AREA_PARAM_* constants.
+        Returns an area parameter value. A list of available parameters is on the [enum AreaParameter] constants.
 	Args: [{ false area RID} { false param int}], Returns: Variant
 */
 func (o *physicsServer) AreaGetParam(area gdnative.Rid, param gdnative.Int) gdnative.Variant {
@@ -705,7 +705,7 @@ func (o *physicsServer) AreaSetCollisionMask(area gdnative.Rid, mask gdnative.In
 }
 
 /*
-        Sets the function to call when any body/area enters or exits the area. This callback will be called for any object interacting with the area, and takes five parameters: 1: AREA_BODY_ADDED or AREA_BODY_REMOVED, depending on whether the object entered or exited the area. 2: [RID] of the object that entered/exited the area. 3: Instance ID of the object that entered/exited the area. 4: The shape index of the object that entered/exited the area. 5: The shape index of the area where the object entered/exited.
+        Sets the function to call when any body/area enters or exits the area. This callback will be called for any object interacting with the area, and takes five parameters: 1: [constant AREA_BODY_ADDED] or [constant AREA_BODY_REMOVED], depending on whether the object entered or exited the area. 2: [RID] of the object that entered/exited the area. 3: Instance ID of the object that entered/exited the area. 4: The shape index of the object that entered/exited the area. 5: The shape index of the area where the object entered/exited.
 	Args: [{ false area RID} { false receiver Object} { false method String}], Returns: void
 */
 func (o *physicsServer) AreaSetMonitorCallback(area gdnative.Rid, receiver ObjectImplementer, method gdnative.String) {
@@ -752,7 +752,7 @@ func (o *physicsServer) AreaSetMonitorable(area gdnative.Rid, monitorable gdnati
 }
 
 /*
-        Sets the value for an area parameter. A list of available parameters is on the AREA_PARAM_* constants.
+        Sets the value for an area parameter. A list of available parameters is on the [enum AreaParameter] constants.
 	Args: [{ false area RID} { false param int} { false value Variant}], Returns: void
 */
 func (o *physicsServer) AreaSetParam(area gdnative.Rid, param gdnative.Int, value gdnative.Variant) {
@@ -823,7 +823,7 @@ func (o *physicsServer) AreaSetShape(area gdnative.Rid, shapeIdx gdnative.Int, s
 }
 
 /*
-        Undocumented
+
 	Args: [{ false area RID} { false shape_idx int} { false disabled bool}], Returns: void
 */
 func (o *physicsServer) AreaSetShapeDisabled(area gdnative.Rid, shapeIdx gdnative.Int, disabled gdnative.Bool) {
@@ -894,7 +894,7 @@ func (o *physicsServer) AreaSetSpace(area gdnative.Rid, space gdnative.Rid) {
 }
 
 /*
-        Sets the space override mode for the area. The modes are described in the constants AREA_SPACE_OVERRIDE_*.
+        Sets the space override mode for the area. The modes are described in the [enum AreaSpaceOverrideMode] constants.
 	Args: [{ false area RID} { false mode int}], Returns: void
 */
 func (o *physicsServer) AreaSetSpaceOverrideMode(area gdnative.Rid, mode gdnative.Int) {
@@ -1173,7 +1173,7 @@ func (o *physicsServer) BodyClearShapes(body gdnative.Rid) {
 }
 
 /*
-        Creates a physics body. The first parameter can be any value from constants BODY_MODE*, for the type of body created. Additionally, the body can be created in sleeping state to save processing time.
+        Creates a physics body. The first parameter can be any value from [enum BodyMode] constants, for the type of body created. Additionally, the body can be created in sleeping state to save processing time.
 	Args: [{2 true mode int} {False true init_sleeping bool}], Returns: RID
 */
 func (o *physicsServer) BodyCreate(mode gdnative.Int, initSleeping gdnative.Bool) gdnative.Rid {
@@ -1389,7 +1389,7 @@ func (o *physicsServer) BodyGetObjectInstanceId(body gdnative.Rid) gdnative.Int 
 }
 
 /*
-        Returns the value of a body parameter. A list of available parameters is on the BODY_PARAM_* constants.
+        Returns the value of a body parameter. A list of available parameters is on the [enum BodyParameter] constants.
 	Args: [{ false body RID} { false param int}], Returns: float
 */
 func (o *physicsServer) BodyGetParam(body gdnative.Rid, param gdnative.Int) gdnative.Real {
@@ -1619,7 +1619,7 @@ func (o *physicsServer) BodyIsOmittingForceIntegration(body gdnative.Rid) gdnati
 }
 
 /*
-        If [code]true[/code], the body can be detected by rays
+        If [code]true[/code], the body can be detected by rays.
 	Args: [{ false body RID}], Returns: bool
 */
 func (o *physicsServer) BodyIsRayPickable(body gdnative.Rid) gdnative.Bool {
@@ -1877,7 +1877,7 @@ func (o *physicsServer) BodySetMaxContactsReported(body gdnative.Rid, amount gdn
 }
 
 /*
-        Sets the body mode, from one of the constants BODY_MODE*.
+        Sets the body mode, from one of the [enum BodyMode] constants.
 	Args: [{ false body RID} { false mode int}], Returns: void
 */
 func (o *physicsServer) BodySetMode(body gdnative.Rid, mode gdnative.Int) {
@@ -1923,7 +1923,7 @@ func (o *physicsServer) BodySetOmitForceIntegration(body gdnative.Rid, enable gd
 }
 
 /*
-        Sets a body parameter. A list of available parameters is on the BODY_PARAM_* constants.
+        Sets a body parameter. A list of available parameters is on the [enum BodyParameter] constants.
 	Args: [{ false body RID} { false param int} { false value float}], Returns: void
 */
 func (o *physicsServer) BodySetParam(body gdnative.Rid, param gdnative.Int, value gdnative.Real) {
@@ -1994,7 +1994,7 @@ func (o *physicsServer) BodySetShape(body gdnative.Rid, shapeIdx gdnative.Int, s
 }
 
 /*
-        Undocumented
+
 	Args: [{ false body RID} { false shape_idx int} { false disabled bool}], Returns: void
 */
 func (o *physicsServer) BodySetShapeDisabled(body gdnative.Rid, shapeIdx gdnative.Int, disabled gdnative.Bool) {
@@ -2065,7 +2065,7 @@ func (o *physicsServer) BodySetSpace(body gdnative.Rid, space gdnative.Rid) {
 }
 
 /*
-        Sets a body state (see BODY_STATE* constants).
+        Sets a body state (see [enum BodyState] constants).
 	Args: [{ false body RID} { false state int} { false value Variant}], Returns: void
 */
 func (o *physicsServer) BodySetState(body gdnative.Rid, state gdnative.Int, value gdnative.Variant) {
@@ -2089,7 +2089,7 @@ func (o *physicsServer) BodySetState(body gdnative.Rid, state gdnative.Int, valu
 }
 
 /*
-        Gets a cone_twist_joint parameter (see CONE_TWIST_JOINT* constants).
+        Gets a cone_twist_joint parameter (see [enum ConeTwistJointParam] constants).
 	Args: [{ false joint RID} { false param int}], Returns: float
 */
 func (o *physicsServer) ConeTwistJointGetParam(joint gdnative.Rid, param gdnative.Int) gdnative.Real {
@@ -2115,7 +2115,7 @@ func (o *physicsServer) ConeTwistJointGetParam(joint gdnative.Rid, param gdnativ
 }
 
 /*
-        Sets a cone_twist_joint parameter (see CONE_TWIST_JOINT* constants).
+        Sets a cone_twist_joint parameter (see [enum ConeTwistJointParam] constants).
 	Args: [{ false joint RID} { false param int} { false value float}], Returns: void
 */
 func (o *physicsServer) ConeTwistJointSetParam(joint gdnative.Rid, param gdnative.Int, value gdnative.Real) {
@@ -2161,7 +2161,7 @@ func (o *physicsServer) FreeRid(rid gdnative.Rid) {
 }
 
 /*
-        Gets a generic_6_DOF_joint flag (see G6DOF_JOINT_FLAG* constants).
+        Gets a generic_6_DOF_joint flag (see [enum G6DOFJointAxisFlag] constants).
 	Args: [{ false joint RID} { false axis int} { false flag int}], Returns: bool
 */
 func (o *physicsServer) Generic6DofJointGetFlag(joint gdnative.Rid, axis gdnative.Int, flag gdnative.Int) gdnative.Bool {
@@ -2188,7 +2188,7 @@ func (o *physicsServer) Generic6DofJointGetFlag(joint gdnative.Rid, axis gdnativ
 }
 
 /*
-        Gets a generic_6_DOF_joint parameter (see G6DOF_JOINT* constants without the G6DOF_JOINT_FLAG*).
+        Gets a generic_6_DOF_joint parameter (see [enum G6DOFJointAxisParam] constants).
 	Args: [{ false joint RID} { false axis int} { false param int}], Returns: float
 */
 func (o *physicsServer) Generic6DofJointGetParam(joint gdnative.Rid, axis gdnative.Int, param gdnative.Int) gdnative.Real {
@@ -2215,7 +2215,7 @@ func (o *physicsServer) Generic6DofJointGetParam(joint gdnative.Rid, axis gdnati
 }
 
 /*
-        Sets a generic_6_DOF_joint flag (see G6DOF_JOINT_FLAG* constants).
+        Sets a generic_6_DOF_joint flag (see [enum G6DOFJointAxisFlag] constants).
 	Args: [{ false joint RID} { false axis int} { false flag int} { false enable bool}], Returns: void
 */
 func (o *physicsServer) Generic6DofJointSetFlag(joint gdnative.Rid, axis gdnative.Int, flag gdnative.Int, enable gdnative.Bool) {
@@ -2240,7 +2240,7 @@ func (o *physicsServer) Generic6DofJointSetFlag(joint gdnative.Rid, axis gdnativ
 }
 
 /*
-        Sets a generic_6_DOF_joint parameter (see G6DOF_JOINT* constants without the G6DOF_JOINT_FLAG*).
+        Sets a generic_6_DOF_joint parameter (see [enum G6DOFJointAxisParam] constants).
 	Args: [{ false joint RID} { false axis int} { false param int} { false value float}], Returns: void
 */
 func (o *physicsServer) Generic6DofJointSetParam(joint gdnative.Rid, axis gdnative.Int, param gdnative.Int, value gdnative.Real) {
@@ -2265,7 +2265,7 @@ func (o *physicsServer) Generic6DofJointSetParam(joint gdnative.Rid, axis gdnati
 }
 
 /*
-        Returns an Info defined by the [enum PhysicsServer.ProcessInfo] input given.
+        Returns an Info defined by the [enum ProcessInfo] input given.
 	Args: [{ false process_info int}], Returns: int
 */
 func (o *physicsServer) GetProcessInfo(processInfo gdnative.Int) gdnative.Int {
@@ -2290,7 +2290,7 @@ func (o *physicsServer) GetProcessInfo(processInfo gdnative.Int) gdnative.Int {
 }
 
 /*
-        Gets a hinge_joint flag (see HINGE_JOINT_FLAG* constants).
+        Gets a hinge_joint flag (see [enum HingeJointFlag] constants).
 	Args: [{ false joint RID} { false flag int}], Returns: bool
 */
 func (o *physicsServer) HingeJointGetFlag(joint gdnative.Rid, flag gdnative.Int) gdnative.Bool {
@@ -2316,7 +2316,7 @@ func (o *physicsServer) HingeJointGetFlag(joint gdnative.Rid, flag gdnative.Int)
 }
 
 /*
-        Gets a hinge_joint parameter (see HINGE_JOINT* constants without the HINGE_JOINT_FLAG*).
+        Gets a hinge_joint parameter (see [enum HingeJointParam]).
 	Args: [{ false joint RID} { false param int}], Returns: float
 */
 func (o *physicsServer) HingeJointGetParam(joint gdnative.Rid, param gdnative.Int) gdnative.Real {
@@ -2342,7 +2342,7 @@ func (o *physicsServer) HingeJointGetParam(joint gdnative.Rid, param gdnative.In
 }
 
 /*
-        Sets a hinge_joint flag (see HINGE_JOINT_FLAG* constants).
+        Sets a hinge_joint flag (see [enum HingeJointFlag] constants).
 	Args: [{ false joint RID} { false flag int} { false enabled bool}], Returns: void
 */
 func (o *physicsServer) HingeJointSetFlag(joint gdnative.Rid, flag gdnative.Int, enabled gdnative.Bool) {
@@ -2366,7 +2366,7 @@ func (o *physicsServer) HingeJointSetFlag(joint gdnative.Rid, flag gdnative.Int,
 }
 
 /*
-        Sets a hinge_joint parameter (see HINGE_JOINT* constants without the HINGE_JOINT_FLAG*).
+        Sets a hinge_joint parameter (see [enum HingeJointParam] constants).
 	Args: [{ false joint RID} { false param int} { false value float}], Returns: void
 */
 func (o *physicsServer) HingeJointSetParam(joint gdnative.Rid, param gdnative.Int, value gdnative.Real) {
@@ -2653,7 +2653,7 @@ func (o *physicsServer) PinJointGetLocalB(joint gdnative.Rid) gdnative.Vector3 {
 }
 
 /*
-        Gets a pin_joint parameter (see PIN_JOINT* constants).
+        Gets a pin_joint parameter (see [enum PinJointParam] constants).
 	Args: [{ false joint RID} { false param int}], Returns: float
 */
 func (o *physicsServer) PinJointGetParam(joint gdnative.Rid, param gdnative.Int) gdnative.Real {
@@ -2725,7 +2725,7 @@ func (o *physicsServer) PinJointSetLocalB(joint gdnative.Rid, localB gdnative.Ve
 }
 
 /*
-        Sets a pin_joint parameter (see PIN_JOINT* constants).
+        Sets a pin_joint parameter (see [enum PinJointParam] constants).
 	Args: [{ false joint RID} { false param int} { false value float}], Returns: void
 */
 func (o *physicsServer) PinJointSetParam(joint gdnative.Rid, param gdnative.Int, value gdnative.Real) {
@@ -2771,7 +2771,7 @@ func (o *physicsServer) SetActive(active gdnative.Bool) {
 }
 
 /*
-        Creates a shape of type SHAPE_*. Does not assign it to a body or an area. To do so, you must use [method area_set_shape] or [method body_set_shape].
+        Creates a shape of a type from [enum ShapeType]. Does not assign it to a body or an area. To do so, you must use [method area_set_shape] or [method body_set_shape].
 	Args: [{ false type int}], Returns: RID
 */
 func (o *physicsServer) ShapeCreate(aType gdnative.Int) gdnative.Rid {
@@ -2821,7 +2821,7 @@ func (o *physicsServer) ShapeGetData(shape gdnative.Rid) gdnative.Variant {
 }
 
 /*
-        Returns the type of shape (see SHAPE_* constants).
+        Returns the type of shape (see [enum ShapeType] constants).
 	Args: [{ false shape RID}], Returns: enum.PhysicsServer::ShapeType
 */
 func (o *physicsServer) ShapeGetType(shape gdnative.Rid) PhysicsServerShapeType {
@@ -2869,7 +2869,7 @@ func (o *physicsServer) ShapeSetData(shape gdnative.Rid, data gdnative.Variant) 
 }
 
 /*
-        Gets a slider_joint parameter (see SLIDER_JOINT* constants).
+        Gets a slider_joint parameter (see [enum SliderJointParam] constants).
 	Args: [{ false joint RID} { false param int}], Returns: float
 */
 func (o *physicsServer) SliderJointGetParam(joint gdnative.Rid, param gdnative.Int) gdnative.Real {
@@ -2895,7 +2895,7 @@ func (o *physicsServer) SliderJointGetParam(joint gdnative.Rid, param gdnative.I
 }
 
 /*
-        Gets a slider_joint parameter (see SLIDER_JOINT* constants).
+        Gets a slider_joint parameter (see [enum SliderJointParam] constants).
 	Args: [{ false joint RID} { false param int} { false value float}], Returns: void
 */
 func (o *physicsServer) SliderJointSetParam(joint gdnative.Rid, param gdnative.Int, value gdnative.Real) {
@@ -3056,7 +3056,7 @@ func (o *physicsServer) SpaceSetActive(space gdnative.Rid, active gdnative.Bool)
 }
 
 /*
-        Sets the value for a space parameter. A list of available parameters is on the SPACE_PARAM_* constants.
+        Sets the value for a space parameter. A list of available parameters is on the [enum SpaceParameter] constants.
 	Args: [{ false space RID} { false param int} { false value float}], Returns: void
 */
 func (o *physicsServer) SpaceSetParam(space gdnative.Rid, param gdnative.Int, value gdnative.Real) {

@@ -36,7 +36,7 @@ func newXMLParserFromPointer(ptr gdnative.Pointer) XMLParser {
 }
 
 /*
-This class can serve as base to make custom XML parsers. Since XML is a very flexible standard, this interface is low level so it can be applied to any possible schema.
+This class can serve as base to make custom XML parsers. Since XML is a very flexible standard, this interface is low-level so it can be applied to any possible schema.
 */
 type XMLParser struct {
 	Reference
@@ -48,7 +48,7 @@ func (o *XMLParser) BaseClass() string {
 }
 
 /*
-        Get the amount of attributes in the current element.
+        Gets the amount of attributes in the current element.
 	Args: [], Returns: int
 */
 func (o *XMLParser) GetAttributeCount() gdnative.Int {
@@ -71,7 +71,7 @@ func (o *XMLParser) GetAttributeCount() gdnative.Int {
 }
 
 /*
-        Get the name of the attribute specified by the index in [code]idx[/code] argument.
+        Gets the name of the attribute specified by the index in [code]idx[/code] argument.
 	Args: [{ false idx int}], Returns: String
 */
 func (o *XMLParser) GetAttributeName(idx gdnative.Int) gdnative.String {
@@ -95,7 +95,7 @@ func (o *XMLParser) GetAttributeName(idx gdnative.Int) gdnative.String {
 }
 
 /*
-        Get the value of the attribute specified by the index in [code]idx[/code] argument.
+        Gets the value of the attribute specified by the index in [code]idx[/code] argument.
 	Args: [{ false idx int}], Returns: String
 */
 func (o *XMLParser) GetAttributeValue(idx gdnative.Int) gdnative.String {
@@ -119,7 +119,7 @@ func (o *XMLParser) GetAttributeValue(idx gdnative.Int) gdnative.String {
 }
 
 /*
-        Get the current line in the parsed file (currently not implemented).
+        Gets the current line in the parsed file (currently not implemented).
 	Args: [], Returns: int
 */
 func (o *XMLParser) GetCurrentLine() gdnative.Int {
@@ -142,7 +142,7 @@ func (o *XMLParser) GetCurrentLine() gdnative.Int {
 }
 
 /*
-        Get the value of a certain attribute of the current element by name. This will raise an error if the element has no such attribute.
+        Gets the value of a certain attribute of the current element by name. This will raise an error if the element has no such attribute.
 	Args: [{ false name String}], Returns: String
 */
 func (o *XMLParser) GetNamedAttributeValue(name gdnative.String) gdnative.String {
@@ -166,7 +166,7 @@ func (o *XMLParser) GetNamedAttributeValue(name gdnative.String) gdnative.String
 }
 
 /*
-        Get the value of a certain attribute of the current element by name. This will return an empty [String] if the attribute is not found.
+        Gets the value of a certain attribute of the current element by name. This will return an empty [String] if the attribute is not found.
 	Args: [{ false name String}], Returns: String
 */
 func (o *XMLParser) GetNamedAttributeValueSafe(name gdnative.String) gdnative.String {
@@ -190,7 +190,7 @@ func (o *XMLParser) GetNamedAttributeValueSafe(name gdnative.String) gdnative.St
 }
 
 /*
-        Get the contents of a text node. This will raise an error in any other type of node.
+        Gets the contents of a text node. This will raise an error in any other type of node.
 	Args: [], Returns: String
 */
 func (o *XMLParser) GetNodeData() gdnative.String {
@@ -213,7 +213,7 @@ func (o *XMLParser) GetNodeData() gdnative.String {
 }
 
 /*
-        Get the name of the current element node. This will raise an error if the current node type is not [constant NODE_ELEMENT] nor [constant NODE_ELEMENT_END]
+        Gets the name of the current element node. This will raise an error if the current node type is neither [constant NODE_ELEMENT] nor [constant NODE_ELEMENT_END].
 	Args: [], Returns: String
 */
 func (o *XMLParser) GetNodeName() gdnative.String {
@@ -236,7 +236,7 @@ func (o *XMLParser) GetNodeName() gdnative.String {
 }
 
 /*
-        Get the byte offset of the current node since the beginning of the file or buffer.
+        Gets the byte offset of the current node since the beginning of the file or buffer.
 	Args: [], Returns: int
 */
 func (o *XMLParser) GetNodeOffset() gdnative.Int {
@@ -259,7 +259,7 @@ func (o *XMLParser) GetNodeOffset() gdnative.Int {
 }
 
 /*
-        Get the type of the current node. Compare with [code]NODE_*[/code] constants.
+        Gets the type of the current node. Compare with [enum NodeType] constants.
 	Args: [], Returns: enum.XMLParser::NodeType
 */
 func (o *XMLParser) GetNodeType() XMLParserNodeType {
@@ -282,7 +282,7 @@ func (o *XMLParser) GetNodeType() XMLParserNodeType {
 }
 
 /*
-        Check whether or not the current element has a certain attribute.
+        Check whether the current element has a certain attribute.
 	Args: [{ false name String}], Returns: bool
 */
 func (o *XMLParser) HasAttribute(name gdnative.String) gdnative.Bool {
@@ -306,7 +306,7 @@ func (o *XMLParser) HasAttribute(name gdnative.String) gdnative.Bool {
 }
 
 /*
-        Check whether the current element is empty (this only works for completely empty tags, e.g. <element \>).
+        Check whether the current element is empty (this only works for completely empty tags, e.g. [code]<element \>[/code]).
 	Args: [], Returns: bool
 */
 func (o *XMLParser) IsEmpty() gdnative.Bool {
@@ -329,7 +329,7 @@ func (o *XMLParser) IsEmpty() gdnative.Bool {
 }
 
 /*
-        Open a XML file for parsing. This returns an error code.
+        Opens an XML file for parsing. This returns an error code.
 	Args: [{ false file String}], Returns: enum.Error
 */
 func (o *XMLParser) Open(file gdnative.String) gdnative.Error {
@@ -353,7 +353,7 @@ func (o *XMLParser) Open(file gdnative.String) gdnative.Error {
 }
 
 /*
-        Open a XML raw buffer for parsing. This returns an error code.
+        Opens an XML raw buffer for parsing. This returns an error code.
 	Args: [{ false buffer PoolByteArray}], Returns: enum.Error
 */
 func (o *XMLParser) OpenBuffer(buffer gdnative.PoolByteArray) gdnative.Error {
@@ -377,7 +377,7 @@ func (o *XMLParser) OpenBuffer(buffer gdnative.PoolByteArray) gdnative.Error {
 }
 
 /*
-        Read the next node of the file. This returns an error code.
+        Reads the next node of the file. This returns an error code.
 	Args: [], Returns: enum.Error
 */
 func (o *XMLParser) Read() gdnative.Error {
@@ -400,7 +400,7 @@ func (o *XMLParser) Read() gdnative.Error {
 }
 
 /*
-        Move the buffer cursor to a certain offset (since the beginning) and read the next node there. This returns an error code.
+        Moves the buffer cursor to a certain offset (since the beginning) and read the next node there. This returns an error code.
 	Args: [{ false position int}], Returns: enum.Error
 */
 func (o *XMLParser) Seek(position gdnative.Int) gdnative.Error {

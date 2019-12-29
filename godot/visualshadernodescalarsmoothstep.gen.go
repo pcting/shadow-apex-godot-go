@@ -23,8 +23,8 @@ func newVisualShaderNodeScalarSmoothStepFromPointer(ptr gdnative.Pointer) Visual
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeScalarSmoothStep struct {
 	VisualShaderNode
 	owner gdnative.Object

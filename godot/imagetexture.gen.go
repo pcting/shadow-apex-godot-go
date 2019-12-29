@@ -65,7 +65,7 @@ func (o *ImageTexture) X_ReloadHook(rid gdnative.Rid) {
 }
 
 /*
-        Create a new [code]ImageTexture[/code] with [code]width[/code] and [code]height[/code]. [code]format[/code] is a value from [enum Image.Format], [code]flags[/code] is any combination of [enum Texture.Flags].
+        Create a new [ImageTexture] with [code]width[/code] and [code]height[/code]. [code]format[/code] is a value from [enum Image.Format], [code]flags[/code] is any combination of [enum Texture.Flags].
 	Args: [{ false width int} { false height int} { false format int} {7 true flags int}], Returns: void
 */
 func (o *ImageTexture) Create(width gdnative.Int, height gdnative.Int, format gdnative.Int, flags gdnative.Int) {
@@ -89,7 +89,7 @@ func (o *ImageTexture) Create(width gdnative.Int, height gdnative.Int, format gd
 }
 
 /*
-        Create a new [code]ImageTexture[/code] from an [Image] with [code]flags[/code] from [enum Texture.Flags]. An sRGB to linear color space conversion can take place, according to [enum Image.Format].
+        Create a new [ImageTexture] from an [Image] with [code]flags[/code] from [enum Texture.Flags]. An sRGB to linear color space conversion can take place, according to [enum Image.Format].
 	Args: [{ false image Image} {7 true flags int}], Returns: void
 */
 func (o *ImageTexture) CreateFromImage(image ImageImplementer, flags gdnative.Int) {
@@ -111,7 +111,7 @@ func (o *ImageTexture) CreateFromImage(image ImageImplementer, flags gdnative.In
 }
 
 /*
-        Returns the format of the [code]ImageTexture[/code], one of [enum Image.Format].
+        Returns the format of the [ImageTexture], one of [enum Image.Format].
 	Args: [], Returns: enum.Image::Format
 */
 func (o *ImageTexture) GetFormat() ImageFormat {
@@ -180,7 +180,7 @@ func (o *ImageTexture) GetStorage() ImageTextureStorage {
 }
 
 /*
-        Load an [code]ImageTexture[/code] from a file path.
+        Load an [ImageTexture] from a file path.
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *ImageTexture) Load(path gdnative.String) gdnative.Error {
@@ -204,7 +204,7 @@ func (o *ImageTexture) Load(path gdnative.String) gdnative.Error {
 }
 
 /*
-        Set the [Image] of this [code]ImageTexture[/code].
+        Sets the [Image] of this [ImageTexture].
 	Args: [{ false image Image}], Returns: void
 */
 func (o *ImageTexture) SetData(image ImageImplementer) {
@@ -246,7 +246,7 @@ func (o *ImageTexture) SetLossyStorageQuality(quality gdnative.Real) {
 }
 
 /*
-        Resizes the [code]ImageTexture[/code] to the specified dimensions.
+        Resizes the [ImageTexture] to the specified dimensions.
 	Args: [{ false size Vector2}], Returns: void
 */
 func (o *ImageTexture) SetSizeOverride(size gdnative.Vector2) {

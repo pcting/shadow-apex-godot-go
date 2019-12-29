@@ -32,7 +32,7 @@ func newSplitContainerFromPointer(ptr gdnative.Pointer) SplitContainer {
 }
 
 /*
-Container for splitting two controls vertically or horizontally, with a grabber that allows adjusting the split offset or ratio.
+Container for splitting two [Control]s vertically or horizontally, with a grabber that allows adjusting the split offset or ratio.
 */
 type SplitContainer struct {
 	Container
@@ -65,7 +65,7 @@ func (o *SplitContainer) X_GuiInput(arg0 InputEventImplementer) {
 }
 
 /*
-
+        Clamps the [member split_offset] value to not go outside the currently possible minimal and maximum values.
 	Args: [], Returns: void
 */
 func (o *SplitContainer) ClampSplitOffset() {

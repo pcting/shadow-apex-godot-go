@@ -48,12 +48,12 @@ func newSingletonARVRServer() *arvrServer {
 }
 
 /*
-   The AR/VR Server is the heart of our AR/VR solution and handles all the processing.
+   The AR/VR server is the heart of our AR/VR solution and handles all the processing.
 */
 var ARVRServer = newSingletonARVRServer()
 
 /*
-The AR/VR Server is the heart of our AR/VR solution and handles all the processing.
+The AR/VR server is the heart of our AR/VR solution and handles all the processing.
 */
 type arvrServer struct {
 	Object
@@ -78,7 +78,7 @@ func (o *arvrServer) BaseClass() string {
 }
 
 /*
-        This is a really important function to understand correctly. AR and VR platforms all handle positioning slightly differently. For platforms that do not offer spatial tracking our origin point (0,0,0) is the location of our HMD but you have little control over the direction the player is facing in the real world. For platforms that do offer spatial tracking our origin point depends very much on the system. For OpenVR our origin point is usually the center of the tracking space, on the ground. For other platforms its often the location of the tracking camera. This method allows you to center our tracker on the location of the HMD, it will take the current location of the HMD and use that to adjust all our tracking data in essence realigning the real world to your players current position in your game world. For this method to produce usable results tracking information should be available and this often takes a few frames after starting your game. You should call this method after a few seconds have passed, when the user requests a realignment of the display holding a designated button on a controller for a short period of time, and when implementing a teleport mechanism.
+        This is an important function to understand correctly. AR and VR platforms all handle positioning slightly differently. For platforms that do not offer spatial tracking, our origin point (0,0,0) is the location of our HMD, but you have little control over the direction the player is facing in the real world. For platforms that do offer spatial tracking, our origin point depends very much on the system. For OpenVR, our origin point is usually the center of the tracking space, on the ground. For other platforms, it's often the location of the tracking camera. This method allows you to center your tracker on the location of the HMD. It will take the current location of the HMD and use that to adjust all your tracking data; in essence, realigning the real world to your player's current position in the game world. For this method to produce usable results, tracking information must be available. This often takes a few frames after starting your game. You should call this method after a few seconds have passed. For instance, when the user requests a realignment of the display holding a designated button on a controller for a short period of time, or when implementing a teleport mechanism.
 	Args: [{ false rotation_mode int} { false keep_height bool}], Returns: void
 */
 func (o *arvrServer) CenterOnHmd(rotationMode gdnative.Int, keepHeight gdnative.Bool) {
@@ -101,7 +101,7 @@ func (o *arvrServer) CenterOnHmd(rotationMode gdnative.Int, keepHeight gdnative.
 }
 
 /*
-        Find an interface by its name. Say that you're making a game that uses specific capabilities of an AR/VR platform you can find the interface for that platform by name and initialize it.
+        Finds an interface by its name. For instance, if your project uses capabilities of an AR/VR platform, you can find the interface for that platform by name and initialize it.
 	Args: [{ false name String}], Returns: ARVRInterface
 */
 func (o *arvrServer) FindInterface(name gdnative.String) ARVRInterfaceImplementer {
@@ -164,7 +164,7 @@ func (o *arvrServer) GetHmdTransform() gdnative.Transform {
 }
 
 /*
-        Get the interface registered at a given index in our list of interfaces.
+        Gets the interface registered at a given index in our list of interfaces.
 	Args: [{ false idx int}], Returns: ARVRInterface
 */
 func (o *arvrServer) GetInterface(idx gdnative.Int) ARVRInterfaceImplementer {
@@ -203,7 +203,7 @@ func (o *arvrServer) GetInterface(idx gdnative.Int) ARVRInterfaceImplementer {
 }
 
 /*
-        Get the number of interfaces currently registered with the AR/VR server. If your game supports multiple AR/VR platforms, you can look through the available interface, and either present the user with a selection or simply try an initialize each interface and use the first one that returns [code]true[/code].
+        Gets the number of interfaces currently registered with the AR/VR server. If your project supports multiple AR/VR platforms, you can look through the available interface, and either present the user with a selection or simply try to initialize each interface and use the first one that returns [code]true[/code].
 	Args: [], Returns: int
 */
 func (o *arvrServer) GetInterfaceCount() gdnative.Int {
@@ -227,7 +227,7 @@ func (o *arvrServer) GetInterfaceCount() gdnative.Int {
 }
 
 /*
-        Returns a list of available interfaces with both id and name of the interface.
+        Returns a list of available interfaces the ID and name of each interface.
 	Args: [], Returns: Array
 */
 func (o *arvrServer) GetInterfaces() gdnative.Array {
@@ -361,7 +361,7 @@ func (o *arvrServer) GetPrimaryInterface() ARVRInterfaceImplementer {
 }
 
 /*
-        Gets our reference frame transform, mostly used internally and exposed for GDNative build interfaces.
+        Gets the reference frame transform. Mostly used internally and exposed for GDNative build interfaces.
 	Args: [], Returns: Transform
 */
 func (o *arvrServer) GetReferenceFrame() gdnative.Transform {
@@ -385,7 +385,7 @@ func (o *arvrServer) GetReferenceFrame() gdnative.Transform {
 }
 
 /*
-        Get the positional tracker at the given ID.
+        Gets the positional tracker at the given ID.
 	Args: [{ false idx int}], Returns: ARVRPositionalTracker
 */
 func (o *arvrServer) GetTracker(idx gdnative.Int) ARVRPositionalTrackerImplementer {
@@ -424,7 +424,7 @@ func (o *arvrServer) GetTracker(idx gdnative.Int) ARVRPositionalTrackerImplement
 }
 
 /*
-        Get the number of trackers currently registered.
+        Gets the number of trackers currently registered.
 	Args: [], Returns: int
 */
 func (o *arvrServer) GetTrackerCount() gdnative.Int {

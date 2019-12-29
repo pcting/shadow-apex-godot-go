@@ -23,7 +23,7 @@ func newMeshLibraryFromPointer(ptr gdnative.Pointer) MeshLibrary {
 }
 
 /*
-Library of meshes. Contains a list of [Mesh] resources, each with name and ID. Useful for GridMap or painting Terrain.
+A library of meshes. Contains a list of [Mesh] resources, each with a name and ID. Each item can also include collision and navigation shapes. This resource is used in [GridMap].
 */
 type MeshLibrary struct {
 	Resource
@@ -35,7 +35,7 @@ func (o *MeshLibrary) BaseClass() string {
 }
 
 /*
-        Clear the library.
+        Clears the library.
 	Args: [], Returns: void
 */
 func (o *MeshLibrary) Clear() {
@@ -55,7 +55,7 @@ func (o *MeshLibrary) Clear() {
 }
 
 /*
-        Create a new item in the library, supplied an id.
+        Creates a new item in the library with the given ID. You can get an unused ID from [method get_last_unused_item_id].
 	Args: [{ false id int}], Returns: void
 */
 func (o *MeshLibrary) CreateItem(id gdnative.Int) {
@@ -76,7 +76,7 @@ func (o *MeshLibrary) CreateItem(id gdnative.Int) {
 }
 
 /*
-
+        Returns the first item with the given name.
 	Args: [{ false name String}], Returns: int
 */
 func (o *MeshLibrary) FindItemByName(name gdnative.String) gdnative.Int {
@@ -100,7 +100,7 @@ func (o *MeshLibrary) FindItemByName(name gdnative.String) gdnative.Int {
 }
 
 /*
-        Returns the list of items.
+        Returns the list of item IDs in use.
 	Args: [], Returns: PoolIntArray
 */
 func (o *MeshLibrary) GetItemList() gdnative.PoolIntArray {
@@ -123,7 +123,7 @@ func (o *MeshLibrary) GetItemList() gdnative.PoolIntArray {
 }
 
 /*
-        Returns the mesh of the item.
+        Returns the item's mesh.
 	Args: [{ false id int}], Returns: Mesh
 */
 func (o *MeshLibrary) GetItemMesh(id gdnative.Int) MeshImplementer {
@@ -161,7 +161,7 @@ func (o *MeshLibrary) GetItemMesh(id gdnative.Int) MeshImplementer {
 }
 
 /*
-        Returns the name of the item.
+        Returns the item's name.
 	Args: [{ false id int}], Returns: String
 */
 func (o *MeshLibrary) GetItemName(id gdnative.Int) gdnative.String {
@@ -185,7 +185,7 @@ func (o *MeshLibrary) GetItemName(id gdnative.Int) gdnative.String {
 }
 
 /*
-
+        Returns the item's navigation mesh.
 	Args: [{ false id int}], Returns: NavigationMesh
 */
 func (o *MeshLibrary) GetItemNavmesh(id gdnative.Int) NavigationMeshImplementer {
@@ -223,7 +223,7 @@ func (o *MeshLibrary) GetItemNavmesh(id gdnative.Int) NavigationMeshImplementer 
 }
 
 /*
-        Undocumented
+        Returns the transform applied to the item's navigation mesh.
 	Args: [{ false id int}], Returns: Transform
 */
 func (o *MeshLibrary) GetItemNavmeshTransform(id gdnative.Int) gdnative.Transform {
@@ -247,7 +247,7 @@ func (o *MeshLibrary) GetItemNavmeshTransform(id gdnative.Int) gdnative.Transfor
 }
 
 /*
-
+        Returns a generated item preview (a 3D rendering in isometric perspective). [b]Note:[/b] Since item previews are only generated in an editor context, this function will return an empty [Texture] in a running project.
 	Args: [{ false id int}], Returns: Texture
 */
 func (o *MeshLibrary) GetItemPreview(id gdnative.Int) TextureImplementer {
@@ -285,7 +285,7 @@ func (o *MeshLibrary) GetItemPreview(id gdnative.Int) TextureImplementer {
 }
 
 /*
-
+        Returns an item's collision shapes. The array consists of each [Shape] followed by its [Transform].
 	Args: [{ false id int}], Returns: Array
 */
 func (o *MeshLibrary) GetItemShapes(id gdnative.Int) gdnative.Array {
@@ -309,7 +309,7 @@ func (o *MeshLibrary) GetItemShapes(id gdnative.Int) gdnative.Array {
 }
 
 /*
-        Get an unused id for a new item.
+        Gets an unused ID for a new item.
 	Args: [], Returns: int
 */
 func (o *MeshLibrary) GetLastUnusedItemId() gdnative.Int {
@@ -332,7 +332,7 @@ func (o *MeshLibrary) GetLastUnusedItemId() gdnative.Int {
 }
 
 /*
-        Remove the item.
+        Removes the item.
 	Args: [{ false id int}], Returns: void
 */
 func (o *MeshLibrary) RemoveItem(id gdnative.Int) {
@@ -353,7 +353,7 @@ func (o *MeshLibrary) RemoveItem(id gdnative.Int) {
 }
 
 /*
-        Set the mesh of the item.
+        Sets the item's mesh.
 	Args: [{ false id int} { false mesh Mesh}], Returns: void
 */
 func (o *MeshLibrary) SetItemMesh(id gdnative.Int, mesh MeshImplementer) {
@@ -375,7 +375,7 @@ func (o *MeshLibrary) SetItemMesh(id gdnative.Int, mesh MeshImplementer) {
 }
 
 /*
-        Set the name of the item.
+        Sets the item's name. This name is shown in the editor. It can also be used to look up the item later using [method find_item_by_name].
 	Args: [{ false id int} { false name String}], Returns: void
 */
 func (o *MeshLibrary) SetItemName(id gdnative.Int, name gdnative.String) {
@@ -397,7 +397,7 @@ func (o *MeshLibrary) SetItemName(id gdnative.Int, name gdnative.String) {
 }
 
 /*
-
+        Sets the item's navigation mesh.
 	Args: [{ false id int} { false navmesh NavigationMesh}], Returns: void
 */
 func (o *MeshLibrary) SetItemNavmesh(id gdnative.Int, navmesh NavigationMeshImplementer) {
@@ -419,7 +419,7 @@ func (o *MeshLibrary) SetItemNavmesh(id gdnative.Int, navmesh NavigationMeshImpl
 }
 
 /*
-        Undocumented
+        Sets the transform to apply to the item's navigation mesh.
 	Args: [{ false id int} { false navmesh Transform}], Returns: void
 */
 func (o *MeshLibrary) SetItemNavmeshTransform(id gdnative.Int, navmesh gdnative.Transform) {
@@ -441,7 +441,7 @@ func (o *MeshLibrary) SetItemNavmeshTransform(id gdnative.Int, navmesh gdnative.
 }
 
 /*
-
+        Sets a texture to use as the item's preview icon in the editor.
 	Args: [{ false id int} { false texture Texture}], Returns: void
 */
 func (o *MeshLibrary) SetItemPreview(id gdnative.Int, texture TextureImplementer) {
@@ -463,7 +463,7 @@ func (o *MeshLibrary) SetItemPreview(id gdnative.Int, texture TextureImplementer
 }
 
 /*
-
+        Sets an item's collision shapes. The array should consist of [Shape] objects, each followed by a [Transform] that will be applied to it. For shapes that should not have a transform, use [constant Transform.IDENTITY].
 	Args: [{ false id int} { false shapes Array}], Returns: void
 */
 func (o *MeshLibrary) SetItemShapes(id gdnative.Int, shapes gdnative.Array) {

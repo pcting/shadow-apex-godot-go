@@ -23,7 +23,7 @@ func newEditorScriptFromPointer(ptr gdnative.Pointer) EditorScript {
 }
 
 /*
-Scripts extending this class and implementing its [code]_run()[/code] method can be executed from the Script Editor's [code]File -> Run[/code] menu option (or by pressing [code]CTRL+Shift+X[/code]) while the editor is running. This is useful for adding custom in-editor functionality to Godot. For more complex additions, consider using [EditorPlugin]s instead. Note that extending scripts need to have [code]tool mode[/code] enabled. Example script: [codeblock] tool extends EditorScript func _run(): print("Hello from the Godot Editor!") [/codeblock] Note that the script is run in the Editor context, which means the output is visible in the console window started with the Editor (STDOUT) instead of the usual Godot [i]Output[/i] dock.
+Scripts extending this class and implementing its [method _run] method can be executed from the Script Editor's [b]File > Run[/b] menu option (or by pressing [code]Ctrl+Shift+X[/code]) while the editor is running. This is useful for adding custom in-editor functionality to Godot. For more complex additions, consider using [EditorPlugin]s instead. [b]Note:[/b] Extending scripts need to have [code]tool[/code] mode enabled. [b]Example script:[/b] [codeblock] tool extends EditorScript func _run(): print("Hello from the Godot Editor!") [/codeblock] [b]Note:[/b] The script is run in the Editor context, which means the output is visible in the console window started with the Editor (stdout) instead of the usual Godot [b]Output[/b] dock.
 */
 type EditorScript struct {
 	Reference
@@ -35,7 +35,7 @@ func (o *EditorScript) BaseClass() string {
 }
 
 /*
-        This method is executed by the Editor when [code]File -> Run[/code] is used.
+        This method is executed by the Editor when [b]File > Run[/b] is used.
 	Args: [], Returns: void
 */
 func (o *EditorScript) X_Run() {
@@ -55,7 +55,7 @@ func (o *EditorScript) X_Run() {
 }
 
 /*
-        Adds [code]node[/code] as a child of the root node in the editor context. WARNING: The implementation of this method is currently disabled.
+        Adds [code]node[/code] as a child of the root node in the editor context. [b]Warning:[/b] The implementation of this method is currently disabled.
 	Args: [{ false node Node}], Returns: void
 */
 func (o *EditorScript) AddRootNode(node NodeImplementer) {

@@ -23,7 +23,7 @@ func newScrollBarFromPointer(ptr gdnative.Pointer) ScrollBar {
 }
 
 /*
-Scrollbars are a [Range] based [Control], that display a draggable area (the size of the page). Horizontal ([HScrollBar]) and Vertical ([VScrollBar]) versions are available.
+Scrollbars are a [Range]-based [Control], that display a draggable area (the size of the page). Horizontal ([HScrollBar]) and Vertical ([VScrollBar]) versions are available.
 */
 type ScrollBar struct {
 	Range

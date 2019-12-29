@@ -167,7 +167,7 @@ func (o *BitmapFont) X_SetTextures(arg0 gdnative.Array) {
 }
 
 /*
-        Adds a character to the font, where [code]character[/code] is the unicode value, [code]texture[/code] is the texture index, [code]rect[/code] is the region in the texture (in pixels!), [code]align[/code] is the (optional) alignment for the character and [code]advance[/code] is the (optional) advance.
+        Adds a character to the font, where [code]character[/code] is the Unicode value, [code]texture[/code] is the texture index, [code]rect[/code] is the region in the texture (in pixels!), [code]align[/code] is the (optional) alignment for the character and [code]advance[/code] is the (optional) advance.
 	Args: [{ false character int} { false texture int} { false rect Rect2} {(0, 0) true align Vector2} {-1 true advance float}], Returns: void
 */
 func (o *BitmapFont) AddChar(character gdnative.Int, texture gdnative.Int, rect gdnative.Rect2, align gdnative.Vector2, advance gdnative.Real) {
@@ -192,7 +192,7 @@ func (o *BitmapFont) AddChar(character gdnative.Int, texture gdnative.Int, rect 
 }
 
 /*
-        Adds a kerning pair to the [code]BitmapFont[/code] as a difference. Kerning pairs are special cases where a typeface advance is determined by the next character.
+        Adds a kerning pair to the [BitmapFont] as a difference. Kerning pairs are special cases where a typeface advance is determined by the next character.
 	Args: [{ false char_a int} { false char_b int} { false kerning int}], Returns: void
 */
 func (o *BitmapFont) AddKerningPair(charA gdnative.Int, charB gdnative.Int, kerning gdnative.Int) {
@@ -215,7 +215,7 @@ func (o *BitmapFont) AddKerningPair(charA gdnative.Int, charB gdnative.Int, kern
 }
 
 /*
-        Adds a texture to the [code]BitmapFont[/code].
+        Adds a texture to the [BitmapFont].
 	Args: [{ false texture Texture}], Returns: void
 */
 func (o *BitmapFont) AddTexture(texture TextureImplementer) {

@@ -37,12 +37,12 @@ func newSingletonAudioServer() *audioServer {
 }
 
 /*
-   AudioServer is a low level server interface for audio access. It is in charge of creating sample data (playable audio) as well as its playback via a voice interface.
+   AudioServer is a low-level server interface for audio access. It is in charge of creating sample data (playable audio) as well as its playback via a voice interface.
 */
 var AudioServer = newSingletonAudioServer()
 
 /*
-AudioServer is a low level server interface for audio access. It is in charge of creating sample data (playable audio) as well as its playback via a voice interface.
+AudioServer is a low-level server interface for audio access. It is in charge of creating sample data (playable audio) as well as its playback via a voice interface.
 */
 type audioServer struct {
 	Object
@@ -113,7 +113,7 @@ func (o *audioServer) AddBusEffect(busIdx gdnative.Int, effect AudioEffectImplem
 }
 
 /*
-
+        Undocumented
 	Args: [], Returns: String
 */
 func (o *audioServer) CaptureGetDevice() gdnative.String {
@@ -137,7 +137,7 @@ func (o *audioServer) CaptureGetDevice() gdnative.String {
 }
 
 /*
-
+        Returns the names of all audio input devices detected on the system.
 	Args: [], Returns: Array
 */
 func (o *audioServer) CaptureGetDeviceList() gdnative.Array {
@@ -161,7 +161,7 @@ func (o *audioServer) CaptureGetDeviceList() gdnative.Array {
 }
 
 /*
-
+        Undocumented
 	Args: [{ false name String}], Returns: void
 */
 func (o *audioServer) CaptureSetDevice(name gdnative.String) {
@@ -183,7 +183,7 @@ func (o *audioServer) CaptureSetDevice(name gdnative.String) {
 }
 
 /*
-        Undocumented
+        Attempts to start recording from the audio driver's capture device. On success, the return value is [constant OK].
 	Args: [], Returns: enum.Error
 */
 func (o *audioServer) CaptureStart() gdnative.Error {
@@ -207,7 +207,7 @@ func (o *audioServer) CaptureStart() gdnative.Error {
 }
 
 /*
-        Undocumented
+        Attempts to stop recording from the audio driver's capture device. On success, the return value is [constant OK].
 	Args: [], Returns: enum.Error
 */
 func (o *audioServer) CaptureStop() gdnative.Error {
@@ -294,7 +294,7 @@ func (o *audioServer) GetBusChannels(busIdx gdnative.Int) gdnative.Int {
 }
 
 /*
-        Returns the number of available buses.
+        Undocumented
 	Args: [], Returns: int
 */
 func (o *audioServer) GetBusCount() gdnative.Int {
@@ -576,7 +576,7 @@ func (o *audioServer) GetBusVolumeDb(busIdx gdnative.Int) gdnative.Real {
 }
 
 /*
-        Undocumented
+        Returns an [PoolIntArray] containing audio frames from the capture device.
 	Args: [], Returns: PoolIntArray
 */
 func (o *audioServer) GetCaptureBuffer() gdnative.PoolIntArray {
@@ -600,7 +600,7 @@ func (o *audioServer) GetCaptureBuffer() gdnative.PoolIntArray {
 }
 
 /*
-        Undocumented
+        Returns the write position of the capture device buffer.
 	Args: [], Returns: int
 */
 func (o *audioServer) GetCapturePosition() gdnative.Int {
@@ -624,7 +624,7 @@ func (o *audioServer) GetCapturePosition() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns the size of the capture device buffer.
 	Args: [], Returns: int
 */
 func (o *audioServer) GetCaptureSize() gdnative.Int {
@@ -648,7 +648,7 @@ func (o *audioServer) GetCaptureSize() gdnative.Int {
 }
 
 /*
-
+        Undocumented
 	Args: [], Returns: String
 */
 func (o *audioServer) GetDevice() gdnative.String {
@@ -672,7 +672,7 @@ func (o *audioServer) GetDevice() gdnative.String {
 }
 
 /*
-
+        Returns the names of all audio output devices detected on the system.
 	Args: [], Returns: Array
 */
 func (o *audioServer) GetDeviceList() gdnative.Array {
@@ -720,7 +720,7 @@ func (o *audioServer) GetGlobalRateScale() gdnative.Real {
 }
 
 /*
-        Returns the sample rate at the output of the audioserver.
+        Returns the sample rate at the output of the [AudioServer].
 	Args: [], Returns: float
 */
 func (o *audioServer) GetMixRate() gdnative.Real {
@@ -744,7 +744,7 @@ func (o *audioServer) GetMixRate() gdnative.Real {
 }
 
 /*
-        Undocumented
+        Returns the audio driver's output latency.
 	Args: [], Returns: float
 */
 func (o *audioServer) GetOutputLatency() gdnative.Real {
@@ -792,7 +792,7 @@ func (o *audioServer) GetSpeakerMode() AudioServerSpeakerMode {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: float
 */
 func (o *audioServer) GetTimeSinceLastMix() gdnative.Real {
@@ -816,7 +816,7 @@ func (o *audioServer) GetTimeSinceLastMix() gdnative.Real {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: float
 */
 func (o *audioServer) GetTimeToNextMix() gdnative.Real {
@@ -941,7 +941,7 @@ func (o *audioServer) IsBusSolo(busIdx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Locks the audio drivers mainloop. Remember to unlock it afterwards.
+        Locks the audio driver's main loop. Remember to unlock it afterwards.
 	Args: [], Returns: void
 */
 func (o *audioServer) Lock() {
@@ -1053,7 +1053,7 @@ func (o *audioServer) SetBusBypassEffects(busIdx gdnative.Int, enable gdnative.B
 }
 
 /*
-        Adds and removes buses to make the number of buses match [code]amount[/code].
+        Undocumented
 	Args: [{ false amount int}], Returns: void
 */
 func (o *audioServer) SetBusCount(amount gdnative.Int) {
@@ -1236,7 +1236,7 @@ func (o *audioServer) SetBusVolumeDb(busIdx gdnative.Int, volumeDb gdnative.Real
 }
 
 /*
-
+        Undocumented
 	Args: [{ false device String}], Returns: void
 */
 func (o *audioServer) SetDevice(device gdnative.String) {
@@ -1304,7 +1304,7 @@ func (o *audioServer) SwapBusEffects(busIdx gdnative.Int, effectIdx gdnative.Int
 }
 
 /*
-        Unlocks the audiodriver's main loop. After locking it always unlock it.
+        Unlocks the audio driver's main loop. (After locking it, you should always unlock it.)
 	Args: [], Returns: void
 */
 func (o *audioServer) Unlock() {

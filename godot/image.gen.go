@@ -107,7 +107,7 @@ func newImageFromPointer(ptr gdnative.Pointer) Image {
 }
 
 /*
-Native image datatype. Contains image data, which can be converted to a [Texture], and several functions to interact with it. The maximum width and height for an [code]Image[/code] are [constant MAX_WIDTH] and [constant MAX_HEIGHT].
+Native image datatype. Contains image data, which can be converted to a [Texture], and several functions to interact with it. The maximum width and height for an [Image] are [constant MAX_WIDTH] and [constant MAX_HEIGHT].
 */
 type Image struct {
 	Resource
@@ -257,7 +257,7 @@ func (o *Image) BlitRectMask(src ImageImplementer, mask ImageImplementer, srcRec
 }
 
 /*
-
+        Converts a bumpmap to a normalmap. A bumpmap provides a height offset per-pixel, while a normalmap provides a normal direction per pixel.
 	Args: [{1 true bump_scale float}], Returns: void
 */
 func (o *Image) BumpmapToNormalmap(bumpScale gdnative.Real) {
@@ -298,7 +298,7 @@ func (o *Image) ClearMipmaps() {
 }
 
 /*
-        Compresses the image to use less memory. Can not directly access pixel data while the image is compressed. Returns error if the chosen compression mode is not available. See [code]COMPRESS_*[/code] constants.
+        Compresses the image to use less memory. Can not directly access pixel data while the image is compressed. Returns error if the chosen compression mode is not available. See [enum CompressMode] and [enum CompressSource] constants.
 	Args: [{ false mode int} { false source int} { false lossy_quality float}], Returns: enum.Error
 */
 func (o *Image) Compress(mode gdnative.Int, source gdnative.Int, lossyQuality gdnative.Real) gdnative.Error {
@@ -324,7 +324,7 @@ func (o *Image) Compress(mode gdnative.Int, source gdnative.Int, lossyQuality gd
 }
 
 /*
-        Converts the image's format. See [code]FORMAT_*[/code] constants.
+        Converts the image's format. See [enum Format] constants.
 	Args: [{ false format int}], Returns: void
 */
 func (o *Image) Convert(format gdnative.Int) {
@@ -366,7 +366,7 @@ func (o *Image) CopyFrom(src ImageImplementer) {
 }
 
 /*
-        Creates an empty image of given size and format. See [code]FORMAT_*[/code] constants. If [code]use_mipmaps[/code] is [code]true[/code] then generate mipmaps for this image. See the [code]generate_mipmaps[/code] method.
+        Creates an empty image of given size and format. See [enum Format] constants. If [code]use_mipmaps[/code] is [code]true[/code] then generate mipmaps for this image. See the [method generate_mipmaps].
 	Args: [{ false width int} { false height int} { false use_mipmaps bool} { false format int}], Returns: void
 */
 func (o *Image) Create(width gdnative.Int, height gdnative.Int, useMipmaps gdnative.Bool, format gdnative.Int) {
@@ -390,7 +390,7 @@ func (o *Image) Create(width gdnative.Int, height gdnative.Int, useMipmaps gdnat
 }
 
 /*
-        Creates a new image of given size and format. See [code]FORMAT_*[/code] constants. Fills the image with the given raw data. If [code]use_mipmaps[/code] is [code]true[/code] then generate mipmaps for this image. See the [code]generate_mipmaps[/code] method.
+        Creates a new image of given size and format. See [enum Format] constants. Fills the image with the given raw data. If [code]use_mipmaps[/code] is [code]true[/code] then generate mipmaps for this image. See the [method generate_mipmaps].
 	Args: [{ false width int} { false height int} { false use_mipmaps bool} { false format int} { false data PoolByteArray}], Returns: void
 */
 func (o *Image) CreateFromData(width gdnative.Int, height gdnative.Int, useMipmaps gdnative.Bool, format gdnative.Int, data gdnative.PoolByteArray) {
@@ -460,7 +460,7 @@ func (o *Image) Decompress() gdnative.Error {
 }
 
 /*
-        Returns ALPHA_BLEND if the image has data for alpha values. Returns ALPHA_BIT if all the alpha values are below a certain threshold or the maximum value. Returns ALPHA_NONE if no data for alpha values is found.
+        Returns [constant ALPHA_BLEND] if the image has data for alpha values. Returns [constant ALPHA_BIT] if all the alpha values are stored in a single bit. Returns [constant ALPHA_NONE] if no data for alpha values is found.
 	Args: [], Returns: enum.Image::AlphaMode
 */
 func (o *Image) DetectAlpha() ImageAlphaMode {
@@ -631,7 +631,7 @@ func (o *Image) GetData() gdnative.PoolByteArray {
 }
 
 /*
-        Returns the image's format. See [code]FORMAT_*[/code] constants.
+        Returns the image's format. See [enum Format] constants.
 	Args: [], Returns: enum.Image::Format
 */
 func (o *Image) GetFormat() ImageFormat {
@@ -701,7 +701,7 @@ func (o *Image) GetMipmapOffset(mipmap gdnative.Int) gdnative.Int {
 }
 
 /*
-        Returns the color of the pixel at [code](x, y)[/code] if the image is locked. If the image is unlocked it always returns a [Color] with the value [code](0, 0, 0, 1.0)[/code].
+        Returns the color of the pixel at [code](x, y)[/code] if the image is locked. If the image is unlocked, it always returns a [Color] with the value [code](0, 0, 0, 1.0)[/code]. This is the same as [method get_pixelv], but two integer arguments instead of a Vector2 argument.
 	Args: [{ false x int} { false y int}], Returns: Color
 */
 func (o *Image) GetPixel(x gdnative.Int, y gdnative.Int) gdnative.Color {
@@ -726,7 +726,7 @@ func (o *Image) GetPixel(x gdnative.Int, y gdnative.Int) gdnative.Color {
 }
 
 /*
-
+        Returns the color of the pixel at [code]src[/code] if the image is locked. If the image is unlocked, it always returns a [Color] with the value [code](0, 0, 0, 1.0)[/code]. This is the same as [method get_pixel], but with a Vector2 argument instead of two integer arguments.
 	Args: [{ false src Vector2}], Returns: Color
 */
 func (o *Image) GetPixelv(src gdnative.Vector2) gdnative.Color {
@@ -1149,7 +1149,7 @@ func (o *Image) ResizeToPo2(square gdnative.Bool) {
 }
 
 /*
-
+        Converts a standard RGBE (Red Green Blue Exponent) image to an sRGB image.
 	Args: [], Returns: Image
 */
 func (o *Image) RgbeToSrgb() ImageImplementer {
@@ -1186,7 +1186,7 @@ func (o *Image) RgbeToSrgb() ImageImplementer {
 }
 
 /*
-        Undocumented
+        Saves the image as an EXR file to [code]path[/code]. If [code]grayscale[/code] is [code]true[/code] and the image has only one channel, it will be saved explicitly as monochrome rather than one red channel. This function will return [constant ERR_UNAVAILABLE] if Godot was compiled without the TinyEXR module.
 	Args: [{ false path String} {False true grayscale bool}], Returns: enum.Error
 */
 func (o *Image) SaveExr(path gdnative.String, grayscale gdnative.Bool) gdnative.Error {
@@ -1258,7 +1258,7 @@ func (o *Image) SetPixel(x gdnative.Int, y gdnative.Int, color gdnative.Color) {
 }
 
 /*
-
+        Sets the [Color] of the pixel at [code](dst.x, dst.y)[/code] if the image is locked. Note that the [code]dst[/code] values must be integers. Example: [codeblock] var img = Image.new() img.create(img_width, img_height, false, Image.FORMAT_RGBA8) img.lock() img.set_pixelv(Vector2(x, y), color) # Works img.unlock() img.set_pixelv(Vector2(x, y), color) # Does not have an effect [/codeblock]
 	Args: [{ false dst Vector2} { false color Color}], Returns: void
 */
 func (o *Image) SetPixelv(dst gdnative.Vector2, color gdnative.Color) {

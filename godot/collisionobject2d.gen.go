@@ -105,7 +105,7 @@ func (o *CollisionObject2D) GetRid() gdnative.Rid {
 }
 
 /*
-
+        Returns the [code]one_way_collision_margin[/code] of the shape owner identified by given [code]owner_id[/code].
 	Args: [{ false owner_id int}], Returns: float
 */
 func (o *CollisionObject2D) GetShapeOwnerOneWayCollisionMargin(ownerId gdnative.Int) gdnative.Real {
@@ -199,7 +199,7 @@ func (o *CollisionObject2D) IsShapeOwnerDisabled(ownerId gdnative.Int) gdnative.
 }
 
 /*
-        Returns [code]true[/code] if collisions for the shape owner originating from this [code]CollisionObject2D[/code] will not be reported to collided with [code]CollisionObject2D[/code]s.
+        Returns [code]true[/code] if collisions for the shape owner originating from this [CollisionObject2D] will not be reported to collided with [CollisionObject2D]s.
 	Args: [{ false owner_id int}], Returns: bool
 */
 func (o *CollisionObject2D) IsShapeOwnerOneWayCollisionEnabled(ownerId gdnative.Int) gdnative.Bool {
@@ -526,7 +526,7 @@ func (o *CollisionObject2D) ShapeOwnerSetDisabled(ownerId gdnative.Int, disabled
 }
 
 /*
-        If [code]enable[/code] is [code]true[/code], collisions for the shape owner originating from this [code]CollisionObject2D[/code] will not be reported to collided with [code]CollisionObject2D[/code]s.
+        If [code]enable[/code] is [code]true[/code], collisions for the shape owner originating from this [CollisionObject2D] will not be reported to collided with [CollisionObject2D]s.
 	Args: [{ false owner_id int} { false enable bool}], Returns: void
 */
 func (o *CollisionObject2D) ShapeOwnerSetOneWayCollision(ownerId gdnative.Int, enable gdnative.Bool) {
@@ -548,7 +548,7 @@ func (o *CollisionObject2D) ShapeOwnerSetOneWayCollision(ownerId gdnative.Int, e
 }
 
 /*
-
+        Sets the [code]one_way_collision_margin[/code] of the shape owner identified by given [code]owner_id[/code] to [code]margin[/code] pixels.
 	Args: [{ false owner_id int} { false margin float}], Returns: void
 */
 func (o *CollisionObject2D) ShapeOwnerSetOneWayCollisionMargin(ownerId gdnative.Int, margin gdnative.Real) {

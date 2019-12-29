@@ -85,7 +85,7 @@ func newEnvironmentFromPointer(ptr gdnative.Pointer) Environment {
 }
 
 /*
-Resource for environment nodes (like [WorldEnvironment]) that define multiple environment operations (such as background [Sky] or [Color], ambient light, fog, depth-of-field...). These parameters affect the final render of the scene. The order of these operations is: - DOF Blur - Motion Blur - Bloom - Tonemap (auto exposure) - Adjustments
+Resource for environment nodes (like [WorldEnvironment]) that define multiple environment operations (such as background [Sky] or [Color], ambient light, fog, depth-of-field...). These parameters affect the final render of the scene. The order of these operations is: - Depth of Field Blur - Glow - Tonemap (Auto Exposure) - Adjustments
 */
 type Environment struct {
 	Resource
@@ -1827,7 +1827,7 @@ func (o *Environment) IsGlowEnabled() gdnative.Bool {
 }
 
 /*
-        Undocumented
+        Returns [code]true[/code] if the glow level [code]idx[/code] is specified, [code]false[/code] otherwise.
 	Args: [{ false idx int}], Returns: bool
 */
 func (o *Environment) IsGlowLevelEnabled(idx gdnative.Int) gdnative.Bool {
@@ -2865,7 +2865,7 @@ func (o *Environment) SetGlowIntensity(intensity gdnative.Real) {
 }
 
 /*
-        Undocumented
+        Enables or disables the glow level at index [code]idx[/code]. Each level relies on the previous level. This means that enabling higher glow levels will slow down the glow effect rendering, even if previous levels aren't enabled.
 	Args: [{ false idx int} { false enabled bool}], Returns: void
 */
 func (o *Environment) SetGlowLevel(idx gdnative.Int, enabled gdnative.Bool) {

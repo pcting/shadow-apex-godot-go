@@ -23,8 +23,8 @@ func newVisualShaderNodeVectorRefractFromPointer(ptr gdnative.Pointer) VisualSha
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeVectorRefract struct {
 	VisualShaderNode
 	owner gdnative.Object

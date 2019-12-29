@@ -23,8 +23,8 @@ func newVisualShaderNodeDeterminantFromPointer(ptr gdnative.Pointer) VisualShade
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeDeterminant struct {
 	VisualShaderNode
 	owner gdnative.Object

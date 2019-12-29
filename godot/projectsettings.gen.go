@@ -27,12 +27,12 @@ func newSingletonProjectSettings() *projectSettings {
 }
 
 /*
-   Contains global variables accessible from everywhere. Use [method get_setting], [method set_setting] or [method has_setting] to access them. Variables stored in [code]project.godot[/code] are also loaded into ProjectSettings, making this object very useful for reading custom game configuration options.
+   Contains global variables accessible from everywhere. Use [method get_setting], [method set_setting] or [method has_setting] to access them. Variables stored in [code]project.godot[/code] are also loaded into ProjectSettings, making this object very useful for reading custom game configuration options. When naming a Project Settings property, use the full path to the setting including the category. For example, [code]"application/config/name"[/code] for the project name. Category and property names can be viewed in the Project Settings dialog. [b]Overriding:[/b] Any project setting can be overridden by creating a file named [code]override.cfg[/code] in the project's root directory. This can also be used in exported projects by placing this file in the same directory as the project binary.
 */
 var ProjectSettings = newSingletonProjectSettings()
 
 /*
-Contains global variables accessible from everywhere. Use [method get_setting], [method set_setting] or [method has_setting] to access them. Variables stored in [code]project.godot[/code] are also loaded into ProjectSettings, making this object very useful for reading custom game configuration options.
+Contains global variables accessible from everywhere. Use [method get_setting], [method set_setting] or [method has_setting] to access them. Variables stored in [code]project.godot[/code] are also loaded into ProjectSettings, making this object very useful for reading custom game configuration options. When naming a Project Settings property, use the full path to the setting including the category. For example, [code]"application/config/name"[/code] for the project name. Category and property names can be viewed in the Project Settings dialog. [b]Overriding:[/b] Any project setting can be overridden by creating a file named [code]override.cfg[/code] in the project's root directory. This can also be used in exported projects by placing this file in the same directory as the project binary.
 */
 type projectSettings struct {
 	Object
@@ -57,7 +57,7 @@ func (o *projectSettings) BaseClass() string {
 }
 
 /*
-        Adds a custom property info to a property. The dictionary must contain: name:[String](the property's name) and type:[int](see TYPE_* in [@GlobalScope]), and optionally hint:[int](see PROPERTY_HINT_* in [@GlobalScope]), hint_string:[String]. Example: [codeblock] ProjectSettings.set("category/property_name", 0) var property_info = { "name": "category/property_name", "type": TYPE_INT, "hint": PROPERTY_HINT_ENUM, "hint_string": "one,two,three" } ProjectSettings.add_property_info(property_info) [/codeblock]
+        Adds a custom property info to a property. The dictionary must contain: - [code]name[/code]: [String] (the property's name) - [code]type[/code]: [int] (see [enum Variant.Type]) - optionally [code]hint[/code]: [int] (see [enum PropertyHint]) and [code]hint_string[/code]: [String] [b]Example:[/b] [codeblock] ProjectSettings.set("category/property_name", 0) var property_info = { "name": "category/property_name", "type": TYPE_INT, "hint": PROPERTY_HINT_ENUM, "hint_string": "one,two,three" } ProjectSettings.add_property_info(property_info) [/codeblock]
 	Args: [{ false hint Dictionary}], Returns: void
 */
 func (o *projectSettings) AddPropertyInfo(hint gdnative.Dictionary) {
@@ -126,7 +126,7 @@ func (o *projectSettings) GetOrder(name gdnative.String) gdnative.Int {
 }
 
 /*
-
+        Returns the value of a setting. [b]Example:[/b] [codeblock] print(ProjectSettings.get_setting("application/config/name")) [/codeblock]
 	Args: [{ false name String}], Returns: Variant
 */
 func (o *projectSettings) GetSetting(name gdnative.String) gdnative.Variant {
@@ -201,7 +201,7 @@ func (o *projectSettings) HasSetting(name gdnative.String) gdnative.Bool {
 }
 
 /*
-        Loads the contents of the .pck or .zip file specified by [code]pack[/code] into the resource filesystem ([code]res://[/code]). Returns [code]true[/code] on success. Note: If a file from [code]pack[/code] shares the same path as a file already in the resource filesystem, any attempts to load that file will use the file from [code]pack[/code].
+        Loads the contents of the .pck or .zip file specified by [code]pack[/code] into the resource filesystem ([code]res://[/code]). Returns [code]true[/code] on success. [b]Note:[/b] If a file from [code]pack[/code] shares the same path as a file already in the resource filesystem, any attempts to load that file will use the file from [code]pack[/code] unless [code]replace_files[/code] is set to [code]false[/code].
 	Args: [{ false pack String} {True true replace_files bool}], Returns: bool
 */
 func (o *projectSettings) LoadResourcePack(pack gdnative.String, replaceFiles gdnative.Bool) gdnative.Bool {
@@ -351,7 +351,7 @@ func (o *projectSettings) SaveCustom(file gdnative.String) gdnative.Error {
 }
 
 /*
-
+        Sets the specified property's initial value. This is the value the property reverts to.
 	Args: [{ false name String} { false value Variant}], Returns: void
 */
 func (o *projectSettings) SetInitialValue(name gdnative.String, value gdnative.Variant) {
@@ -397,7 +397,7 @@ func (o *projectSettings) SetOrder(name gdnative.String, position gdnative.Int) 
 }
 
 /*
-
+        Sets the value of a setting. [b]Example:[/b] [codeblock] ProjectSettings.set_setting("application/config/name", "Example") [/codeblock]
 	Args: [{ false name String} { false value Variant}], Returns: void
 */
 func (o *projectSettings) SetSetting(name gdnative.String, value gdnative.Variant) {

@@ -54,7 +54,7 @@ func newARVRInterfaceFromPointer(ptr gdnative.Pointer) ARVRInterface {
 }
 
 /*
-This class needs to be implemented to make an AR or VR platform available to Godot and these should be implemented as C++ modules or GDNative modules (note that for GDNative the subclass ARVRScriptInterface should be used). Part of the interface is exposed to GDScript so you can detect, enable and configure an AR or VR platform. Interfaces should be written in such a way that simply enabling them will give us a working setup. You can query the available interfaces through ARVRServer.
+This class needs to be implemented to make an AR or VR platform available to Godot and these should be implemented as C++ modules or GDNative modules (note that for GDNative the subclass ARVRScriptInterface should be used). Part of the interface is exposed to GDScript so you can detect, enable and configure an AR or VR platform. Interfaces should be written in such a way that simply enabling them will give us a working setup. You can query the available interfaces through [ARVRServer].
 */
 type ARVRInterface struct {
 	Reference
@@ -89,7 +89,7 @@ func (o *ARVRInterface) GetAnchorDetectionIsEnabled() gdnative.Bool {
 }
 
 /*
-        Undocumented
+        If this is an AR interface that requires displaying a camera feed as the background, this method returns the feed ID in the [CameraServer] for this interface.
 	Args: [], Returns: int
 */
 func (o *ARVRInterface) GetCameraFeedId() gdnative.Int {
@@ -112,7 +112,7 @@ func (o *ARVRInterface) GetCameraFeedId() gdnative.Int {
 }
 
 /*
-        Returns a combination of flags providing information about the capabilities of this interface.
+        Returns a combination of [enum Capabilities] flags providing information about the capabilities of this interface.
 	Args: [], Returns: int
 */
 func (o *ARVRInterface) GetCapabilities() gdnative.Int {
@@ -204,7 +204,7 @@ func (o *ARVRInterface) GetTrackingStatus() ARVRInterfaceTracking_status {
 }
 
 /*
-        Call this to initialize this interface. The first interface that is initialized is identified as the primary interface and it will be used for rendering output. After initializing the interface you want to use you then need to enable the AR/VR mode of a viewport and rendering should commence. Note that you must enable the AR/VR mode on the main viewport for any device that uses the main output of Godot such as for mobile VR. If you do this for a platform that handles its own output (such as OpenVR) Godot will show just one eye without distortion on screen. Alternatively you can add a separate viewport node to your scene and enable AR/VR on that viewport and it will be used to output to the HMD leaving you free to do anything you like in the main window such as using a separate camera as a spectator camera or render out something completely different. While currently not used you can activate additional interfaces, you may wish to do this if you want to track controllers from other platforms. However at this point in time only one interface can render to an HMD.
+        Call this to initialize this interface. The first interface that is initialized is identified as the primary interface and it will be used for rendering output. After initializing the interface you want to use you then need to enable the AR/VR mode of a viewport and rendering should commence. [b]Note:[/b] You must enable the AR/VR mode on the main viewport for any device that uses the main output of Godot, such as for mobile VR. If you do this for a platform that handles its own output (such as OpenVR) Godot will show just one eye without distortion on screen. Alternatively, you can add a separate viewport node to your scene and enable AR/VR on that viewport. It will be used to output to the HMD, leaving you free to do anything you like in the main window, such as using a separate camera as a spectator camera or rendering something completely different. While currently not used, you can activate additional interfaces. You may wish to do this if you want to track controllers from other platforms. However, at this point in time only one interface can render to an HMD.
 	Args: [], Returns: bool
 */
 func (o *ARVRInterface) Initialize() gdnative.Bool {

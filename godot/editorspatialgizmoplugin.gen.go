@@ -57,7 +57,7 @@ func (o *EditorSpatialGizmoPlugin) AddMaterial(name gdnative.String, material Sp
 }
 
 /*
-        Override this method to define whether the gizmo can be hidden or not. Defaults to [code]true[/code].
+        Override this method to define whether the gizmo can be hidden or not. Returns [code]true[/code] if not overridden.
 	Args: [], Returns: bool
 */
 func (o *EditorSpatialGizmoPlugin) CanBeHidden() gdnative.Bool {
@@ -238,7 +238,7 @@ func (o *EditorSpatialGizmoPlugin) GetHandleName(gizmo EditorSpatialGizmoImpleme
 }
 
 /*
-        Get actual value of a handle from gizmo. Called for this plugin's active gizmos.
+        Gets actual value of a handle from gizmo. Called for this plugin's active gizmos.
 	Args: [{ false gizmo EditorSpatialGizmo} { false index int}], Returns: Variant
 */
 func (o *EditorSpatialGizmoPlugin) GetHandleValue(gizmo EditorSpatialGizmoImplementer, index gdnative.Int) gdnative.Variant {
@@ -263,7 +263,7 @@ func (o *EditorSpatialGizmoPlugin) GetHandleValue(gizmo EditorSpatialGizmoImplem
 }
 
 /*
-        Get material from the internal list of materials. If an [EditorSpatialGizmo] is provided it will try to get the corresponding variant (selected and/or editable).
+        Gets material from the internal list of materials. If an [EditorSpatialGizmo] is provided, it will try to get the corresponding variant (selected and/or editable).
 	Args: [{ false name String} { false gizmo EditorSpatialGizmo}], Returns: SpatialMaterial
 */
 func (o *EditorSpatialGizmoPlugin) GetMaterial(name gdnative.String, gizmo EditorSpatialGizmoImplementer) SpatialMaterialImplementer {
@@ -372,7 +372,7 @@ func (o *EditorSpatialGizmoPlugin) HasGizmo(spatial SpatialImplementer) gdnative
 }
 
 /*
-        Get whether a handle is highlighted or not. Called for this plugin's active gizmos.
+        Gets whether a handle is highlighted or not. Called for this plugin's active gizmos.
 	Args: [{ false gizmo EditorSpatialGizmo} { false index int}], Returns: bool
 */
 func (o *EditorSpatialGizmoPlugin) IsHandleHighlighted(gizmo EditorSpatialGizmoImplementer, index gdnative.Int) gdnative.Bool {

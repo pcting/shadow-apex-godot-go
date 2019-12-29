@@ -23,7 +23,7 @@ func newMultiMeshInstance2DFromPointer(ptr gdnative.Pointer) MultiMeshInstance2D
 }
 
 /*
-Undocumented
+[MultiMeshInstance2D] is a specialized node to instance a [MultiMesh] resource in 2D. Usage is the same as [MultiMeshInstance].
 */
 type MultiMeshInstance2D struct {
 	Node2D

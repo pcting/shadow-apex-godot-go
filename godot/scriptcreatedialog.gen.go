@@ -23,7 +23,7 @@ func newScriptCreateDialogFromPointer(ptr gdnative.Pointer) ScriptCreateDialog {
 }
 
 /*
-The [code]ScriptCreateDialog[/code] creates script files according to a given template for a given scripting language. The standard use is to configure its fields prior to calling one of the [method Popup.popup] methods. [codeblock] func _ready(): dialog.config("Node", "res://new_node.gd") # for in-engine types dialog.config("\"res://base_node.gd\"", "res://derived_node.gd") # for script types dialog.popup_centered() [/codeblock]
+The [ScriptCreateDialog] creates script files according to a given template for a given scripting language. The standard use is to configure its fields prior to calling one of the [method Popup.popup] methods. [codeblock] func _ready(): dialog.config("Node", "res://new_node.gd") # For in-engine types dialog.config("\"res://base_node.gd\"", "res://derived_node.gd") # For script types dialog.popup_centered() [/codeblock]
 */
 type ScriptCreateDialog struct {
 	ConfirmationDialog
@@ -285,16 +285,17 @@ func (o *ScriptCreateDialog) X_TemplateChanged(arg0 gdnative.Int) {
 
 /*
         Prefills required fields to configure the ScriptCreateDialog for use.
-	Args: [{ false inherits String} { false path String} {True true built_in_enabled bool}], Returns: void
+	Args: [{ false inherits String} { false path String} {True true built_in_enabled bool} {True true load_enabled bool}], Returns: void
 */
-func (o *ScriptCreateDialog) Config(inherits gdnative.String, path gdnative.String, builtInEnabled gdnative.Bool) {
+func (o *ScriptCreateDialog) Config(inherits gdnative.String, path gdnative.String, builtInEnabled gdnative.Bool, loadEnabled gdnative.Bool) {
 	//log.Println("Calling ScriptCreateDialog.Config()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 3, 3)
+	ptrArguments := make([]gdnative.Pointer, 4, 4)
 	ptrArguments[0] = gdnative.NewPointerFromString(inherits)
 	ptrArguments[1] = gdnative.NewPointerFromString(path)
 	ptrArguments[2] = gdnative.NewPointerFromBool(builtInEnabled)
+	ptrArguments[3] = gdnative.NewPointerFromBool(loadEnabled)
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("ScriptCreateDialog", "config")
@@ -322,5 +323,5 @@ type ScriptCreateDialogImplementer interface {
 	X_PathEntered(arg0 gdnative.String)
 	X_PathHboxSorted()
 	X_TemplateChanged(arg0 gdnative.Int)
-	Config(inherits gdnative.String, path gdnative.String, builtInEnabled gdnative.Bool)
+	Config(inherits gdnative.String, path gdnative.String, builtInEnabled gdnative.Bool, loadEnabled gdnative.Bool)
 }

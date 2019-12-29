@@ -32,7 +32,7 @@ func newCurveFromPointer(ptr gdnative.Pointer) Curve {
 }
 
 /*
-A curve that can be saved and re-used for other objects. By default it ranges between [code]0[/code] and [code]1[/code] on the y-axis and positions points relative to the [code]0.5[/code] y-position.
+A curve that can be saved and re-used for other objects. By default, it ranges between [code]0[/code] and [code]1[/code] on the Y axis and positions points relative to the [code]0.5[/code] Y position.
 */
 type Curve struct {
 	Resource
@@ -268,7 +268,7 @@ func (o *Curve) GetPointCount() gdnative.Int {
 }
 
 /*
-        Returns the left [code]TangentMode[/code] for the point at [code]index[/code].
+        Returns the left [enum TangentMode] for the point at [code]index[/code].
 	Args: [{ false index int}], Returns: enum.Curve::TangentMode
 */
 func (o *Curve) GetPointLeftMode(index gdnative.Int) CurveTangentMode {
@@ -340,7 +340,7 @@ func (o *Curve) GetPointPosition(index gdnative.Int) gdnative.Vector2 {
 }
 
 /*
-        Returns the right [code]TangentMode[/code] for the point at [code]index[/code].
+        Returns the right [enum TangentMode] for the point at [code]index[/code].
 	Args: [{ false index int}], Returns: enum.Curve::TangentMode
 */
 func (o *Curve) GetPointRightMode(index gdnative.Int) CurveTangentMode {
@@ -388,7 +388,7 @@ func (o *Curve) GetPointRightTangent(index gdnative.Int) gdnative.Real {
 }
 
 /*
-        Returns the y value for the point that would exist at x-position [code]offset[/code] along the curve.
+        Returns the Y value for the point that would exist at the X position [code]offset[/code] along the curve.
 	Args: [{ false offset float}], Returns: float
 */
 func (o *Curve) Interpolate(offset gdnative.Real) gdnative.Real {
@@ -412,7 +412,7 @@ func (o *Curve) Interpolate(offset gdnative.Real) gdnative.Real {
 }
 
 /*
-        Returns the y value for the point that would exist at x-position [code]offset[/code] along the curve using the baked cache. Bakes the curve's points if not already baked.
+        Returns the Y value for the point that would exist at the X position [code]offset[/code] along the curve using the baked cache. Bakes the curve's points if not already baked.
 	Args: [{ false offset float}], Returns: float
 */
 func (o *Curve) InterpolateBaked(offset gdnative.Real) gdnative.Real {
@@ -520,7 +520,7 @@ func (o *Curve) SetMinValue(min gdnative.Real) {
 }
 
 /*
-        Sets the left [code]TangentMode[/code] for the point at [code]index[/code] to [code]mode[/code].
+        Sets the left [enum TangentMode] for the point at [code]index[/code] to [code]mode[/code].
 	Args: [{ false index int} { false mode int}], Returns: void
 */
 func (o *Curve) SetPointLeftMode(index gdnative.Int, mode gdnative.Int) {
@@ -564,7 +564,7 @@ func (o *Curve) SetPointLeftTangent(index gdnative.Int, tangent gdnative.Real) {
 }
 
 /*
-        Sets the offset from [code]0.5[/code]
+        Sets the offset from [code]0.5[/code].
 	Args: [{ false index int} { false offset float}], Returns: int
 */
 func (o *Curve) SetPointOffset(index gdnative.Int, offset gdnative.Real) gdnative.Int {
@@ -589,7 +589,7 @@ func (o *Curve) SetPointOffset(index gdnative.Int, offset gdnative.Real) gdnativ
 }
 
 /*
-        Sets the right [code]TangentMode[/code] for the point at [code]index[/code] to [code]mode[/code].
+        Sets the right [enum TangentMode] for the point at [code]index[/code] to [code]mode[/code].
 	Args: [{ false index int} { false mode int}], Returns: void
 */
 func (o *Curve) SetPointRightMode(index gdnative.Int, mode gdnative.Int) {

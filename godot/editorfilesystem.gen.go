@@ -35,7 +35,7 @@ func (o *EditorFileSystem) BaseClass() string {
 }
 
 /*
-        Get the type of the file, given the full path.
+        Gets the type of the file, given the full path.
 	Args: [{ false path String}], Returns: String
 */
 func (o *EditorFileSystem) GetFileType(path gdnative.String) gdnative.String {
@@ -59,7 +59,7 @@ func (o *EditorFileSystem) GetFileType(path gdnative.String) gdnative.String {
 }
 
 /*
-        Get the root directory object.
+        Gets the root directory object.
 	Args: [], Returns: EditorFileSystemDirectory
 */
 func (o *EditorFileSystem) GetFilesystem() EditorFileSystemDirectoryImplementer {

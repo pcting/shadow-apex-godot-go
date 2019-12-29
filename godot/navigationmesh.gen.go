@@ -302,7 +302,7 @@ func (o *NavigationMesh) GetCollisionMask() gdnative.Int {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false bit int}], Returns: bool
 */
 func (o *NavigationMesh) GetCollisionMaskBit(bit gdnative.Int) gdnative.Bool {
@@ -865,7 +865,7 @@ func (o *NavigationMesh) SetCollisionMask(mask gdnative.Int) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false bit int} { false value bool}], Returns: void
 */
 func (o *NavigationMesh) SetCollisionMaskBit(bit gdnative.Int, value gdnative.Bool) {

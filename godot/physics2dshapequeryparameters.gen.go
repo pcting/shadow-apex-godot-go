@@ -23,7 +23,7 @@ func newPhysics2DShapeQueryParametersFromPointer(ptr gdnative.Pointer) Physics2D
 }
 
 /*
-This class contains the shape and other parameters for intersection/collision queries.
+This class contains the shape and other parameters for 2D intersection/collision queries. See also [Physics2DShapeQueryResult].
 */
 type Physics2DShapeQueryParameters struct {
 	Reference
@@ -345,7 +345,7 @@ func (o *Physics2DShapeQueryParameters) SetMotion(motion gdnative.Vector2) {
 }
 
 /*
-        Set the [Shape2D] that will be used for collision/intersection queries.
+        Sets the [Shape2D] that will be used for collision/intersection queries.
 	Args: [{ false shape Resource}], Returns: void
 */
 func (o *Physics2DShapeQueryParameters) SetShape(shape ResourceImplementer) {

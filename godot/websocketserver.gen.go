@@ -59,6 +59,29 @@ func (o *WebSocketServer) DisconnectPeer(id gdnative.Int, code gdnative.Int, rea
 
 /*
         Undocumented
+	Args: [], Returns: String
+*/
+func (o *WebSocketServer) GetBindIp() gdnative.String {
+	//log.Println("Calling WebSocketServer.GetBindIp()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("WebSocketServer", "get_bind_ip")
+
+	// Call the parent method.
+	// String
+	retPtr := gdnative.NewEmptyString()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
 	Args: [], Returns: X509Certificate
 */
 func (o *WebSocketServer) GetCaChain() X509CertificateImplementer {
@@ -291,6 +314,27 @@ func (o *WebSocketServer) Listen(port gdnative.Int, protocols gdnative.PoolStrin
 
 /*
         Undocumented
+	Args: [{ false arg0 String}], Returns: void
+*/
+func (o *WebSocketServer) SetBindIp(arg0 gdnative.String) {
+	//log.Println("Calling WebSocketServer.SetBindIp()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromString(arg0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("WebSocketServer", "set_bind_ip")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false arg0 X509Certificate}], Returns: void
 */
 func (o *WebSocketServer) SetCaChain(arg0 X509CertificateImplementer) {
@@ -377,6 +421,7 @@ func (o *WebSocketServer) Stop() {
 type WebSocketServerImplementer interface {
 	WebSocketMultiplayerPeerImplementer
 	DisconnectPeer(id gdnative.Int, code gdnative.Int, reason gdnative.String)
+	GetBindIp() gdnative.String
 	GetCaChain() X509CertificateImplementer
 	GetPeerAddress(id gdnative.Int) gdnative.String
 	GetPeerPort(id gdnative.Int) gdnative.Int
@@ -384,6 +429,7 @@ type WebSocketServerImplementer interface {
 	GetSslCertificate() X509CertificateImplementer
 	HasPeer(id gdnative.Int) gdnative.Bool
 	IsListening() gdnative.Bool
+	SetBindIp(arg0 gdnative.String)
 	SetCaChain(arg0 X509CertificateImplementer)
 	SetPrivateKey(arg0 CryptoKeyImplementer)
 	SetSslCertificate(arg0 X509CertificateImplementer)

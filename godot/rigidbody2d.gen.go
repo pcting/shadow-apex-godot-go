@@ -243,7 +243,7 @@ func (o *RigidBody2D) ApplyCentralImpulse(impulse gdnative.Vector2) {
 }
 
 /*
-        Applies a positioned impulse to the body. An impulse is time independent! Applying an impulse every frame would result in a framerate dependent force. For this reason it should only be used when simulating one-time impacts (use the "_force" functions otherwise). The position uses the rotation of the global coordinate system, but is centered at the object's origin.
+        Applies a positioned impulse to the body. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason it should only be used when simulating one-time impacts (use the "_force" functions otherwise). The position uses the rotation of the global coordinate system, but is centered at the object's origin.
 	Args: [{ false offset Vector2} { false impulse Vector2}], Returns: void
 */
 func (o *RigidBody2D) ApplyImpulse(offset gdnative.Vector2, impulse gdnative.Vector2) {
@@ -401,7 +401,7 @@ func (o *RigidBody2D) GetBounce() gdnative.Real {
 }
 
 /*
-        Returns a list of the bodies colliding with this one. Use [member contacts_reported] to set the maximum number reported. You must also set [member contact_monitor] to [code]true[/code]. Note that the result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
+        Returns a list of the bodies colliding with this one. Use [member contacts_reported] to set the maximum number reported. You must also set [member contact_monitor] to [code]true[/code]. [b]Note:[/b] The result of this test is not immediate after moving objects. For performance, list of collisions is updated once per frame and before the physics step. Consider using signals instead.
 	Args: [], Returns: Array
 */
 func (o *RigidBody2D) GetCollidingBodies() gdnative.Array {

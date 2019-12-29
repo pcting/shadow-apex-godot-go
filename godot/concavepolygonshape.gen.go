@@ -58,7 +58,7 @@ func (o *ConcavePolygonShape) GetFaces() gdnative.PoolVector3Array {
 }
 
 /*
-        Set the faces (an array of triangles).
+        Sets the faces (an array of triangles).
 	Args: [{ false faces PoolVector3Array}], Returns: void
 */
 func (o *ConcavePolygonShape) SetFaces(faces gdnative.PoolVector3Array) {

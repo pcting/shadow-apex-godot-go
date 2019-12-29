@@ -52,7 +52,7 @@ func newSliderJointFromPointer(ptr gdnative.Pointer) SliderJoint {
 }
 
 /*
-Slides across the x-axis of the pivot object.
+Slides across the X axis of the pivot object.
 */
 type SliderJoint struct {
 	Joint
@@ -152,7 +152,7 @@ func (o *SliderJoint) X_SetUpperLimitAngular(upperLimitAngular gdnative.Real) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false param int}], Returns: float
 */
 func (o *SliderJoint) GetParam(param gdnative.Int) gdnative.Real {
@@ -176,7 +176,7 @@ func (o *SliderJoint) GetParam(param gdnative.Int) gdnative.Real {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false param int} { false value float}], Returns: void
 */
 func (o *SliderJoint) SetParam(param gdnative.Int, value gdnative.Real) {

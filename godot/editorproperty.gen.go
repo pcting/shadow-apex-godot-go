@@ -23,8 +23,8 @@ func newEditorPropertyFromPointer(ptr gdnative.Pointer) EditorProperty {
 }
 
 /*
-
- */
+This control allows property editing for one or multiple properties into [EditorInspector]. It is added via [EditorInspectorPlugin].
+*/
 type EditorProperty struct {
 	Container
 	owner gdnative.Object
@@ -77,7 +77,7 @@ func (o *EditorProperty) X_GuiInput(arg0 InputEventImplementer) {
 }
 
 /*
-        Undocumented
+        If any of the controls added can gain keyboard focus, add it here. This ensures that focus will be restored if the inspector is refreshed.
 	Args: [{ false control Control}], Returns: void
 */
 func (o *EditorProperty) AddFocusable(control ControlImplementer) {
@@ -98,7 +98,7 @@ func (o *EditorProperty) AddFocusable(control ControlImplementer) {
 }
 
 /*
-
+        If one or several properties have changed, this must be called. [code]field[/code] is used in case your editor can modify fields separately (as an example, Vector3.x). The [code]changing[/code] argument avoids the editor requesting this property to be refreshed (leave as [code]false[/code] if unsure).
 	Args: [{ false property String} { false value Variant} { true field String} {False true changing bool}], Returns: void
 */
 func (o *EditorProperty) EmitChanged(property gdnative.String, value gdnative.Variant, field gdnative.String, changing gdnative.Bool) {
@@ -122,7 +122,7 @@ func (o *EditorProperty) EmitChanged(property gdnative.String, value gdnative.Va
 }
 
 /*
-
+        Gets the edited object.
 	Args: [], Returns: Object
 */
 func (o *EditorProperty) GetEditedObject() ObjectImplementer {
@@ -159,7 +159,7 @@ func (o *EditorProperty) GetEditedObject() ObjectImplementer {
 }
 
 /*
-
+        Gets the edited property. If your editor is for a single property (added via [method EditorInspectorPlugin.parse_property]), then this will return the property.
 	Args: [], Returns: String
 */
 func (o *EditorProperty) GetEditedProperty() gdnative.String {
@@ -205,7 +205,7 @@ func (o *EditorProperty) GetLabel() gdnative.String {
 }
 
 /*
-
+        Override if you want to allow a custom tooltip over your property.
 	Args: [], Returns: String
 */
 func (o *EditorProperty) GetTooltipText() gdnative.String {
@@ -343,7 +343,7 @@ func (o *EditorProperty) IsReadOnly() gdnative.Bool {
 }
 
 /*
-        Undocumented
+        Adds controls with this function if you want them on the bottom (below the label).
 	Args: [{ false editor Control}], Returns: void
 */
 func (o *EditorProperty) SetBottomEditor(editor ControlImplementer) {
@@ -490,7 +490,7 @@ func (o *EditorProperty) SetReadOnly(readOnly gdnative.Bool) {
 }
 
 /*
-
+        When this virtual function is called, you must update your editor.
 	Args: [], Returns: void
 */
 func (o *EditorProperty) UpdateProperty() {

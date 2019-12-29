@@ -42,7 +42,7 @@ func newCameraFeedFromPointer(ptr gdnative.Pointer) CameraFeed {
 }
 
 /*
-Undocumented
+A camera feed gives you access to a single physical camera attached to your device. When enabled, Godot will start capturing frames from the camera which can then be used. [b]Note:[/b] Many cameras will return YCbCr images which are split into two textures and need to be combined in a shader. Godot does this automatically for you if you set the environment to show the camera image in the background.
 */
 type CameraFeed struct {
 	Reference
@@ -185,7 +185,7 @@ func (o *CameraFeed) X_SetPosition(position gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Returns the unique ID for this feed.
 	Args: [], Returns: int
 */
 func (o *CameraFeed) GetId() gdnative.Int {
@@ -208,7 +208,7 @@ func (o *CameraFeed) GetId() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns the camera's name.
 	Args: [], Returns: String
 */
 func (o *CameraFeed) GetName() gdnative.String {
@@ -231,7 +231,7 @@ func (o *CameraFeed) GetName() gdnative.String {
 }
 
 /*
-        Undocumented
+        Returns the position of camera on the device.
 	Args: [], Returns: enum.CameraFeed::FeedPosition
 */
 func (o *CameraFeed) GetPosition() CameraFeedFeedPosition {

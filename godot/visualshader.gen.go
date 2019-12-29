@@ -33,8 +33,8 @@ func newVisualShaderFromPointer(ptr gdnative.Pointer) VisualShader {
 }
 
 /*
-
- */
+This class allows you to define a custom shader program that can be used for various materials to render objects. The visual shader editor creates the shader.
+*/
 type VisualShader struct {
 	Shader
 	owner gdnative.Object
@@ -187,7 +187,7 @@ func (o *VisualShader) ConnectNodes(aType gdnative.Int, fromNode gdnative.Int, f
 }
 
 /*
-        Undocumented
+
 	Args: [{ false type int} { false from_node int} { false from_port int} { false to_node int} { false to_port int}], Returns: void
 */
 func (o *VisualShader) ConnectNodesForced(aType gdnative.Int, fromNode gdnative.Int, fromPort gdnative.Int, toNode gdnative.Int, toPort gdnative.Int) {

@@ -35,7 +35,7 @@ func (o *PacketPeerUDP) BaseClass() string {
 }
 
 /*
-        Close the UDP socket the [code]PacketPeerUDP[/code] is currently listening on.
+        Closes the UDP socket the [PacketPeerUDP] is currently listening on.
 	Args: [], Returns: void
 */
 func (o *PacketPeerUDP) Close() {
@@ -101,7 +101,7 @@ func (o *PacketPeerUDP) GetPacketPort() gdnative.Int {
 }
 
 /*
-        Returns whether this [code]PacketPeerUDP[/code] is listening.
+        Returns whether this [PacketPeerUDP] is listening.
 	Args: [], Returns: bool
 */
 func (o *PacketPeerUDP) IsListening() gdnative.Bool {
@@ -124,7 +124,7 @@ func (o *PacketPeerUDP) IsListening() gdnative.Bool {
 }
 
 /*
-        Undocumented
+        Joins the multicast group specified by [code]multicast_address[/code] using the interface identified by [code]interface_name[/code]. You can join the same multicast group with multiple interfaces. Use [method IP.get_local_interfaces] to know which are available. Note: Some Android devices might require the [code]CHANGE_WIFI_MULTICAST_STATE[/code] permission for multicast to work.
 	Args: [{ false multicast_address String} { false interface_name String}], Returns: enum.Error
 */
 func (o *PacketPeerUDP) JoinMulticastGroup(multicastAddress gdnative.String, interfaceName gdnative.String) gdnative.Error {
@@ -149,7 +149,7 @@ func (o *PacketPeerUDP) JoinMulticastGroup(multicastAddress gdnative.String, int
 }
 
 /*
-        Undocumented
+        Removes the interface identified by [code]interface_name[/code] from the multicast group specified by [code]multicast_address[/code].
 	Args: [{ false multicast_address String} { false interface_name String}], Returns: enum.Error
 */
 func (o *PacketPeerUDP) LeaveMulticastGroup(multicastAddress gdnative.String, interfaceName gdnative.String) gdnative.Error {
@@ -174,7 +174,7 @@ func (o *PacketPeerUDP) LeaveMulticastGroup(multicastAddress gdnative.String, in
 }
 
 /*
-        Make this [code]PacketPeerUDP[/code] listen on the "port" binding to "bind_address" with a buffer size "recv_buf_size". If "bind_address" is set as "*" (default), the peer will listen on all available addresses (both IPv4 and IPv6). If "bind_address" is set as "0.0.0.0" (for IPv4) or "::" (for IPv6), the peer will listen on all available addresses matching that IP type. If "bind_address" is set to any valid address (e.g. "192.168.1.101", "::1", etc), the peer will only listen on the interface with that addresses (or fail if no interface with the given address exists).
+        Makes this [PacketPeerUDP] listen on the [code]port[/code] binding to [code]bind_address[/code] with a buffer size [code]recv_buf_size[/code]. If [code]bind_address[/code] is set to [code]"*"[/code] (default), the peer will listen on all available addresses (both IPv4 and IPv6). If [code]bind_address[/code] is set to [code]"0.0.0.0"[/code] (for IPv4) or [code]"::"[/code] (for IPv6), the peer will listen on all available addresses matching that IP type. If [code]bind_address[/code] is set to any valid address (e.g. [code]"192.168.1.101"[/code], [code]"::1"[/code], etc), the peer will only listen on the interface with that addresses (or fail if no interface with the given address exists).
 	Args: [{ false port int} {* true bind_address String} {65536 true recv_buf_size int}], Returns: enum.Error
 */
 func (o *PacketPeerUDP) Listen(port gdnative.Int, bindAddress gdnative.String, recvBufSize gdnative.Int) gdnative.Error {
@@ -200,7 +200,28 @@ func (o *PacketPeerUDP) Listen(port gdnative.Int, bindAddress gdnative.String, r
 }
 
 /*
-        Set the destination address and port for sending packets and variables, a hostname will be resolved using if valid.
+        Enable or disable sending of broadcast packets (e.g. [code]set_dest_address("255.255.255.255", 4343)[/code]. This option is disabled by default. Note: Some Android devices might require the [code]CHANGE_WIFI_MULTICAST_STATE[/code] permission and this option to be enabled to receive broadcast packets too.
+	Args: [{ false enabled bool}], Returns: void
+*/
+func (o *PacketPeerUDP) SetBroadcastEnabled(enabled gdnative.Bool) {
+	//log.Println("Calling PacketPeerUDP.SetBroadcastEnabled()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromBool(enabled)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("PacketPeerUDP", "set_broadcast_enabled")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Sets the destination address and port for sending packets and variables. A hostname will be resolved using DNS if needed. Note: [method set_broadcast_enabled] must be enabled before sending packets to a broadcast address (e.g. [code]255.255.255.255[/code]).
 	Args: [{ false host String} { false port int}], Returns: enum.Error
 */
 func (o *PacketPeerUDP) SetDestAddress(host gdnative.String, port gdnative.Int) gdnative.Error {
@@ -225,7 +246,7 @@ func (o *PacketPeerUDP) SetDestAddress(host gdnative.String, port gdnative.Int) 
 }
 
 /*
-        Wait for a packet to arrive on the listening port, see [method listen].
+        Waits for a packet to arrive on the listening port. See [method listen].
 	Args: [], Returns: enum.Error
 */
 func (o *PacketPeerUDP) Wait() gdnative.Error {
@@ -255,4 +276,5 @@ type PacketPeerUDPImplementer interface {
 	GetPacketIp() gdnative.String
 	GetPacketPort() gdnative.Int
 	IsListening() gdnative.Bool
+	SetBroadcastEnabled(enabled gdnative.Bool)
 }

@@ -23,7 +23,7 @@ func newVSeparatorFromPointer(ptr gdnative.Pointer) VSeparator {
 }
 
 /*
-Vertical version of [Separator]. It is used to separate objects horizontally, though (but it looks vertical!).
+Vertical version of [Separator]. Even though it looks vertical, it is used to separate objects horizontally.
 */
 type VSeparator struct {
 	Separator

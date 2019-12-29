@@ -82,7 +82,7 @@ func (o *EditorResourcePreview) AddPreviewGenerator(generator EditorResourcePrev
 }
 
 /*
-        Check if the resource changed, if so it will be invalidated and the corresponding signal emitted.
+        Check if the resource changed, if so, it will be invalidated and the corresponding signal emitted.
 	Args: [{ false path String}], Returns: void
 */
 func (o *EditorResourcePreview) CheckForInvalidation(path gdnative.String) {
@@ -151,7 +151,7 @@ func (o *EditorResourcePreview) QueueResourcePreview(path gdnative.String, recei
 }
 
 /*
-        Remove a custom preview generator.
+        Removes a custom preview generator.
 	Args: [{ false generator EditorResourcePreviewGenerator}], Returns: void
 */
 func (o *EditorResourcePreview) RemovePreviewGenerator(generator EditorResourcePreviewGeneratorImplementer) {

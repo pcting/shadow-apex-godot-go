@@ -33,7 +33,7 @@ func newAnimationNodeFromPointer(ptr gdnative.Pointer) AnimationNode {
 }
 
 /*
-Base resource for [AnimationTree] nodes. In general it's not used directly but you can create custom ones with custom blending formulas. Inherit this when creating nodes mainly for use in [AnimationNodeBlendTree], otherwise [AnimationRootNode] should be used instead.
+Base resource for [AnimationTree] nodes. In general, it's not used directly, but you can create custom ones with custom blending formulas. Inherit this when creating nodes mainly for use in [AnimationNodeBlendTree], otherwise [AnimationRootNode] should be used instead.
 */
 type AnimationNode struct {
 	Resource
@@ -89,7 +89,7 @@ func (o *AnimationNode) X_SetFilters(filters gdnative.Array) {
 }
 
 /*
-        Add an input to the node. This is only useful for nodes created for use in an [AnimationNodeBlendTree]
+        Adds an input to the node. This is only useful for nodes created for use in an [AnimationNodeBlendTree]
 	Args: [{ false name String}], Returns: void
 */
 func (o *AnimationNode) AddInput(name gdnative.String) {
@@ -164,7 +164,7 @@ func (o *AnimationNode) BlendInput(inputIndex gdnative.Int, time gdnative.Real, 
 }
 
 /*
-        Blend another animaiton node (in case this node contains children animation nodes). This function is only useful if you inherit from [AnimationRootNode] instead, else editors will not display your node for addition.
+        Blend another animation node (in case this node contains children animation nodes). This function is only useful if you inherit from [AnimationRootNode] instead, else editors will not display your node for addition.
 	Args: [{ false name String} { false node AnimationNode} { false time float} { false seek bool} { false blend float} {0 true filter int} {True true optimize bool}], Returns: float
 */
 func (o *AnimationNode) BlendNode(name gdnative.String, node AnimationNodeImplementer, time gdnative.Real, seek gdnative.Bool, blend gdnative.Real, filter gdnative.Int, optimize gdnative.Bool) gdnative.Real {
@@ -194,7 +194,7 @@ func (o *AnimationNode) BlendNode(name gdnative.String, node AnimationNodeImplem
 }
 
 /*
-        Get the text caption for this node (used by some editors)
+        Gets the text caption for this node (used by some editors).
 	Args: [], Returns: String
 */
 func (o *AnimationNode) GetCaption() gdnative.String {
@@ -217,7 +217,7 @@ func (o *AnimationNode) GetCaption() gdnative.String {
 }
 
 /*
-        Get the a child node by index (used by editors inheriting from [AnimationRootNode]).
+        Gets a child node by index (used by editors inheriting from [AnimationRootNode]).
 	Args: [{ false name String}], Returns: Object
 */
 func (o *AnimationNode) GetChildByName(name gdnative.String) ObjectImplementer {
@@ -255,7 +255,7 @@ func (o *AnimationNode) GetChildByName(name gdnative.String) ObjectImplementer {
 }
 
 /*
-        Get all children nodes, in order as a name:node dictionary. Only useful when inheriting [AnimationRootNode].
+        Gets all children nodes in order as a [code]name: node[/code] dictionary. Only useful when inheriting [AnimationRootNode].
 	Args: [], Returns: Dictionary
 */
 func (o *AnimationNode) GetChildNodes() gdnative.Dictionary {
@@ -301,7 +301,7 @@ func (o *AnimationNode) GetInputCount() gdnative.Int {
 }
 
 /*
-        Get the name of an input by index.
+        Gets the name of an input by index.
 	Args: [{ false input int}], Returns: String
 */
 func (o *AnimationNode) GetInputName(input gdnative.Int) gdnative.String {
@@ -325,7 +325,7 @@ func (o *AnimationNode) GetInputName(input gdnative.Int) gdnative.String {
 }
 
 /*
-        Get the value of a parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees.
+        Gets the value of a parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees.
 	Args: [{ false name String}], Returns: Variant
 */
 func (o *AnimationNode) GetParameter(name gdnative.String) gdnative.Variant {
@@ -349,7 +349,7 @@ func (o *AnimationNode) GetParameter(name gdnative.String) gdnative.Variant {
 }
 
 /*
-        Get the default value of a parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees.
+        Gets the default value of a parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees.
 	Args: [{ false name String}], Returns: Variant
 */
 func (o *AnimationNode) GetParameterDefaultValue(name gdnative.String) gdnative.Variant {
@@ -373,7 +373,7 @@ func (o *AnimationNode) GetParameterDefaultValue(name gdnative.String) gdnative.
 }
 
 /*
-        Get the property information for parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees. Format is similar to [method Object.get_property_list].
+        Gets the property information for parameter. Parameters are custom local memory used for your nodes, given a resource can be reused in multiple trees. Format is similar to [method Object.get_property_list].
 	Args: [], Returns: Array
 */
 func (o *AnimationNode) GetParameterList() gdnative.Array {
@@ -488,7 +488,7 @@ func (o *AnimationNode) Process(time gdnative.Real, seek gdnative.Bool) {
 }
 
 /*
-        Remove an input, call this only when inactive.
+        Removes an input, call this only when inactive.
 	Args: [{ false index int}], Returns: void
 */
 func (o *AnimationNode) RemoveInput(index gdnative.Int) {
@@ -530,7 +530,7 @@ func (o *AnimationNode) SetFilterEnabled(enable gdnative.Bool) {
 }
 
 /*
-        Add/Remove a path for the filter.
+        Adds or removes a path for the filter.
 	Args: [{ false path NodePath} { false enable bool}], Returns: void
 */
 func (o *AnimationNode) SetFilterPath(path gdnative.NodePath, enable gdnative.Bool) {
@@ -552,7 +552,7 @@ func (o *AnimationNode) SetFilterPath(path gdnative.NodePath, enable gdnative.Bo
 }
 
 /*
-        Set a custom parameter. These are used as local storage, because resources can be reused across the tree or scenes.
+        Sets a custom parameter. These are used as local storage, because resources can be reused across the tree or scenes.
 	Args: [{ false name String} { false value Variant}], Returns: void
 */
 func (o *AnimationNode) SetParameter(name gdnative.String, value gdnative.Variant) {

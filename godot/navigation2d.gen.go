@@ -23,7 +23,7 @@ func newNavigation2DFromPointer(ptr gdnative.Pointer) Navigation2D {
 }
 
 /*
-Navigation2D provides navigation and pathfinding within a 2D area, specified as a collection of [NavigationPolygon] resources. By default these are automatically collected from child [NavigationPolygonInstance] nodes, but they can also be added on the fly with [method navpoly_add].
+Navigation2D provides navigation and pathfinding within a 2D area, specified as a collection of [NavigationPolygon] resources. By default, these are automatically collected from child [NavigationPolygonInstance] nodes, but they can also be added on the fly with [method navpoly_add].
 */
 type Navigation2D struct {
 	Node2D

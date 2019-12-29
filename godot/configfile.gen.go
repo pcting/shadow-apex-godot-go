@@ -23,7 +23,7 @@ func newConfigFileFromPointer(ptr gdnative.Pointer) ConfigFile {
 }
 
 /*
-This helper class can be used to store [Variant] values on the filesystem using INI-style formatting. The stored values are identified by a section and a key: [codeblock] [section] some_key=42 string_example="Hello World!" a_vector=Vector3( 1, 0, 2 ) [/codeblock] The stored data can be saved to or parsed from a file, though ConfigFile objects can also be used directly without accessing the filesystem. The following example shows how to parse an INI-style file from the system, read its contents and store new values in it: [codeblock] var config = ConfigFile.new() var err = config.load("user://settings.cfg") if err == OK: # if not, something went wrong with the file loading # Look for the display/width pair, and default to 1024 if missing var screen_width = config.get_value("display", "width", 1024) # Store a variable if and only if it hasn't been defined yet if not config.has_section_key("audio", "mute"): config.set_value("audio", "mute", false) # Save the changes by overwriting the previous file config.save("user://settings.cfg") [/codeblock] Keep in mind that section and property names can't contain spaces. Anything after a space will be ignored on save and on load.
+This helper class can be used to store [Variant] values on the filesystem using INI-style formatting. The stored values are identified by a section and a key: [codeblock] [section] some_key=42 string_example="Hello World!" a_vector=Vector3( 1, 0, 2 ) [/codeblock] The stored data can be saved to or parsed from a file, though ConfigFile objects can also be used directly without accessing the filesystem. The following example shows how to parse an INI-style file from the system, read its contents and store new values in it: [codeblock] var config = ConfigFile.new() var err = config.load("user://settings.cfg") if err == OK: # If not, something went wrong with the file loading # Look for the display/width pair, and default to 1024 if missing var screen_width = config.get_value("display", "width", 1024) # Store a variable if and only if it hasn't been defined yet if not config.has_section_key("audio", "mute"): config.set_value("audio", "mute", false) # Save the changes by overwriting the previous file config.save("user://settings.cfg") [/codeblock] Keep in mind that section and property names can't contain spaces. Anything after a space will be ignored on save and on load. ConfigFiles can also contain manually written comment lines starting with a semicolon ([code];[/code]). Those lines will be ignored when parsing the file. Note that comments will be lost when saving the ConfigFile. This can still be useful for dedicated server configuration files, which are typically never overwritten without explicit user action.
 */
 type ConfigFile struct {
 	Reference
@@ -56,7 +56,7 @@ func (o *ConfigFile) EraseSection(section gdnative.String) {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false section String} { false key String}], Returns: void
 */
 func (o *ConfigFile) EraseSectionKey(section gdnative.String, key gdnative.String) {
@@ -200,7 +200,7 @@ func (o *ConfigFile) HasSectionKey(section gdnative.String, key gdnative.String)
 }
 
 /*
-        Loads the config file specified as a parameter. The file's contents are parsed and loaded in the ConfigFile object which the method was called on. Returns one of the [constant @GlobalScope.OK], [constant @GlobalScope.FAILED] or [code]ERR_*[/code] constants listed in [@GlobalScope]. If the load was successful, the return value is [constant @GlobalScope.OK].
+        Loads the config file specified as a parameter. The file's contents are parsed and loaded in the ConfigFile object which the method was called on. Returns one of the [enum Error] code constants ([code]OK[/code] on success).
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *ConfigFile) Load(path gdnative.String) gdnative.Error {
@@ -224,7 +224,7 @@ func (o *ConfigFile) Load(path gdnative.String) gdnative.Error {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false path String} { false key PoolByteArray}], Returns: enum.Error
 */
 func (o *ConfigFile) LoadEncrypted(path gdnative.String, key gdnative.PoolByteArray) gdnative.Error {
@@ -249,7 +249,7 @@ func (o *ConfigFile) LoadEncrypted(path gdnative.String, key gdnative.PoolByteAr
 }
 
 /*
-        Undocumented
+
 	Args: [{ false path String} { false pass String}], Returns: enum.Error
 */
 func (o *ConfigFile) LoadEncryptedPass(path gdnative.String, pass gdnative.String) gdnative.Error {
@@ -274,7 +274,7 @@ func (o *ConfigFile) LoadEncryptedPass(path gdnative.String, pass gdnative.Strin
 }
 
 /*
-        Saves the contents of the ConfigFile object to the file specified as a parameter. The output file uses an INI-style structure. Returns one of the [constant @GlobalScope.OK], [constant @GlobalScope.FAILED] or [code]ERR_*[/code] constants listed in [@GlobalScope]. If the load was successful, the return value is [constant @GlobalScope.OK].
+        Saves the contents of the ConfigFile object to the file specified as a parameter. The output file uses an INI-style structure. Returns one of the [enum Error] code constants ([code]OK[/code] on success).
 	Args: [{ false path String}], Returns: enum.Error
 */
 func (o *ConfigFile) Save(path gdnative.String) gdnative.Error {
@@ -298,7 +298,7 @@ func (o *ConfigFile) Save(path gdnative.String) gdnative.Error {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false path String} { false key PoolByteArray}], Returns: enum.Error
 */
 func (o *ConfigFile) SaveEncrypted(path gdnative.String, key gdnative.PoolByteArray) gdnative.Error {
@@ -323,7 +323,7 @@ func (o *ConfigFile) SaveEncrypted(path gdnative.String, key gdnative.PoolByteAr
 }
 
 /*
-        Undocumented
+
 	Args: [{ false path String} { false pass String}], Returns: enum.Error
 */
 func (o *ConfigFile) SaveEncryptedPass(path gdnative.String, pass gdnative.String) gdnative.Error {

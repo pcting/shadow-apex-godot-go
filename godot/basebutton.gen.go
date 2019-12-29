@@ -95,7 +95,7 @@ func (o *BaseButton) X_Pressed() {
 }
 
 /*
-        Called when the button is toggled (only if toggle_mode is active).
+        Called when the button is toggled (only if [member toggle_mode] is active).
 	Args: [{ false button_pressed bool}], Returns: void
 */
 func (o *BaseButton) X_Toggled(buttonPressed gdnative.Bool) {
@@ -220,7 +220,7 @@ func (o *BaseButton) GetButtonMask() gdnative.Int {
 }
 
 /*
-        Returns the visual state used to draw the button. This is useful mainly when implementing your own draw code by either overriding _draw() or connecting to "draw" signal. The visual state of the button is defined by the DRAW_* enum.
+        Returns the visual state used to draw the button. This is useful mainly when implementing your own draw code by either overriding _draw() or connecting to "draw" signal. The visual state of the button is defined by the [enum DrawMode] enum.
 	Args: [], Returns: enum.BaseButton::DrawMode
 */
 func (o *BaseButton) GetDrawMode() BaseButtonDrawMode {

@@ -77,7 +77,7 @@ func (o *AnimationNodeBlendSpace1D) X_TreeChanged() {
 }
 
 /*
-        Add a new point that represents a [code]node[/code] on the virtual axis at a given position set by [code]pos[/code]. You can insert it at a specific index using the [code]at_index[/code] argument. If you use the default value for [code]at_index[/code] , the point is inserted at the end of the blend points array.
+        Adds a new point that represents a [code]node[/code] on the virtual axis at a given position set by [code]pos[/code]. You can insert it at a specific index using the [code]at_index[/code] argument. If you use the default value for [code]at_index[/code] , the point is inserted at the end of the blend points array.
 	Args: [{ false node AnimationRootNode} { false pos float} {-1 true at_index int}], Returns: void
 */
 func (o *AnimationNodeBlendSpace1D) AddBlendPoint(node AnimationRootNodeImplementer, pos gdnative.Real, atIndex gdnative.Int) {

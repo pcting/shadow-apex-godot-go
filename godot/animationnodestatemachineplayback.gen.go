@@ -23,7 +23,7 @@ func newAnimationNodeStateMachinePlaybackFromPointer(ptr gdnative.Pointer) Anima
 }
 
 /*
-Allows control of [AnimationTree] state machines created with [AnimationNodeStateMachine]. Retrieve with [code]$AnimationTree.get("parameters/playback")[/code]. Example: [codeblock] var state_machine = $AnimationTree.get("parameters/playback") state_machine.travel("some_state") [/codeblock]
+Allows control of [AnimationTree] state machines created with [AnimationNodeStateMachine]. Retrieve with [code]$AnimationTree.get("parameters/playback")[/code]. [b]Example:[/b] [codeblock] var state_machine = $AnimationTree.get("parameters/playback") state_machine.travel("some_state") [/codeblock]
 */
 type AnimationNodeStateMachinePlayback struct {
 	Resource

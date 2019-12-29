@@ -23,7 +23,7 @@ func newPopupFromPointer(ptr gdnative.Pointer) Popup {
 }
 
 /*
-Popup is a base [Control] used to show dialogs and popups. It's a subwindow and modal by default (see [Control]) and has helpers for custom popup behavior.
+Popup is a base [Control] used to show dialogs and popups. It's a subwindow and modal by default (see [Control]) and has helpers for custom popup behavior. All popup methods ensure correct placement within the viewport.
 */
 type Popup struct {
 	Control
@@ -79,7 +79,7 @@ func (o *Popup) PopupMethod(bounds gdnative.Rect2) {
 }
 
 /*
-        Popup (show the control in modal form) in the center of the screen relative to its current canvas transform, at the current size, or at a size determined by "size".
+        Popup (show the control in modal form) in the center of the screen relative to its current canvas transform, at the current size, or at a size determined by [code]size[/code].
 	Args: [{(0, 0) true size Vector2}], Returns: void
 */
 func (o *Popup) PopupCentered(size gdnative.Vector2) {
@@ -100,7 +100,7 @@ func (o *Popup) PopupCentered(size gdnative.Vector2) {
 }
 
 /*
-        Undocumented
+        Popup (show the control in modal form) in the center of the screen relative to the current canvas transform, clamping the size to [code]size[/code], then ensuring the popup is no larger than the viewport size multiplied by [code]fallback_ratio[/code].
 	Args: [{(0, 0) true size Vector2} {0.75 true fallback_ratio float}], Returns: void
 */
 func (o *Popup) PopupCenteredClamped(size gdnative.Vector2, fallbackRatio gdnative.Real) {
@@ -164,7 +164,7 @@ func (o *Popup) PopupCenteredRatio(ratio gdnative.Real) {
 }
 
 /*
-        Undocumented
+        Shrink popup to keep to the minimum size of content.
 	Args: [], Returns: void
 */
 func (o *Popup) SetAsMinsize() {

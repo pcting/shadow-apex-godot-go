@@ -23,7 +23,7 @@ func newStyleBoxFlatFromPointer(ptr gdnative.Pointer) StyleBoxFlat {
 }
 
 /*
-This stylebox can be used to achieve all kinds of looks without the need of a texture. Those properties are customizable: - Color - Border width (individual width for each border) - Rounded corners (individual radius for each corner) - Shadow Setting corner radius to high values is allowed. As soon as corners would overlap the stylebox will switch to a relative system. Example: [codeblock] height = 30 corner_radius_top_left = 50 corner_radius_bottom_left = 100 [/codeblock] The relative system now would take the 1:2 ratio of the two left corners to calculate the actual corner width. Both corners added will [b]never[/b] be more than the height. Result: [codeblock] corner_radius_top_left: 10 corner_radius_bottom_left: 20 [/codeblock]
+This [StyleBox] can be used to achieve all kinds of looks without the need of a texture. Those properties are customizable: - Color - Border width (individual width for each border) - Rounded corners (individual radius for each corner) - Shadow (with blur and offset) Setting corner radius to high values is allowed. As soon as corners would overlap, the stylebox will switch to a relative system. Example: [codeblock] height = 30 corner_radius_top_left = 50 corner_radius_bottom_left = 100 [/codeblock] The relative system now would take the 1:2 ratio of the two left corners to calculate the actual corner width. Both corners added will [b]never[/b] be more than the height. Result: [codeblock] corner_radius_top_left: 10 corner_radius_bottom_left: 20 [/codeblock]
 */
 type StyleBoxFlat struct {
 	StyleBox
@@ -127,7 +127,7 @@ func (o *StyleBoxFlat) GetBorderColor() gdnative.Color {
 }
 
 /*
-        Undocumented
+        Returns the given [code]margin[/code]'s border width. See [enum Margin] for possible values.
 	Args: [{ false margin int}], Returns: int
 */
 func (o *StyleBoxFlat) GetBorderWidth(margin gdnative.Int) gdnative.Int {
@@ -151,7 +151,7 @@ func (o *StyleBoxFlat) GetBorderWidth(margin gdnative.Int) gdnative.Int {
 }
 
 /*
-
+        Returns the smallest border width out of all four borders.
 	Args: [], Returns: int
 */
 func (o *StyleBoxFlat) GetBorderWidthMin() gdnative.Int {
@@ -197,7 +197,7 @@ func (o *StyleBoxFlat) GetCornerDetail() gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns the given [code]corner[/code]'s radius. See [enum Corner] for possible values.
 	Args: [{ false corner int}], Returns: int
 */
 func (o *StyleBoxFlat) GetCornerRadius(corner gdnative.Int) gdnative.Int {
@@ -221,7 +221,7 @@ func (o *StyleBoxFlat) GetCornerRadius(corner gdnative.Int) gdnative.Int {
 }
 
 /*
-        Undocumented
+        Returns the size of the given [code]margin[/code]'s expand margin. See [enum Margin] for possible values.
 	Args: [{ false margin int}], Returns: float
 */
 func (o *StyleBoxFlat) GetExpandMargin(margin gdnative.Int) gdnative.Real {
@@ -465,7 +465,7 @@ func (o *StyleBoxFlat) SetBorderColor(color gdnative.Color) {
 }
 
 /*
-        Undocumented
+        Sets the border width to [code]width[/code] pixels for the given [code]margin[/code]. See [enum Margin] for possible values.
 	Args: [{ false margin int} { false width int}], Returns: void
 */
 func (o *StyleBoxFlat) SetBorderWidth(margin gdnative.Int, width gdnative.Int) {
@@ -487,7 +487,7 @@ func (o *StyleBoxFlat) SetBorderWidth(margin gdnative.Int, width gdnative.Int) {
 }
 
 /*
-
+        Sets the border width to [code]width[/code] pixels for all margins.
 	Args: [{ false width int}], Returns: void
 */
 func (o *StyleBoxFlat) SetBorderWidthAll(width gdnative.Int) {
@@ -529,7 +529,7 @@ func (o *StyleBoxFlat) SetCornerDetail(detail gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Sets the corner radius to [code]radius[/code] pixels for the given [code]corner[/code]. See [enum Corner] for possible values.
 	Args: [{ false corner int} { false radius int}], Returns: void
 */
 func (o *StyleBoxFlat) SetCornerRadius(corner gdnative.Int, radius gdnative.Int) {
@@ -551,7 +551,7 @@ func (o *StyleBoxFlat) SetCornerRadius(corner gdnative.Int, radius gdnative.Int)
 }
 
 /*
-
+        Sets the corner radius to [code]radius[/code] pixels for all corners.
 	Args: [{ false radius int}], Returns: void
 */
 func (o *StyleBoxFlat) SetCornerRadiusAll(radius gdnative.Int) {
@@ -572,7 +572,7 @@ func (o *StyleBoxFlat) SetCornerRadiusAll(radius gdnative.Int) {
 }
 
 /*
-
+        Sets the corner radius for each corner to [code]radius_top_left[/code], [code]radius_top_right[/code], [code]radius_bottom_right[/code], and [code]radius_bottom_left[/code] pixels.
 	Args: [{ false radius_top_left int} { false radius_top_right int} { false radius_bottom_right int} { false radius_bottom_left int}], Returns: void
 */
 func (o *StyleBoxFlat) SetCornerRadiusIndividual(radiusTopLeft gdnative.Int, radiusTopRight gdnative.Int, radiusBottomRight gdnative.Int, radiusBottomLeft gdnative.Int) {
@@ -617,7 +617,7 @@ func (o *StyleBoxFlat) SetDrawCenter(drawCenter gdnative.Bool) {
 }
 
 /*
-        Undocumented
+        Sets the expand margin to [code]size[/code] pixels for the given [code]margin[/code]. See [enum Margin] for possible values.
 	Args: [{ false margin int} { false size float}], Returns: void
 */
 func (o *StyleBoxFlat) SetExpandMargin(margin gdnative.Int, size gdnative.Real) {
@@ -639,7 +639,7 @@ func (o *StyleBoxFlat) SetExpandMargin(margin gdnative.Int, size gdnative.Real) 
 }
 
 /*
-
+        Sets the expand margin to [code]size[/code] pixels for all margins.
 	Args: [{ false size float}], Returns: void
 */
 func (o *StyleBoxFlat) SetExpandMarginAll(size gdnative.Real) {
@@ -660,7 +660,7 @@ func (o *StyleBoxFlat) SetExpandMarginAll(size gdnative.Real) {
 }
 
 /*
-
+        Sets the expand margin for each margin to [code]size_left[/code], [code]size_top[/code], [code]size_right[/code], and [code]size_bottom[/code] pixels.
 	Args: [{ false size_left float} { false size_top float} { false size_right float} { false size_bottom float}], Returns: void
 */
 func (o *StyleBoxFlat) SetExpandMarginIndividual(sizeLeft gdnative.Real, sizeTop gdnative.Real, sizeRight gdnative.Real, sizeBottom gdnative.Real) {

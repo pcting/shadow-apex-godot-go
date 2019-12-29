@@ -23,8 +23,8 @@ func newCameraTextureFromPointer(ptr gdnative.Pointer) CameraTexture {
 }
 
 /*
-Undocumented
-*/
+
+ */
 type CameraTexture struct {
 	Texture
 	owner gdnative.Object

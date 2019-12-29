@@ -23,7 +23,7 @@ func newAudioStreamPlaybackFromPointer(ptr gdnative.Pointer) AudioStreamPlayback
 }
 
 /*
-Can play, loop, pause a scroll through Audio. See [AudioStream] and [AudioStreamOGGVorbis] for usage.
+Can play, loop, pause a scroll through audio. See [AudioStream] and [AudioStreamOGGVorbis] for usage.
 */
 type AudioStreamPlayback struct {
 	Reference

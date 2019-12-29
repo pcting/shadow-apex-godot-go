@@ -116,7 +116,7 @@ func (o *ShaderMaterial) GetShaderParam(param gdnative.String) gdnative.Variant 
 }
 
 /*
-
+        Returns [code]true[/code] if the property identified by [code]name[/code] can be reverted to a default value.
 	Args: [{ false name String}], Returns: bool
 */
 func (o *ShaderMaterial) PropertyCanRevert(name gdnative.String) gdnative.Bool {
@@ -140,7 +140,7 @@ func (o *ShaderMaterial) PropertyCanRevert(name gdnative.String) gdnative.Bool {
 }
 
 /*
-
+        Returns the default value of the material property with given [code]name[/code].
 	Args: [{ false name String}], Returns: Variant
 */
 func (o *ShaderMaterial) PropertyGetRevert(name gdnative.String) gdnative.Variant {

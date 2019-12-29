@@ -23,8 +23,8 @@ func newStyleBoxLineFromPointer(ptr gdnative.Pointer) StyleBoxLine {
 }
 
 /*
-
- */
+[StyleBox] that displays a single line of a given color and thickness. It can be used to draw things like separators.
+*/
 type StyleBoxLine struct {
 	StyleBox
 	owner gdnative.Object

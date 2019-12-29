@@ -66,7 +66,7 @@ func (o *Animation) BaseClass() string {
 }
 
 /*
-        Add a track to the Animation. The track type must be specified as any of the values in the TYPE_* enumeration.
+        Adds a track to the Animation.
 	Args: [{ false type int} {-1 true at_position int}], Returns: int
 */
 func (o *Animation) AddTrack(aType gdnative.Int, atPosition gdnative.Int) gdnative.Int {
@@ -782,7 +782,7 @@ func (o *Animation) MethodTrackGetParams(trackIdx gdnative.Int, keyIdx gdnative.
 }
 
 /*
-        Remove a track by specifying the track index.
+        Removes a track by specifying the track index.
 	Args: [{ false track_idx int}], Returns: void
 */
 func (o *Animation) RemoveTrack(trackIdx gdnative.Int) {
@@ -866,7 +866,7 @@ func (o *Animation) SetStep(sizeSec gdnative.Real) {
 }
 
 /*
-        Find the key index by time in a given track. Optionally, only find it if the exact time is given.
+        Finds the key index by time in a given track. Optionally, only find it if the exact time is given.
 	Args: [{ false track_idx int} { false time float} {False true exact bool}], Returns: int
 */
 func (o *Animation) TrackFindKey(trackIdx gdnative.Int, time gdnative.Real, exact gdnative.Bool) gdnative.Int {
@@ -892,7 +892,7 @@ func (o *Animation) TrackFindKey(trackIdx gdnative.Int, time gdnative.Real, exac
 }
 
 /*
-        Returns [code]true[/code] if the track at [code]idx[/code] wraps the interpolation loop. Default value: [code]true[/code].
+        Returns [code]true[/code] if the track at [code]idx[/code] wraps the interpolation loop. New tracks wrap the interpolation loop by default.
 	Args: [{ false track_idx int}], Returns: bool
 */
 func (o *Animation) TrackGetInterpolationLoopWrap(trackIdx gdnative.Int) gdnative.Bool {
@@ -916,7 +916,7 @@ func (o *Animation) TrackGetInterpolationLoopWrap(trackIdx gdnative.Int) gdnativ
 }
 
 /*
-        Returns the interpolation type of a given track, from the INTERPOLATION_* enum.
+        Returns the interpolation type of a given track.
 	Args: [{ false track_idx int}], Returns: enum.Animation::InterpolationType
 */
 func (o *Animation) TrackGetInterpolationType(trackIdx gdnative.Int) AnimationInterpolationType {
@@ -989,7 +989,7 @@ func (o *Animation) TrackGetKeyTime(trackIdx gdnative.Int, keyIdx gdnative.Int) 
 }
 
 /*
-        Returns the transition curve (easing) for a specific key (see built-in math function "ease").
+        Returns the transition curve (easing) for a specific key (see the built-in math function [method @GDScript.ease]).
 	Args: [{ false track_idx int} { false key_idx int}], Returns: float
 */
 func (o *Animation) TrackGetKeyTransition(trackIdx gdnative.Int, keyIdx gdnative.Int) gdnative.Real {
@@ -1039,7 +1039,7 @@ func (o *Animation) TrackGetKeyValue(trackIdx gdnative.Int, keyIdx gdnative.Int)
 }
 
 /*
-        Get the path of a track. for more information on the path format, see [method track_set_path]
+        Gets the path of a track. For more information on the path format, see [method track_set_path].
 	Args: [{ false track_idx int}], Returns: NodePath
 */
 func (o *Animation) TrackGetPath(trackIdx gdnative.Int) gdnative.NodePath {
@@ -1063,7 +1063,7 @@ func (o *Animation) TrackGetPath(trackIdx gdnative.Int) gdnative.NodePath {
 }
 
 /*
-        Get the type of a track.
+        Gets the type of a track.
 	Args: [{ false track_idx int}], Returns: enum.Animation::TrackType
 */
 func (o *Animation) TrackGetType(trackIdx gdnative.Int) AnimationTrackType {
@@ -1159,7 +1159,7 @@ func (o *Animation) TrackIsImported(trackIdx gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Move a track down.
+        Moves a track down.
 	Args: [{ false track_idx int}], Returns: void
 */
 func (o *Animation) TrackMoveDown(trackIdx gdnative.Int) {
@@ -1180,7 +1180,7 @@ func (o *Animation) TrackMoveDown(trackIdx gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Changes the index position of track [code]idx[/code] to the one defined in [code]to_idx[/code].
 	Args: [{ false track_idx int} { false to_idx int}], Returns: void
 */
 func (o *Animation) TrackMoveTo(trackIdx gdnative.Int, toIdx gdnative.Int) {
@@ -1202,7 +1202,7 @@ func (o *Animation) TrackMoveTo(trackIdx gdnative.Int, toIdx gdnative.Int) {
 }
 
 /*
-        Move a track up.
+        Moves a track up.
 	Args: [{ false track_idx int}], Returns: void
 */
 func (o *Animation) TrackMoveUp(trackIdx gdnative.Int) {
@@ -1223,7 +1223,7 @@ func (o *Animation) TrackMoveUp(trackIdx gdnative.Int) {
 }
 
 /*
-        Remove a key by index in a given track.
+        Removes a key by index in a given track.
 	Args: [{ false track_idx int} { false key_idx int}], Returns: void
 */
 func (o *Animation) TrackRemoveKey(trackIdx gdnative.Int, keyIdx gdnative.Int) {
@@ -1245,7 +1245,7 @@ func (o *Animation) TrackRemoveKey(trackIdx gdnative.Int, keyIdx gdnative.Int) {
 }
 
 /*
-        Remove a key by position (seconds) in a given track.
+        Removes a key by position (seconds) in a given track.
 	Args: [{ false track_idx int} { false position float}], Returns: void
 */
 func (o *Animation) TrackRemoveKeyAtPosition(trackIdx gdnative.Int, position gdnative.Real) {
@@ -1289,7 +1289,7 @@ func (o *Animation) TrackSetEnabled(trackIdx gdnative.Int, enabled gdnative.Bool
 }
 
 /*
-        Set the given track as imported or not.
+        Sets the given track as imported or not.
 	Args: [{ false track_idx int} { false imported bool}], Returns: void
 */
 func (o *Animation) TrackSetImported(trackIdx gdnative.Int, imported gdnative.Bool) {
@@ -1333,7 +1333,7 @@ func (o *Animation) TrackSetInterpolationLoopWrap(trackIdx gdnative.Int, interpo
 }
 
 /*
-        Set the interpolation type of a given track, from the INTERPOLATION_* enum.
+        Sets the interpolation type of a given track.
 	Args: [{ false track_idx int} { false interpolation int}], Returns: void
 */
 func (o *Animation) TrackSetInterpolationType(trackIdx gdnative.Int, interpolation gdnative.Int) {
@@ -1355,7 +1355,7 @@ func (o *Animation) TrackSetInterpolationType(trackIdx gdnative.Int, interpolati
 }
 
 /*
-        Undocumented
+        Sets the time of an existing key.
 	Args: [{ false track_idx int} { false key_idx int} { false time float}], Returns: void
 */
 func (o *Animation) TrackSetKeyTime(trackIdx gdnative.Int, keyIdx gdnative.Int, time gdnative.Real) {
@@ -1378,7 +1378,7 @@ func (o *Animation) TrackSetKeyTime(trackIdx gdnative.Int, keyIdx gdnative.Int, 
 }
 
 /*
-        Set the transition curve (easing) for a specific key (see built-in math function "ease").
+        Sets the transition curve (easing) for a specific key (see the built-in math function [method @GDScript.ease]).
 	Args: [{ false track_idx int} { false key_idx int} { false transition float}], Returns: void
 */
 func (o *Animation) TrackSetKeyTransition(trackIdx gdnative.Int, keyIdx gdnative.Int, transition gdnative.Real) {
@@ -1401,7 +1401,7 @@ func (o *Animation) TrackSetKeyTransition(trackIdx gdnative.Int, keyIdx gdnative
 }
 
 /*
-        Set the value of an existing key.
+        Sets the value of an existing key.
 	Args: [{ false track_idx int} { false key int} { false value Variant}], Returns: void
 */
 func (o *Animation) TrackSetKeyValue(trackIdx gdnative.Int, key gdnative.Int, value gdnative.Variant) {
@@ -1424,7 +1424,7 @@ func (o *Animation) TrackSetKeyValue(trackIdx gdnative.Int, key gdnative.Int, va
 }
 
 /*
-        Set the path of a track. Paths must be valid scene-tree paths to a node, and must be specified starting from the parent node of the node that will reproduce the animation. Tracks that control properties or bones must append their name after the path, separated by ":". [b]Example:[/b] "character/skeleton:ankle" or "character/mesh:transform/local".
+        Sets the path of a track. Paths must be valid scene-tree paths to a node, and must be specified starting from the parent node of the node that will reproduce the animation. Tracks that control properties or bones must append their name after the path, separated by [code]":"[/code]. For example, [code]"character/skeleton:ankle"[/code] or [code]"character/mesh:transform/local"[/code].
 	Args: [{ false track_idx int} { false path NodePath}], Returns: void
 */
 func (o *Animation) TrackSetPath(trackIdx gdnative.Int, path gdnative.NodePath) {
@@ -1446,7 +1446,7 @@ func (o *Animation) TrackSetPath(trackIdx gdnative.Int, path gdnative.NodePath) 
 }
 
 /*
-
+        Swaps the track [code]idx[/code]'s index position with the track [code]with_idx[/code].
 	Args: [{ false track_idx int} { false with_idx int}], Returns: void
 */
 func (o *Animation) TrackSwap(trackIdx gdnative.Int, withIdx gdnative.Int) {
@@ -1571,7 +1571,7 @@ func (o *Animation) ValueTrackGetUpdateMode(trackIdx gdnative.Int) AnimationUpda
 }
 
 /*
-        Set the update mode (UPDATE_*) of a value track.
+        Sets the update mode (see [enum UpdateMode]) of a value track.
 	Args: [{ false track_idx int} { false mode int}], Returns: void
 */
 func (o *Animation) ValueTrackSetUpdateMode(trackIdx gdnative.Int, mode gdnative.Int) {

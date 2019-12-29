@@ -41,7 +41,7 @@ func newTreeFromPointer(ptr gdnative.Pointer) Tree {
 }
 
 /*
-This shows a tree of items that can be selected, expanded and collapsed. The tree can have multiple columns with custom controls like text editing, buttons and popups. It can be useful for structured displays and interactions. Trees are built via code, using [TreeItem] objects to create the structure. They have a single root but multiple roots can be simulated if a dummy hidden root is added. [codeblock] func _ready(): var tree = Tree.new() var root = tree.create_item() tree.set_hide_root(true) var child1 = tree.create_item(root) var child2 = tree.create_item(root) var subchild1 = tree.create_item(child1) subchild1.set_text(0, "Subchild1") [/codeblock]
+This shows a tree of items that can be selected, expanded and collapsed. The tree can have multiple columns with custom controls like text editing, buttons and popups. It can be useful for structured displays and interactions. Trees are built via code, using [TreeItem] objects to create the structure. They have a single root but multiple roots can be simulated if a dummy hidden root is added. [codeblock] func _ready(): var tree = Tree.new() var root = tree.create_item() tree.set_hide_root(true) var child1 = tree.create_item(root) var child2 = tree.create_item(root) var subchild1 = tree.create_item(child1) subchild1.set_text(0, "Subchild1") [/codeblock] To iterate over all the [TreeItem] objects in a [Tree] object, use [method TreeItem.get_next] and [method TreeItem.get_children] after getting the root through [method get_root].
 */
 type Tree struct {
 	Control
@@ -241,7 +241,7 @@ func (o *Tree) Clear() {
 }
 
 /*
-        Create an item in the tree and add it as the last child of [code]parent[/code]. If parent is not given, it will be added as the root's last child, or it'll the be the root itself if the tree is empty.
+        Creates an item in the tree and adds it as a child of [code]parent[/code]. If [code]parent[/code] is [code]null[/code], the root item will be the parent, or the new item will be the root itself if the tree is empty. The new item will be the [code]idx[/code]th child of parent, or it will be the last child if there are not enough siblings.
 	Args: [{Null true parent Object} {-1 true idx int}], Returns: TreeItem
 */
 func (o *Tree) CreateItem(parent ObjectImplementer, idx gdnative.Int) TreeItemImplementer {
@@ -280,7 +280,7 @@ func (o *Tree) CreateItem(parent ObjectImplementer, idx gdnative.Int) TreeItemIm
 }
 
 /*
-        Makes the currently selected item visible. This will scroll the tree to make sure the selected item is visible.
+        Makes the currently focused cell visible. This will scroll the tree if necessary. In [constant SELECT_ROW] mode, this will not do horizontal scrolling, as all the cells in the selected row is focused logically. [b]Note:[/b] Despite the name of this method, the focus cursor itself is only visible in [constant SELECT_MULTI] mode.
 	Args: [], Returns: void
 */
 func (o *Tree) EnsureCursorIsVisible() {
@@ -346,7 +346,7 @@ func (o *Tree) GetAllowRmbSelect() gdnative.Bool {
 }
 
 /*
-        Returns the column index under the given point.
+        Returns the column index at [code]position[/code], or -1 if no item is there.
 	Args: [{ false position Vector2}], Returns: int
 */
 func (o *Tree) GetColumnAtPosition(position gdnative.Vector2) gdnative.Int {
@@ -487,7 +487,7 @@ func (o *Tree) GetDropModeFlags() gdnative.Int {
 }
 
 /*
-        If [member drop_mode_flags] includes [constant DROP_MODE_INBETWEEN], returns -1 if [code]position[/code] is the upper part of a tree item at that position, 1 for the lower part, and additionally 0 for the middle part if [member drop_mode_flags] includes [constant DROP_MODE_ON_ITEM]. Otherwise, returns 0. If there are no tree item at [code]position[/code], returns -100.
+        Returns the drop section at [code]position[/code], or -100 if no item is there. Values -1, 0, or 1 will be returned for the "above item", "on item", and "below item" drop sections, respectively. See [enum DropModeFlags] for a description of each drop section. To get the item which the returned drop section is relative to, use [method get_item_at_position].
 	Args: [{ false position Vector2}], Returns: int
 */
 func (o *Tree) GetDropSectionAtPosition(position gdnative.Vector2) gdnative.Int {
@@ -571,7 +571,7 @@ func (o *Tree) GetEditedColumn() gdnative.Int {
 }
 
 /*
-        Returns the rectangle area for the specified item. If column is specified, only get the position and size of that column, otherwise get the rectangle containing all columns.
+        Returns the rectangle area for the specified item. If [code]column[/code] is specified, only get the position and size of that column, otherwise get the rectangle containing all columns.
 	Args: [{ false item Object} {-1 true column int}], Returns: Rect2
 */
 func (o *Tree) GetItemAreaRect(item ObjectImplementer, column gdnative.Int) gdnative.Rect2 {
@@ -634,7 +634,7 @@ func (o *Tree) GetItemAtPosition(position gdnative.Vector2) TreeItemImplementer 
 }
 
 /*
-        Returns the next selected item after the given one.
+        Returns the next selected item after the given one, or [code]null[/code] if the end is reached. If [code]from[/code] is [code]null[/code], this returns the first selected item.
 	Args: [{ false from Object}], Returns: TreeItem
 */
 func (o *Tree) GetNextSelected(from ObjectImplementer) TreeItemImplementer {
@@ -695,7 +695,7 @@ func (o *Tree) GetPressedButton() gdnative.Int {
 }
 
 /*
-        Returns the tree's root item.
+        Returns the tree's root item, or [code]null[/code] if the tree is empty.
 	Args: [], Returns: TreeItem
 */
 func (o *Tree) GetRoot() TreeItemImplementer {
@@ -778,7 +778,7 @@ func (o *Tree) GetSelectMode() TreeSelectMode {
 }
 
 /*
-        Returns the currently selected item.
+        Returns the currently focused item, or [code]null[/code] if no item is focused. In [constant SELECT_ROW] and [constant SELECT_SINGLE] modes, the focused item is same as the selected item. In [constant SELECT_MULTI] mode, the focused item is the item under the focus cursor, not necessarily selected. To get the currently selected item(s), use [method get_next_selected].
 	Args: [], Returns: TreeItem
 */
 func (o *Tree) GetSelected() TreeItemImplementer {
@@ -815,7 +815,7 @@ func (o *Tree) GetSelected() TreeItemImplementer {
 }
 
 /*
-        Returns the current selection's column.
+        Returns the currently focused column, or -1 if no column is focused. In [constant SELECT_SINGLE] mode, the focused column is the selected column. In [constant SELECT_ROW] mode, the focused column is always 0 if any item is selected. In [constant SELECT_MULTI] mode, the focused column is the column under the focus cursor, and there are not necessarily any column selected. To tell whether a column of an item is selected, use [method TreeItem.is_selected].
 	Args: [], Returns: int
 */
 func (o *Tree) GetSelectedColumn() gdnative.Int {
@@ -970,7 +970,7 @@ func (o *Tree) SetColumnMinWidth(column gdnative.Int, minWidth gdnative.Int) {
 }
 
 /*
-        Set the title of a column.
+        Sets the title of a column.
 	Args: [{ false column int} { false title String}], Returns: void
 */
 func (o *Tree) SetColumnTitle(column gdnative.Int, title gdnative.String) {

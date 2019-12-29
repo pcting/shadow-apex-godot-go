@@ -32,7 +32,7 @@ func newPinJointFromPointer(ptr gdnative.Pointer) PinJoint {
 }
 
 /*
-Pin Joint for 3D Rigid Bodies. It pins 2 bodies (rigid or static) together.
+Pin joint for 3D rigid bodies. It pins 2 bodies (rigid or static) together.
 */
 type PinJoint struct {
 	Joint
@@ -44,7 +44,7 @@ func (o *PinJoint) BaseClass() string {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false param int}], Returns: float
 */
 func (o *PinJoint) GetParam(param gdnative.Int) gdnative.Real {
@@ -68,7 +68,7 @@ func (o *PinJoint) GetParam(param gdnative.Int) gdnative.Real {
 }
 
 /*
-        Undocumented
+
 	Args: [{ false param int} { false value float}], Returns: void
 */
 func (o *PinJoint) SetParam(param gdnative.Int, value gdnative.Real) {

@@ -23,8 +23,8 @@ func newVisualShaderNodeFaceForwardFromPointer(ptr gdnative.Pointer) VisualShade
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeFaceForward struct {
 	VisualShaderNode
 	owner gdnative.Object

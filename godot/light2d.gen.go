@@ -45,7 +45,7 @@ func newLight2DFromPointer(ptr gdnative.Pointer) Light2D {
 }
 
 /*
-Casts light in a 2D environment. Light is defined by a (usually grayscale) texture, a color, an energy value, a mode (see constants), and various other parameters (range and shadows-related). Note that Light2D can be used as a mask.
+Casts light in a 2D environment. Light is defined by a (usually grayscale) texture, a color, an energy value, a mode (see constants), and various other parameters (range and shadows-related). [b]Note:[/b] Light2D can also be used as a mask.
 */
 type Light2D struct {
 	Node2D

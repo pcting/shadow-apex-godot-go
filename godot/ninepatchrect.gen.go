@@ -32,7 +32,7 @@ func newNinePatchRectFromPointer(ptr gdnative.Pointer) NinePatchRect {
 }
 
 /*
-Better known as 9-slice panels, NinePatchRect produces clean panels of any size, based on a small texture. To do so, it splits the texture in a 3 by 3 grid. When you scale the node, it tiles the texture's sides horizontally or vertically, the center on both axes but it doesn't scale or tile the corners.
+Also known as 9-slice panels, NinePatchRect produces clean panels of any size, based on a small texture. To do so, it splits the texture in a 3×3 grid. When you scale the node, it tiles the texture's sides horizontally or vertically, the center on both axes but it doesn't scale or tile the corners.
 */
 type NinePatchRect struct {
 	Control
@@ -67,7 +67,7 @@ func (o *NinePatchRect) GetHAxisStretchMode() NinePatchRectAxisStretchMode {
 }
 
 /*
-        Undocumented
+        Returns the size of the margin identified by the given [enum Margin] constant.
 	Args: [{ false margin int}], Returns: int
 */
 func (o *NinePatchRect) GetPatchMargin(margin gdnative.Int) gdnative.Int {
@@ -239,7 +239,7 @@ func (o *NinePatchRect) SetHAxisStretchMode(mode gdnative.Int) {
 }
 
 /*
-        Undocumented
+        Sets the size of the margin identified by the given [enum Margin] constant to [code]value[/code] in pixels.
 	Args: [{ false margin int} { false value int}], Returns: void
 */
 func (o *NinePatchRect) SetPatchMargin(margin gdnative.Int, value gdnative.Int) {

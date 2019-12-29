@@ -239,11 +239,15 @@ func (o *NativeScript) GetSignalDocumentation(signalName gdnative.String) gdnati
         Undocumented
 	Args: [], Returns: Variant
 */
-func (o *NativeScript) New() gdnative.Variant {
+func (o *NativeScript) New(args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling NativeScript.New()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 0+len(args), 0+len(args))
+
+	for i, arg := range args {
+		ptrArguments[i+0] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("NativeScript", "new")
@@ -354,7 +358,7 @@ type NativeScriptImplementer interface {
 	GetScriptClassIconPath() gdnative.String
 	GetScriptClassName() gdnative.String
 	GetSignalDocumentation(signalName gdnative.String) gdnative.String
-	New() gdnative.Variant
+	New(args ...gdnative.Variant) gdnative.Variant
 	SetClassName(className gdnative.String)
 	SetLibrary(library GDNativeLibraryImplementer)
 	SetScriptClassIconPath(iconPath gdnative.String)

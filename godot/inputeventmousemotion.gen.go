@@ -23,7 +23,7 @@ func newInputEventMouseMotionFromPointer(ptr gdnative.Pointer) InputEventMouseMo
 }
 
 /*
-Contains mouse motion information. Supports relative, absolute positions and speed. See [method Node._input].
+Contains mouse and pen motion information. Supports relative, absolute positions and speed. See [method Node._input].
 */
 type InputEventMouseMotion struct {
 	InputEventMouse

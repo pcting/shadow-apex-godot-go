@@ -31,8 +31,8 @@ func newReflectionProbeFromPointer(ptr gdnative.Pointer) ReflectionProbe {
 }
 
 /*
-
- */
+Capture its surroundings as a dual parabolid image, and stores versions of it with increasing levels of blur to simulate different material roughnesses.
+*/
 type ReflectionProbe struct {
 	VisualInstance
 	owner gdnative.Object

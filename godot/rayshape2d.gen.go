@@ -23,7 +23,7 @@ func newRayShape2DFromPointer(ptr gdnative.Pointer) RayShape2D {
 }
 
 /*
-Ray shape for 2D collisions. A ray is not really a collision body, instead it tries to separate itself from whatever is touching its far endpoint. It's often useful for characters.
+Ray shape for 2D collisions. A ray is not really a collision body; instead, it tries to separate itself from whatever is touching its far endpoint. It's often useful for characters.
 */
 type RayShape2D struct {
 	Shape2D

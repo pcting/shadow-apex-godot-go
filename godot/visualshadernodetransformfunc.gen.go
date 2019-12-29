@@ -31,8 +31,8 @@ func newVisualShaderNodeTransformFuncFromPointer(ptr gdnative.Pointer) VisualSha
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeTransformFunc struct {
 	VisualShaderNode
 	owner gdnative.Object

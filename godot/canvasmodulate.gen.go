@@ -23,7 +23,7 @@ func newCanvasModulateFromPointer(ptr gdnative.Pointer) CanvasModulate {
 }
 
 /*
-[code]CanvasModulate[/code] tints the canvas elements using its assigned [code]color[/code].
+[CanvasModulate] tints the canvas elements using its assigned [member color].
 */
 type CanvasModulate struct {
 	Node2D

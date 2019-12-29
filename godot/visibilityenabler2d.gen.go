@@ -36,7 +36,7 @@ func newVisibilityEnabler2DFromPointer(ptr gdnative.Pointer) VisibilityEnabler2D
 }
 
 /*
-The VisibilityEnabler2D will disable [RigidBody2D], [AnimationPlayer], and other nodes when they are not visible. It will only affect other nodes within the same scene as the VisibilityEnabler2D itself.
+The VisibilityEnabler2D will disable [RigidBody2D], [AnimationPlayer], and other nodes when they are not visible. It will only affect nodes with the same root node as the VisibilityEnabler2D, and the root node itself.
 */
 type VisibilityEnabler2D struct {
 	VisibilityNotifier2D
@@ -69,7 +69,7 @@ func (o *VisibilityEnabler2D) X_NodeRemoved(arg0 NodeImplementer) {
 }
 
 /*
-        Undocumented
+        Returns whether the enabler identified by given [enum Enabler] constant is active.
 	Args: [{ false enabler int}], Returns: bool
 */
 func (o *VisibilityEnabler2D) IsEnablerEnabled(enabler gdnative.Int) gdnative.Bool {
@@ -93,7 +93,7 @@ func (o *VisibilityEnabler2D) IsEnablerEnabled(enabler gdnative.Int) gdnative.Bo
 }
 
 /*
-        Undocumented
+        Sets active state of the enabler identified by given [enum Enabler] constant.
 	Args: [{ false enabler int} { false enabled bool}], Returns: void
 */
 func (o *VisibilityEnabler2D) SetEnabler(enabler gdnative.Int, enabled gdnative.Bool) {

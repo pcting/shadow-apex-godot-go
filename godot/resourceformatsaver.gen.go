@@ -83,7 +83,7 @@ func (o *ResourceFormatSaver) Recognize(resource ResourceImplementer) gdnative.B
 }
 
 /*
-        Saves the given resource object to a file at the target [code]path[/code]. [code]flags[/code] is a bitmask composed with [enum ResourceSaver.SaverFlags] constants. Returns [constant @GlobalScope.OK] on success, or an [enum @GlobalScope.Error] constant in case of failure.
+        Saves the given resource object to a file at the target [code]path[/code]. [code]flags[/code] is a bitmask composed with [enum ResourceSaver.SaverFlags] constants. Returns [constant OK] on success, or an [enum Error] constant in case of failure.
 	Args: [{ false path String} { false resource Resource} { false flags int}], Returns: int
 */
 func (o *ResourceFormatSaver) Save(path gdnative.String, resource ResourceImplementer, flags gdnative.Int) gdnative.Int {

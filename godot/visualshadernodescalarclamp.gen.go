@@ -23,8 +23,8 @@ func newVisualShaderNodeScalarClampFromPointer(ptr gdnative.Pointer) VisualShade
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeScalarClamp struct {
 	VisualShaderNode
 	owner gdnative.Object

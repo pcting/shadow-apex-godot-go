@@ -23,7 +23,7 @@ func newHScrollBarFromPointer(ptr gdnative.Pointer) HScrollBar {
 }
 
 /*
-Horizontal scroll bar. See [ScrollBar]. This one goes from left (min) to right (max).
+Horizontal version of [ScrollBar], which goes from left (min) to right (max).
 */
 type HScrollBar struct {
 	ScrollBar

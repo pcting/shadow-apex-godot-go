@@ -23,8 +23,8 @@ func newPhysics2DShapeQueryResultFromPointer(ptr gdnative.Pointer) Physics2DShap
 }
 
 /*
-
- */
+The result of a 2D shape query in [Physics2DServer]. See also [Physics2DShapeQueryParameters].
+*/
 type Physics2DShapeQueryResult struct {
 	Reference
 	owner gdnative.Object
@@ -35,7 +35,7 @@ func (o *Physics2DShapeQueryResult) BaseClass() string {
 }
 
 /*
-
+        Returns the number of objects that intersected with the shape.
 	Args: [], Returns: int
 */
 func (o *Physics2DShapeQueryResult) GetResultCount() gdnative.Int {
@@ -58,7 +58,7 @@ func (o *Physics2DShapeQueryResult) GetResultCount() gdnative.Int {
 }
 
 /*
-
+        Returns the [Object] that intersected with the shape at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: Object
 */
 func (o *Physics2DShapeQueryResult) GetResultObject(idx gdnative.Int) ObjectImplementer {
@@ -96,7 +96,7 @@ func (o *Physics2DShapeQueryResult) GetResultObject(idx gdnative.Int) ObjectImpl
 }
 
 /*
-
+        Returns the instance ID of the [Object] that intersected with the shape at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: int
 */
 func (o *Physics2DShapeQueryResult) GetResultObjectId(idx gdnative.Int) gdnative.Int {
@@ -120,7 +120,7 @@ func (o *Physics2DShapeQueryResult) GetResultObjectId(idx gdnative.Int) gdnative
 }
 
 /*
-
+        Returns the child index of the object's [Shape] that intersected with the shape at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: int
 */
 func (o *Physics2DShapeQueryResult) GetResultObjectShape(idx gdnative.Int) gdnative.Int {
@@ -144,7 +144,7 @@ func (o *Physics2DShapeQueryResult) GetResultObjectShape(idx gdnative.Int) gdnat
 }
 
 /*
-
+        Returns the [RID] of the object that intersected with the shape at index [code]idx[/code].
 	Args: [{ false idx int}], Returns: RID
 */
 func (o *Physics2DShapeQueryResult) GetResultRid(idx gdnative.Int) gdnative.Rid {

@@ -23,7 +23,7 @@ func newKinematicCollision2DFromPointer(ptr gdnative.Pointer) KinematicCollision
 }
 
 /*
-Contains collision data for KinematicBody2D collisions. When a [KinematicBody2D] is moved using [method KinematicBody2D.move_and_collide], it stops if it detects a collision with another body. If a collision is detected, a KinematicCollision2D object is returned. This object contains information about the collision, including the colliding object, the remaining motion, and the collision position. This information can be used to calculate a collision response.
+Contains collision data for [KinematicBody2D] collisions. When a [KinematicBody2D] is moved using [method KinematicBody2D.move_and_collide], it stops if it detects a collision with another body. If a collision is detected, a KinematicCollision2D object is returned. This object contains information about the collision, including the colliding object, the remaining motion, and the collision position. This information can be used to calculate a collision response.
 */
 type KinematicCollision2D struct {
 	Reference

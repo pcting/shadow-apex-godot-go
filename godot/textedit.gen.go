@@ -248,7 +248,7 @@ func (o *TextEdit) X_VScrollInput() {
 }
 
 /*
-        Add color region (given the delimiters) and its colors.
+        Adds color region (given the delimiters) and its colors.
 	Args: [{ false begin_key String} { false end_key String} { false color Color} {False true line_only bool}], Returns: void
 */
 func (o *TextEdit) AddColorRegion(beginKey gdnative.String, endKey gdnative.String, color gdnative.Color, lineOnly gdnative.Bool) {
@@ -272,7 +272,7 @@ func (o *TextEdit) AddColorRegion(beginKey gdnative.String, endKey gdnative.Stri
 }
 
 /*
-        Add a [code]keyword[/code] and its [Color].
+        Adds a [code]keyword[/code] and its [Color].
 	Args: [{ false keyword String} { false color Color}], Returns: void
 */
 func (o *TextEdit) AddKeywordColor(keyword gdnative.String, color gdnative.Color) {
@@ -294,7 +294,7 @@ func (o *TextEdit) AddKeywordColor(keyword gdnative.String, color gdnative.Color
 }
 
 /*
-
+        Returns if the given line is foldable, that is, it has indented lines right below it.
 	Args: [{ false line int}], Returns: bool
 */
 func (o *TextEdit) CanFold(line gdnative.Int) gdnative.Bool {
@@ -318,7 +318,7 @@ func (o *TextEdit) CanFold(line gdnative.Int) gdnative.Bool {
 }
 
 /*
-        Undocumented
+
 	Args: [], Returns: void
 */
 func (o *TextEdit) CenterViewportToCursor() {
@@ -338,7 +338,7 @@ func (o *TextEdit) CenterViewportToCursor() {
 }
 
 /*
-        Clears all the syntax coloring information.
+        Clears all custom syntax coloring information previously added with [method add_color_region] or [method add_keyword_color].
 	Args: [], Returns: void
 */
 func (o *TextEdit) ClearColors() {
@@ -576,7 +576,7 @@ func (o *TextEdit) CursorSetBlockMode(enable gdnative.Bool) {
 }
 
 /*
-        Moves the cursor at the specified [code]column[/code] index. If [code]adjust_viewport[/code] is set to true, the viewport will center at the cursor position after the move occurs. Default value is [code]true[/code].
+        Moves the cursor at the specified [code]column[/code] index. If [code]adjust_viewport[/code] is set to [code]true[/code], the viewport will center at the cursor position after the move occurs.
 	Args: [{ false column int} {True true adjust_viewport bool}], Returns: void
 */
 func (o *TextEdit) CursorSetColumn(column gdnative.Int, adjustViewport gdnative.Bool) {
@@ -598,7 +598,7 @@ func (o *TextEdit) CursorSetColumn(column gdnative.Int, adjustViewport gdnative.
 }
 
 /*
-        Moves the cursor at the specified [code]line[/code] index. If [code]adjust_viewport[/code] is set to true, the viewport will center at the cursor position after the move occurs. Default value is [code]true[/code]. If [code]can_be_hidden[/code] is set to true, the specified [code]line[/code] can be hidden using [method set_line_as_hidden]. Default value is [code]true[/code].
+        Moves the cursor at the specified [code]line[/code] index. If [code]adjust_viewport[/code] is set to [code]true[/code], the viewport will center at the cursor position after the move occurs. If [code]can_be_hidden[/code] is set to [code]true[/code], the specified [code]line[/code] can be hidden using [method set_line_as_hidden].
 	Args: [{ false line int} {True true adjust_viewport bool} {True true can_be_hidden bool} {0 true wrap_index int}], Returns: void
 */
 func (o *TextEdit) CursorSetLine(line gdnative.Int, adjustViewport gdnative.Bool, canBeHidden gdnative.Bool, wrapIndex gdnative.Int) {
@@ -683,7 +683,7 @@ func (o *TextEdit) DrawMinimap(draw gdnative.Bool) {
 }
 
 /*
-
+        Folds all lines that are possible to be folded (see [method can_fold]).
 	Args: [], Returns: void
 */
 func (o *TextEdit) FoldAllLines() {
@@ -703,7 +703,7 @@ func (o *TextEdit) FoldAllLines() {
 }
 
 /*
-
+        Folds the given line, if possible (see [method can_fold]).
 	Args: [{ false line int}], Returns: void
 */
 func (o *TextEdit) FoldLine(line gdnative.Int) {
@@ -743,6 +743,29 @@ func (o *TextEdit) GetBreakpoints() gdnative.Array {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewArrayFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: int
+*/
+func (o *TextEdit) GetHScroll() gdnative.Int {
+	//log.Println("Calling TextEdit.GetHScroll()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "get_h_scroll")
+
+	// Call the parent method.
+	// int
+	retPtr := gdnative.NewEmptyInt()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewIntFromPointer(retPtr)
 	return ret
 }
 
@@ -818,7 +841,7 @@ func (o *TextEdit) GetLineCount() gdnative.Int {
 }
 
 /*
-
+        Returns the [PopupMenu] of this [TextEdit]. By default, this menu is displayed when right-clicking on the [TextEdit].
 	Args: [], Returns: PopupMenu
 */
 func (o *TextEdit) GetMenu() PopupMenuImplementer {
@@ -1012,6 +1035,29 @@ func (o *TextEdit) GetText() gdnative.String {
 
 	// If we have a return type, convert it from a pointer into its actual object.
 	ret := gdnative.NewStringFromPointer(retPtr)
+	return ret
+}
+
+/*
+        Undocumented
+	Args: [], Returns: float
+*/
+func (o *TextEdit) GetVScroll() gdnative.Real {
+	//log.Println("Calling TextEdit.GetVScroll()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 0, 0)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "get_v_scroll")
+
+	// Call the parent method.
+	// float
+	retPtr := gdnative.NewEmptyReal()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+	// If we have a return type, convert it from a pointer into its actual object.
+	ret := gdnative.NewRealFromPointer(retPtr)
 	return ret
 }
 
@@ -1592,7 +1638,7 @@ func (o *TextEdit) IsWrapEnabled() gdnative.Bool {
 }
 
 /*
-        Triggers a right click menu action by the specified index. See [enum MenuItems] for a list of available indexes.
+        Triggers a right-click menu action by the specified index. See [enum MenuItems] for a list of available indexes.
 	Args: [{ false option int}], Returns: void
 */
 func (o *TextEdit) MenuOption(option gdnative.Int) {
@@ -1653,7 +1699,7 @@ func (o *TextEdit) Redo() {
 }
 
 /*
-        Removes all the breakpoints (without firing "breakpoint_toggled" signal).
+        Removes all the breakpoints. This will not fire the [signal breakpoint_toggled] signal.
 	Args: [], Returns: void
 */
 func (o *TextEdit) RemoveBreakpoints() {
@@ -1673,7 +1719,7 @@ func (o *TextEdit) RemoveBreakpoints() {
 }
 
 /*
-        Perform a search inside the text. Search flags can be specified in the SEARCH_* enum.
+        Perform a search inside the text. Search flags can be specified in the [enum SearchFlags] enum. Returns an empty [code]PoolIntArray[/code] if no result was found. Otherwise, the result line and column can be accessed at indices specified in the [enum SearchResult] enum, e.g: [codeblock] var result = search(key, flags, line, column) if result.size() > 0: # result found var res_line = result[TextEdit.SEARCH_RESULT_LINE] var res_column = result[TextEdit.SEARCH_RESULT_COLUMN] [/codeblock]
 	Args: [{ false key String} { false flags int} { false from_line int} { false from_column int}], Returns: PoolIntArray
 */
 func (o *TextEdit) Search(key gdnative.String, flags gdnative.Int, fromLine gdnative.Int, fromColumn gdnative.Int) gdnative.PoolIntArray {
@@ -1840,6 +1886,27 @@ func (o *TextEdit) SetDrawTabs(arg0 gdnative.Bool) {
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("TextEdit", "set_draw_tabs")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
+	Args: [{ false value int}], Returns: void
+*/
+func (o *TextEdit) SetHScroll(value gdnative.Int) {
+	//log.Println("Calling TextEdit.SetHScroll()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromInt(value)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "set_h_scroll")
 
 	// Call the parent method.
 	// void
@@ -2145,6 +2212,27 @@ func (o *TextEdit) SetText(text gdnative.String) {
 
 /*
         Undocumented
+	Args: [{ false value float}], Returns: void
+*/
+func (o *TextEdit) SetVScroll(value gdnative.Real) {
+	//log.Println("Calling TextEdit.SetVScroll()")
+
+	// Build out the method's arguments
+	ptrArguments := make([]gdnative.Pointer, 1, 1)
+	ptrArguments[0] = gdnative.NewPointerFromReal(value)
+
+	// Get the method bind
+	methodBind := gdnative.NewMethodBind("TextEdit", "set_v_scroll")
+
+	// Call the parent method.
+	// void
+	retPtr := gdnative.NewEmptyVoid()
+	gdnative.MethodBindPtrCall(methodBind, o.GetBaseObject(), ptrArguments, retPtr)
+
+}
+
+/*
+        Undocumented
 	Args: [{ false speed float}], Returns: void
 */
 func (o *TextEdit) SetVScrollSpeed(speed gdnative.Real) {
@@ -2227,7 +2315,7 @@ func (o *TextEdit) Undo() {
 }
 
 /*
-
+        Unfolds the given line, if folded.
 	Args: [{ false line int}], Returns: void
 */
 func (o *TextEdit) UnfoldLine(line gdnative.Int) {
@@ -2302,6 +2390,7 @@ type TextEditImplementer interface {
 	FoldAllLines()
 	FoldLine(line gdnative.Int)
 	GetBreakpoints() gdnative.Array
+	GetHScroll() gdnative.Int
 	GetKeywordColor(keyword gdnative.String) gdnative.Color
 	GetLine(line gdnative.Int) gdnative.String
 	GetLineCount() gdnative.Int
@@ -2313,6 +2402,7 @@ type TextEditImplementer interface {
 	GetSelectionToColumn() gdnative.Int
 	GetSelectionToLine() gdnative.Int
 	GetText() gdnative.String
+	GetVScroll() gdnative.Real
 	GetVScrollSpeed() gdnative.Real
 	GetWordUnderCursor() gdnative.String
 	HasKeywordColor(keyword gdnative.String) gdnative.Bool
@@ -2350,6 +2440,7 @@ type TextEditImplementer interface {
 	SetDrawFoldGutter(arg0 gdnative.Bool)
 	SetDrawSpaces(arg0 gdnative.Bool)
 	SetDrawTabs(arg0 gdnative.Bool)
+	SetHScroll(value gdnative.Int)
 	SetHidingEnabled(enable gdnative.Bool)
 	SetHighlightAllOccurrences(enable gdnative.Bool)
 	SetHighlightCurrentLine(enabled gdnative.Bool)
@@ -2364,6 +2455,7 @@ type TextEditImplementer interface {
 	SetSmoothScrollEnable(enable gdnative.Bool)
 	SetSyntaxColoring(enable gdnative.Bool)
 	SetText(text gdnative.String)
+	SetVScroll(value gdnative.Real)
 	SetVScrollSpeed(speed gdnative.Real)
 	SetWrapEnabled(enable gdnative.Bool)
 	ToggleFoldLine(line gdnative.Int)

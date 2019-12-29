@@ -38,11 +38,15 @@ func (o *GDScriptFunctionState) BaseClass() string {
         Undocumented
 	Args: [], Returns: Variant
 */
-func (o *GDScriptFunctionState) X_SignalCallback() gdnative.Variant {
+func (o *GDScriptFunctionState) X_SignalCallback(args ...gdnative.Variant) gdnative.Variant {
 	//log.Println("Calling GDScriptFunctionState.X_SignalCallback()")
 
 	// Build out the method's arguments
-	ptrArguments := make([]gdnative.Pointer, 0, 0)
+	ptrArguments := make([]gdnative.Pointer, 0+len(args), 0+len(args))
+
+	for i, arg := range args {
+		ptrArguments[i+0] = gdnative.NewPointerFromVariant(arg)
+	}
 
 	// Get the method bind
 	methodBind := gdnative.NewMethodBind("GDScriptFunctionState", "_signal_callback")
@@ -109,7 +113,7 @@ func (o *GDScriptFunctionState) Resume(arg gdnative.Variant) gdnative.Variant {
 // of the GDScriptFunctionState class.
 type GDScriptFunctionStateImplementer interface {
 	ReferenceImplementer
-	X_SignalCallback() gdnative.Variant
+	X_SignalCallback(args ...gdnative.Variant) gdnative.Variant
 	IsValid(extendedCheck gdnative.Bool) gdnative.Bool
 	Resume(arg gdnative.Variant) gdnative.Variant
 }

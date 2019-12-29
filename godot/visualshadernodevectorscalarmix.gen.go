@@ -23,8 +23,8 @@ func newVisualShaderNodeVectorScalarMixFromPointer(ptr gdnative.Pointer) VisualS
 }
 
 /*
-Undocumented
-*/
+
+ */
 type VisualShaderNodeVectorScalarMix struct {
 	VisualShaderNode
 	owner gdnative.Object
