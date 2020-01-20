@@ -71,7 +71,7 @@ func registerClasses() {
 // and use reflection to find exported methods and properties and register them
 // with Godot.
 func autoRegisterClasses() {
-	log.Println("Discovering classes to register with Godot...")
+	log.Printf("Discovering %d classes to register with Godot...\n", len(godotConstructorsToAutoRegister))
 
 	// Loop through our registered classes and register them with the Godot API.
 	for _, constructor := range godotConstructorsToAutoRegister {

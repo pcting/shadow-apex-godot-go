@@ -19,7 +19,6 @@ import (
 	"text/template"
 	"unicode"
 
-	"github.com/kr/pretty"
 	"github.com/pinzolo/casee"
 )
 
@@ -447,7 +446,6 @@ func Generate() {
 			}
 		}
 	}
-	pretty.Println(view.Imports)
 
 	// Loop through all of the APIs and generate packages for them.
 	for _, api := range view.APIs {
@@ -461,17 +459,6 @@ func Generate() {
 		outFileName := view.PackageName(api.Name) + ".gen.go"
 		if strings.HasPrefix(outFileName, "_") {
 			outFileName = strings.Replace(outFileName, "_", "", 1)
-		}
-
-		var method GDMethod
-
-		if outFileName == "object.gen.go" {
-			for _, m := range api.Methods {
-				if m.Name == "emit_signal" {
-					method = m
-				}
-			}
-			log.Printf("%v\n", method)
 		}
 
 		// Set the current API
