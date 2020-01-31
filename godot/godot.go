@@ -119,7 +119,7 @@ func autoRegisterClasses() {
 				continue
 			}
 
-			// Check if the field is private
+			// Skip private fields
 			firstChar := []rune(classField.Name)[0]
 			if unicode.ToLower(firstChar) == firstChar {
 				continue
