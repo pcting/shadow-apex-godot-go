@@ -1,4 +1,4 @@
-**NOTE: I've abandoned this fork in favor of a new codebase i started here: [https://github.com/godot-go/godot-go](https://github.com/godot-go/godot-go)**
+**NOTE: I've abandoned this fork in favor of a new codebase here: [https://github.com/godot-go/godot-go](https://github.com/godot-go/godot-go)**
 
 
 
