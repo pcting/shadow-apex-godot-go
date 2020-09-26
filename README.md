@@ -3,6 +3,8 @@
 [![GoDoc](https://godoc.org/github.com/ShadowApex/goquery?status.png)](https://godoc.org/github.com/ShadowApex/godot-go/godot)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/ShadowApex/godot-go/master/LICENSE)
 
+**NOTE:** I've abandoned this project in favor of a new codebase i started here: [https://github.com/godot-go/godot-go](https://github.com/godot-go/godot-go)
+
 ![Godot-Go logo](/logo.png)
 
 Godot-Go
